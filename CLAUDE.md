@@ -35,6 +35,8 @@ Components in `shared/` follow Atomic Design principles:
 - Prettier for code formatting (see config file)
 - Each type should have its own file
 - Prefer `type` over `interface`
+- **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
+- **No inline templates/styles**: Always use `templateUrl` and `styleUrl` pointing to external files
 
 ## Naming Conventions
 - Private members: prefix with `_` (e.g., `_privateVar`)
