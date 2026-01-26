@@ -1,1 +1,17 @@
-<button type="button" class="run-btn" (click)="onClick()">הרצה</button>
+<div class="run-button-wrapper">
+  <button type="button" class="run-btn" (click)="togglePopup()">הרצה</button>
+
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      <button class="option-btn" (click)="selectOption('graph')">
+        <i class="pi pi-chart-bar"></i>
+        <span>גרף</span>
+      </button>
+      <button class="option-btn" (click)="selectOption('list')">
+        <i class="pi pi-list"></i>
+        <span>רשימה</span>
+      </button>
+    </div>
+  }
+</div>

@@ -1,22 +1,18 @@
-<button type="button" class="save-btn" (click)="onSaveClick()" title="שמור חיפוש">
-  <i class="pi pi-save"></i>
-</button>
+<div class="save-search-wrapper">
+  <button type="button" class="save-btn" (click)="togglePopup()" title="שמור חיפוש">
+    <i class="pi pi-save"></i>
+  </button>
 
-<p-dialog
-  [(visible)]="$isDialogVisible"
-  header="שמירת חיפוש"
-  [modal]="true"
-  [style]="{ width: '25rem' }"
-  styleClass="rounded-dialog"
->
-  <div class="dialog-content">
-    <input
-      type="text"
-      pInputText
-      [(ngModel)]="$searchName"
-      placeholder="שם החיפוש"
-      class="name-input"
-    />
-    <button type="button" class="save-confirm-btn" (click)="onSave()">שמור</button>
-  </div>
-</p-dialog>
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      <input
+        type="text"
+        [(ngModel)]="$searchName"
+        placeholder="שם החיפוש"
+        class="name-input"
+      />
+      <button type="button" class="save-confirm-btn" (click)="onSave()">שמור</button>
+    </div>
+  }
+</div>

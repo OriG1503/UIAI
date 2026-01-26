@@ -12,10 +12,10 @@ export type TagOption = {
   standalone: true,
   imports: [FormsModule, Select],
   templateUrl: './tag-filter-dropdown.component.html',
-  styleUrl: './tag-filter-dropdown.component.scss',
+  styleUrl: './tag-filter-dropdown.component.scss'
 })
 export class TagFilterDropdownComponent {
   $value = model<string | null>(null, { alias: 'value' });
   $options = input<TagOption[]>([], { alias: 'options' });
-  $placeholder = input<string>('בחר תגית', { alias: 'placeholder' });
+  $placeholder = input<string>('בחירת תגית', { alias: 'placeholder' });
 }

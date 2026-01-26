@@ -4,12 +4,13 @@
 
 .switch-container {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
 
 .switch-btn {
-  padding: 0.5rem 1rem;
-  border: 2px solid transparent;
+  height: var(--input-height);
+  padding: 0 1rem;
+  border: 1px solid transparent;
   border-radius: var(--border-radius);
   background-color: var(--color-white);
   color: var(--color-dark-navy);

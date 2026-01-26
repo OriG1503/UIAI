@@ -6,8 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: var(--input-height);
+  height: var(--input-height);
   border: none;
   border-radius: var(--border-radius);
   background-color: var(--color-white);
@@ -20,7 +20,7 @@
   }
 
   i {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 }
 

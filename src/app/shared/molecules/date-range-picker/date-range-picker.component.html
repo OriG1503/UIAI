@@ -1,13 +1,71 @@
 <div class="date-range-wrapper">
-  <i class="pi pi-chevron-down dropdown-icon"></i>
-  <p-datepicker
-    [(ngModel)]="$dateRange"
-    selectionMode="range"
-    [showIcon]="true"
-    [iconDisplay]="'input'"
-    dateFormat="dd/mm/yy"
-    placeholder="בחר טווח תאריכים"
-    [style]="{ width: '100%' }"
-    styleClass="rounded-datepicker"
-  />
+  <button class="trigger-btn" (click)="togglePopup()">
+    <i class="pi pi-calendar"></i>
+    <span class="trigger-text">{{ $displayText() }}</span>
+    <i class="pi pi-chevron-down dropdown-icon"></i>
+  </button>
+
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      @if ($selectedMode() === null) {
+        <div class="mode-selection">
+          <button class="mode-btn" (click)="selectMode('calendar')">
+            <i class="pi pi-calendar"></i>
+            <span>לוח שנה</span>
+          </button>
+          <button class="mode-btn" (click)="selectMode('verbal')">
+            <i class="pi pi-clock"></i>
+            <span>מילולי</span>
+          </button>
+        </div>
+      } @else if ($selectedMode() === 'calendar') {
+        <div class="calendar-mode">
+          <button class="back-btn" (click)="goBackToModeSelection()">
+            <i class="pi pi-arrow-right"></i>
+            <span>חזרה</span>
+          </button>
+          <p-datepicker
+            [(ngModel)]="$dateRange"
+            selectionMode="range"
+            [inline]="true"
+            (onSelect)="onCalendarSelect()"
+          />
+        </div>
+      } @else if ($selectedMode() === 'verbal') {
+        <div class="verbal-mode">
+          <button class="back-btn" (click)="goBackToModeSelection()">
+            <i class="pi pi-arrow-right"></i>
+            <span>חזרה</span>
+          </button>
+          <div class="verbal-content">
+            <div class="amount-stepper">
+              <button class="stepper-btn" (click)="decrementAmount()" [disabled]="$verbalAmount() <= 1">
+                <i class="pi pi-minus"></i>
+              </button>
+              <input
+                type="number"
+                class="amount-input"
+                [value]="$verbalAmount()"
+                (input)="onAmountInput($event)"
+                min="1"
+                max="12"
+              />
+              <button class="stepper-btn" (click)="incrementAmount()" [disabled]="$verbalAmount() >= 12">
+                <i class="pi pi-plus"></i>
+              </button>
+            </div>
+            <p-select
+              [options]="timeUnitOptions"
+              [(ngModel)]="$verbalUnit"
+              optionLabel="label"
+              optionValue="value"
+              styleClass="unit-select"
+            />
+          </div>
+          <button class="apply-btn" (click)="applyVerbalRange()">החל</button>
+        </div>
+      }
+    </div>
+  }
 </div>

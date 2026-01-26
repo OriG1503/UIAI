@@ -1,4 +1,5 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
+import { SearchViewType } from './search-view-type.type';
 
 @Component({
   selector: 'app-run-button',
@@ -8,9 +9,20 @@ import { Component, output } from '@angular/core';
   styleUrl: './run-button.component.scss',
 })
 export class RunButtonComponent {
-  run = output<void>();
+  run = output<SearchViewType>();
 
-  onClick(): void {
-    this.run.emit();
+  $isPopupOpen = signal(false);
+
+  togglePopup(): void {
+    this.$isPopupOpen.update((isOpen) => !isOpen);
+  }
+
+  closePopup(): void {
+    this.$isPopupOpen.set(false);
+  }
+
+  selectOption(viewType: SearchViewType): void {
+    this.run.emit(viewType);
+    this.closePopup();
   }
 }

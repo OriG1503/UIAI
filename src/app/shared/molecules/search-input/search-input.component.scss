@@ -6,6 +6,7 @@
 .search-input-wrapper {
   display: flex;
   align-items: center;
+  height: var(--input-height);
   background-color: var(--color-white);
   border: 1px solid var(--color-navy-gray);
   border-radius: var(--border-radius);
@@ -14,9 +15,10 @@
 
 .search-input {
   flex: 1;
+  height: 100%;
   border: none;
   border-radius: 0;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
 
   &:focus {
     outline: none;
@@ -28,8 +30,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   margin-left: 0.25rem;
   border: none;
   border-radius: 50%;

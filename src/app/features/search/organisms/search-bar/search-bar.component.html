@@ -1,7 +1,11 @@
 <div class="search-bar">
   <div class="section section-left">
     <div class="logo">
-      <img src="assets/logo.png" alt="Logo" class="logo-img" />
+      <img
+        src="assets/logo.png"
+        alt="Logo"
+        class="logo-img"
+      />
     </div>
   </div>
 
@@ -10,7 +14,7 @@
       <app-tag-filter-dropdown
         [(value)]="$tag"
         [options]="tagOptions"
-        placeholder="בחר תגית"
+        placeholder="בחירת תגית"
       />
     </div>
 
@@ -23,7 +27,10 @@
     </div>
 
     <div class="control-group control-search">
-      <app-search-input [(value)]="$searchText" (advancedClick)="onAdvancedClick()" />
+      <app-search-input
+        [(value)]="$searchText"
+        (advancedClick)="onAdvancedClick()"
+      />
     </div>
 
     <div class="control-group">
@@ -36,6 +43,9 @@
   </div>
 
   <div class="section section-right">
-    <app-alert-button (openIssue)="onOpenIssue()" (openRequest)="onOpenRequest()" />
+    <app-alert-button
+      (openIssue)="onOpenIssue()"
+      (openRequest)="onOpenRequest()"
+    />
   </div>
 </div>
