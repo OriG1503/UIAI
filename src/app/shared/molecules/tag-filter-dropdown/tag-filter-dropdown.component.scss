@@ -1,0 +1,11 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .rounded-select {
+      .p-select {
+        border-radius: var(--border-radius);
+      }
+    }
+  }
+}

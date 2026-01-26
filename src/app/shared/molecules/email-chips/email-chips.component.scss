@@ -1,0 +1,14 @@
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep {
+    .p-chips {
+      width: 100%;
+    }
+
+    .p-chips-input-token input {
+      width: 100%;
+    }
+  }
+}

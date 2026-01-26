@@ -4,7 +4,9 @@
       "Bash(ng version:*)",
       "Bash(npm install:*)",
       "Bash(ng new:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm start)",
+      "Bash(npx ng build)"
     ]
   }
 }

@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.switch-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.switch-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
+  border-radius: var(--border-radius);
+  background-color: var(--color-white);
+  color: var(--color-dark-navy);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-navy-gray);
+  }
+
+  &.active {
+    border-color: var(--color-navy-gray);
+  }
+}

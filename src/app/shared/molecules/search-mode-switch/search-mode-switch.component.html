@@ -1,0 +1,18 @@
+<div class="switch-container">
+  <button
+    type="button"
+    class="switch-btn"
+    [class.active]="$mode() === 'regular'"
+    (click)="onModeSelect('regular')"
+  >
+    חיפוש רגיל
+  </button>
+  <button
+    type="button"
+    class="switch-btn"
+    [class.active]="$mode() === 'agent'"
+    (click)="onModeSelect('agent')"
+  >
+    Agent
+  </button>
+</div>

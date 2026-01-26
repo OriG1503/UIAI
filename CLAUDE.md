@@ -42,6 +42,8 @@ Components in `shared/` follow Atomic Design principles:
 - Private members: prefix with `_` (e.g., `_privateVar`)
 - Signals: prefix with `$` (e.g., `$count`)
 - Booleans: prefix with `is` (e.g., `isActive`, `isAvailable`)
+- **File names**: lowercase with single hyphen separator (e.g., `search-bar.component.ts`)
+- **CSS classes**: lowercase with single hyphen separator, no IDs (e.g., `.search-bar`, `.field-text`)
 
 ## Code Style
 - **No** `let`, `for`, `while` - use `forEach`, `map`, `filter`, etc.

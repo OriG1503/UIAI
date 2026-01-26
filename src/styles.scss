@@ -1,10 +1,54 @@
 @use 'primeicons/primeicons.css';
 
+/* Ploni font */
+@font-face {
+  font-family: 'Ploni';
+  src: url('/assets/fonts/ploni-regular.woff2') format('woff2'),
+       url('/assets/fonts/ploni-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ploni';
+  src: url('/assets/fonts/ploni-medium.woff2') format('woff2'),
+       url('/assets/fonts/ploni-medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ploni';
+  src: url('/assets/fonts/ploni-bold.woff2') format('woff2'),
+       url('/assets/fonts/ploni-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --font-family: 'Ploni', sans-serif;
+  --color-red: #e74b3b;
+  --color-light-gray: #efefef;
+  --color-navy-gray: #bfc4cd;
+  --color-white-soft: #f9fafc;
+  --color-dark-navy: #03153a;
+  --color-white: #ffffff;
+  --color-blue: #3f70e3;
+  --color-orange: #ffb656;
+  --color-yellow: #ffee80;
+  --border-radius: 1.5rem;
+}
 
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: var(--font-family);
+  background-color: var(--color-light-gray);
+}
+
+* {
+  box-sizing: border-box;
 }

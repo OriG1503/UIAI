@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.alert-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--color-white);
+  color: var(--color-dark-navy);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-light-gray);
+  }
+
+  i {
+    font-size: 1.1rem;
+  }
+}

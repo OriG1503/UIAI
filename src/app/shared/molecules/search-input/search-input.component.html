@@ -1,0 +1,17 @@
+<div class="search-input-wrapper">
+  <input
+    type="text"
+    pInputText
+    [(ngModel)]="$value"
+    placeholder="חיפוש חופשי..."
+    class="search-input"
+  />
+  <button
+    type="button"
+    class="advanced-btn"
+    (click)="onAdvancedClick()"
+    title="שאילתה מתקדמת"
+  >
+    <i class="pi pi-sliders-h"></i>
+  </button>
+</div>

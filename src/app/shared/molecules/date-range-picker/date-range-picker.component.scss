@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.date-range-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-icon {
+  position: absolute;
+  left: 0.75rem;
+  z-index: 1;
+  color: var(--color-navy-gray);
+  pointer-events: none;
+}
+
+::ng-deep {
+  .rounded-datepicker {
+    .p-datepicker-input {
+      border-radius: var(--border-radius);
+      padding-left: 2rem;
+    }
+  }
+}

@@ -1,0 +1,41 @@
+<div class="search-bar">
+  <div class="section section-left">
+    <app-alert-button (click)="onAlertClick()" />
+  </div>
+
+  <div class="section section-middle">
+    <div class="control-group">
+      <app-tag-filter-dropdown
+        [(value)]="$tag"
+        [options]="tagOptions"
+        placeholder="בחר תגית"
+      />
+    </div>
+
+    <div class="control-group">
+      <app-date-range-picker [(dateRange)]="$dateRange" />
+    </div>
+
+    <div class="control-group">
+      <app-search-mode-switch [(mode)]="$searchMode" />
+    </div>
+
+    <div class="control-group control-search">
+      <app-search-input [(value)]="$searchText" (advancedClick)="onAdvancedClick()" />
+    </div>
+
+    <div class="control-group">
+      <app-run-button (run)="onRun()" />
+    </div>
+
+    <div class="control-group">
+      <app-save-search-button (save)="onSaveSearch($event)" />
+    </div>
+  </div>
+
+  <div class="section section-right">
+    <div class="logo">
+      <img src="assets/logo.png" alt="Logo" class="logo-img" />
+    </div>
+  </div>
+</div>
