@@ -1,3 +1,4 @@
-<button type="button" class="alert-btn" (click)="onClick()" title="התראות">
+<button type="button" class="alert-btn" (click)="onButtonClick($event)" title="פתיחת פניה">
   <i class="pi pi-exclamation-triangle"></i>
 </button>
+<p-menu #menu [model]="menuItems" [popup]="true" styleClass="alert-menu" />

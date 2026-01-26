@@ -60,7 +60,11 @@ export class SearchBarComponent {
     console.log('Saving search as:', name);
   }
 
-  onAlertClick(): void {
-    console.log('Alert clicked');
+  onOpenIssue(): void {
+    console.log('Open issue clicked');
+  }
+
+  onOpenRequest(): void {
+    console.log('Open request clicked');
   }
 }
