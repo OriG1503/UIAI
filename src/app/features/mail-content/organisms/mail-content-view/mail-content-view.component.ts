@@ -28,7 +28,7 @@ export class MailContentViewComponent {
   previousClick = output<void>();
   nextClick = output<void>();
 
-  $selectedEncoding = signal<Encoding>('utf-8');
+  $selectedEncoding = signal<Encoding>('none');
 
   readonly translations = INBOX_TRANSLATIONS;
 

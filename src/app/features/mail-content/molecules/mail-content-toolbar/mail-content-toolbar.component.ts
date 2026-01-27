@@ -12,7 +12,7 @@ import { IconComponent } from '../../../../shared/atoms';
 export class MailContentToolbarComponent {
   private _elementRef = inject(ElementRef);
 
-  $selectedEncoding = input<Encoding>('utf-8', { alias: 'selectedEncoding' });
+  $selectedEncoding = input<Encoding>('none', { alias: 'selectedEncoding' });
   $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
   $hasNext = input<boolean>(false, { alias: 'hasNext' });
   encodingChange = output<Encoding>();
@@ -22,7 +22,7 @@ export class MailContentToolbarComponent {
 
   $isEncodingPopupOpen = signal<boolean>(false);
 
-  readonly encodings: Encoding[] = ['utf-8', 'iso-8859-1', 'windows-1255'];
+  readonly encodings: Encoding[] = ['none', 'utf-8', 'iso-8859-1', 'windows-1255'];
   readonly encodingLabels = ENCODING_LABELS;
   readonly translations = INBOX_TRANSLATIONS;
 

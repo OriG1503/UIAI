@@ -26,7 +26,7 @@
   <div class="toolbar-left">
     <div class="encoding-wrapper">
       <button type="button" class="encoding-btn" (click)="onEncodingClick()">
-        <span>{{ encodingLabels[$selectedEncoding()] }}</span>
+        <span>{{ $selectedEncoding() === 'none' ? translations.encoding : encodingLabels[$selectedEncoding()] }}</span>
         <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" />
       </button>
       @if ($isEncodingPopupOpen()) {

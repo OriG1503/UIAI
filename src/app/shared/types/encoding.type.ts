@@ -1,1 +1,1 @@
-export type Encoding = 'utf-8' | 'iso-8859-1' | 'windows-1255';
+export type Encoding = 'none' | 'utf-8' | 'iso-8859-1' | 'windows-1255';
