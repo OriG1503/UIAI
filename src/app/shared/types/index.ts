@@ -1,5 +1,6 @@
 export * from './date-range-mode.type';
 export * from './dropdown-option.type';
+export * from './encoding.type';
 export * from './language.type';
 export * from './mail-filter.type';
 export * from './mail-user-info.type';

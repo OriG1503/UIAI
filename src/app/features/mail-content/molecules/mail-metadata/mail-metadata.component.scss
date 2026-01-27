@@ -1,0 +1,69 @@
+:host {
+  display: block;
+}
+
+.mail-metadata {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-light-gray);
+  direction: ltr;
+
+  .subject-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+
+    .subject {
+      flex: 1;
+      margin: 0;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--color-dark-navy);
+      line-height: 1.3;
+    }
+
+    .datetime {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      margin-left: 1rem;
+
+      .date {
+        font-size: 0.75rem;
+        color: var(--color-navy-gray);
+      }
+
+      .time {
+        font-size: 0.75rem;
+        color: var(--color-navy-gray);
+      }
+    }
+  }
+
+  .recipients {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .recipient-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .recipient-label {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        min-width: 3.5rem;
+        font-size: 0.75rem;
+        color: var(--color-navy-gray);
+      }
+
+      .recipient-value {
+        font-size: 0.875rem;
+        color: var(--color-dark-navy);
+      }
+    }
+  }
+}

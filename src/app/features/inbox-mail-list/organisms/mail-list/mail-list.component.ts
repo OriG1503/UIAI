@@ -1,6 +1,7 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, effect } from '@angular/core';
 import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
+import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
@@ -22,6 +23,13 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
+  private _selectedMailService = inject(SelectedMailService);
+
+  constructor() {
+    effect(() => {
+      this._selectedMailService.setMailList(this.$filteredMails());
+    });
+  }
 
   $activeFilter = signal<MailFilter>('all');
   $sortDirection = signal<SortDirection>('desc');
@@ -123,6 +131,7 @@ export class MailListComponent {
   onMailClick(mail: Mail): void {
     this._mailService.markAsRead(mail.filename);
     this.$selectedMailId.set(mail.filename);
+    this._selectedMailService.setSelectedMail(mail);
   }
 
   onSelectionChange(mail: Mail): void {
@@ -167,7 +176,8 @@ export class MailListComponent {
   }
 
   isCurrentMail(mail: Mail): boolean {
-    return this.$selectedMailId() === mail.filename;
+    const selectedMail = this._selectedMailService.selectedMail();
+    return selectedMail?.filename === mail.filename;
   }
 
   trackByMail(index: number, mail: Mail): string {

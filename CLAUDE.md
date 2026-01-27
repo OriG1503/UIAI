@@ -106,10 +106,22 @@ src/app/
 | .png | `#01caff` |
 | .pdf | `#ea355a` |
 
+## Core Services (in `core/services/`)
+- `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
+- `MockMailContentService` - Email body content retrieval
+- `SelectedMailService` - Shared state for currently selected mail and navigation
+
 ## Store Structure (in `core/`)
 State slices: `call`, `tag`, `query`, `router`, `search`
 
 With effects (server calls): `last-search`, `mailbox-mail`, `mails`, `saved-search`
+
+## Angular Signals Pattern
+- Use `signal()` for local component state
+- Use `computed()` for derived state
+- Use `effect()` for reactive side effects (e.g., syncing services)
+- Input signals: `$input = input<Type>(defaultValue, { alias: 'inputName' })`
+- Output signals: `outputName = output<Type>()`
 
 ## Core Types
 

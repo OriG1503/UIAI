@@ -1,0 +1,25 @@
+<div class="mail-attachments">
+  <button type="button" class="download-all-btn" (click)="onDownloadAllClick()">
+    <app-icon name="download" size="1rem" color="var(--color-navy-gray)" />
+  </button>
+
+  @for (attachment of $attachments(); track attachment) {
+    <button
+      type="button"
+      class="attachment-item"
+      (click)="onAttachmentClick(attachment)"
+    >
+      <app-icon
+        [name]="getExtensionIcon(attachment)"
+        size="1rem"
+        [color]="getExtensionColor(attachment)"
+        class="file-icon"
+      />
+      <span class="attachment-name">{{ attachment }}</span>
+      <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
+      <div class="download-overlay">
+        <app-icon name="download" size="1rem" color="var(--color-white)" />
+      </div>
+    </button>
+  }
+</div>

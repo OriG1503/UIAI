@@ -1,0 +1,47 @@
+<div class="mail-metadata">
+  <div class="subject-row">
+    <h2 class="subject">{{ $mail().subject }}</h2>
+    <div class="datetime">
+      <span class="date">{{ $formattedDate() }}</span>
+      <span class="time">{{ $formattedTime() }}</span>
+    </div>
+  </div>
+
+  <div class="recipients">
+    <div class="recipient-row">
+      <div class="recipient-label">
+        <app-icon name="user" size="0.875rem" color="var(--color-navy-gray)" />
+        <span>From:</span>
+      </div>
+      <span class="recipient-value">{{ $fromDisplay() }}</span>
+    </div>
+
+    <div class="recipient-row">
+      <div class="recipient-label">
+        <app-icon name="users" size="0.875rem" color="var(--color-navy-gray)" />
+        <span>To:</span>
+      </div>
+      <span class="recipient-value">{{ $toDisplay() }}</span>
+    </div>
+
+    @if ($ccDisplay()) {
+      <div class="recipient-row">
+        <div class="recipient-label">
+          <app-icon name="copy" size="0.875rem" color="var(--color-navy-gray)" />
+          <span>CC:</span>
+        </div>
+        <span class="recipient-value">{{ $ccDisplay() }}</span>
+      </div>
+    }
+
+    @if ($bccDisplay()) {
+      <div class="recipient-row">
+        <div class="recipient-label">
+          <app-icon name="eye-slash" size="0.875rem" color="var(--color-navy-gray)" />
+          <span>BCC:</span>
+        </div>
+        <span class="recipient-value">{{ $bccDisplay() }}</span>
+      </div>
+    }
+  </div>
+</div>
