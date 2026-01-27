@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, effect } from '@angular/core';
 import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
@@ -24,6 +24,12 @@ type ContextMenuState = {
 export class MailListComponent {
   private _mailService = inject(MockMailService);
   private _selectedMailService = inject(SelectedMailService);
+
+  constructor() {
+    effect(() => {
+      this._selectedMailService.setMailList(this.$filteredMails());
+    });
+  }
 
   $activeFilter = signal<MailFilter>('all');
   $sortDirection = signal<SortDirection>('desc');
@@ -170,7 +176,8 @@ export class MailListComponent {
   }
 
   isCurrentMail(mail: Mail): boolean {
-    return this.$selectedMailId() === mail.filename;
+    const selectedMail = this._selectedMailService.selectedMail();
+    return selectedMail?.filename === mail.filename;
   }
 
   trackByMail(index: number, mail: Mail): string {

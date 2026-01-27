@@ -1,4 +1,4 @@
-import { Component, input, computed, inject, signal } from '@angular/core';
+import { Component, input, computed, inject, signal, output } from '@angular/core';
 import { Mail, Encoding, INBOX_TRANSLATIONS } from '../../../../shared';
 import { MockMailContentService } from '../../../../core/services/mock-mail-content.service';
 import { MailContentToolbarComponent } from '../../molecules/mail-content-toolbar/mail-content-toolbar.component';
@@ -22,6 +22,11 @@ export class MailContentViewComponent {
   private _mailContentService = inject(MockMailContentService);
 
   $mail = input<Mail | null>(null, { alias: 'mail' });
+  $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
+  $hasNext = input<boolean>(false, { alias: 'hasNext' });
+
+  previousClick = output<void>();
+  nextClick = output<void>();
 
   $selectedEncoding = signal<Encoding>('utf-8');
 
@@ -62,5 +67,13 @@ export class MailContentViewComponent {
 
   onDownloadAttachment(filename: string): void {
     console.log('Downloading attachment:', filename);
+  }
+
+  onPreviousMail(): void {
+    this.previousClick.emit();
+  }
+
+  onNextMail(): void {
+    this.nextClick.emit();
   }
 }

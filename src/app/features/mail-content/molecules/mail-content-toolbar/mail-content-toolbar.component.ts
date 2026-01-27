@@ -13,8 +13,12 @@ export class MailContentToolbarComponent {
   private _elementRef = inject(ElementRef);
 
   $selectedEncoding = input<Encoding>('utf-8', { alias: 'selectedEncoding' });
+  $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
+  $hasNext = input<boolean>(false, { alias: 'hasNext' });
   encodingChange = output<Encoding>();
   downloadClick = output<void>();
+  previousClick = output<void>();
+  nextClick = output<void>();
 
   $isEncodingPopupOpen = signal<boolean>(false);
 
@@ -41,5 +45,13 @@ export class MailContentToolbarComponent {
 
   onDownloadClick(): void {
     this.downloadClick.emit();
+  }
+
+  onPreviousClick(): void {
+    this.previousClick.emit();
+  }
+
+  onNextClick(): void {
+    this.nextClick.emit();
   }
 }

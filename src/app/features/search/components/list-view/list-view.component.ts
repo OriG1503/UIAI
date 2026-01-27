@@ -14,4 +14,14 @@ export class ListViewComponent {
   private _selectedMailService = inject(SelectedMailService);
 
   readonly $selectedMail = this._selectedMailService.selectedMail;
+  readonly $hasPrevious = this._selectedMailService.$hasPrevious;
+  readonly $hasNext = this._selectedMailService.$hasNext;
+
+  onPreviousMail(): void {
+    this._selectedMailService.selectPrevious();
+  }
+
+  onNextMail(): void {
+    this._selectedMailService.selectNext();
+  }
 }
