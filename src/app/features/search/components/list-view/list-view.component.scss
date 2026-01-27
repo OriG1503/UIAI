@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.list-view {
+  display: flex;
+  height: 100%;
+  gap: 1rem;
+  flex-direction: row-reverse;
+
+  .main-content {
+    flex: 2;
+    min-width: 0;
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+  }
+
+  .mail-list-panel {
+    flex: 1;
+    min-width: 0;
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+
+  }
+}

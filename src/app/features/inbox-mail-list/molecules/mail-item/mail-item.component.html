@@ -1,0 +1,52 @@
+<div
+  class="mail-item"
+  [class.unread]="$isUnread()"
+  [class.selected]="$isSelected()"
+  [class.current]="$isCurrent()"
+  (click)="onMailClick()"
+  (contextmenu)="onContextMenu($event)"
+>
+  <div class="unread-indicator"></div>
+
+  @if ($isSelectMode()) {
+    <div class="select-circle" [class.is-selected]="$isSelected()">
+      @if ($isSelected()) {
+        <app-icon name="check" size="0.75rem" color="var(--color-white)" />
+      }
+    </div>
+  }
+
+  <div class="mail-content">
+    <div class="mail-header">
+      <button type="button" class="star-btn" [class.starred]="$isStarred()" (click)="onStarClick($event)">
+        <app-icon
+          [name]="$isStarred() ? 'star-fill' : 'star'"
+          size="0.875rem"
+          [color]="$isStarred() ? 'var(--color-orange)' : 'var(--color-navy-gray)'"
+        />
+      </button>
+
+      <div class="mail-meta">
+        <span class="mail-date">{{ $formattedDate() }}</span>
+        <span class="mail-time">{{ $formattedTime() }}</span>
+        @if ($attachmentCount() > 0) {
+          <div class="attachment-badge">
+            <app-icon name="paperclip" size="0.75rem" color="var(--color-navy-gray)" />
+            <span class="attachment-count">{{ $attachmentCount() }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="mail-body">
+      <div class="mail-subject">{{ $mail().subject }}</div>
+      <div class="mail-sender">{{ $senderDisplay() }}</div>
+      @if ($ccBccDisplay()) {
+        <div class="mail-cc-bcc">{{ $ccBccDisplay() }}</div>
+      }
+      @if ($preview()) {
+        <div class="mail-preview">{{ $preview() }}</div>
+      }
+    </div>
+  </div>
+</div>

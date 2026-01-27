@@ -1,0 +1,85 @@
+<div class="mail-filter-bar">
+  <div class="filter-actions-right">
+    <div class="translate-wrapper">
+      <button type="button" class="icon-btn" (click)="onTranslateClick()">
+        <app-icon name="globe" size="1rem" color="var(--color-navy-gray)" />
+      </button>
+      @if ($isLanguagePopupOpen()) {
+        <div class="language-popup">
+          @for (lang of languages; track lang) {
+            <button
+              type="button"
+              class="language-option"
+              [class.selected]="$selectedLanguage() === lang"
+              (click)="onLanguageSelect(lang)"
+            >
+              {{ languageLabels[lang] }}
+              @if ($selectedLanguage() === lang) {
+                <app-icon name="check" size="0.75rem" color="var(--color-blue)" />
+              }
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <button type="button" class="icon-btn" [class.active]="$isSelectMode()" (click)="onExcelClick()">
+      <app-icon name="file-excel" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-navy-gray)'" />
+    </button>
+
+    @if ($isSelectMode() && $selectedCount() > 0) {
+      <button type="button" class="export-btn" (click)="onExportClick()">
+        {{ translations.export }}
+      </button>
+    }
+  </div>
+
+  <div class="filter-actions-left">
+    <button type="button" class="icon-btn" (click)="onSortToggle()">
+      <app-icon
+        [name]="$sortDirection() === 'desc' ? 'sort-amount-down' : 'sort-amount-up'"
+        size="1rem"
+        color="var(--color-navy-gray)"
+      />
+    </button>
+
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="$activeFilter() === 'starred'"
+      (click)="onFilterClick('starred')"
+    >
+      <app-icon
+        name="star"
+        size="1rem"
+        [color]="$activeFilter() === 'starred' ? 'var(--color-orange)' : 'var(--color-navy-gray)'"
+      />
+    </button>
+
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="$activeFilter() === 'unread'"
+      (click)="onFilterClick('unread')"
+    >
+      <app-icon
+        name="envelope"
+        size="1rem"
+        [color]="$activeFilter() === 'unread' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+      />
+    </button>
+
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="$activeFilter() === 'read'"
+      (click)="onFilterClick('read')"
+    >
+      <app-icon
+        name="eye"
+        size="1rem"
+        [color]="$activeFilter() === 'read' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+      />
+    </button>
+  </div>
+</div>

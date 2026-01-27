@@ -1,0 +1,28 @@
+.context-menu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 10rem;
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.25rem 0;
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: 0.875rem;
+    color: var(--color-dark-navy);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-light-gray);
+    }
+  }
+}
