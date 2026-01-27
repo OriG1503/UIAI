@@ -1,5 +1,6 @@
 <p-datepicker
-  [(ngModel)]="$value"
+  [ngModel]="$value()"
+  (ngModelChange)="onValueChange($event)"
   [placeholder]="$placeholder()"
   [showIcon]="true"
   dateFormat="dd/mm/yy"

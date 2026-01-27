@@ -1,5 +1,6 @@
 <p-select
-  [(ngModel)]="$value"
+  [ngModel]="$value()"
+  (ngModelChange)="onValueChange($event)"
   [options]="$options()"
   [placeholder]="$placeholder()"
   optionLabel="label"

@@ -2,14 +2,14 @@ import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   TagFilterDropdownComponent,
-  TagOption,
   DateRangePickerComponent,
   SearchModeSwitchComponent,
-  SearchModeType,
   SearchInputComponent,
   RunButtonComponent,
   SaveSearchButtonComponent,
   AlertButtonComponent,
+  TagOption,
+  SearchModeType,
 } from '../../../../shared';
 
 @Component({
@@ -40,6 +40,22 @@ export class SearchBarComponent {
   ];
 
   constructor(private _router: Router) {}
+
+  onTagChange(tag: string | null): void {
+    this.$tag.set(tag);
+  }
+
+  onDateRangeChange(dateRange: Date[] | null): void {
+    this.$dateRange.set(dateRange);
+  }
+
+  onSearchModeChange(mode: SearchModeType): void {
+    this.$searchMode.set(mode);
+  }
+
+  onSearchTextChange(text: string): void {
+    this.$searchText.set(text);
+  }
 
   onAdvancedClick(): void {
     console.log('Advanced query clicked');

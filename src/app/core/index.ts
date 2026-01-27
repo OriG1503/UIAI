@@ -1,2 +1,2 @@
 // Core module exports (services, guards, interceptors, etc.)
-export * from './types';
+// Types have been moved to shared/types

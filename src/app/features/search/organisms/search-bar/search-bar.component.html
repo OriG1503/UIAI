@@ -12,23 +12,30 @@
   <div class="section section-middle">
     <div class="control-group">
       <app-tag-filter-dropdown
-        [(value)]="$tag"
+        [value]="$tag()"
+        (valueChange)="onTagChange($event)"
         [options]="tagOptions"
-        placeholder="בחירת תגית"
       />
     </div>
 
     <div class="control-group">
-      <app-date-range-picker [(dateRange)]="$dateRange" />
+      <app-date-range-picker
+        [dateRange]="$dateRange()"
+        (dateRangeChange)="onDateRangeChange($event)"
+      />
     </div>
 
     <div class="control-group">
-      <app-search-mode-switch [(mode)]="$searchMode" />
+      <app-search-mode-switch
+        [mode]="$searchMode()"
+        (modeChange)="onSearchModeChange($event)"
+      />
     </div>
 
     <div class="control-group control-search">
       <app-search-input
-        [(value)]="$searchText"
+        [value]="$searchText()"
+        (valueChange)="onSearchTextChange($event)"
         (advancedClick)="onAdvancedClick()"
       />
     </div>

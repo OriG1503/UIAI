@@ -1,6 +1,6 @@
-import { Component, model } from '@angular/core';
-
-export type SearchModeType = 'regular' | 'agent';
+import { Component, input, output } from '@angular/core';
+import { SearchModeType } from '../../types';
+import { SEARCH_MODE_LABELS } from '../../translations';
 
 @Component({
   selector: 'app-search-mode-switch',
@@ -10,9 +10,12 @@ export type SearchModeType = 'regular' | 'agent';
   styleUrl: './search-mode-switch.component.scss',
 })
 export class SearchModeSwitchComponent {
-  $mode = model<SearchModeType>('regular', { alias: 'mode' });
+  $mode = input<SearchModeType>('regular', { alias: 'mode' });
+  modeChange = output<SearchModeType>();
+
+  readonly labels = SEARCH_MODE_LABELS;
 
   onModeSelect(mode: SearchModeType): void {
-    this.$mode.set(mode);
+    this.modeChange.emit(mode);
   }
 }

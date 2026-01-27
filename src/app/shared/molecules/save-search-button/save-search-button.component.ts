@@ -1,10 +1,12 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BUTTON_TRANSLATIONS, PLACEHOLDER_TRANSLATIONS, COMMON_TRANSLATIONS } from '../../translations';
+import { IconComponent } from '../../atoms';
 
 @Component({
   selector: 'app-save-search-button',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, IconComponent],
   templateUrl: './save-search-button.component.html',
   styleUrl: './save-search-button.component.scss',
 })
@@ -13,6 +15,10 @@ export class SaveSearchButtonComponent {
 
   $isPopupOpen = signal(false);
   $searchName = signal('');
+
+  readonly buttonLabels = BUTTON_TRANSLATIONS;
+  readonly placeholders = PLACEHOLDER_TRANSLATIONS;
+  readonly common = COMMON_TRANSLATIONS;
 
   togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);

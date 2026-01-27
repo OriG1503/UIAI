@@ -1,4 +1,4 @@
-<button type="button" class="alert-btn" (click)="onButtonClick($event)" title="פתיחת פניה">
-  <i class="pi pi-exclamation-triangle"></i>
+<button type="button" class="alert-btn" (click)="onButtonClick($event)" [title]="buttonLabels.openTicket">
+  <app-icon name="exclamation-triangle" />
 </button>
 <p-menu #menu [model]="menuItems" [popup]="true" styleClass="alert-menu" />

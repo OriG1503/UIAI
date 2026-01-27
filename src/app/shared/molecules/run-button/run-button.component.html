@@ -1,16 +1,16 @@
 <div class="run-button-wrapper">
-  <button type="button" class="run-btn" (click)="togglePopup()">הרצה</button>
+  <button type="button" class="run-btn" (click)="togglePopup()">{{ translations.run }}</button>
 
   @if ($isPopupOpen()) {
     <div class="popup-overlay" (click)="closePopup()"></div>
     <div class="popup-container">
       <button class="option-btn" (click)="selectOption('graph')">
-        <i class="pi pi-chart-bar"></i>
-        <span>גרף</span>
+        <app-icon name="chart-bar" color="var(--color-navy-gray)" />
+        <span>{{ viewLabels.graph }}</span>
       </button>
       <button class="option-btn" (click)="selectOption('list')">
-        <i class="pi pi-list"></i>
-        <span>רשימה</span>
+        <app-icon name="list" color="var(--color-navy-gray)" />
+        <span>{{ viewLabels.list }}</span>
       </button>
     </div>
   }

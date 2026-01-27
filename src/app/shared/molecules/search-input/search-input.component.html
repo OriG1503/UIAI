@@ -2,16 +2,17 @@
   <input
     type="text"
     pInputText
-    [(ngModel)]="$value"
-    placeholder="חיפוש חופשי..."
+    [ngModel]="$value()"
+    (ngModelChange)="onValueChange($event)"
+    [placeholder]="translations.freeSearch"
     class="search-input"
   />
   <button
     type="button"
     class="advanced-btn"
     (click)="onAdvancedClick()"
-    title="שאילתה מתקדמת"
+    [title]="translations.advancedQuery"
   >
-    <i class="pi pi-sliders-h"></i>
+    <app-icon name="sliders-h" />
   </button>
 </div>

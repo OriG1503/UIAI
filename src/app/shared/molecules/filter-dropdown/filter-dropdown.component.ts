@@ -1,11 +1,8 @@
-import { Component, model, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
-
-export type DropdownOption = {
-  label: string;
-  value: string;
-};
+import { DropdownOption } from '../../types';
+import { COMMON_TRANSLATIONS } from '../../translations';
 
 @Component({
   selector: 'app-filter-dropdown',
@@ -15,7 +12,13 @@ export type DropdownOption = {
   styleUrl: './filter-dropdown.component.scss',
 })
 export class FilterDropdownComponent {
-  $value = model<string | null>(null, { alias: 'value' });
+  $value = input<string | null>(null, { alias: 'value' });
+  valueChange = output<string | null>();
+
   $options = input<DropdownOption[]>([], { alias: 'options' });
-  $placeholder = input<string>('בחר', { alias: 'placeholder' });
+  $placeholder = input<string>(COMMON_TRANSLATIONS.select, { alias: 'placeholder' });
+
+  onValueChange(value: string | null): void {
+    this.valueChange.emit(value);
+  }
 }

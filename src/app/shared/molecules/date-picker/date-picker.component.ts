@@ -1,6 +1,7 @@
-import { Component, model, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
+import { PLACEHOLDER_TRANSLATIONS } from '../../translations';
 
 @Component({
   selector: 'app-date-picker',
@@ -10,6 +11,12 @@ import { DatePicker } from 'primeng/datepicker';
   styleUrl: './date-picker.component.scss',
 })
 export class DatePickerComponent {
-  $value = model<Date | null>(null, { alias: 'value' });
-  $placeholder = input<string>('בחר תאריך', { alias: 'placeholder' });
+  $value = input<Date | null>(null, { alias: 'value' });
+  valueChange = output<Date | null>();
+
+  $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.selectDate, { alias: 'placeholder' });
+
+  onValueChange(value: Date | null): void {
+    this.valueChange.emit(value);
+  }
 }
