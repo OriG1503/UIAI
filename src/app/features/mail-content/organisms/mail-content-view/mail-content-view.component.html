@@ -1,0 +1,25 @@
+@if ($mail()) {
+  <div class="mail-content-view">
+    <app-mail-content-toolbar
+      [selectedEncoding]="$selectedEncoding()"
+      (encodingChange)="onEncodingChange($event)"
+      (downloadClick)="onDownloadMail()"
+    />
+
+    <app-mail-metadata [mail]="$mail()!" />
+
+    @if ($hasAttachments()) {
+      <app-mail-attachments
+        [attachments]="$attachments()"
+        (downloadAllClick)="onDownloadAllAttachments()"
+        (downloadAttachmentClick)="onDownloadAttachment($event)"
+      />
+    }
+
+    <app-mail-body [content]="$mailContent()" />
+  </div>
+} @else {
+  <div class="no-mail-selected">
+    <span>{{ translations.noMailSelected }}</span>
+  </div>
+}

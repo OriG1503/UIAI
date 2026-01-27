@@ -1,6 +1,7 @@
 import { Component, signal, computed, inject } from '@angular/core';
 import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
+import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
@@ -22,6 +23,7 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
+  private _selectedMailService = inject(SelectedMailService);
 
   $activeFilter = signal<MailFilter>('all');
   $sortDirection = signal<SortDirection>('desc');
@@ -123,6 +125,7 @@ export class MailListComponent {
   onMailClick(mail: Mail): void {
     this._mailService.markAsRead(mail.filename);
     this.$selectedMailId.set(mail.filename);
+    this._selectedMailService.setSelectedMail(mail);
   }
 
   onSelectionChange(mail: Mail): void {

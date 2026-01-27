@@ -1,0 +1,33 @@
+<div class="mail-content-toolbar">
+  <div class="toolbar-right">
+    <button type="button" class="icon-btn" (click)="onDownloadClick()">
+      <app-icon name="download" size="1rem" color="var(--color-navy-gray)" />
+    </button>
+  </div>
+
+  <div class="toolbar-left">
+    <div class="encoding-wrapper">
+      <button type="button" class="encoding-btn" (click)="onEncodingClick()">
+        <span>{{ encodingLabels[$selectedEncoding()] }}</span>
+        <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" />
+      </button>
+      @if ($isEncodingPopupOpen()) {
+        <div class="encoding-popup">
+          @for (enc of encodings; track enc) {
+            <button
+              type="button"
+              class="encoding-option"
+              [class.selected]="$selectedEncoding() === enc"
+              (click)="onEncodingSelect(enc)"
+            >
+              {{ encodingLabels[enc] }}
+              @if ($selectedEncoding() === enc) {
+                <app-icon name="check" size="0.75rem" color="var(--color-blue)" />
+              }
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
