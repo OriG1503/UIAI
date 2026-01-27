@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
 import {
   Language,
   MailFilter,
@@ -16,6 +16,8 @@ import { IconComponent } from '../../../../shared/atoms';
   styleUrl: './mail-filter-bar.component.scss',
 })
 export class MailFilterBarComponent {
+  private _elementRef = inject(ElementRef);
+
   $activeFilter = input<MailFilter>('all', { alias: 'activeFilter' });
   $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
   $sortDirection = input<SortDirection>('desc', { alias: 'sortDirection' });
@@ -33,6 +35,14 @@ export class MailFilterBarComponent {
   readonly languages: Language[] = ['en', 'es', 'fr'];
   readonly languageLabels = LANGUAGE_LABELS;
   readonly translations = INBOX_TRANSLATIONS;
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const translateWrapper = this._elementRef.nativeElement.querySelector('.translate-wrapper');
+    if (translateWrapper && !translateWrapper.contains(event.target)) {
+      this.$isLanguagePopupOpen.set(false);
+    }
+  }
 
   onFilterClick(filter: MailFilter): void {
     this.filterChange.emit(filter);
