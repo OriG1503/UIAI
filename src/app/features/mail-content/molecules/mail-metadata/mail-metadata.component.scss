@@ -1,5 +1,10 @@
 :host {
   display: block;
+
+  ::ng-deep mark.search-highlight {
+    background-color: var(--color-yellow);
+    border-radius: 0.125rem;
+  }
 }
 
 .mail-metadata {

@@ -1,5 +1,10 @@
 :host {
   display: block;
+
+  ::ng-deep mark.search-highlight {
+    background-color: var(--color-yellow);
+    border-radius: 0.125rem;
+  }
 }
 
 .mail-attachments {
@@ -53,6 +58,16 @@
       .download-overlay {
         opacity: 1;
       }
+    }
+
+    &.highlight-attachment-content {
+      background-color: rgba(255, 238, 128, 0.5);
+      border-color: var(--color-yellow);
+    }
+
+    &.highlight-attachment-name {
+      background-color: rgba(255, 238, 128, 0.5);
+      border-color: var(--color-yellow);
     }
 
     .file-icon {

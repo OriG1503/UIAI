@@ -1,18 +1,28 @@
-import { Component, input, computed } from '@angular/core';
-import { Mail, MailUserInfo, INBOX_TRANSLATIONS } from '../../../../shared';
+import { Component, input, computed, inject } from '@angular/core';
+import {
+  Mail,
+  MailUserInfo,
+  INBOX_TRANSLATIONS,
+  HighlightTextPipe,
+} from '../../../../shared';
 import { IconComponent } from '../../../../shared/atoms';
+import { HighlightService } from '../../../../core/services';
 
 @Component({
   selector: 'app-mail-metadata',
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, HighlightTextPipe],
   templateUrl: './mail-metadata.component.html',
   styleUrl: './mail-metadata.component.scss',
 })
 export class MailMetadataComponent {
+  private _highlightService = inject(HighlightService);
+
   $mail = input.required<Mail>({ alias: 'mail' });
 
   readonly translations = INBOX_TRANSLATIONS;
+
+  $searchTerms = computed(() => this._highlightService.$searchTerms());
 
   $formattedDate = computed(() => {
     const mail = this.$mail();

@@ -1,6 +1,6 @@
 <div class="mail-metadata">
   <div class="subject-row">
-    <h2 class="subject">{{ $mail().subject }}</h2>
+    <h2 class="subject" [innerHTML]="$mail().subject | highlightText:$searchTerms()"></h2>
     <div class="datetime">
       <span class="date">{{ $formattedDate() }}</span>
       <span class="time">{{ $formattedTime() }}</span>
@@ -13,7 +13,7 @@
         <app-icon name="user" size="0.875rem" color="var(--color-navy-gray)" />
         <span>From:</span>
       </div>
-      <span class="recipient-value">{{ $fromDisplay() }}</span>
+      <span class="recipient-value" [innerHTML]="$fromDisplay() | highlightText:$searchTerms()"></span>
     </div>
 
     <div class="recipient-row">
@@ -21,7 +21,7 @@
         <app-icon name="users" size="0.875rem" color="var(--color-navy-gray)" />
         <span>To:</span>
       </div>
-      <span class="recipient-value">{{ $toDisplay() }}</span>
+      <span class="recipient-value" [innerHTML]="$toDisplay() | highlightText:$searchTerms()"></span>
     </div>
 
     @if ($ccDisplay()) {
@@ -30,7 +30,7 @@
           <app-icon name="copy" size="0.875rem" color="var(--color-navy-gray)" />
           <span>CC:</span>
         </div>
-        <span class="recipient-value">{{ $ccDisplay() }}</span>
+        <span class="recipient-value" [innerHTML]="$ccDisplay() | highlightText:$searchTerms()"></span>
       </div>
     }
 
@@ -40,7 +40,7 @@
           <app-icon name="eye-slash" size="0.875rem" color="var(--color-navy-gray)" />
           <span>BCC:</span>
         </div>
-        <span class="recipient-value">{{ $bccDisplay() }}</span>
+        <span class="recipient-value" [innerHTML]="$bccDisplay() | highlightText:$searchTerms()"></span>
       </div>
     }
   </div>

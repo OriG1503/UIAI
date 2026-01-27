@@ -48,6 +48,8 @@ export class MailContentViewComponent {
     return this._mailContentService.getMailContent(mail.filename);
   });
 
+  $mailFilename = computed(() => this.$mail()?.filename ?? '');
+
   onEncodingChange(encoding: Encoding): void {
     this.$selectedEncoding.set(encoding);
     console.log('Encoding changed to:', encoding);

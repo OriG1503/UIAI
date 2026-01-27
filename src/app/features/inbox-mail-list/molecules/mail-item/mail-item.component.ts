@@ -1,6 +1,7 @@
-import { Component, input, output, computed } from '@angular/core';
-import { Mail, MailUserInfo } from '../../../../shared';
+import { Component, input, output, computed, inject } from '@angular/core';
+import { Mail, MailUserInfo, HighlightTextPipe } from '../../../../shared';
 import { IconComponent } from '../../../../shared/atoms';
+import { HighlightService } from '../../../../core/services';
 
 export type ContextMenuEvent = {
   mail: Mail;
@@ -11,11 +12,13 @@ export type ContextMenuEvent = {
 @Component({
   selector: 'app-mail-item',
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, HighlightTextPipe],
   templateUrl: './mail-item.component.html',
   styleUrl: './mail-item.component.scss',
 })
 export class MailItemComponent {
+  private _highlightService = inject(HighlightService);
+
   $mail = input.required<Mail>({ alias: 'mail' });
   $isStarred = input<boolean>(false, { alias: 'isStarred' });
   $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
@@ -25,6 +28,12 @@ export class MailItemComponent {
   mailClick = output<void>();
   selectionChange = output<void>();
   contextMenu = output<ContextMenuEvent>();
+
+  $searchTerms = computed(() => this._highlightService.$searchTerms());
+
+  $isAttachmentBadgeHighlighted = computed(() =>
+    this._highlightService.hasAnyAttachmentHighlight(this.$mail().filename)
+  );
 
   $attachmentCount = computed(() => {
     const mail = this.$mail();

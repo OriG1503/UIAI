@@ -15,12 +15,13 @@
     @if ($hasAttachments()) {
       <app-mail-attachments
         [attachments]="$attachments()"
+        [mailFilename]="$mailFilename()"
         (downloadAllClick)="onDownloadAllAttachments()"
         (downloadAttachmentClick)="onDownloadAttachment($event)"
       />
     }
 
-    <app-mail-body [content]="$mailContent()" />
+    <app-mail-body [content]="$mailContent()" [mailFilename]="$mailFilename()" />
   </div>
 } @else {
   <div class="no-mail-selected">

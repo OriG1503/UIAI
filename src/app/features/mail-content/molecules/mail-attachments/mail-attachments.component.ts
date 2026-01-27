@@ -1,6 +1,7 @@
-import { Component, input, output, computed } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../shared';
+import { Component, input, output, computed, inject } from '@angular/core';
+import { INBOX_TRANSLATIONS, HighlightTextPipe } from '../../../../shared';
 import { IconComponent } from '../../../../shared/atoms';
+import { HighlightService } from '../../../../core/services';
 
 const EXTENSION_COLORS: Record<string, string> = {
   docx: '#2f67bf',
@@ -39,18 +40,36 @@ const EXTENSION_ICONS: Record<string, string> = {
 @Component({
   selector: 'app-mail-attachments',
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, HighlightTextPipe],
   templateUrl: './mail-attachments.component.html',
   styleUrl: './mail-attachments.component.scss',
 })
 export class MailAttachmentsComponent {
+  private _highlightService = inject(HighlightService);
+
   $attachments = input.required<string[]>({ alias: 'attachments' });
+  $mailFilename = input<string>('', { alias: 'mailFilename' });
   downloadAllClick = output<void>();
   downloadAttachmentClick = output<string>();
 
   readonly translations = INBOX_TRANSLATIONS;
 
   $attachmentCount = computed(() => this.$attachments().length);
+  $searchTerms = computed(() => this._highlightService.$searchTerms());
+
+  isAttachmentContentHighlighted(attachmentName: string): boolean {
+    return this._highlightService.isAttachmentContentHighlighted(
+      this.$mailFilename(),
+      attachmentName
+    );
+  }
+
+  isAttachmentNameHighlighted(attachmentName: string): boolean {
+    return this._highlightService.isAttachmentNameHighlighted(
+      this.$mailFilename(),
+      attachmentName
+    );
+  }
 
   getExtensionColor(filename: string): string {
     const ext = filename.split('.').pop()?.toLowerCase() ?? '';
