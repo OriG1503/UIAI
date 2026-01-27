@@ -7,7 +7,14 @@
   <div class="mail-list-wrapper">
     <app-mail-filter-bar
       [activeFilter]="$activeFilter()"
+      [isSelectMode]="$isSelectMode()"
+      [sortDirection]="$sortDirection()"
+      [selectedCount]="$selectedCount()"
       (filterChange)="onFilterChange($event)"
+      (sortChange)="onSortChange($event)"
+      (translateClick)="onTranslateClick($event)"
+      (exportModeToggle)="onExportModeToggle()"
+      (exportClick)="onExportClick()"
     />
 
     <div class="mail-list-scroll">
@@ -15,10 +22,24 @@
         <app-mail-item
           [mail]="mail"
           [isStarred]="isMailStarred(mail)"
+          [isSelectMode]="$isSelectMode()"
+          [isSelected]="isMailSelected(mail)"
+          [isCurrent]="isCurrentMail(mail)"
           (starClick)="onStarClick(mail)"
           (mailClick)="onMailClick(mail)"
+          (selectionChange)="onSelectionChange(mail)"
+          (contextMenu)="onContextMenu($event)"
         />
       }
     </div>
   </div>
 </div>
+
+@if ($contextMenu().isOpen) {
+  <app-context-menu
+    [x]="$contextMenu().x"
+    [y]="$contextMenu().y"
+    (markAsUnreadClick)="onMarkAsUnread()"
+    (closeMenu)="onCloseContextMenu()"
+  />
+}

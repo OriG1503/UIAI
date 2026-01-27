@@ -31,6 +31,12 @@ export class MockMailService {
     );
   }
 
+  markAsUnread(mailFilename: string): void {
+    this._mails.update((mails) =>
+      mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail))
+    );
+  }
+
   isStarred(mailFilename: string): boolean {
     return this._starredMailIds().has(mailFilename);
   }

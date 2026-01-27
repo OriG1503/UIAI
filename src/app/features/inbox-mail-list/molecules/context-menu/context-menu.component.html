@@ -1,0 +1,10 @@
+<div
+  class="context-menu"
+  [style.left.px]="$adjustedX()"
+  [style.top.px]="$adjustedY()"
+>
+  <button type="button" class="menu-item" (click)="onMarkAsUnread()">
+    <app-icon name="envelope" size="0.875rem" color="var(--color-dark-navy)" />
+    <span>{{ translations.markAsUnread }}</span>
+  </button>
+</div>

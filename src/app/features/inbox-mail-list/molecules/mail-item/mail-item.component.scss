@@ -26,12 +26,38 @@
     }
   }
 
+  &.selected {
+    background-color: var(--color-light-gray);
+  }
+
+  &.current {
+    background-color: var(--color-white-soft);
+  }
+
   .unread-indicator {
     width: 5px;
     min-height: 100%;
     background-color: transparent;
     flex-shrink: 0;
     border-radius: 0 1rem 1rem 0;
+  }
+
+  .select-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: auto 0.5rem;
+    border: 2px solid var(--color-navy-gray);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    &.is-selected {
+      background-color: var(--color-blue);
+      border-color: var(--color-blue);
+    }
   }
 
   .mail-content {

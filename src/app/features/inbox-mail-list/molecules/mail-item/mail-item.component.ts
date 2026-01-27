@@ -2,6 +2,12 @@ import { Component, input, output, computed } from '@angular/core';
 import { Mail, MailUserInfo } from '../../../../shared';
 import { IconComponent } from '../../../../shared/atoms';
 
+export type ContextMenuEvent = {
+  mail: Mail;
+  x: number;
+  y: number;
+};
+
 @Component({
   selector: 'app-mail-item',
   standalone: true,
@@ -12,8 +18,13 @@ import { IconComponent } from '../../../../shared/atoms';
 export class MailItemComponent {
   $mail = input.required<Mail>({ alias: 'mail' });
   $isStarred = input<boolean>(false, { alias: 'isStarred' });
+  $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
+  $isSelected = input<boolean>(false, { alias: 'isSelected' });
+  $isCurrent = input<boolean>(false, { alias: 'isCurrent' });
   starClick = output<void>();
   mailClick = output<void>();
+  selectionChange = output<void>();
+  contextMenu = output<ContextMenuEvent>();
 
   $attachmentCount = computed(() => {
     const mail = this.$mail();
@@ -83,6 +94,19 @@ export class MailItemComponent {
   }
 
   onMailClick(): void {
-    this.mailClick.emit();
+    if (this.$isSelectMode()) {
+      this.selectionChange.emit();
+    } else {
+      this.mailClick.emit();
+    }
+  }
+
+  onContextMenu(event: MouseEvent): void {
+    event.preventDefault();
+    this.contextMenu.emit({
+      mail: this.$mail(),
+      x: event.clientX,
+      y: event.clientY
+    });
   }
 }
