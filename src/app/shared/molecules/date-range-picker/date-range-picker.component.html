@@ -1,0 +1,72 @@
+<div class="date-range-wrapper">
+  <button class="trigger-btn" (click)="togglePopup()">
+    <app-icon name="calendar" color="var(--color-navy-gray)" />
+    <span class="trigger-text">{{ $displayText() }}</span>
+    <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" class="dropdown-icon" />
+  </button>
+
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      @if ($selectedMode() === null) {
+        <div class="mode-selection">
+          <button class="mode-btn" (click)="selectMode('calendar')">
+            <app-icon name="calendar" color="var(--color-navy-gray)" />
+            <span>{{ modeLabels.calendar }}</span>
+          </button>
+          <button class="mode-btn" (click)="selectMode('verbal')">
+            <app-icon name="clock" color="var(--color-navy-gray)" />
+            <span>{{ modeLabels.verbal }}</span>
+          </button>
+        </div>
+      } @else if ($selectedMode() === 'calendar') {
+        <div class="calendar-mode">
+          <button class="back-btn" (click)="goBackToModeSelection()">
+            <app-icon name="arrow-right" color="var(--color-navy-gray)" />
+            <span>{{ translations.back }}</span>
+          </button>
+          <p-datepicker
+            [ngModel]="$dateRange()"
+            (ngModelChange)="onCalendarSelect($event)"
+            selectionMode="range"
+            [inline]="true"
+          />
+        </div>
+      } @else if ($selectedMode() === 'verbal') {
+        <div class="verbal-mode">
+          <button class="back-btn" (click)="goBackToModeSelection()">
+            <app-icon name="arrow-right" color="var(--color-navy-gray)" />
+            <span>{{ translations.back }}</span>
+          </button>
+          <div class="verbal-content">
+            <div class="amount-stepper">
+              <button class="stepper-btn" (click)="decrementAmount()" [disabled]="$verbalAmount() <= 1">
+                <app-icon name="minus" size="0.75rem" />
+              </button>
+              <input
+                type="number"
+                class="amount-input"
+                [value]="$verbalAmount()"
+                (input)="onAmountInput($event)"
+                min="1"
+                [max]="maxAmount"
+              />
+              <button class="stepper-btn" (click)="incrementAmount()" [disabled]="$verbalAmount() >= maxAmount">
+                <app-icon name="plus" size="0.75rem" />
+              </button>
+            </div>
+            <p-select
+              [options]="timeUnitOptions"
+              [ngModel]="$verbalUnit()"
+              (ngModelChange)="$verbalUnit.set($event)"
+              optionLabel="label"
+              optionValue="value"
+              styleClass="unit-select"
+            />
+          </div>
+          <button class="apply-btn" (click)="applyVerbalRange()">{{ translations.apply }}</button>
+        </div>
+      }
+    </div>
+  }
+</div>

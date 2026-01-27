@@ -1,0 +1,19 @@
+<div class="save-search-wrapper">
+  <button type="button" class="save-btn" (click)="togglePopup()" [title]="buttonLabels.saveSearch">
+    <app-icon name="save" />
+  </button>
+
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      <input
+        type="text"
+        [ngModel]="$searchName()"
+        (ngModelChange)="$searchName.set($event)"
+        [placeholder]="placeholders.searchName"
+        class="name-input"
+      />
+      <button type="button" class="save-confirm-btn" (click)="onSave()">{{ common.save }}</button>
+    </div>
+  }
+</div>

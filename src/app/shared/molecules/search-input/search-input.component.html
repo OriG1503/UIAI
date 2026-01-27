@@ -1,0 +1,18 @@
+<div class="search-input-wrapper">
+  <input
+    type="text"
+    pInputText
+    [ngModel]="$value()"
+    (ngModelChange)="onValueChange($event)"
+    [placeholder]="translations.freeSearch"
+    class="search-input"
+  />
+  <button
+    type="button"
+    class="advanced-btn"
+    (click)="onAdvancedClick()"
+    [title]="translations.advancedQuery"
+  >
+    <app-icon name="sliders-h" />
+  </button>
+</div>
