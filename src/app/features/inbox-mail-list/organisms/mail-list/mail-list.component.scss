@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.mail-list-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0.75rem;
+  padding: 1rem;
+
+  app-user-mail-bubble {
+    flex-shrink: 0;
+  }
+
+  .mail-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+
+    app-mail-filter-bar {
+      flex-shrink: 0;
+    }
+
+    .mail-list-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: var(--color-light-gray);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--color-navy-gray);
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: var(--color-dark-navy);
+      }
+    }
+  }
+}

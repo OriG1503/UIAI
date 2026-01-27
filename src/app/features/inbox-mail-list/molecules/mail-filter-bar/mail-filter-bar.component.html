@@ -1,0 +1,12 @@
+<div class="mail-filter-bar">
+  @for (filter of filters; track filter) {
+    <button
+      type="button"
+      class="filter-btn"
+      [class.active]="$activeFilter() === filter"
+      (click)="onFilterClick(filter)"
+    >
+      {{ labels[filter] }}
+    </button>
+  }
+</div>

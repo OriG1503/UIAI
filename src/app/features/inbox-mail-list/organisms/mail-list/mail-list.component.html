@@ -1,0 +1,24 @@
+<div class="mail-list-container">
+  <app-user-mail-bubble
+    [userEmail]="userEmail"
+    [mailCount]="$mailCount()"
+  />
+
+  <div class="mail-list-wrapper">
+    <app-mail-filter-bar
+      [activeFilter]="$activeFilter()"
+      (filterChange)="onFilterChange($event)"
+    />
+
+    <div class="mail-list-scroll">
+      @for (mail of $filteredMails(); track mail.filename) {
+        <app-mail-item
+          [mail]="mail"
+          [isStarred]="isMailStarred(mail)"
+          (starClick)="onStarClick(mail)"
+          (mailClick)="onMailClick(mail)"
+        />
+      }
+    </div>
+  </div>
+</div>
