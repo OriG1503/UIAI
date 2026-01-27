@@ -10,7 +10,7 @@
         [disabled]="!$hasPrevious()"
         (click)="onPreviousClick()"
       >
-        <app-icon name="chevron-up" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
+        <app-icon name="chevron-left" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
       </button>
       <button
         type="button"
@@ -18,7 +18,7 @@
         [disabled]="!$hasNext()"
         (click)="onNextClick()"
       >
-        <app-icon name="chevron-down" size="0.875rem" [color]="$hasNext() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
+        <app-icon name="chevron-right" size="0.875rem" [color]="$hasNext() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
       </button>
     </div>
   </div>
