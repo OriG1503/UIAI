@@ -44,7 +44,9 @@ export class MailContentViewComponent {
 
   $mailContent = computed(() => {
     const mail = this.$mail();
-    if (!mail) return '';
+    if (!mail) {
+      return '';
+    }
     return this._mailContentService.getMailContent(mail.filename);
   });
 
