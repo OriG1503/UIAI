@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { Mail } from '../../shared';
+import { Mail } from '../../shared/types/mail.type';
 import { MockMailService } from './mock-mail.service';
 
 @Injectable({

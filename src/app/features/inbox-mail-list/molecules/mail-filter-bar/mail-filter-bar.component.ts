@@ -1,12 +1,10 @@
 import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
-import {
-  Language,
-  MailFilter,
-  SortDirection,
-  LANGUAGE_LABELS,
-  INBOX_TRANSLATIONS
-} from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { Language } from '../../types/language.type';
+import { MailFilter } from '../../types/mail-filter.type';
+import { SortDirection } from '../../types/sort-direction.type';
+import { LANGUAGE_LABELS } from '../../translations/inbox-mail-list.translations';
 
 @Component({
   selector: 'app-mail-filter-bar',

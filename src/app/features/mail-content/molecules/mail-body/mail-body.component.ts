@@ -1,6 +1,6 @@
 import { Component, input, computed, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { HighlightService } from '../../../../core/services';
+import { HighlightService } from '../../../../core/services/highlight.service';
 
 @Component({
   selector: 'app-mail-body',

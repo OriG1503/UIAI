@@ -8,7 +8,12 @@
       "Bash(npm start)",
       "Bash(npx ng build)",
       "Bash(npx ng build --configuration development)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git mv:*)",
+      "Bash(for dir in alert-button date-picker date-range-picker email-chips filter-dropdown run-button save-search-button search-input search-mode-switch tag-filter-dropdown)",
+      "Bash(do git mv \"src/app/shared/molecules/$dir\" \"src/app/features/search/molecules/$dir\")",
+      "Bash(done)",
+      "Bash(git rm:*)"
     ]
   }
 }

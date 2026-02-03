@@ -22,13 +22,20 @@ npm test         # Run unit tests with Karma
 ## Folder Structure
 ```
 src/app/
-├── core/       # Singleton services, guards, interceptors, store logic, app-wide utilities
-├── features/   # Feature modules (lazy-loaded), each feature uses atomic design (atoms/molecules/organisms)
-├── shared/     # Reusable atoms, molecules, types, and constants (no organisms)
-│   ├── atoms/      # Basic UI elements (buttons, inputs, icons)
-│   ├── molecules/  # Combinations of atoms
-│   ├── types/      # All shared types
-│   └── constants/  # All constants and configuration values
+├── core/           # Singleton services, guards, interceptors, store logic, app-wide utilities
+├── features/       # Feature modules (lazy-loaded), each feature owns its own atomic design layers
+│   └── <feature>/  # e.g., search/, inbox-mail-list/, mail-content/
+│       ├── atoms/          # Feature-specific basic UI elements
+│       ├── molecules/      # Feature-specific combinations of atoms
+│       ├── organisms/      # Business logic components
+│       ├── types/          # Feature-specific types (each type in its own file)
+│       ├── constants/      # Feature-specific constants
+│       └── translations/   # Feature-specific translation maps
+├── shared/         # Only truly cross-feature items (used by 2+ features)
+│   ├── atoms/      # Global basic UI elements (e.g., Icon)
+│   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch)
+│   ├── translations/ # Cross-feature translations (common, inbox)
+│   └── pipes/      # Cross-feature pipes (HighlightTextPipe)
 ```
 
 ## Atomic Design (Component Architecture)
@@ -41,7 +48,7 @@ src/app/
 - **Open/Closed**: Use inputs/outputs for extensibility, avoid modifying existing code
 - **Dependency Inversion**: Depend on abstractions (types, interfaces) not concrete implementations
 - **DRY**: Extract reusable logic into shared components, types, and constants
-- **No magic numbers**: All numeric constants must be defined in `shared/constants/`
+- **No magic numbers**: All numeric constants must be defined in the feature's `constants/` folder (or `shared/constants/` if cross-feature)
 - **No hardcoded strings**: Use translation types/maps for all user-facing text (especially Hebrew)
 - **Reuse atoms**: Always use the Icon atom (`<app-icon>`) instead of raw `<i>` tags
 
@@ -52,10 +59,10 @@ src/app/
 - Observable subscriptions should be in components
 - Mock data instead of real API calls
 - SCSS for component styling
-- Barrel exports (index.ts) in each folder
+- **Direct imports**: Always import from the specific file path, not from folder barrels (no index.ts files)
 - No spec/test files (.spec.ts) in the project
 - Prettier for code formatting (see config file)
-- Each type should have its own file in `shared/types/`
+- Each type should have its own file in the owning feature's `types/` folder (or `shared/types/` only if used by 2+ features)
 - Prefer `type` over `interface`
 - **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
 - **No inline templates/styles**: Always use `templateUrl` and `styleUrl` pointing to external files

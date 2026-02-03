@@ -1,8 +1,11 @@
 import { Component, signal, computed, inject, effect } from '@angular/core';
-import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
+import { Mail } from '../../../../shared/types/mail.type';
+import { Language } from '../../types/language.type';
+import { MailFilter } from '../../types/mail-filter.type';
+import { SortDirection } from '../../types/sort-direction.type';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
-import { HighlightService } from '../../../../core/services';
+import { HighlightService } from '../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';

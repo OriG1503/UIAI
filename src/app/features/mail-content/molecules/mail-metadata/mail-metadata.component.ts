@@ -1,12 +1,10 @@
 import { Component, input, computed, inject } from '@angular/core';
-import {
-  Mail,
-  MailUserInfo,
-  INBOX_TRANSLATIONS,
-  HighlightTextPipe,
-} from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
-import { HighlightService } from '../../../../core/services';
+import { Mail } from '../../../../shared/types/mail.type';
+import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
+import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { HighlightService } from '../../../../core/services/highlight.service';
 
 @Component({
   selector: 'app-mail-metadata',

@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { HighlightData, MailHighlight } from '../../shared/types';
+import { HighlightData, MailHighlight } from '../../shared/types/highlight-match.type';
 
 @Injectable({ providedIn: 'root' })
 export class HighlightService {

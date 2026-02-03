@@ -1,0 +1,33 @@
+import { Component, output, signal } from '@angular/core';
+import { SearchViewType } from '../../types/search-view-type.type';
+import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../translations/search.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+
+@Component({
+  selector: 'app-run-button',
+  standalone: true,
+  imports: [IconComponent],
+  templateUrl: './run-button.component.html',
+  styleUrl: './run-button.component.scss',
+})
+export class RunButtonComponent {
+  run = output<SearchViewType>();
+
+  $isPopupOpen = signal(false);
+
+  readonly viewLabels = SEARCH_VIEW_LABELS;
+  readonly translations = SEARCH_TRANSLATIONS;
+
+  public togglePopup(): void {
+    this.$isPopupOpen.update((isOpen) => !isOpen);
+  }
+
+  public closePopup(): void {
+    this.$isPopupOpen.set(false);
+  }
+
+  public selectOption(viewType: SearchViewType): void {
+    this.run.emit(viewType);
+    this.closePopup();
+  }
+}
