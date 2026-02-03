@@ -1,6 +1,5 @@
 import { Component, input, output, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { INBOX_TRANSLATIONS, IconComponent } from '../../../../shared';
 
 const MENU_WIDTH = 160;
 const MENU_HEIGHT = 40;

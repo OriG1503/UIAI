@@ -4,8 +4,8 @@ import {
   MailUserInfo,
   INBOX_TRANSLATIONS,
   HighlightTextPipe,
+  IconComponent,
 } from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
 import { HighlightService } from '../../../../core/services';
 
 @Component({

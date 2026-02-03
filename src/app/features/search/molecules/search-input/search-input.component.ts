@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { SEARCH_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../atoms';
+import { IconComponent } from '../../../../shared';
 
 @Component({
   selector: 'app-search-input',

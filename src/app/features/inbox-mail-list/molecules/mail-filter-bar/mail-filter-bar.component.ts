@@ -1,12 +1,7 @@
 import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
-import {
-  Language,
-  MailFilter,
-  SortDirection,
-  LANGUAGE_LABELS,
-  INBOX_TRANSLATIONS
-} from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { INBOX_TRANSLATIONS, IconComponent } from '../../../../shared';
+import { Language, MailFilter, SortDirection } from '../../types';
+import { LANGUAGE_LABELS } from '../../translations';
 
 @Component({
   selector: 'app-mail-filter-bar',

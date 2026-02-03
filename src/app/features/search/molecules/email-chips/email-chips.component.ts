@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Chips } from 'primeng/chips';
-import { PLACEHOLDER_TRANSLATIONS } from '../../translations';
+import { PLACEHOLDER_TRANSLATIONS } from '../../../../shared';
 
 @Component({
   selector: 'app-email-chips',

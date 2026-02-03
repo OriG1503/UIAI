@@ -1,5 +1,6 @@
 import { Component, signal, computed, inject, effect } from '@angular/core';
-import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
+import { Mail } from '../../../../shared';
+import { Language, MailFilter, SortDirection } from '../../types';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../core/services';

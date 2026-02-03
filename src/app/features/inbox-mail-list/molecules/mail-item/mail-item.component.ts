@@ -1,6 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { Mail, MailUserInfo, HighlightTextPipe } from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { Mail, MailUserInfo, HighlightTextPipe, IconComponent } from '../../../../shared';
 import { HighlightService } from '../../../../core/services';
 
 export type ContextMenuEvent = {

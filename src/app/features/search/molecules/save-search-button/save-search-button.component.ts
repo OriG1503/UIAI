@@ -1,7 +1,6 @@
 import { Component, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BUTTON_TRANSLATIONS, PLACEHOLDER_TRANSLATIONS, COMMON_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../atoms';
+import { BUTTON_TRANSLATIONS, PLACEHOLDER_TRANSLATIONS, COMMON_TRANSLATIONS, IconComponent } from '../../../../shared';
 
 @Component({
   selector: 'app-save-search-button',

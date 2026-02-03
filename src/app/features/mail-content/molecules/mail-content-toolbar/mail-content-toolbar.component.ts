@@ -1,6 +1,7 @@
 import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
-import { Encoding, ENCODING_LABELS, INBOX_TRANSLATIONS } from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { INBOX_TRANSLATIONS, IconComponent } from '../../../../shared';
+import { Encoding } from '../../types';
+import { ENCODING_LABELS } from '../../translations';
 
 @Component({
   selector: 'app-mail-content-toolbar',

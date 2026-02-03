@@ -1,8 +1,7 @@
 import { Component, output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Menu } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-import { BUTTON_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../atoms';
+import { BUTTON_TRANSLATIONS, IconComponent } from '../../../../shared';
 
 @Component({
   selector: 'app-alert-button',

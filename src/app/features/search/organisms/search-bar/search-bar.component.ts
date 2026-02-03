@@ -8,9 +8,8 @@ import {
   RunButtonComponent,
   SaveSearchButtonComponent,
   AlertButtonComponent,
-  TagOption,
-  SearchModeType,
-} from '../../../../shared';
+} from '../../molecules';
+import { TagOption, SearchModeType } from '../../types';
 
 @Component({
   selector: 'app-search-bar',

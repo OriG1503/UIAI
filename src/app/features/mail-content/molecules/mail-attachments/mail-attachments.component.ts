@@ -1,6 +1,5 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS, HighlightTextPipe } from '../../../../shared';
-import { IconComponent } from '../../../../shared/atoms';
+import { INBOX_TRANSLATIONS, HighlightTextPipe, IconComponent } from '../../../../shared';
 import { HighlightService } from '../../../../core/services';
 
 const EXTENSION_COLORS: Record<string, string> = {
