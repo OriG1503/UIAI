@@ -8,26 +8,26 @@ export class HighlightService {
 
   $searchTerms = computed(() => this._searchTerms());
 
-  setSearchTerms(terms: string[]): void {
+  public setSearchTerms(terms: string[]): void {
     this._searchTerms.set(terms);
   }
 
-  setMailHighlight(mailFilename: string, data: HighlightData): void {
+  public setMailHighlight(mailFilename: string, data: HighlightData): void {
     const highlights = new Map(this._highlights());
     highlights.set(mailFilename, { mailFilename, data });
     this._highlights.set(highlights);
   }
 
-  clearHighlights(): void {
+  public clearHighlights(): void {
     this._highlights.set(new Map());
     this._searchTerms.set([]);
   }
 
-  getMailHighlight(mailFilename: string): HighlightData | undefined {
+  public getMailHighlight(mailFilename: string): HighlightData | undefined {
     return this._highlights().get(mailFilename)?.data;
   }
 
-  isAttachmentContentHighlighted(
+  public isAttachmentContentHighlighted(
     mailFilename: string,
     attachmentName: string
   ): boolean {
@@ -36,7 +36,7 @@ export class HighlightService {
     return data.attachmentContents.includes(attachmentName);
   }
 
-  isAttachmentNameHighlighted(
+  public isAttachmentNameHighlighted(
     mailFilename: string,
     attachmentName: string
   ): boolean {
@@ -45,7 +45,7 @@ export class HighlightService {
     return data.attachmentNames.includes(attachmentName);
   }
 
-  hasAnyAttachmentHighlight(mailFilename: string): boolean {
+  public hasAnyAttachmentHighlight(mailFilename: string): boolean {
     const data = this.getMailHighlight(mailFilename);
     if (!data) return false;
     return (
@@ -53,7 +53,7 @@ export class HighlightService {
     );
   }
 
-  highlightText(text: string, words: string[]): string {
+  public highlightText(text: string, words: string[]): string {
     if (!text || !words || words.length === 0) {
       return text;
     }
@@ -65,7 +65,7 @@ export class HighlightService {
     return text.replace(pattern, '<mark class="search-highlight">$1</mark>');
   }
 
-  highlightBodyContent(html: string, words: string[]): string {
+  public highlightBodyContent(html: string, words: string[]): string {
     if (!html || !words || words.length === 0) {
       return html;
     }

@@ -27,31 +27,31 @@ export class MailContentToolbarComponent {
   readonly translations = INBOX_TRANSLATIONS;
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
+  public onDocumentClick(event: MouseEvent): void {
     const encodingWrapper = this._elementRef.nativeElement.querySelector('.encoding-wrapper');
     if (encodingWrapper && !encodingWrapper.contains(event.target)) {
       this.$isEncodingPopupOpen.set(false);
     }
   }
 
-  onEncodingClick(): void {
+  public onEncodingClick(): void {
     this.$isEncodingPopupOpen.update((value) => !value);
   }
 
-  onEncodingSelect(encoding: Encoding): void {
+  public onEncodingSelect(encoding: Encoding): void {
     this.$isEncodingPopupOpen.set(false);
     this.encodingChange.emit(encoding);
   }
 
-  onDownloadClick(): void {
+  public onDownloadClick(): void {
     this.downloadClick.emit();
   }
 
-  onPreviousClick(): void {
+  public onPreviousClick(): void {
     this.previousClick.emit();
   }
 
-  onNextClick(): void {
+  public onNextClick(): void {
     this.nextClick.emit();
   }
 }

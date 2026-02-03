@@ -51,48 +51,48 @@ export class DateRangePickerComponent {
     return `${day}/${month}/${year}`;
   }
 
-  togglePopup(): void {
+  public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);
     if (!this.$isPopupOpen()) {
       this.$selectedMode.set(null);
     }
   }
 
-  closePopup(): void {
+  public closePopup(): void {
     this.$isPopupOpen.set(false);
     this.$selectedMode.set(null);
   }
 
-  selectMode(mode: DateRangeMode): void {
+  public selectMode(mode: DateRangeMode): void {
     this.$selectedMode.set(mode);
   }
 
-  goBackToModeSelection(): void {
+  public goBackToModeSelection(): void {
     this.$selectedMode.set(null);
   }
 
-  onCalendarSelect(dates: Date[]): void {
+  public onCalendarSelect(dates: Date[]): void {
     this.dateRangeChange.emit(dates);
     if (dates && dates.length === 2 && dates[0] && dates[1]) {
       this.closePopup();
     }
   }
 
-  decrementAmount(): void {
+  public decrementAmount(): void {
     const current = this.$verbalAmount();
     if (current > MIN_VERBAL_DATE_AMOUNT) {
       this.$verbalAmount.set(current - 1);
     }
   }
 
-  incrementAmount(): void {
+  public incrementAmount(): void {
     const current = this.$verbalAmount();
     if (current < MAX_VERBAL_DATE_AMOUNT) {
       this.$verbalAmount.set(current + 1);
     }
   }
 
-  onAmountInput(event: Event): void {
+  public onAmountInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const parsed = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
@@ -101,7 +101,7 @@ export class DateRangePickerComponent {
     }
   }
 
-  applyVerbalRange(): void {
+  public applyVerbalRange(): void {
     const amount = this.$verbalAmount();
     const unit = this.$verbalUnit();
     const today = new Date();

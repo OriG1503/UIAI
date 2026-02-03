@@ -50,32 +50,32 @@ export class MailContentViewComponent {
 
   $mailFilename = computed(() => this.$mail()?.filename ?? '');
 
-  onEncodingChange(encoding: Encoding): void {
+  public onEncodingChange(encoding: Encoding): void {
     this.$selectedEncoding.set(encoding);
     console.log('Encoding changed to:', encoding);
   }
 
-  onDownloadMail(): void {
+  public onDownloadMail(): void {
     const mail = this.$mail();
     if (mail) {
       console.log('Downloading mail:', mail.subject);
     }
   }
 
-  onDownloadAllAttachments(): void {
+  public onDownloadAllAttachments(): void {
     const attachments = this.$attachments();
     console.log('Downloading all attachments:', attachments);
   }
 
-  onDownloadAttachment(filename: string): void {
+  public onDownloadAttachment(filename: string): void {
     console.log('Downloading attachment:', filename);
   }
 
-  onPreviousMail(): void {
+  public onPreviousMail(): void {
     this.previousClick.emit();
   }
 
-  onNextMail(): void {
+  public onNextMail(): void {
     this.nextClick.emit();
   }
 }

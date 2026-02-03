@@ -16,7 +16,7 @@ export class DatePickerComponent {
 
   $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.selectDate, { alias: 'placeholder' });
 
-  onValueChange(value: Date | null): void {
+  public onValueChange(value: Date | null): void {
     this.valueChange.emit(value);
   }
 }

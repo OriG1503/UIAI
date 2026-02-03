@@ -37,23 +37,23 @@ export class TagFilterDropdownComponent {
   });
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
+  public onDocumentClick(event: Event): void {
     if (!this._elementRef.nativeElement.contains(event.target)) {
       this.$isDropdownOpen.set(false);
     }
   }
 
-  onInputFocus(): void {
+  public onInputFocus(): void {
     this.$isDropdownOpen.set(true);
   }
 
-  onInputChange(value: string): void {
+  public onInputChange(value: string): void {
     this.$searchText.set(value);
     this.$isDropdownOpen.set(true);
     this.valueChange.emit(value || null);
   }
 
-  selectOption(option: TagOption): void {
+  public selectOption(option: TagOption): void {
     this.$searchText.set(option.label);
     this.valueChange.emit(option.value);
     this.$isDropdownOpen.set(false);

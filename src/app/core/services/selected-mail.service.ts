@@ -30,19 +30,19 @@ export class SelectedMailService {
     return index >= 0 && index < list.length - 1;
   });
 
-  setSelectedMail(mail: Mail | null): void {
+  public setSelectedMail(mail: Mail | null): void {
     this._selectedMail.set(mail);
   }
 
-  setMailList(mails: Mail[]): void {
+  public setMailList(mails: Mail[]): void {
     this._mailList.set(mails);
   }
 
-  clearSelectedMail(): void {
+  public clearSelectedMail(): void {
     this._selectedMail.set(null);
   }
 
-  selectPrevious(): void {
+  public selectPrevious(): void {
     const index = this.$selectedIndex();
     const list = this._mailList();
     if (index > 0) {
@@ -52,7 +52,7 @@ export class SelectedMailService {
     }
   }
 
-  selectNext(): void {
+  public selectNext(): void {
     const index = this.$selectedIndex();
     const list = this._mailList();
     if (index >= 0 && index < list.length - 1) {

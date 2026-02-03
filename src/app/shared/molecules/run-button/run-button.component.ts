@@ -18,15 +18,15 @@ export class RunButtonComponent {
   readonly viewLabels = SEARCH_VIEW_LABELS;
   readonly translations = SEARCH_TRANSLATIONS;
 
-  togglePopup(): void {
+  public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);
   }
 
-  closePopup(): void {
+  public closePopup(): void {
     this.$isPopupOpen.set(false);
   }
 
-  selectOption(viewType: SearchViewType): void {
+  public selectOption(viewType: SearchViewType): void {
     this.run.emit(viewType);
     this.closePopup();
   }
