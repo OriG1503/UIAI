@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../shared';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 
 @Component({
   selector: 'app-user-mail-bubble',

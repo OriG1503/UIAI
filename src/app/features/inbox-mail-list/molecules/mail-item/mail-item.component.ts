@@ -1,6 +1,9 @@
 import { Component, input, output, computed, inject } from '@angular/core';
-import { Mail, MailUserInfo, HighlightTextPipe, IconComponent } from '../../../../shared';
-import { HighlightService } from '../../../../core/services';
+import { Mail } from '../../../../shared/types/mail.type';
+import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
+import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { HighlightService } from '../../../../core/services/highlight.service';
 
 export type ContextMenuEvent = {
   mail: Mail;

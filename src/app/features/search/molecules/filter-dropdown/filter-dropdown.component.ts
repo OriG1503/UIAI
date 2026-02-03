@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
-import { DropdownOption } from '../../types';
-import { COMMON_TRANSLATIONS } from '../../../../shared';
+import { DropdownOption } from '../../types/dropdown-option.type';
+import { COMMON_TRANSLATIONS } from '../../../../shared/translations/common.translations';
 
 @Component({
   selector: 'app-filter-dropdown',

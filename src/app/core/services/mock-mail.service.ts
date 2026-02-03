@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Mail } from '../../shared';
+import { Mail } from '../../shared/types/mail.type';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Component, output, signal } from '@angular/core';
-import { SearchViewType } from '../../types';
-import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../../../shared';
+import { SearchViewType } from '../../types/search-view-type.type';
+import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../translations/search.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-run-button',

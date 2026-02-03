@@ -1,15 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  TagFilterDropdownComponent,
-  DateRangePickerComponent,
-  SearchModeSwitchComponent,
-  SearchInputComponent,
-  RunButtonComponent,
-  SaveSearchButtonComponent,
-  AlertButtonComponent,
-} from '../../molecules';
-import { TagOption, SearchModeType } from '../../types';
+import { TagFilterDropdownComponent } from '../../molecules/tag-filter-dropdown/tag-filter-dropdown.component';
+import { DateRangePickerComponent } from '../../molecules/date-range-picker/date-range-picker.component';
+import { SearchModeSwitchComponent } from '../../molecules/search-mode-switch/search-mode-switch.component';
+import { SearchInputComponent } from '../../molecules/search-input/search-input.component';
+import { RunButtonComponent } from '../../molecules/run-button/run-button.component';
+import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
+import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
+import { TagOption } from '../../types/tag-option.type';
+import { SearchModeType } from '../../types/search-mode-type.type';
 
 @Component({
   selector: 'app-search-bar',

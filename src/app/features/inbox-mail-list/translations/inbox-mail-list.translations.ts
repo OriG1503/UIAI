@@ -1,4 +1,5 @@
-import { Language, MailFilter } from '../types';
+import { Language } from '../types/language.type';
+import { MailFilter } from '../types/mail-filter.type';
 
 export const MAIL_FILTER_LABELS: Record<MailFilter, string> = {
   all: 'הכל',

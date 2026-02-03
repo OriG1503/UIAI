@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { SearchModeType } from '../../types';
-import { SEARCH_MODE_LABELS } from '../../translations';
+import { SearchModeType } from '../../types/search-mode-type.type';
+import { SEARCH_MODE_LABELS } from '../../translations/search.translations';
 
 @Component({
   selector: 'app-search-mode-switch',

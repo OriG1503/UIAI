@@ -1,5 +1,5 @@
-import { SearchModeType } from '../types';
-import { SearchViewType } from '../types';
+import { SearchModeType } from '../types/search-mode-type.type';
+import { SearchViewType } from '../types/search-view-type.type';
 
 export const SEARCH_MODE_LABELS: Record<SearchModeType, string> = {
   regular: 'חיפוש רגיל',

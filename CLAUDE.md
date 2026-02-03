@@ -59,7 +59,7 @@ src/app/
 - Observable subscriptions should be in components
 - Mock data instead of real API calls
 - SCSS for component styling
-- Barrel exports (index.ts) in each folder
+- **Direct imports**: Always import from the specific file path, not from folder barrels (no index.ts files)
 - No spec/test files (.spec.ts) in the project
 - Prettier for code formatting (see config file)
 - Each type should have its own file in the owning feature's `types/` folder (or `shared/types/` only if used by 2+ features)

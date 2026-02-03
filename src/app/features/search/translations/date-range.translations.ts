@@ -1,5 +1,5 @@
-import { DateRangeMode } from '../types';
-import { TimeUnit } from '../types';
+import { DateRangeMode } from '../types/date-range-mode.type';
+import { TimeUnit } from '../types/time-unit.type';
 
 export const DATE_RANGE_MODE_LABELS: Record<DateRangeMode, string> = {
   calendar: 'לוח שנה',

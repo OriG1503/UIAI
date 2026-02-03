@@ -1,7 +1,8 @@
 import { Component, input, output, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TagOption } from '../../types';
-import { PLACEHOLDER_TRANSLATIONS, IconComponent } from '../../../../shared';
+import { TagOption } from '../../types/tag-option.type';
+import { PLACEHOLDER_TRANSLATIONS } from '../../../../shared/translations/common.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-tag-filter-dropdown',

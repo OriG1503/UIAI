@@ -1,4 +1,4 @@
-import { Encoding } from '../types';
+import { Encoding } from '../types/encoding.type';
 
 export const ENCODING_LABELS: Record<Encoding, string> = {
   'none': 'ללא',

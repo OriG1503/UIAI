@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { SEARCH_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../../../shared';
+import { SEARCH_TRANSLATIONS } from '../../translations/search.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-search-input',

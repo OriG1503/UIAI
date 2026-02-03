@@ -1,6 +1,7 @@
 import { Component, input, computed, inject, signal, output } from '@angular/core';
-import { Mail, INBOX_TRANSLATIONS } from '../../../../shared';
-import { Encoding } from '../../types';
+import { Mail } from '../../../../shared/types/mail.type';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
+import { Encoding } from '../../types/encoding.type';
 import { MockMailContentService } from '../../../../core/services/mock-mail-content.service';
 import { MailContentToolbarComponent } from '../../molecules/mail-content-toolbar/mail-content-toolbar.component';
 import { MailMetadataComponent } from '../../molecules/mail-metadata/mail-metadata.component';

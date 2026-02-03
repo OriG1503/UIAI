@@ -2,10 +2,11 @@ import { Component, input, output, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { Select } from 'primeng/select';
-import { DateRangeMode, TimeUnit, TimeUnitOption } from '../../types';
-import { MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../constants';
-import { DATE_RANGE_MODE_LABELS, TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../translations';
-import { IconComponent } from '../../../../shared';
+import { DateRangeMode } from '../../types/date-range-mode.type';
+import { TimeUnit, TimeUnitOption } from '../../types/time-unit.type';
+import { MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../constants/date-range.constants';
+import { DATE_RANGE_MODE_LABELS, TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../translations/date-range.translations';
+import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-date-range-picker',
