@@ -15,7 +15,7 @@ export class SearchModeSwitchComponent {
 
   readonly labels = SEARCH_MODE_LABELS;
 
-  onModeSelect(mode: SearchModeType): void {
+  public onModeSelect(mode: SearchModeType): void {
     this.modeChange.emit(mode);
   }
 }

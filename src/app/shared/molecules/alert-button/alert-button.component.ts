@@ -31,7 +31,7 @@ export class AlertButtonComponent {
     },
   ];
 
-  onButtonClick(event: Event): void {
+  public onButtonClick(event: Event): void {
     this.menu.toggle(event);
   }
 }

@@ -20,19 +20,19 @@ export class SaveSearchButtonComponent {
   readonly placeholders = PLACEHOLDER_TRANSLATIONS;
   readonly common = COMMON_TRANSLATIONS;
 
-  togglePopup(): void {
+  public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);
     if (!this.$isPopupOpen()) {
       this.$searchName.set('');
     }
   }
 
-  closePopup(): void {
+  public closePopup(): void {
     this.$isPopupOpen.set(false);
     this.$searchName.set('');
   }
 
-  onSave(): void {
+  public onSave(): void {
     const name = this.$searchName();
     if (name.trim()) {
       this.save.emit(name);

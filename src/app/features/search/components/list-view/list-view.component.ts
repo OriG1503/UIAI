@@ -17,11 +17,11 @@ export class ListViewComponent {
   readonly $hasPrevious = this._selectedMailService.$hasPrevious;
   readonly $hasNext = this._selectedMailService.$hasNext;
 
-  onPreviousMail(): void {
+  public onPreviousMail(): void {
     this._selectedMailService.selectPrevious();
   }
 
-  onNextMail(): void {
+  public onNextMail(): void {
     this._selectedMailService.selectNext();
   }
 }

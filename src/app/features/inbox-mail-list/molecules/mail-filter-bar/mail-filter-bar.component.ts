@@ -37,37 +37,37 @@ export class MailFilterBarComponent {
   readonly translations = INBOX_TRANSLATIONS;
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
+  public onDocumentClick(event: MouseEvent): void {
     const translateWrapper = this._elementRef.nativeElement.querySelector('.translate-wrapper');
     if (translateWrapper && !translateWrapper.contains(event.target)) {
       this.$isLanguagePopupOpen.set(false);
     }
   }
 
-  onFilterClick(filter: MailFilter): void {
+  public onFilterClick(filter: MailFilter): void {
     this.filterChange.emit(filter);
   }
 
-  onSortToggle(): void {
+  public onSortToggle(): void {
     const newDirection: SortDirection = this.$sortDirection() === 'desc' ? 'asc' : 'desc';
     this.sortChange.emit(newDirection);
   }
 
-  onTranslateClick(): void {
+  public onTranslateClick(): void {
     this.$isLanguagePopupOpen.update((value) => !value);
   }
 
-  onLanguageSelect(language: Language): void {
+  public onLanguageSelect(language: Language): void {
     this.$selectedLanguage.set(language);
     this.$isLanguagePopupOpen.set(false);
     this.translateClick.emit(language);
   }
 
-  onExcelClick(): void {
+  public onExcelClick(): void {
     this.exportModeToggle.emit();
   }
 
-  onExportClick(): void {
+  public onExportClick(): void {
     this.exportClick.emit();
   }
 }

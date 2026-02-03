@@ -41,27 +41,27 @@ export class SearchBarComponent {
 
   constructor(private _router: Router) {}
 
-  onTagChange(tag: string | null): void {
+  public onTagChange(tag: string | null): void {
     this.$tag.set(tag);
   }
 
-  onDateRangeChange(dateRange: Date[] | null): void {
+  public onDateRangeChange(dateRange: Date[] | null): void {
     this.$dateRange.set(dateRange);
   }
 
-  onSearchModeChange(mode: SearchModeType): void {
+  public onSearchModeChange(mode: SearchModeType): void {
     this.$searchMode.set(mode);
   }
 
-  onSearchTextChange(text: string): void {
+  public onSearchTextChange(text: string): void {
     this.$searchText.set(text);
   }
 
-  onAdvancedClick(): void {
+  public onAdvancedClick(): void {
     console.log('Advanced query clicked');
   }
 
-  onRun(): void {
+  public onRun(): void {
     const query = {
       tag: this.$tag(),
       dateRange: this.$dateRange(),
@@ -72,15 +72,15 @@ export class SearchBarComponent {
     this._router.navigate(['/search', 'list']);
   }
 
-  onSaveSearch(name: string): void {
+  public onSaveSearch(name: string): void {
     console.log('Saving search as:', name);
   }
 
-  onOpenIssue(): void {
+  public onOpenIssue(): void {
     console.log('Open issue clicked');
   }
 
-  onOpenRequest(): void {
+  public onOpenRequest(): void {
     console.log('Open request clicked');
   }
 }

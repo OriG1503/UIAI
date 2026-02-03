@@ -124,7 +124,7 @@ export class MailListComponent {
 
   $selectedCount = computed(() => this.$selectedMails().size);
 
-  onFilterChange(filter: MailFilter): void {
+  public onFilterChange(filter: MailFilter): void {
     if (this.$activeFilter() === filter) {
       this.$activeFilter.set('all');
     } else {
@@ -132,29 +132,29 @@ export class MailListComponent {
     }
   }
 
-  onSortChange(direction: SortDirection): void {
+  public onSortChange(direction: SortDirection): void {
     this.$sortDirection.set(direction);
   }
 
-  onTranslateClick(language: Language): void {
+  public onTranslateClick(language: Language): void {
     console.log('Translation language selected:', language);
   }
 
-  onExportModeToggle(): void {
+  public onExportModeToggle(): void {
     this.$isSelectMode.update((value) => !value);
     if (!this.$isSelectMode()) {
       this.$selectedMails.set(new Set());
     }
   }
 
-  onExportClick(): void {
+  public onExportClick(): void {
     const selectedMailIds = Array.from(this.$selectedMails());
     const selectedMailsData = this.$allMails().filter((mail) => selectedMailIds.includes(mail.filename));
     console.log('Exporting mails to Excel:', selectedMailsData);
     this.exportToExcel(selectedMailsData);
   }
 
-  exportToExcel(mails: Mail[]): void {
+  public exportToExcel(mails: Mail[]): void {
     const headers = ['Subject', 'From', 'To', 'Date', 'Tag'];
     const rows = mails.map((mail) => [
       mail.subject,
@@ -177,17 +177,17 @@ export class MailListComponent {
     document.body.removeChild(link);
   }
 
-  onStarClick(mail: Mail): void {
+  public onStarClick(mail: Mail): void {
     this._mailService.toggleStarred(mail.filename);
   }
 
-  onMailClick(mail: Mail): void {
+  public onMailClick(mail: Mail): void {
     this._mailService.markAsRead(mail.filename);
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
 
-  onSelectionChange(mail: Mail): void {
+  public onSelectionChange(mail: Mail): void {
     this.$selectedMails.update((selected) => {
       const newSelected = new Set(selected);
       if (newSelected.has(mail.filename)) {
@@ -199,7 +199,7 @@ export class MailListComponent {
     });
   }
 
-  onContextMenu(event: ContextMenuEvent): void {
+  public onContextMenu(event: ContextMenuEvent): void {
     this.$contextMenu.set({
       isOpen: true,
       x: event.x,
@@ -208,11 +208,11 @@ export class MailListComponent {
     });
   }
 
-  onCloseContextMenu(): void {
+  public onCloseContextMenu(): void {
     this.$contextMenu.set({ isOpen: false, x: 0, y: 0, mail: null });
   }
 
-  onMarkAsUnread(): void {
+  public onMarkAsUnread(): void {
     const mail = this.$contextMenu().mail;
     if (mail) {
       this._mailService.markAsUnread(mail.filename);
@@ -220,20 +220,20 @@ export class MailListComponent {
     this.onCloseContextMenu();
   }
 
-  isMailStarred(mail: Mail): boolean {
+  public isMailStarred(mail: Mail): boolean {
     return this._mailService.isStarred(mail.filename);
   }
 
-  isMailSelected(mail: Mail): boolean {
+  public isMailSelected(mail: Mail): boolean {
     return this.$selectedMails().has(mail.filename);
   }
 
-  isCurrentMail(mail: Mail): boolean {
+  public isCurrentMail(mail: Mail): boolean {
     const selectedMail = this._selectedMailService.selectedMail();
     return selectedMail?.filename === mail.filename;
   }
 
-  trackByMail(index: number, mail: Mail): string {
+  public trackByMail(index: number, mail: Mail): string {
     return mail.filename;
   }
 }

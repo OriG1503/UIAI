@@ -8,7 +8,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class HighlightTextPipe implements PipeTransform {
   private _sanitizer = inject(DomSanitizer);
 
-  transform(text: string, words: string[]): SafeHtml {
+  public transform(text: string, words: string[]): SafeHtml {
     if (!text || !words || words.length === 0) {
       return text;
     }

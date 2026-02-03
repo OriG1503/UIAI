@@ -384,7 +384,7 @@ export class MockMailContentService {
     ],
   ]);
 
-  getMailContent(filename: string): string {
+  public getMailContent(filename: string): string {
     return this._mailContents.get(filename) ?? '<p>No content available for this email.</p>';
   }
 }

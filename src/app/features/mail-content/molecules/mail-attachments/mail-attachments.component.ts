@@ -57,35 +57,35 @@ export class MailAttachmentsComponent {
   $attachmentCount = computed(() => this.$attachments().length);
   $searchTerms = computed(() => this._highlightService.$searchTerms());
 
-  isAttachmentContentHighlighted(attachmentName: string): boolean {
+  public isAttachmentContentHighlighted(attachmentName: string): boolean {
     return this._highlightService.isAttachmentContentHighlighted(
       this.$mailFilename(),
       attachmentName
     );
   }
 
-  isAttachmentNameHighlighted(attachmentName: string): boolean {
+  public isAttachmentNameHighlighted(attachmentName: string): boolean {
     return this._highlightService.isAttachmentNameHighlighted(
       this.$mailFilename(),
       attachmentName
     );
   }
 
-  getExtensionColor(filename: string): string {
+  public getExtensionColor(filename: string): string {
     const ext = filename.split('.').pop()?.toLowerCase() ?? '';
     return EXTENSION_COLORS[ext] ?? EXTENSION_COLORS['default'];
   }
 
-  getExtensionIcon(filename: string): string {
+  public getExtensionIcon(filename: string): string {
     const ext = filename.split('.').pop()?.toLowerCase() ?? '';
     return EXTENSION_ICONS[ext] ?? EXTENSION_ICONS['default'];
   }
 
-  onDownloadAllClick(): void {
+  public onDownloadAllClick(): void {
     this.downloadAllClick.emit();
   }
 
-  onAttachmentClick(filename: string): void {
+  public onAttachmentClick(filename: string): void {
     this.downloadAttachmentClick.emit(filename);
   }
 }

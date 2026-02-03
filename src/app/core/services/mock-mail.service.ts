@@ -13,7 +13,7 @@ export class MockMailService {
 
   readonly userEmail = 'ori@gmail.com';
 
-  toggleStarred(mailFilename: string): void {
+  public toggleStarred(mailFilename: string): void {
     this._starredMailIds.update((starred) => {
       const newStarred = new Set(starred);
       if (newStarred.has(mailFilename)) {
@@ -25,19 +25,19 @@ export class MockMailService {
     });
   }
 
-  markAsRead(mailFilename: string): void {
+  public markAsRead(mailFilename: string): void {
     this._mails.update((mails) =>
       mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: true } : mail))
     );
   }
 
-  markAsUnread(mailFilename: string): void {
+  public markAsUnread(mailFilename: string): void {
     this._mails.update((mails) =>
       mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail))
     );
   }
 
-  isStarred(mailFilename: string): boolean {
+  public isStarred(mailFilename: string): boolean {
     return this._starredMailIds().has(mailFilename);
   }
 

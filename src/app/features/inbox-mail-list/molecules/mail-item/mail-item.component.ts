@@ -97,12 +97,12 @@ export class MailItemComponent {
     return user.tag ?? '';
   }
 
-  onStarClick(event: Event): void {
+  public onStarClick(event: Event): void {
     event.stopPropagation();
     this.starClick.emit();
   }
 
-  onMailClick(): void {
+  public onMailClick(): void {
     if (this.$isSelectMode()) {
       this.selectionChange.emit();
     } else {
@@ -110,7 +110,7 @@ export class MailItemComponent {
     }
   }
 
-  onContextMenu(event: MouseEvent): void {
+  public onContextMenu(event: MouseEvent): void {
     event.preventDefault();
     this.contextMenu.emit({
       mail: this.$mail(),

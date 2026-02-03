@@ -37,7 +37,7 @@ export class TagFilterDropdownComponent {
   });
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
+  public onDocumentClick(event: Event): void {
     if (!this._elementRef.nativeElement.contains(event.target)) {
       this.$isDropdownOpen.set(false);
     }

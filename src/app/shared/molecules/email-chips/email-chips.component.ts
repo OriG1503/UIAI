@@ -16,7 +16,7 @@ export class EmailChipsComponent {
 
   $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.addEmail, { alias: 'placeholder' });
 
-  onValuesChange(values: string[]): void {
+  public onValuesChange(values: string[]): void {
     this.valuesChange.emit(values);
   }
 }

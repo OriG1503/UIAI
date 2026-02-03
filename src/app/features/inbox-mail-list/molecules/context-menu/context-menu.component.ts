@@ -47,7 +47,7 @@ export class ContextMenuComponent implements AfterViewInit {
     return y;
   });
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     const menuElement = this._elementRef.nativeElement.querySelector('.context-menu');
     if (menuElement) {
       this._menuDimensions.set({
@@ -58,13 +58,13 @@ export class ContextMenuComponent implements AfterViewInit {
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent): void {
+  public onDocumentClick(event: MouseEvent): void {
     if (!this._elementRef.nativeElement.contains(event.target)) {
       this.closeMenu.emit();
     }
   }
 
-  onMarkAsUnread(): void {
+  public onMarkAsUnread(): void {
     this.markAsUnreadClick.emit();
   }
 }

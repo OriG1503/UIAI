@@ -18,7 +18,7 @@ export class FilterDropdownComponent {
   $options = input<DropdownOption[]>([], { alias: 'options' });
   $placeholder = input<string>(COMMON_TRANSLATIONS.select, { alias: 'placeholder' });
 
-  onValueChange(value: string | null): void {
+  public onValueChange(value: string | null): void {
     this.valueChange.emit(value);
   }
 }

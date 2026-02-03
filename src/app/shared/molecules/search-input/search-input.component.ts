@@ -18,11 +18,11 @@ export class SearchInputComponent {
 
   readonly translations = SEARCH_TRANSLATIONS;
 
-  onValueChange(value: string): void {
+  public onValueChange(value: string): void {
     this.valueChange.emit(value);
   }
 
-  onAdvancedClick(): void {
+  public onAdvancedClick(): void {
     this.advancedClick.emit();
   }
 }
