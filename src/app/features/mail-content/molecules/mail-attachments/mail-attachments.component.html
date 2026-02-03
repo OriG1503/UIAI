@@ -7,6 +7,8 @@
     <button
       type="button"
       class="attachment-item"
+      [class.highlight-attachment-content]="isAttachmentContentHighlighted(attachment)"
+      [class.highlight-attachment-name]="isAttachmentNameHighlighted(attachment)"
       (click)="onAttachmentClick(attachment)"
     >
       <app-icon
@@ -15,7 +17,7 @@
         [color]="getExtensionColor(attachment)"
         class="file-icon"
       />
-      <span class="attachment-name">{{ attachment }}</span>
+      <span class="attachment-name" [innerHTML]="attachment | highlightText:$searchTerms()"></span>
       <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
       <div class="download-overlay">
         <app-icon name="download" size="1rem" color="var(--color-white)" />

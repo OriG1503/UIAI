@@ -2,6 +2,7 @@ import { Component, signal, computed, inject, effect } from '@angular/core';
 import { Language, MailFilter, SortDirection, Mail } from '../../../../shared';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
+import { HighlightService } from '../../../../core/services';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
@@ -24,10 +25,62 @@ type ContextMenuState = {
 export class MailListComponent {
   private _mailService = inject(MockMailService);
   private _selectedMailService = inject(SelectedMailService);
+  private _highlightService = inject(HighlightService);
 
   constructor() {
     effect(() => {
       this._selectedMailService.setMailList(this.$filteredMails());
+    });
+
+    this._initMockHighlights();
+  }
+
+  private _initMockHighlights(): void {
+    this._highlightService.setSearchTerms([
+      'Budget',
+      'David',
+      'Project',
+      'Alpha',
+      'Rachel',
+      'HR',
+      'Review',
+      'Incident',
+      'Dashboard',
+    ]);
+
+    this._highlightService.setMailHighlight('mail-001', {
+      searchTerms: ['Budget', 'David'],
+      bodyWords: ['meeting', 'quarterly', 'finance'],
+      attachmentContents: ['budget.xlsx'],
+      attachmentNames: ['presentation-final-v3-approved-by-finance-committee-jan-2024.pptx'],
+    });
+
+    this._highlightService.setMailHighlight('mail-003', {
+      searchTerms: ['Project', 'Alpha', 'Rachel'],
+      bodyWords: ['status', 'update', 'deadline'],
+      attachmentContents: ['status-report.pdf'],
+      attachmentNames: [],
+    });
+
+    this._highlightService.setMailHighlight('mail-005', {
+      searchTerms: ['HR', 'Review'],
+      bodyWords: ['interview', 'candidate', 'feedback'],
+      attachmentContents: ['cv.docx', 'scoring.xlsx'],
+      attachmentNames: ['candidate-review-technical-and-soft-skills-evaluation-extended-version.docx'],
+    });
+
+    this._highlightService.setMailHighlight('mail-009', {
+      searchTerms: ['Incident'],
+      bodyWords: ['production', 'downtime', 'resolved'],
+      attachmentContents: ['incident-report.pdf', 'wmi-provider-host-dump.log'],
+      attachmentNames: ['cpu-usage-spike-graph-2024-01-16.png'],
+    });
+
+    this._highlightService.setMailHighlight('mail-014', {
+      searchTerms: ['Dashboard', 'Review'],
+      bodyWords: ['design', 'revamp', 'responsive'],
+      attachmentContents: [],
+      attachmentNames: ['dashboard-layout-v2-dark-mode-mobile-desktop-responsive.fig'],
     });
   }
 

@@ -1,5 +1,10 @@
 :host {
   display: block;
+
+  ::ng-deep mark.search-highlight {
+    background-color: var(--color-yellow);
+    border-radius: 0.125rem;
+  }
 }
 
 .mail-item {
@@ -120,6 +125,10 @@
             font-size: 0.625rem;
             font-weight: 600;
             color: var(--color-dark-navy);
+          }
+
+          &.highlight-attachment-badge .attachment-count {
+            background-color: var(--color-yellow);
           }
         }
       }

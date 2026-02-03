@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, input, computed, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HighlightService } from '../../../../core/services';
 
 @Component({
   selector: 'app-mail-body',
@@ -9,11 +10,28 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrl: './mail-body.component.scss',
 })
 export class MailBodyComponent {
-  $content = input.required<string>({ alias: 'content' });
+  private _sanitizer = inject(DomSanitizer);
+  private _highlightService = inject(HighlightService);
 
-  constructor(private _sanitizer: DomSanitizer) {}
+  $content = input.required<string>({ alias: 'content' });
+  $mailFilename = input<string>('', { alias: 'mailFilename' });
+
+  $highlightedContent = computed(() => {
+    const content = this.$content();
+    const mailFilename = this.$mailFilename();
+    const highlightData = this._highlightService.getMailHighlight(mailFilename);
+
+    if (!highlightData || highlightData.bodyWords.length === 0) {
+      return content;
+    }
+
+    return this._highlightService.highlightBodyContent(
+      content,
+      highlightData.bodyWords
+    );
+  });
 
   get safeContent(): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustHtml(this.$content());
+    return this._sanitizer.bypassSecurityTrustHtml(this.$highlightedContent());
   }
 }
