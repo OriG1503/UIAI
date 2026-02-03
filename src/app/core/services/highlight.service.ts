@@ -32,7 +32,9 @@ export class HighlightService {
     attachmentName: string
   ): boolean {
     const data = this.getMailHighlight(mailFilename);
-    if (!data) return false;
+    if (!data) {
+      return false;
+    }
     return data.attachmentContents.includes(attachmentName);
   }
 
@@ -41,13 +43,17 @@ export class HighlightService {
     attachmentName: string
   ): boolean {
     const data = this.getMailHighlight(mailFilename);
-    if (!data) return false;
+    if (!data) {
+      return false;
+    }
     return data.attachmentNames.includes(attachmentName);
   }
 
   public hasAnyAttachmentHighlight(mailFilename: string): boolean {
     const data = this.getMailHighlight(mailFilename);
-    if (!data) return false;
+    if (!data) {
+      return false;
+    }
     return (
       data.attachmentContents.length > 0 || data.attachmentNames.length > 0
     );

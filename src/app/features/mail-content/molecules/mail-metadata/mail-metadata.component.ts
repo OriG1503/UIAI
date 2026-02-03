@@ -51,13 +51,17 @@ export class MailMetadataComponent {
 
   $ccDisplay = computed(() => {
     const cc = this.$mail().cc;
-    if (!cc || cc.length === 0) return '';
+    if (!cc || cc.length === 0) {
+      return '';
+    }
     return cc.map((user) => this._formatUserInfo(user)).join(', ');
   });
 
   $bccDisplay = computed(() => {
     const bcc = this.$mail().bcc;
-    if (!bcc || bcc.length === 0) return '';
+    if (!bcc || bcc.length === 0) {
+      return '';
+    }
     return bcc.map((user) => this._formatUserInfo(user)).join(', ');
   });
 

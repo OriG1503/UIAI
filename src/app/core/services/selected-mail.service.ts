@@ -18,7 +18,9 @@ export class SelectedMailService {
   $selectedIndex = computed(() => {
     const mail = this._selectedMail();
     const list = this._mailList();
-    if (!mail || list.length === 0) return -1;
+    if (!mail || list.length === 0) {
+      return -1;
+    }
     return list.findIndex((m) => m.filename === mail.filename);
   });
 

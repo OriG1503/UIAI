@@ -77,6 +77,7 @@ src/app/
 
 ## Code Style
 - **No** `let`, `for`, `while` - use `forEach`, `map`, `filter`, etc.
+- **Always use braces `{}` for `if` statements** - never use shorthand single-line `if` without braces (e.g., `if (x) return;`). Always wrap the body in `{}`
 - Clickable elements must use `<button>` tag (not labels, divs, spans)
 - Navigation links must use `<a>` tag
 
