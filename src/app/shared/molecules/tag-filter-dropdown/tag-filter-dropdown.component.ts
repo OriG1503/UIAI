@@ -43,7 +43,7 @@ export class TagFilterDropdownComponent {
     }
   }
 
-  onInputFocus(): void {
+  public onInputFocus(): void {
     this.$isDropdownOpen.set(true);
   }
 
