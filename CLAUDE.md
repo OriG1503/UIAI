@@ -61,7 +61,7 @@ src/app/
 - SCSS for component styling
 - **Direct imports**: Always import from the specific file path, not from folder barrels (no index.ts files)
 - No spec/test files (.spec.ts) in the project
-- Prettier for code formatting (see config file)
+- Prettier for code formatting: `semi: true`, `arrowParens: always`, `useTabs: false`, `bracketSpacing: true`,`printWidth: 120`, `singleQuote: true`, `trailingComma: "none"`, `tabWidth: 2`, `singleAttributePerLine: true`
 - Each type should have its own file in the owning feature's `types/` folder (or `shared/types/` only if used by 2+ features)
 - Prefer `type` over `interface`
 - **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
@@ -118,6 +118,7 @@ src/app/
 - `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
 - `MockMailContentService` - Email body content retrieval
 - `SelectedMailService` - Shared state for currently selected mail and navigation
+- `HighlightService` - Search term highlighting: per-mail highlight state, `highlightText()` and `highlightBodyContent()` for safe HTML marking
 
 ## Store Structure (in `core/`)
 State slices: `call`, `tag`, `query`, `router`, `search`

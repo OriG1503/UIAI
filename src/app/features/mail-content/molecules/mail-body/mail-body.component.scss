@@ -2,11 +2,6 @@
   display: block;
   flex: 1;
   overflow-y: auto;
-
-  ::ng-deep mark.search-highlight {
-    background-color: var(--color-yellow);
-    border-radius: 0.125rem;
-  }
 }
 
 .mail-body {
