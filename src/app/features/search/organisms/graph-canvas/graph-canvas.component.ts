@@ -28,6 +28,8 @@ import {
   EDGE_COLOR_DEFAULT,
   EDGE_COLOR_SELECTED,
   LABEL_COLOR_DEFAULT,
+  LABEL_RENDERED_SIZE_THRESHOLD,
+  LABEL_CLICK_RADIUS,
   FORCEATLAS2_ITERATIONS,
   FORCEATLAS2_SETTINGS
 } from '../../constants/graph.constants';
@@ -152,7 +154,8 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         },
         labelSize: 12,
         labelColor: { color: LABEL_COLOR_DEFAULT },
-        labelRenderedSizeThreshold: 0
+        labelRenderedSizeThreshold: LABEL_RENDERED_SIZE_THRESHOLD,
+        defaultDrawNodeHover: () => {}
       });
 
       this._sigma.on('clickNode', ({ node }) => {
@@ -167,8 +170,21 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         });
       });
 
-      this._sigma.on('clickStage', () => {
-        this._ngZone.run(() => this.stageClick.emit());
+      this._sigma.on('clickStage', ({ event }) => {
+        const nearNode = this._findNodeNearViewport(event.x, event.y);
+        if (nearNode) {
+          this._ngZone.run(() => this.nodeClick.emit(nearNode));
+        } else {
+          this._ngZone.run(() => this.stageClick.emit());
+        }
+      });
+
+      this._sigma.on('enterNode', () => {
+        this._containerRef.nativeElement.style.cursor = 'pointer';
+      });
+
+      this._sigma.on('leaveNode', () => {
+        this._containerRef.nativeElement.style.cursor = 'default';
       });
 
       const selection = untracked(() => this.$selection());
@@ -252,5 +268,31 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     });
 
     this._sigma.refresh();
+  }
+
+  private _findNodeNearViewport(viewportX: number, viewportY: number): string | null {
+    if (!this._sigma || !this._graph) {
+      return null;
+    }
+
+    const visibleNodes = this.$visibleNodes();
+    let closestNode: string | null = null;
+    let closestDist = Infinity;
+
+    this._graph.forEachNode((node, attrs) => {
+      if (!visibleNodes.has(node)) {
+        return;
+      }
+      const nodeViewport = this._sigma!.graphToViewport({ x: attrs['x'], y: attrs['y'] });
+      const dist = Math.sqrt(
+        Math.pow(viewportX - nodeViewport.x, 2) + Math.pow(viewportY - nodeViewport.y, 2)
+      );
+      if (dist < LABEL_CLICK_RADIUS && dist < closestDist) {
+        closestDist = dist;
+        closestNode = node;
+      }
+    });
+
+    return closestNode;
   }
 }

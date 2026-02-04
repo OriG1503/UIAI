@@ -1,5 +1,5 @@
-export const NODE_SIZE_MIN = 3;
-export const NODE_SIZE_MAX = 15;
+export const NODE_SIZE_MIN = 15;
+export const NODE_SIZE_MAX = 45;
 export const NODE_SIZE_DEFAULT = 6;
 
 export const EDGE_SIZE_MIN = 1;
@@ -18,6 +18,8 @@ export const EDGE_COLOR_DIMMED = '#efefef';
 
 export const LABEL_COLOR_DEFAULT = '#03153a';
 export const LABEL_COLOR_DIMMED = '#bfc4cd';
+export const LABEL_RENDERED_SIZE_THRESHOLD = 1;
+export const LABEL_CLICK_RADIUS = 30;
 
 export const DRAWER_HEIGHT_MIN = 20;
 export const DRAWER_HEIGHT_MAX = 80;
