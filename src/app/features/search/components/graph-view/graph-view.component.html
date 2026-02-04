@@ -1,0 +1,36 @@
+<div class="graph-view">
+  <div class="graph-area">
+    <div class="graph-canvas-wrapper">
+      <app-graph-canvas
+        [graphData]="$graphData()"
+        [selection]="$selection()"
+        [visibleNodes]="$visibleNodeEmails()"
+        (nodeClick)="onNodeClick($event)"
+        (edgeClick)="onEdgeClick($event)"
+        (stageClick)="onStageClick()"
+      />
+
+      <app-graph-drawer
+        [mails]="$filteredMails()"
+        [isOpen]="$isDrawerOpen()"
+        (drawerClose)="onDrawerClose()"
+      />
+    </div>
+  </div>
+
+  <div class="node-panel-area">
+    <app-node-panel
+      [nodes]="$nodeList()"
+      [selectedEmail]="$selectedNodeEmail()"
+      [dateMin]="$dateMin()"
+      [dateMax]="$dateMax()"
+      [dateRangeValues]="$dateRangeValues()"
+      [mailCountMin]="1"
+      [mailCountMax]="$mailCountMax()"
+      [mailCountRangeValues]="$mailCountRangeValues()"
+      (nodeClick)="onNodeClick($event)"
+      (dateRangeChange)="onDateRangeChange($event)"
+      (mailCountRangeChange)="onMailCountRangeChange($event)"
+    />
+  </div>
+</div>

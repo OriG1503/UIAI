@@ -9,6 +9,7 @@ import { SaveSearchButtonComponent } from '../../molecules/save-search-button/sa
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
 import { TagOption } from '../../types/tag-option.type';
 import { SearchModeType } from '../../types/search-mode-type.type';
+import { SearchViewType } from '../../types/search-view-type.type';
 
 @Component({
   selector: 'app-search-bar',
@@ -59,7 +60,7 @@ export class SearchBarComponent {
     console.log('Advanced query clicked');
   }
 
-  public onRun(): void {
+  public onRun(viewType: SearchViewType): void {
     const query = {
       tag: this.$tag(),
       dateRange: this.$dateRange(),
@@ -67,7 +68,7 @@ export class SearchBarComponent {
       searchText: this.$searchText(),
     };
     console.log('Running search:', query);
-    this._router.navigate(['/search', 'list']);
+    this._router.navigate(['/search', viewType]);
   }
 
   public onSaveSearch(name: string): void {

@@ -1,0 +1,76 @@
+<div class="node-panel">
+  <div class="filter-bubble">
+    <span class="filter-title">{{ translations.nodePanelTitle }}</span>
+
+    <div class="filter-group">
+      <div class="filter-header">
+        <span class="filter-label">{{ translations.dateFilterLabel }}</span>
+        <span class="filter-range-text">{{ formatDate($dateRangeValues()[0]) }} - {{ formatDate($dateRangeValues()[1]) }}</span>
+      </div>
+      <p-slider
+        [min]="$dateMin()"
+        [max]="$dateMax()"
+        [ngModel]="$dateRangeValues()"
+        (ngModelChange)="onDateRangeChange($event)"
+        [range]="true"
+        [step]="$dateStep()"
+        [style]="{ width: '100%' }"
+      />
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-header">
+        <span class="filter-label">{{ translations.mailCountFilterLabel }}</span>
+        <span class="filter-range-text">{{ $mailCountRangeValues()[0] }} - {{ $mailCountRangeValues()[1] }}</span>
+      </div>
+      <p-slider
+        [min]="$mailCountMin()"
+        [max]="$mailCountMax()"
+        [ngModel]="$mailCountRangeValues()"
+        (ngModelChange)="onMailCountRangeChange($event)"
+        [range]="true"
+        [step]="1"
+        [style]="{ width: '100%' }"
+      />
+    </div>
+  </div>
+
+  <div class="node-list-bubble">
+    <div class="node-list-search">
+      <app-icon
+        name="search"
+        size="0.85rem"
+        color="var(--color-navy-gray)"
+      />
+      <input
+        type="text"
+        class="node-search-input"
+        [placeholder]="translations.searchPlaceholder"
+        [ngModel]="$searchText()"
+        (ngModelChange)="onSearchChange($event)"
+      />
+    </div>
+
+    <div class="node-list">
+      @for (node of $filteredNodes(); track node.email) {
+        <button
+          class="node-item"
+          [class.node-item-checked]="$selectedEmail() === node.email"
+          (click)="onNodeClick(node.email)"
+        >
+          <div class="node-check">
+            @if ($selectedEmail() === node.email) {
+              <app-icon
+                name="check"
+                size="0.65rem"
+                color="var(--color-white)"
+              />
+            }
+          </div>
+          <span class="node-email">{{ node.email }}</span>
+          <span class="node-count">{{ node.mailCount }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+@if ($isOpen()) {
+  <div class="graph-drawer" [style]="$drawerStyle()" #drawerContainer>
+    <div class="drawer-handle" (mousedown)="onDragStart($event)">
+      <div class="handle-bar"></div>
+      <div class="drawer-actions">
+        <button class="drawer-action-btn" (click)="onToggleFullscreen()">
+          <app-icon
+            [name]="$isFullscreen() ? 'window-minimize' : 'window-maximize'"
+            size="0.85rem"
+            color="var(--color-navy-gray)"
+          />
+        </button>
+        <button class="drawer-action-btn" (click)="onClose()">
+          <app-icon
+            name="times"
+            size="0.85rem"
+            color="var(--color-navy-gray)"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-content">
+      <div class="drawer-mail-content">
+        <app-mail-content-view
+          [mail]="$selectedMail()"
+          [hasPrevious]="$hasPrevious()"
+          [hasNext]="$hasNext()"
+          (previousClick)="onPreviousMail()"
+          (nextClick)="onNextMail()"
+        />
+      </div>
+      <div class="drawer-mail-list">
+        <app-mail-list [overrideMails]="$mails()" />
+      </div>
+    </div>
+  </div>
+}

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SearchShellComponent } from './search-shell.component';
 import { ListViewComponent } from './components/list-view/list-view.component';
-import { PlaceholderComponent } from './components/placeholder/placeholder.component';
+import { GraphViewComponent } from './components/graph-view/graph-view.component';
 
 export const SEARCH_ROUTES: Routes = [
   {
@@ -9,7 +9,7 @@ export const SEARCH_ROUTES: Routes = [
     component: SearchShellComponent,
     children: [
       { path: 'list', component: ListViewComponent },
-      { path: 'graph', component: PlaceholderComponent },
+      { path: 'graph', component: GraphViewComponent },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
   },

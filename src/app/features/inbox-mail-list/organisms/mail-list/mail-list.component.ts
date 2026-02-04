@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, effect } from '@angular/core';
+import { Component, signal, computed, inject, effect, input } from '@angular/core';
 import { Mail } from '../../../../shared/types/mail.type';
 import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
@@ -94,9 +94,11 @@ export class MailListComponent {
   $selectedMailId = signal<string | null>(null);
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
+  $overrideMails = input<Mail[] | null>(null, { alias: 'overrideMails' });
+
   readonly userEmail = this._mailService.userEmail;
 
-  $allMails = computed(() => this._mailService.mails());
+  $allMails = computed(() => this.$overrideMails() ?? this._mailService.mails());
 
   $filteredMails = computed(() => {
     const filter = this.$activeFilter();
