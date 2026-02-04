@@ -52,3 +52,8 @@ body {
 * {
   box-sizing: border-box;
 }
+
+mark.search-highlight {
+  background-color: var(--color-yellow);
+  border-radius: 0.125rem;
+}
