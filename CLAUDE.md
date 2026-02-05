@@ -130,6 +130,8 @@ src/app/
 - `GraphDataService` - Builds graph from `Mail[]`: nodes (users), edges (mail connections). Provides `getMailsForNode()` and `getMailsForEdge()`
 
 ## Store Structure (in `core/`)
+The real application uses NgRx with the following structure, but this mock app does not implement the store - it uses services with signals instead.
+
 State slices: `call`, `tag`, `query`, `router`, `search`
 
 With effects (server calls): `last-search`, `mailbox-mail`, `mails`, `saved-search`
