@@ -1,6 +1,6 @@
 @if ($isOpen()) {
   <div class="graph-drawer" [style]="$drawerStyle()" #drawerContainer>
-    <div class="drawer-handle" (mousedown)="onDragStart($event)">
+    <div class="drawer-handle" (mousedown)="onDragStart($event)" (dblclick)="onHandleDoubleClick()">
       <div class="handle-bar"></div>
       <div class="drawer-actions">
         <button class="drawer-action-btn" (click)="onToggleFullscreen()">

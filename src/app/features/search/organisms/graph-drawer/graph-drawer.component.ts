@@ -46,6 +46,8 @@ export class GraphDrawerComponent {
   $isFullscreen = signal(false);
   $isDragging = signal(false);
 
+  private _lastHeightBeforeFullscreen = DRAWER_HEIGHT_DEFAULT;
+
   readonly translations = GRAPH_TRANSLATIONS;
 
   private _startY = 0;
@@ -96,7 +98,17 @@ export class GraphDrawerComponent {
   }
 
   public onToggleFullscreen(): void {
-    this.$isFullscreen.update((v) => !v);
+    if (this.$isFullscreen()) {
+      this.$isFullscreen.set(false);
+      this.$heightPercent.set(this._lastHeightBeforeFullscreen);
+    } else {
+      this._lastHeightBeforeFullscreen = this.$heightPercent();
+      this.$isFullscreen.set(true);
+    }
+  }
+
+  public onHandleDoubleClick(): void {
+    this.onToggleFullscreen();
   }
 
   public onClose(): void {

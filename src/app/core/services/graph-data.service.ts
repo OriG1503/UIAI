@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, effect, NgZone } from '@angular/core';
+import { Injectable, inject, signal, NgZone } from '@angular/core';
 import { MockGraphMailService } from './mock-graph-mail.service';
 import { Mail } from '../../shared/types/mail.type';
 import { GraphData } from '../../features/search/types/graph-data.type';
@@ -11,6 +11,7 @@ export class GraphDataService {
   private _mockGraphMailService = inject(MockGraphMailService);
   private _ngZone = inject(NgZone);
   private _worker: Worker | null = null;
+  private _isGraphBuilt = false;
 
   readonly $graphData = signal<GraphData>({ nodes: new Map(), edges: [], minEdgeCount: 0, maxEdgeCount: 0 });
   readonly $graphPositions = signal<Record<string, { x: number; y: number }>>({});
@@ -31,6 +32,7 @@ export class GraphDataService {
           });
           this.$graphPositions.set(data.positions);
           this.$isLoading.set(false);
+          this._isGraphBuilt = true;
         });
       };
 
@@ -42,13 +44,15 @@ export class GraphDataService {
       };
     }
 
-    effect(() => {
-      const mails = this._mockGraphMailService.mails();
-      if (this._worker && mails.length > 0) {
-        this.$isLoading.set(true);
-        this._worker.postMessage(mails);
-      }
-    });
+    this._buildGraphOnce();
+  }
+
+  private _buildGraphOnce(): void {
+    const mails = this._mockGraphMailService.mails();
+    if (this._worker && mails.length > 0 && !this._isGraphBuilt) {
+      this.$isLoading.set(true);
+      this._worker.postMessage(mails);
+    }
   }
 
   public getMailsForNode(email: string): Mail[] {
