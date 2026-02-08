@@ -8,6 +8,7 @@ import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
 import { GraphCanvasComponent } from '../../organisms/graph-canvas/graph-canvas.component';
 import { GraphDrawerComponent } from '../../organisms/graph-drawer/graph-drawer.component';
 import { NodePanelComponent } from '../../molecules/node-panel/node-panel.component';
+import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 
 @Component({
   selector: 'app-graph-view',
@@ -22,6 +23,9 @@ export class GraphViewComponent {
   private _selectedMailService = inject(SelectedMailService);
 
   readonly $graphData = this._graphDataService.$graphData;
+  readonly $graphPositions = this._graphDataService.$graphPositions;
+  readonly $isLoading = this._graphDataService.$isLoading;
+  readonly translations = GRAPH_TRANSLATIONS;
 
   $selection = signal<GraphSelection>({ type: 'none' });
   $isDrawerOpen = signal(false);

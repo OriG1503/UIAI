@@ -67,7 +67,7 @@ export class GraphDrawerComponent {
     const deltaY = this._startY - event.clientY;
     const deltaPercent = (deltaY / this._containerHeight) * 100;
     const newHeight = Math.max(DRAWER_HEIGHT_MIN, Math.min(DRAWER_HEIGHT_MAX, this._startHeight + deltaPercent));
-    this.$heightPercent.set(Math.round(newHeight));
+    this.$heightPercent.set(newHeight);
   }
 
   private _onMouseUp(): void {

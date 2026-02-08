@@ -37,6 +37,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+            "webWorkerTsConfig": "tsconfig.worker.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {

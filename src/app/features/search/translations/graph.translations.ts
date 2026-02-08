@@ -12,5 +12,6 @@ export const GRAPH_TRANSLATIONS = {
   sortByRank: 'דרגה',
   zoomIn: 'הגדל',
   zoomOut: 'הקטן',
-  recenter: 'מרכז'
+  recenter: 'מרכז',
+  loadingGraph: 'טוען גרף...'
 };

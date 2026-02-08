@@ -17,7 +17,6 @@ import { Settings } from 'sigma/settings';
 import { NodeDisplayData, PartialButFor } from 'sigma/types';
 import { createNodeBorderProgram } from '@sigma/node-border';
 import { EdgeCurvedArrowProgram, indexParallelEdgesIndex } from '@sigma/edge-curve';
-import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { GraphData } from '../../types/graph-data.type';
 import { GraphSelection } from '../../types/graph-selection.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
@@ -47,8 +46,6 @@ import {
   LABEL_RENDERED_SIZE_THRESHOLD,
   LABEL_CLICK_RADIUS,
   EDGE_LABEL_ZOOM_THRESHOLD,
-  FORCEATLAS2_ITERATIONS,
-  FORCEATLAS2_SETTINGS,
   ICON_COLOR_DEFAULT
 } from '../../constants/graph.constants';
 
@@ -147,6 +144,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('sigmaContainer', { static: true }) private _containerRef!: ElementRef<HTMLDivElement>;
 
   $graphData = input<GraphData | null>(null, { alias: 'graphData' });
+  $positions = input<Record<string, { x: number; y: number }>>({}, { alias: 'positions' });
   $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
   $visibleNodes = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
 
@@ -161,16 +159,18 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   private _isDragging = false;
   private _draggedNode: string | null = null;
   private _hoveredNode: string | null = null;
+  private _hoveredEdge: string | null = null;
 
   readonly translations = GRAPH_TRANSLATIONS;
 
   constructor() {
     effect(() => {
       const data = this.$graphData();
+      const positions = this.$positions();
       if (!this._isInitialized || !data) {
         return;
       }
-      this._buildGraph(data);
+      this._buildGraph(data, positions);
     });
 
     effect(() => {
@@ -186,8 +186,9 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this._isInitialized = true;
     const data = this.$graphData();
+    const positions = this.$positions();
     if (data) {
-      this._buildGraph(data);
+      this._buildGraph(data, positions);
     }
   }
 
@@ -198,7 +199,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     sigmaInstanceForRefresh = null;
   }
 
-  private _buildGraph(data: GraphData): void {
+  private _buildGraph(data: GraphData, positions: Record<string, { x: number; y: number }>): void {
     this._sigma?.kill();
     this._graph = new Graph();
 
@@ -207,14 +208,15 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     data.nodes.forEach((node) => {
       const sizeRatio = node.mailCount / maxMailCount;
       const size = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
+      const pos = positions[node.email];
       this._graph!.addNode(node.email, {
         label: node.email,
         size,
         color: NODE_COLOR_DEFAULT,
         borderColor: NODE_COLOR_DEFAULT,
         type: 'bordered',
-        x: Math.random() * 100,
-        y: Math.random() * 100,
+        x: pos?.x ?? Math.random() * 100,
+        y: pos?.y ?? Math.random() * 100,
         mailCount: node.mailCount
       });
     });
@@ -237,13 +239,6 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       edgeIndexAttribute: 'parallelIndex',
       edgeMinIndexAttribute: 'parallelMinIndex',
       edgeMaxIndexAttribute: 'parallelMaxIndex'
-    });
-
-    this._ngZone.runOutsideAngular(() => {
-      forceAtlas2.assign(this._graph!, {
-        iterations: FORCEATLAS2_ITERATIONS,
-        settings: FORCEATLAS2_SETTINGS
-      });
     });
 
     this._ngZone.runOutsideAngular(() => {
@@ -332,12 +327,16 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         this._clearHoverState();
       });
 
-      this._sigma.on('enterEdge', () => {
+      this._sigma.on('enterEdge', ({ edge }) => {
         this._containerRef.nativeElement.style.cursor = 'pointer';
+        this._hoveredEdge = edge;
+        this._applyEdgeHoverState(edge);
       });
 
       this._sigma.on('leaveEdge', () => {
         this._containerRef.nativeElement.style.cursor = 'default';
+        this._hoveredEdge = null;
+        this._clearHoverState();
       });
 
       this._sigma.getCamera().on('updated', () => {
@@ -404,9 +403,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       }
 
       if (selection.type === 'edge') {
-        const isSelected =
-          (source === selection.edgeSourceEmail && target === selection.edgeTargetEmail) ||
-          (source === selection.edgeTargetEmail && target === selection.edgeSourceEmail);
+        const isSelected = source === selection.edgeSourceEmail && target === selection.edgeTargetEmail;
         return { ...attr, color: isSelected ? EDGE_COLOR_SELECTED : EDGE_COLOR_DIMMED };
       }
 
@@ -478,6 +475,36 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     this._graph.updateEachEdgeAttributes((_edge, attr, source, target) => {
       const isConnected = source === hoveredNode || target === hoveredNode;
       if (isConnected) {
+        return { ...attr, color: EDGE_COLOR_HOVER };
+      }
+      return attr;
+    });
+
+    this._sigma.refresh();
+  }
+
+  private _applyEdgeHoverState(edge: string): void {
+    if (!this._sigma || !this._graph) {
+      return;
+    }
+
+    const selection = this.$selection();
+    if (selection.type !== 'none') {
+      return;
+    }
+
+    const edgeSource = this._graph.source(edge);
+    const edgeTarget = this._graph.target(edge);
+
+    this._graph.updateEachNodeAttributes((node, attr) => {
+      if (node === edgeSource || node === edgeTarget) {
+        return { ...attr, color: NODE_COLOR_HOVER, borderColor: NODE_COLOR_HOVER };
+      }
+      return attr;
+    });
+
+    this._graph.updateEachEdgeAttributes((e, attr) => {
+      if (e === edge) {
         return { ...attr, color: EDGE_COLOR_HOVER };
       }
       return attr;

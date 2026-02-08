@@ -16,7 +16,8 @@
       "Bash(git rm:*)",
       "Bash(dir:*)",
       "Bash(tree /F \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\search\" -L 3)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(git -C \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\" log --oneline -10)"
     ]
   }
 }

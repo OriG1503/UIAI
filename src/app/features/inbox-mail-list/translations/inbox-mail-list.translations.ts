@@ -3,8 +3,8 @@ import { MailFilter } from '../types/mail-filter.type';
 
 export const MAIL_FILTER_LABELS: Record<MailFilter, string> = {
   all: 'הכל',
-  read: 'נקראו',
-  unread: 'לא נקראו',
+  seen: 'נקראו',
+  unseen: 'לא נקראו',
   starred: 'מסומנים בכוכב'
 };
 

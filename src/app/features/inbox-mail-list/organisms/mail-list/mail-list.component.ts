@@ -109,9 +109,9 @@ export class MailListComponent {
 
     const filtered = (() => {
       switch (filter) {
-        case 'read':
+        case 'seen':
           return mails.filter((mail) => mail.seen);
-        case 'unread':
+        case 'unseen':
           return mails.filter((mail) => !mail.seen);
         case 'starred':
           return mails.filter((mail) => this._mailService.isStarred(mail.filename));
@@ -190,9 +190,9 @@ export class MailListComponent {
 
   public onMailClick(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsRead(mail.filename);
+      this._graphMailService.markAsSeen(mail.filename);
     } else {
-      this._mailService.markAsRead(mail.filename);
+      this._mailService.markAsSeen(mail.filename);
     }
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
@@ -223,13 +223,13 @@ export class MailListComponent {
     this.$contextMenu.set({ isOpen: false, x: 0, y: 0, mail: null });
   }
 
-  public onMarkAsUnread(): void {
+  public onMarkAsUnseen(): void {
     const mail = this.$contextMenu().mail;
     if (mail) {
       if (mail.filename.startsWith('graph-mail-')) {
-        this._graphMailService.markAsUnread(mail.filename);
+        this._graphMailService.markAsUnseen(mail.filename);
       } else {
-        this._mailService.markAsUnread(mail.filename);
+        this._mailService.markAsUnseen(mail.filename);
       }
     }
     this.onCloseContextMenu();

@@ -42,7 +42,7 @@ export class MailItemComponent {
     return mail.attachments?.filename?.length ?? 0;
   });
 
-  $isUnread = computed(() => {
+  $isUnseen = computed(() => {
     return !this.$mail().seen;
   });
 

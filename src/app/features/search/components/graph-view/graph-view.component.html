@@ -1,8 +1,16 @@
 <div class="graph-view">
-  <div class="graph-area">
+  @if ($isLoading()) {
+    <div class="graph-loader">
+      <div class="graph-loader-spinner"></div>
+      <span class="graph-loader-text">{{ translations.loadingGraph }}</span>
+    </div>
+  }
+
+  <div class="graph-area" [class.hidden]="$isLoading()">
     <div class="graph-canvas-wrapper">
       <app-graph-canvas
         [graphData]="$graphData()"
+        [positions]="$graphPositions()"
         [selection]="$selection()"
         [visibleNodes]="$visibleNodeEmails()"
         (nodeClick)="onNodeClick($event)"
@@ -18,7 +26,7 @@
     </div>
   </div>
 
-  <div class="node-panel-area">
+  <div class="node-panel-area" [class.hidden]="$isLoading()">
     <app-node-panel
       [nodes]="$nodeList()"
       [selectedEmail]="$selectedNodeEmail()"
