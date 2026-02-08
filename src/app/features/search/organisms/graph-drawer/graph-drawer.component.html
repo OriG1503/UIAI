@@ -31,7 +31,11 @@
         />
       </div>
       <div class="drawer-mail-list">
-        <app-mail-list [overrideMails]="$mails()" />
+        <app-mail-list
+          [overrideMails]="$mails()"
+          [bubbleOverride]="$bubbleOverride()"
+          [showTagFilter]="true"
+        />
       </div>
     </div>
   </div>

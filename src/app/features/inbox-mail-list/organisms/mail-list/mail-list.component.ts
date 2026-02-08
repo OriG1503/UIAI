@@ -11,6 +11,9 @@ import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-m
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
+import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
+import { BubbleOverride } from '../../types/bubble-override.type';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 
 type ContextMenuState = {
   isOpen: boolean;
@@ -22,7 +25,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailItemComponent, ContextMenuComponent],
+  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailItemComponent, ContextMenuComponent, TagFilterBarComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
@@ -97,8 +100,11 @@ export class MailListComponent {
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   $overrideMails = input<Mail[] | null>(null, { alias: 'overrideMails' });
+  $bubbleOverride = input<BubbleOverride | null>(null, { alias: 'bubbleOverride' });
+  $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
 
   readonly userEmail = this._mailService.userEmail;
+  readonly inboxTranslations = INBOX_TRANSLATIONS;
 
   $allMails = computed(() => this.$overrideMails() ?? this._mailService.mails());
 

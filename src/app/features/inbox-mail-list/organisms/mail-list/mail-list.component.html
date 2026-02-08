@@ -1,10 +1,35 @@
 <div class="mail-list-container">
-  <app-user-mail-bubble
-    [userEmail]="userEmail"
-    [mailCount]="$mailCount()"
-  />
+  @if ($bubbleOverride(); as override) {
+    <div class="override-bubble">
+      <div class="override-bubble-info">
+        @if (override.type === 'node') {
+          <span class="override-bubble-email">{{ override.email }}</span>
+        }
+        @if (override.type === 'edge') {
+          <div class="override-bubble-row">
+            <span class="override-bubble-label">From:</span>
+            <span class="override-bubble-email">{{ override.fromEmail }}</span>
+          </div>
+          <div class="override-bubble-row">
+            <span class="override-bubble-label">To:</span>
+            <span class="override-bubble-email">{{ override.toEmail }}</span>
+          </div>
+        }
+      </div>
+      <span class="override-bubble-count" dir="rtl">({{ $mailCount() }} {{ inboxTranslations.mails }})</span>
+    </div>
+  } @else {
+    <app-user-mail-bubble
+      [userEmail]="userEmail"
+      [mailCount]="$mailCount()"
+    />
+  }
 
   <div class="mail-list-wrapper">
+    @if ($showTagFilter()) {
+      <app-tag-filter-bar />
+    }
+
     <app-mail-filter-bar
       [activeFilter]="$activeFilter()"
       [isSelectMode]="$isSelectMode()"

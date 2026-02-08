@@ -22,6 +22,7 @@
       <app-graph-drawer
         [mails]="$filteredMails()"
         [isOpen]="$isDrawerOpen()"
+        [selection]="$selection()"
         (drawerClose)="onDrawerClose()"
       />
     </div>

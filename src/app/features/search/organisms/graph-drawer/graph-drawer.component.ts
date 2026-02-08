@@ -1,6 +1,8 @@
 import { Component, input, output, signal, computed, inject, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Mail } from '../../../../shared/types/mail.type';
 import { DrawerState } from '../../types/drawer-state.type';
+import { GraphSelection } from '../../types/graph-selection.type';
+import { BubbleOverride } from '../../../inbox-mail-list/types/bubble-override.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../../constants/graph.constants';
 import { MailListComponent } from '../../../inbox-mail-list/organisms/mail-list/mail-list.component';
@@ -18,8 +20,20 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 export class GraphDrawerComponent {
   $mails = input<Mail[]>([], { alias: 'mails' });
   $isOpen = input<boolean>(false, { alias: 'isOpen' });
+  $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
 
   drawerClose = output<void>();
+
+  $bubbleOverride = computed<BubbleOverride | null>(() => {
+    const selection = this.$selection();
+    if (selection.type === 'node' && selection.nodeEmail) {
+      return { type: 'node', email: selection.nodeEmail };
+    }
+    if (selection.type === 'edge' && selection.edgeSourceEmail && selection.edgeTargetEmail) {
+      return { type: 'edge', fromEmail: selection.edgeSourceEmail, toEmail: selection.edgeTargetEmail };
+    }
+    return null;
+  });
 
   private _selectedMailService = inject(SelectedMailService);
   private _ngZone = inject(NgZone);

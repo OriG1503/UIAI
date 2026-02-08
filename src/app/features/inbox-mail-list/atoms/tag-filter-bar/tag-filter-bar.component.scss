@@ -1,0 +1,63 @@
+:host {
+  display: block;
+}
+
+.tag-filter-bar {
+  display: flex;
+  align-items: center;
+  direction: ltr;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-light-gray);
+
+  .scroll-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--color-navy-gray);
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+
+    &:hover {
+      background-color: var(--color-light-gray);
+      color: var(--color-dark-navy);
+    }
+  }
+
+  .tag-scroll-container {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    flex: 1;
+    min-width: 0;
+
+    .tag-btn {
+      flex-shrink: 0;
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--color-navy-gray);
+      border-radius: 1rem;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--color-dark-navy);
+
+      &:hover {
+        background-color: var(--color-light-gray);
+      }
+
+      &.checked {
+        background-color: var(--color-blue);
+        color: var(--color-white);
+        border-color: var(--color-blue);
+      }
+    }
+  }
+}
