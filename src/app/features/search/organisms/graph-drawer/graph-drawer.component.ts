@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, inject, ElementRef, ViewChild } from '@angular/core';
+import { Component, input, output, signal, computed, inject, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Mail } from '../../../../shared/types/mail.type';
 import { DrawerState } from '../../types/drawer-state.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
@@ -22,6 +22,7 @@ export class GraphDrawerComponent {
   drawerClose = output<void>();
 
   private _selectedMailService = inject(SelectedMailService);
+  private _ngZone = inject(NgZone);
 
   readonly $selectedMail = this._selectedMailService.selectedMail;
   readonly $hasPrevious = this._selectedMailService.$hasPrevious;
@@ -54,7 +55,7 @@ export class GraphDrawerComponent {
     this.$isDragging.set(true);
     this._startY = event.clientY;
     this._startHeight = this.$heightPercent();
-    this._containerHeight = this._drawerContainer?.nativeElement?.parentElement?.clientHeight ?? 0;
+    this._containerHeight = (this._drawerContainer?.nativeElement?.offsetParent as HTMLElement)?.clientHeight ?? 0;
 
     document.addEventListener('mousemove', this._boundOnMouseMove);
     document.addEventListener('mouseup', this._boundOnMouseUp);
@@ -64,14 +65,18 @@ export class GraphDrawerComponent {
     if (!this.$isDragging()) {
       return;
     }
-    const deltaY = this._startY - event.clientY;
-    const deltaPercent = (deltaY / this._containerHeight) * 100;
-    const newHeight = Math.max(DRAWER_HEIGHT_MIN, Math.min(DRAWER_HEIGHT_MAX, this._startHeight + deltaPercent));
-    this.$heightPercent.set(newHeight);
+    this._ngZone.run(() => {
+      const deltaY = this._startY - event.clientY;
+      const deltaPercent = (deltaY / this._containerHeight) * 100;
+      const newHeight = Math.max(DRAWER_HEIGHT_MIN, Math.min(DRAWER_HEIGHT_MAX, this._startHeight + deltaPercent));
+      this.$heightPercent.set(newHeight);
+    });
   }
 
   private _onMouseUp(): void {
-    this.$isDragging.set(false);
+    this._ngZone.run(() => {
+      this.$isDragging.set(false);
+    });
     document.removeEventListener('mousemove', this._boundOnMouseMove);
     document.removeEventListener('mouseup', this._boundOnMouseUp);
   }

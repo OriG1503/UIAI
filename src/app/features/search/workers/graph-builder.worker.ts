@@ -5,7 +5,12 @@ import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { GraphNode } from '../types/graph-node.type';
 import { GraphEdge } from '../types/graph-edge.type';
 import { GraphWorkerResult } from '../types/graph-worker-result.type';
-import { FORCEATLAS2_ITERATIONS, FORCEATLAS2_SETTINGS } from '../constants/graph.constants';
+import {
+  NODE_SIZE_MIN,
+  NODE_SIZE_MAX,
+  FORCEATLAS2_ITERATIONS,
+  FORCEATLAS2_SETTINGS
+} from '../constants/graph.constants';
 
 type MailUserInfo = {
   mail?: string;
@@ -86,11 +91,15 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   });
 
   const graph = new Graph();
+  const maxMailCount = Math.max(...Array.from(nodes.values()).map((n) => n.mailCount), 1);
 
   nodes.forEach((node) => {
+    const sizeRatio = node.mailCount / maxMailCount;
+    const size = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
     graph.addNode(node.email, {
-      x: Math.random() * 100,
-      y: Math.random() * 100
+      x: Math.random() * 1000,
+      y: Math.random() * 1000,
+      size
     });
   });
 
@@ -103,6 +112,40 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   forceAtlas2.assign(graph, {
     iterations: FORCEATLAS2_ITERATIONS,
     settings: FORCEATLAS2_SETTINGS
+  });
+
+  const OVERLAP_PADDING = 4;
+  const OVERLAP_PASSES = 20;
+  const nodeEntries = Array.from(nodes.keys());
+
+  Array.from({ length: OVERLAP_PASSES }).forEach(() => {
+    nodeEntries.forEach((nodeA, i) => {
+      const ax = graph.getNodeAttribute(nodeA, 'x') as number;
+      const ay = graph.getNodeAttribute(nodeA, 'y') as number;
+      const aSize = graph.getNodeAttribute(nodeA, 'size') as number;
+
+      nodeEntries.slice(i + 1).forEach((nodeB) => {
+        const bx = graph.getNodeAttribute(nodeB, 'x') as number;
+        const by = graph.getNodeAttribute(nodeB, 'y') as number;
+        const bSize = graph.getNodeAttribute(nodeB, 'size') as number;
+
+        const dx = bx - ax;
+        const dy = by - ay;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const minDist = (aSize + bSize) * OVERLAP_PADDING;
+
+        if (dist < minDist && dist > 0) {
+          const overlap = (minDist - dist) / 2;
+          const ux = dx / dist;
+          const uy = dy / dist;
+
+          graph.setNodeAttribute(nodeA, 'x', ax - ux * overlap);
+          graph.setNodeAttribute(nodeA, 'y', ay - uy * overlap);
+          graph.setNodeAttribute(nodeB, 'x', bx + ux * overlap);
+          graph.setNodeAttribute(nodeB, 'y', by + uy * overlap);
+        }
+      });
+    });
   });
 
   const positions: Record<string, { x: number; y: number }> = {};

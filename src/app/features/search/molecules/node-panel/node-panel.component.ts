@@ -26,6 +26,8 @@ export class NodePanelComponent {
   $mailCountRangeValues = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
 
   nodeClick = output<string>();
+  nodeHover = output<string>();
+  nodeHoverLeave = output<void>();
   dateRangeChange = output<number[]>();
   mailCountRangeChange = output<number[]>();
 
@@ -67,6 +69,14 @@ export class NodePanelComponent {
 
   public onNodeClick(email: string): void {
     this.nodeClick.emit(email);
+  }
+
+  public onNodeHover(email: string): void {
+    this.nodeHover.emit(email);
+  }
+
+  public onNodeHoverLeave(): void {
+    this.nodeHoverLeave.emit();
   }
 
   public onDateRangeChange(values: number[]): void {

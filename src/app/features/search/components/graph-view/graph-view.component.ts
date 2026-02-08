@@ -29,6 +29,7 @@ export class GraphViewComponent {
 
   $selection = signal<GraphSelection>({ type: 'none' });
   $isDrawerOpen = signal(false);
+  $hoveredNodeEmail = signal<string | null>(null);
 
   $dateMin = computed(() => {
     const mails = this._mockGraphMailService.mails();
@@ -188,5 +189,13 @@ export class GraphViewComponent {
     this.$isDrawerOpen.set(false);
     this.$selection.set({ type: 'none' });
     this._selectedMailService.clearSelectedMail();
+  }
+
+  public onNodeHover(email: string): void {
+    this.$hoveredNodeEmail.set(email);
+  }
+
+  public onNodeHoverLeave(): void {
+    this.$hoveredNodeEmail.set(null);
   }
 }

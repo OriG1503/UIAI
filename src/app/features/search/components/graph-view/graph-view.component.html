@@ -13,6 +13,7 @@
         [positions]="$graphPositions()"
         [selection]="$selection()"
         [visibleNodes]="$visibleNodeEmails()"
+        [hoveredNode]="$hoveredNodeEmail()"
         (nodeClick)="onNodeClick($event)"
         (edgeClick)="onEdgeClick($event)"
         (stageClick)="onStageClick()"
@@ -37,6 +38,8 @@
       [mailCountMax]="$mailCountMax()"
       [mailCountRangeValues]="$mailCountRangeValues()"
       (nodeClick)="onNodeClick($event)"
+      (nodeHover)="onNodeHover($event)"
+      (nodeHoverLeave)="onNodeHoverLeave()"
       (dateRangeChange)="onDateRangeChange($event)"
       (mailCountRangeChange)="onMailCountRangeChange($event)"
     />

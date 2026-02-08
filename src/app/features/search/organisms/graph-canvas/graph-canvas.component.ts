@@ -15,6 +15,7 @@ import Graph from 'graphology';
 import Sigma from 'sigma';
 import { Settings } from 'sigma/settings';
 import { NodeDisplayData, PartialButFor } from 'sigma/types';
+import { EdgeArrowProgram } from 'sigma/rendering';
 import { createNodeBorderProgram } from '@sigma/node-border';
 import { EdgeCurvedArrowProgram, indexParallelEdgesIndex } from '@sigma/edge-curve';
 import { GraphData } from '../../types/graph-data.type';
@@ -147,6 +148,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   $positions = input<Record<string, { x: number; y: number }>>({}, { alias: 'positions' });
   $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
   $visibleNodes = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
+  $hoveredNode = input<string | null>(null, { alias: 'hoveredNode' });
 
   nodeClick = output<string>();
   edgeClick = output<{ source: string; target: string }>();
@@ -181,6 +183,18 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       }
       this._applyVisualState(selection, visibleNodes);
     });
+
+    effect(() => {
+      const hoveredNode = this.$hoveredNode();
+      if (!this._isInitialized || !this._sigma || !this._graph) {
+        return;
+      }
+      if (hoveredNode) {
+        this._applyHoverState(hoveredNode);
+      } else {
+        this._clearHoverState();
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -209,8 +223,9 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       const sizeRatio = node.mailCount / maxMailCount;
       const size = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
       const pos = positions[node.email];
+      const shortLabel = node.email.includes('@') ? node.email.split('@')[0] : node.email;
       this._graph!.addNode(node.email, {
-        label: node.email,
+        label: shortLabel,
         size,
         color: NODE_COLOR_DEFAULT,
         borderColor: NODE_COLOR_DEFAULT,
@@ -222,15 +237,23 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     });
 
     const maxEdgeCount = data.maxEdgeCount || 1;
+    const edgeKeys = new Set<string>();
+    data.edges.forEach((edge) => {
+      edgeKeys.add(`${edge.sourceEmail}|${edge.targetEmail}`);
+    });
+
     data.edges.forEach((edge) => {
       const sizeRatio = edge.mailCount / maxEdgeCount;
       const size = EDGE_SIZE_MIN + sizeRatio * (EDGE_SIZE_MAX - EDGE_SIZE_MIN);
       if (this._graph!.hasNode(edge.sourceEmail) && this._graph!.hasNode(edge.targetEmail)) {
+        const reverseKey = `${edge.targetEmail}|${edge.sourceEmail}`;
+        const isBidirectional = edgeKeys.has(reverseKey);
         this._graph!.addDirectedEdge(edge.sourceEmail, edge.targetEmail, {
           size,
           color: EDGE_COLOR_DEFAULT,
           mailCount: edge.mailCount,
-          label: String(edge.mailCount)
+          label: String(edge.mailCount),
+          type: isBidirectional ? 'curvedArrow' : 'arrow'
         });
       }
     });
@@ -248,11 +271,12 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         defaultNodeColor: NODE_COLOR_DEFAULT,
         defaultEdgeColor: EDGE_COLOR_DEFAULT,
         defaultNodeType: 'bordered',
-        defaultEdgeType: 'curvedArrow',
+        defaultEdgeType: 'arrow',
         nodeProgramClasses: {
           bordered: BorderedNodeProgram
         },
         edgeProgramClasses: {
+          arrow: EdgeArrowProgram,
           curvedArrow: EdgeCurvedArrowProgram
         },
         labelRenderedSizeThreshold: LABEL_RENDERED_SIZE_THRESHOLD,
@@ -469,15 +493,12 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       if (node === hoveredNode) {
         return { ...attr, color: NODE_COLOR_HOVER, borderColor: NODE_COLOR_HOVER };
       }
-      return attr;
+      return { ...attr, color: NODE_COLOR_DEFAULT, borderColor: NODE_COLOR_DEFAULT };
     });
 
     this._graph.updateEachEdgeAttributes((_edge, attr, source, target) => {
       const isConnected = source === hoveredNode || target === hoveredNode;
-      if (isConnected) {
-        return { ...attr, color: EDGE_COLOR_HOVER };
-      }
-      return attr;
+      return { ...attr, color: isConnected ? EDGE_COLOR_HOVER : EDGE_COLOR_DEFAULT };
     });
 
     this._sigma.refresh();

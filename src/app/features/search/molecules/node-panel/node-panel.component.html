@@ -84,6 +84,8 @@
           class="node-item"
           [class.node-item-checked]="$selectedEmail() === node.email"
           (click)="onNodeClick(node.email)"
+          (mouseenter)="onNodeHover(node.email)"
+          (mouseleave)="onNodeHoverLeave()"
         >
           <span class="node-email">{{ node.email }}</span>
           @if ($sortMode() === 'mails') {
