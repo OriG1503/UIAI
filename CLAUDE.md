@@ -149,7 +149,14 @@ The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (
 - **Reducers for visibility only**: Sigma reducers (`nodeReducer`, `edgeReducer`) should only set `hidden: true/false` based on `visibleNodes`
 - **Angular zone re-entry**: Sigma event callbacks (clickNode, etc.) must wrap in `NgZone.run()` to trigger change detection
 - **Reactivity**: Use `effect()` (not `ngOnChanges`) to react to signal input changes for Sigma updates
+- **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `features/search/workers/graph-builder.worker.ts`
+- **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `BubbleOverride` type to display node email or edge from/to emails
 - Graph constants defined in `features/search/constants/graph.constants.ts`
+
+## RTL / LTR Handling
+The app is globally RTL (`dir="rtl"`), but email-related content (addresses, metadata, attachments) is displayed LTR. Pattern:
+- Use `direction: ltr` in SCSS on containers that show English/email content
+- Use `dir="rtl"` attribute on inline elements that need to remain RTL within an LTR container (e.g., Hebrew mail count text)
 
 ## Core Types
 
