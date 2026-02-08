@@ -18,6 +18,7 @@
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
     "@primeng/themes": "^19.1.4",
+    "@sigma/edge-curve": "^3.1.0",
     "@sigma/node-border": "^3.0.0",
     "graphology": "^0.26.0",
     "graphology-layout-forceatlas2": "^0.10.1",

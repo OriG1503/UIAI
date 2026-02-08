@@ -2,6 +2,8 @@ import { Component, input, output, signal, computed, ViewEncapsulation } from '@
 import { FormsModule } from '@angular/forms';
 import { Slider } from 'primeng/slider';
 import { GraphNode } from '../../types/graph-node.type';
+import { NodeSortMode } from '../../types/node-sort-mode.type';
+import { SortDirection } from '../../types/sort-direction.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
@@ -28,6 +30,8 @@ export class NodePanelComponent {
   mailCountRangeChange = output<number[]>();
 
   $searchText = signal('');
+  $sortMode = signal<NodeSortMode>('mails');
+  $sortDirection = signal<SortDirection>('desc');
 
   readonly translations = GRAPH_TRANSLATIONS;
 
@@ -42,7 +46,15 @@ export class NodePanelComponent {
   $filteredNodes = computed(() => {
     const search = this.$searchText().toLowerCase();
     const nodes = this.$nodes();
-    const sorted = [...nodes].sort((a, b) => b.mailCount - a.mailCount);
+    const sortMode = this.$sortMode();
+    const sortDirection = this.$sortDirection();
+    const multiplier = sortDirection === 'desc' ? 1 : -1;
+    const sorted = [...nodes].sort((a, b) => {
+      if (sortMode === 'mails') {
+        return (b.mailCount - a.mailCount) * multiplier;
+      }
+      return (b.rank - a.rank) * multiplier;
+    });
     if (!search) {
       return sorted;
     }
@@ -65,10 +77,21 @@ export class NodePanelComponent {
     this.mailCountRangeChange.emit(values);
   }
 
+  public onSortModeChange(mode: NodeSortMode): void {
+    if (this.$sortMode() === mode) {
+      this.$sortDirection.set(this.$sortDirection() === 'desc' ? 'asc' : 'desc');
+    } else {
+      this.$sortMode.set(mode);
+      this.$sortDirection.set('desc');
+    }
+  }
+
   public formatDate(timestamp: number): string {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
-    return `${day}/${month}`;
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}/${month} ${hours}:${minutes}`;
   }
 }

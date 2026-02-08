@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { GraphDataService } from '../../../../core/services/graph-data.service';
 import { MockGraphMailService } from '../../../../core/services/mock-graph-mail.service';
+import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { GraphSelection } from '../../types/graph-selection.type';
 import { GraphNode } from '../../types/graph-node.type';
 import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
@@ -18,6 +19,7 @@ import { NodePanelComponent } from '../../molecules/node-panel/node-panel.compon
 export class GraphViewComponent {
   private _graphDataService = inject(GraphDataService);
   private _mockGraphMailService = inject(MockGraphMailService);
+  private _selectedMailService = inject(SelectedMailService);
 
   readonly $graphData = this._graphDataService.$graphData;
 
@@ -146,10 +148,12 @@ export class GraphViewComponent {
     if (current.type === 'node' && current.nodeEmail === email) {
       this.$selection.set({ type: 'none' });
       this.$isDrawerOpen.set(false);
+      this._selectedMailService.clearSelectedMail();
       return;
     }
     this.$selection.set({ type: 'node', nodeEmail: email });
     this.$isDrawerOpen.set(true);
+    this._selectedMailService.clearSelectedMail();
   }
 
   public onEdgeClick(event: { source: string; target: string }): void {
@@ -159,11 +163,13 @@ export class GraphViewComponent {
       edgeTargetEmail: event.target
     });
     this.$isDrawerOpen.set(true);
+    this._selectedMailService.clearSelectedMail();
   }
 
   public onStageClick(): void {
     this.$selection.set({ type: 'none' });
     this.$isDrawerOpen.set(false);
+    this._selectedMailService.clearSelectedMail();
   }
 
   public onDateRangeChange(values: number[]): void {
@@ -177,5 +183,6 @@ export class GraphViewComponent {
   public onDrawerClose(): void {
     this.$isDrawerOpen.set(false);
     this.$selection.set({ type: 'none' });
+    this._selectedMailService.clearSelectedMail();
   }
 }

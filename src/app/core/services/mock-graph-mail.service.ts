@@ -10,6 +10,18 @@ export class MockGraphMailService {
 
   readonly mails = this._mails.asReadonly();
 
+  public markAsRead(mailFilename: string): void {
+    this._mails.update((mails) =>
+      mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: true } : mail))
+    );
+  }
+
+  public markAsUnread(mailFilename: string): void {
+    this._mails.update((mails) =>
+      mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail))
+    );
+  }
+
   private _generateMockMails(): Mail[] {
     const hubs: MailUserInfo[] = [
       { username: 'Ori Levi', mail: 'ori@company.com' },

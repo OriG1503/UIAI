@@ -24,7 +24,7 @@ export class GraphDataService {
         return;
       }
       if (!nodes.has(email)) {
-        nodes.set(email, { email, username: user.username ?? email, mailCount: 0 });
+        nodes.set(email, { email, username: user.username ?? email, mailCount: 0, rank: 0 });
       }
     };
 
@@ -35,17 +35,16 @@ export class GraphDataService {
       }
     };
 
-    const addEdge = (email1: string, email2: string): void => {
-      if (!email1 || !email2 || email1 === email2) {
+    const addEdge = (fromEmail: string, toEmail: string): void => {
+      if (!fromEmail || !toEmail || fromEmail === toEmail) {
         return;
       }
-      const sorted = [email1, email2].sort();
-      const key = `${sorted[0]}|${sorted[1]}`;
+      const key = `${fromEmail}|${toEmail}`;
       const existing = edgeMap.get(key);
       if (existing) {
         existing.mailCount++;
       } else {
-        edgeMap.set(key, { sourceEmail: sorted[0], targetEmail: sorted[1], mailCount: 1 });
+        edgeMap.set(key, { sourceEmail: fromEmail, targetEmail: toEmail, mailCount: 1 });
       }
     };
 
@@ -71,6 +70,17 @@ export class GraphDataService {
     const edgeCounts = edges.map((e) => e.mailCount);
     const minEdgeCount = edgeCounts.length > 0 ? Math.min(...edgeCounts) : 0;
     const maxEdgeCount = edgeCounts.length > 0 ? Math.max(...edgeCounts) : 0;
+
+    edges.forEach((edge) => {
+      const sourceNode = nodes.get(edge.sourceEmail);
+      const targetNode = nodes.get(edge.targetEmail);
+      if (sourceNode) {
+        sourceNode.rank++;
+      }
+      if (targetNode) {
+        targetNode.rank++;
+      }
+    });
 
     return { nodes, edges, minEdgeCount, maxEdgeCount };
   }

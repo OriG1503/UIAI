@@ -4,6 +4,7 @@ import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
 import { SortDirection } from '../../types/sort-direction.type';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
+import { MockGraphMailService } from '../../../../core/services/mock-graph-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
@@ -27,6 +28,7 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
+  private _graphMailService = inject(MockGraphMailService);
   private _selectedMailService = inject(SelectedMailService);
   private _highlightService = inject(HighlightService);
 
@@ -187,7 +189,11 @@ export class MailListComponent {
   }
 
   public onMailClick(mail: Mail): void {
-    this._mailService.markAsRead(mail.filename);
+    if (mail.filename.startsWith('graph-mail-')) {
+      this._graphMailService.markAsRead(mail.filename);
+    } else {
+      this._mailService.markAsRead(mail.filename);
+    }
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
@@ -220,7 +226,11 @@ export class MailListComponent {
   public onMarkAsUnread(): void {
     const mail = this.$contextMenu().mail;
     if (mail) {
-      this._mailService.markAsUnread(mail.filename);
+      if (mail.filename.startsWith('graph-mail-')) {
+        this._graphMailService.markAsUnread(mail.filename);
+      } else {
+        this._mailService.markAsUnread(mail.filename);
+      }
     }
     this.onCloseContextMenu();
   }
