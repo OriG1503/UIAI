@@ -13,6 +13,48 @@
     flex-shrink: 0;
   }
 
+  .override-bubble {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    direction: ltr;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-white);
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+
+    .override-bubble-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+
+      .override-bubble-row {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+
+        .override-bubble-label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: var(--color-navy-gray);
+        }
+      }
+
+      .override-bubble-email {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-dark-navy);
+      }
+    }
+
+    .override-bubble-count {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-navy-gray);
+    }
+  }
+
   .mail-list-wrapper {
     display: flex;
     flex-direction: column;

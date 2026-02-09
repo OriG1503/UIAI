@@ -4,7 +4,7 @@ export const INBOX_TRANSLATIONS = {
   attachments: 'קבצים מצורפים',
   export: 'ייצוא',
   translate: 'תרגום',
-  markAsUnread: 'סמן כלא נקרא',
+  markAsUnseen: 'סמן כלא נקרא',
   encoding: 'קידוד',
   download: 'הורדה',
   downloadAll: 'הורד הכל',

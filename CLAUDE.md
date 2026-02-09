@@ -3,14 +3,15 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-Angular 19 client app using mock data instead of a real server.
+Angular 19 client app using mock data instead of a real server. Hebrew (RTL) UI with `<html lang="he" dir="rtl">`. Custom "Ploni" font.
 
 ## Tech Stack
 - Angular 19
 - Node.js 20.10.0
 - npm 10.9.2
-- PrimeNG (UI library)
+- PrimeNG 19 with **Aura** preset theme (dark mode disabled)
 - SCSS for styling
+- Sigma.js v3 + Graphology for graph visualization (ForceAtlas2 layout, `@sigma/node-border` for bordered nodes)
 
 ## Commands
 ```bash
@@ -114,13 +115,23 @@ src/app/
 | .png | `#01caff` |
 | .pdf | `#ea355a` |
 
+## Routing
+- Default route redirects to `/search/list`
+- `search` feature is lazy-loaded, contains nested child routes:
+  - `/search/list` → `ListViewComponent` (mail list view)
+  - `/search/graph` → `GraphViewComponent` (graph visualization)
+
 ## Core Services (in `core/services/`)
 - `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
 - `MockMailContentService` - Email body content retrieval
 - `SelectedMailService` - Shared state for currently selected mail and navigation
 - `HighlightService` - Search term highlighting: per-mail highlight state, `highlightText()` and `highlightBodyContent()` for safe HTML marking
+- `MockGraphMailService` - Generates ~1000+ mock mails with 40 users for graph visualization
+- `GraphDataService` - Builds graph from `Mail[]`: nodes (users), edges (mail connections). Provides `getMailsForNode()` and `getMailsForEdge()`
 
 ## Store Structure (in `core/`)
+The real application uses NgRx with the following structure, but this mock app does not implement the store - it uses services with signals instead.
+
 State slices: `call`, `tag`, `query`, `router`, `search`
 
 With effects (server calls): `last-search`, `mailbox-mail`, `mails`, `saved-search`
@@ -131,6 +142,21 @@ With effects (server calls): `last-search`, `mailbox-mail`, `mails`, `saved-sear
 - Use `effect()` for reactive side effects (e.g., syncing services)
 - Input signals: `$input = input<Type>(defaultValue, { alias: 'inputName' })`
 - Output signals: `outputName = output<Type>()`
+
+## Graph View Architecture
+The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (`NgZone.runOutsideAngular()`) for performance. Key patterns:
+- **Colors via graph mutations**: Use `graph.updateEachNodeAttributes()` / `updateEachEdgeAttributes()` to change colors — `@sigma/node-border` reads `borderColor` from graph attributes, NOT from Sigma reducers
+- **Reducers for visibility only**: Sigma reducers (`nodeReducer`, `edgeReducer`) should only set `hidden: true/false` based on `visibleNodes`
+- **Angular zone re-entry**: Sigma event callbacks (clickNode, etc.) must wrap in `NgZone.run()` to trigger change detection
+- **Reactivity**: Use `effect()` (not `ngOnChanges`) to react to signal input changes for Sigma updates
+- **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `features/search/workers/graph-builder.worker.ts`
+- **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `BubbleOverride` type to display node email or edge from/to emails
+- Graph constants defined in `features/search/constants/graph.constants.ts`
+
+## RTL / LTR Handling
+The app is globally RTL (`dir="rtl"`), but email-related content (addresses, metadata, attachments) is displayed LTR. Pattern:
+- Use `direction: ltr` in SCSS on containers that show English/email content
+- Use `dir="rtl"` attribute on inline elements that need to remain RTL within an LTR container (e.g., Hebrew mail count text)
 
 ## Core Types
 

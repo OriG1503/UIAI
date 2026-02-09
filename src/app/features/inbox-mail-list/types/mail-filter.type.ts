@@ -1,1 +1,1 @@
-export type MailFilter = 'all' | 'read' | 'unread' | 'starred';
+export type MailFilter = 'all' | 'seen' | 'unseen' | 'starred';

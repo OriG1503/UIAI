@@ -1,12 +1,12 @@
 <div
   class="mail-item"
-  [class.unread]="$isUnread()"
+  [class.unseen]="$isUnseen()"
   [class.selected]="$isSelected()"
   [class.current]="$isCurrent()"
   (click)="onMailClick()"
   (contextmenu)="onContextMenu($event)"
 >
-  <div class="unread-indicator"></div>
+  <div class="unseen-indicator"></div>
 
   @if ($isSelectMode()) {
     <div class="select-circle" [class.is-selected]="$isSelected()">

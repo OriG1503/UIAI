@@ -1,0 +1,37 @@
+<div class="graph-canvas-container" #sigmaContainer></div>
+
+<div class="graph-controls">
+  <button
+    class="control-button"
+    (click)="onZoomIn()"
+    [title]="translations.zoomIn"
+  >
+    <app-icon
+      name="plus"
+      size="1rem"
+      color="var(--color-dark-navy)"
+    />
+  </button>
+  <button
+    class="control-button"
+    (click)="onZoomOut()"
+    [title]="translations.zoomOut"
+  >
+    <app-icon
+      name="minus"
+      size="1rem"
+      color="var(--color-dark-navy)"
+    />
+  </button>
+  <button
+    class="control-button"
+    (click)="onRecenter()"
+    [title]="translations.recenter"
+  >
+    <app-icon
+      name="arrows-alt"
+      size="1rem"
+      color="var(--color-dark-navy)"
+    />
+  </button>
+</div>

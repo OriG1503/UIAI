@@ -1,0 +1,48 @@
+<div class="graph-view">
+  @if ($isLoading()) {
+    <div class="graph-loader">
+      <div class="graph-loader-spinner"></div>
+      <span class="graph-loader-text">{{ translations.loadingGraph }}</span>
+    </div>
+  }
+
+  <div class="graph-area" [class.hidden]="$isLoading()">
+    <div class="graph-canvas-wrapper">
+      <app-graph-canvas
+        [graphData]="$graphData()"
+        [positions]="$graphPositions()"
+        [selection]="$selection()"
+        [visibleNodes]="$visibleNodeEmails()"
+        [hoveredNode]="$hoveredNodeEmail()"
+        (nodeClick)="onNodeClick($event)"
+        (edgeClick)="onEdgeClick($event)"
+        (stageClick)="onStageClick()"
+      />
+
+      <app-graph-drawer
+        [mails]="$filteredMails()"
+        [isOpen]="$isDrawerOpen()"
+        [selection]="$selection()"
+        (drawerClose)="onDrawerClose()"
+      />
+    </div>
+  </div>
+
+  <div class="graph-filters-panel-area" [class.hidden]="$isLoading()">
+    <app-graph-filters-panel
+      [nodes]="$nodeList()"
+      [selectedEmail]="$selectedNodeEmail()"
+      [dateMin]="$dateMin()"
+      [dateMax]="$dateMax()"
+      [dateRangeValues]="$dateRangeValues()"
+      [mailCountMin]="1"
+      [mailCountMax]="$mailCountMax()"
+      [mailCountRangeValues]="$mailCountRangeValues()"
+      (nodeClick)="onNodeClick($event)"
+      (nodeHover)="onNodeHover($event)"
+      (nodeHoverLeave)="onNodeHoverLeave()"
+      (dateRangeChange)="onDateRangeChange($event)"
+      (mailCountRangeChange)="onMailCountRangeChange($event)"
+    />
+  </div>
+</div>

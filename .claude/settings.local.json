@@ -13,7 +13,12 @@
       "Bash(for dir in alert-button date-picker date-range-picker email-chips filter-dropdown run-button save-search-button search-input search-mode-switch tag-filter-dropdown)",
       "Bash(do git mv \"src/app/shared/molecules/$dir\" \"src/app/features/search/molecules/$dir\")",
       "Bash(done)",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(dir:*)",
+      "Bash(tree /F \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\search\" -L 3)",
+      "Bash(npm ls:*)",
+      "Bash(git -C \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\" log --oneline -10)",
+      "Bash(del \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\inbox-mail-list\\\\types\\\\bubble-override.type.ts\")"
     ]
   }
 }

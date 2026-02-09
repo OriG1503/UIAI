@@ -16,8 +16,8 @@
     background-color: var(--color-white-soft);
   }
 
-  &.unread {
-    .unread-indicator {
+  &.unseen {
+    .unseen-indicator {
       background-color: var(--color-red);
     }
 
@@ -34,7 +34,7 @@
     background-color: var(--color-white-soft);
   }
 
-  .unread-indicator {
+  .unseen-indicator {
     width: 5px;
     min-height: 100%;
     background-color: transparent;

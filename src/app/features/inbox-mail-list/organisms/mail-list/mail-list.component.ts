@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, effect } from '@angular/core';
+import { Component, signal, computed, inject, effect, input } from '@angular/core';
 import { Mail } from '../../../../shared/types/mail.type';
 import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
@@ -10,6 +10,9 @@ import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-m
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
+import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
+import { GraphSelectionInfo } from '../../types/graph-selection-info.type';
+import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 
 type ContextMenuState = {
   isOpen: boolean;
@@ -21,7 +24,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailItemComponent, ContextMenuComponent],
+  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailItemComponent, ContextMenuComponent, TagFilterBarComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
@@ -94,9 +97,14 @@ export class MailListComponent {
   $selectedMailId = signal<string | null>(null);
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
-  readonly userEmail = this._mailService.userEmail;
+  $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
+  $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
+  $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
 
-  $allMails = computed(() => this._mailService.mails());
+  readonly userEmail = this._mailService.userEmail;
+  readonly inboxTranslations = INBOX_TRANSLATIONS;
+
+  $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
 
   $filteredMails = computed(() => {
     const filter = this.$activeFilter();
@@ -105,9 +113,9 @@ export class MailListComponent {
 
     const filtered = (() => {
       switch (filter) {
-        case 'read':
+        case 'seen':
           return mails.filter((mail) => mail.seen);
-        case 'unread':
+        case 'unseen':
           return mails.filter((mail) => !mail.seen);
         case 'starred':
           return mails.filter((mail) => this._mailService.isStarred(mail.filename));
@@ -185,7 +193,7 @@ export class MailListComponent {
   }
 
   public onMailClick(mail: Mail): void {
-    this._mailService.markAsRead(mail.filename);
+    this._selectedMailService.markMailAsSeen(mail);
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
@@ -215,10 +223,10 @@ export class MailListComponent {
     this.$contextMenu.set({ isOpen: false, x: 0, y: 0, mail: null });
   }
 
-  public onMarkAsUnread(): void {
+  public onMarkAsUnseen(): void {
     const mail = this.$contextMenu().mail;
     if (mail) {
-      this._mailService.markAsUnread(mail.filename);
+      this._selectedMailService.markMailAsUnseen(mail);
     }
     this.onCloseContextMenu();
   }

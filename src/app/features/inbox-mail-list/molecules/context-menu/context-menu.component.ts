@@ -18,7 +18,7 @@ export class ContextMenuComponent implements AfterViewInit {
 
   $x = input.required<number>({ alias: 'x' });
   $y = input.required<number>({ alias: 'y' });
-  markAsUnreadClick = output<void>();
+  markAsUnseenClick = output<void>();
   closeMenu = output<void>();
 
   readonly translations = INBOX_TRANSLATIONS;
@@ -64,7 +64,7 @@ export class ContextMenuComponent implements AfterViewInit {
     }
   }
 
-  public onMarkAsUnread(): void {
-    this.markAsUnreadClick.emit();
+  public onMarkAsUnseen(): void {
+    this.markAsUnseenClick.emit();
   }
 }

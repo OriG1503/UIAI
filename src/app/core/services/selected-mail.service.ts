@@ -1,12 +1,14 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
 import { MockMailService } from './mock-mail.service';
+import { MockGraphMailService } from './mock-graph-mail.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SelectedMailService {
   private _mailService = inject(MockMailService);
+  private _graphMailService = inject(MockGraphMailService);
   private _selectedMail = signal<Mail | null>(null);
   private _mailList = signal<Mail[]>([]);
 
@@ -49,7 +51,7 @@ export class SelectedMailService {
     const list = this._mailList();
     if (index > 0) {
       const mail = list[index - 1];
-      this._mailService.markAsRead(mail.filename);
+      this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
     }
   }
@@ -59,8 +61,24 @@ export class SelectedMailService {
     const list = this._mailList();
     if (index >= 0 && index < list.length - 1) {
       const mail = list[index + 1];
-      this._mailService.markAsRead(mail.filename);
+      this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
+    }
+  }
+
+  public markMailAsSeen(mail: Mail): void {
+    if (mail.filename.startsWith('graph-mail-')) {
+      this._graphMailService.markAsSeen(mail.filename);
+    } else {
+      this._mailService.markAsSeen(mail.filename);
+    }
+  }
+
+  public markMailAsUnseen(mail: Mail): void {
+    if (mail.filename.startsWith('graph-mail-')) {
+      this._graphMailService.markAsUnseen(mail.filename);
+    } else {
+      this._mailService.markAsUnseen(mail.filename);
     }
   }
 }

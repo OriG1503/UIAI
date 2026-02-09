@@ -59,26 +59,26 @@
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'unread'"
-      (click)="onFilterClick('unread')"
+      [class.active]="$activeFilter() === 'unseen'"
+      (click)="onFilterClick('unseen')"
     >
       <app-icon
         name="envelope"
         size="1rem"
-        [color]="$activeFilter() === 'unread' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+        [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
       />
     </button>
 
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'read'"
-      (click)="onFilterClick('read')"
+      [class.active]="$activeFilter() === 'seen'"
+      (click)="onFilterClick('seen')"
     >
       <app-icon
         name="eye"
         size="1rem"
-        [color]="$activeFilter() === 'read' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+        [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
       />
     </button>
   </div>
