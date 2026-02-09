@@ -12,8 +12,8 @@
   <div class="section section-middle">
     <div class="control-group">
       <app-tag-filter-dropdown
-        [value]="$tag()"
-        (valueChange)="onTagChange($event)"
+        [selectedValues]="$selectedTags()"
+        (tagsChange)="onTagsChange($event)"
         [options]="tagOptions"
       />
     </div>

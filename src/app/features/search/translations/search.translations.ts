@@ -16,3 +16,14 @@ export const SEARCH_TRANSLATIONS = {
   freeSearch: 'חיפוש חופשי...',
   advancedQuery: 'שאילתה מתקדמת'
 };
+
+export const TAG_FILTER_TRANSLATIONS = {
+  defaultLabel: 'בחירת תגיות',
+  clear: 'ניקוי',
+  searchToStart: 'חפשו כדי להתחיל',
+  searchPlaceholder: 'חפש תגית...',
+  oneTagSelected: 'תגית אחת נבחרה',
+  tagsSelected: 'תגיות נבחרו',
+  countSelectedSingular: 'נבחר',
+  countSelectedPlural: 'נבחרו'
+};

@@ -7,9 +7,9 @@ import { SearchInputComponent } from '../../molecules/search-input/search-input.
 import { RunButtonComponent } from '../../molecules/run-button/run-button.component';
 import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
-import { TagOption } from '../../types/tag-option.type';
 import { SearchModeType } from '../../types/search-mode-type.type';
 import { SearchViewType } from '../../types/search-view-type.type';
+import { TAG_OPTIONS } from '../../constants/tag-filter.constants';
 
 @Component({
   selector: 'app-search-bar',
@@ -21,27 +21,23 @@ import { SearchViewType } from '../../types/search-view-type.type';
     SearchInputComponent,
     RunButtonComponent,
     SaveSearchButtonComponent,
-    AlertButtonComponent,
+    AlertButtonComponent
   ],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss',
+  styleUrl: './search-bar.component.scss'
 })
 export class SearchBarComponent {
-  $tag = signal<string | null>(null);
+  $selectedTags = signal<string[]>([]);
   $dateRange = signal<Date[] | null>(null);
   $searchMode = signal<SearchModeType>('regular');
   $searchText = signal<string>('');
 
-  tagOptions: TagOption[] = [
-    { label: 'תגית 1', value: 'tag1' },
-    { label: 'תגית 2', value: 'tag2' },
-    { label: 'תגית 3', value: 'tag3' },
-  ];
+  readonly tagOptions = TAG_OPTIONS;
 
   constructor(private _router: Router) {}
 
-  public onTagChange(tag: string | null): void {
-    this.$tag.set(tag);
+  public onTagsChange(tags: string[]): void {
+    this.$selectedTags.set(tags);
   }
 
   public onDateRangeChange(dateRange: Date[] | null): void {
@@ -62,10 +58,10 @@ export class SearchBarComponent {
 
   public onRun(viewType: SearchViewType): void {
     const query = {
-      tag: this.$tag(),
+      tags: this.$selectedTags(),
       dateRange: this.$dateRange(),
       searchMode: this.$searchMode(),
-      searchText: this.$searchText(),
+      searchText: this.$searchText()
     };
     console.log('Running search:', query);
     this._router.navigate(['/search', viewType]);

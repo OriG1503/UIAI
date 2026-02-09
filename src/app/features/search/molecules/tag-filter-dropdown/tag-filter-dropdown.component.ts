@@ -1,7 +1,7 @@
 import { Component, input, output, signal, computed, ElementRef, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../types/tag-option.type';
-import { PLACEHOLDER_TRANSLATIONS } from '../../../../shared/translations/common.translations';
+import { TAG_FILTER_TRANSLATIONS } from '../../translations/search.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
@@ -9,53 +9,103 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   standalone: true,
   imports: [FormsModule, IconComponent],
   templateUrl: './tag-filter-dropdown.component.html',
-  styleUrl: './tag-filter-dropdown.component.scss',
+  styleUrl: './tag-filter-dropdown.component.scss'
 })
 export class TagFilterDropdownComponent {
-  $value = input<string | null>(null, { alias: 'value' });
-  valueChange = output<string | null>();
-
   $options = input<TagOption[]>([], { alias: 'options' });
-  $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.selectTag, { alias: 'placeholder' });
+  $selectedValues = input<string[]>([], { alias: 'selectedValues' });
 
+  tagsChange = output<string[]>();
+
+  $isPopupOpen = signal(false);
   $searchText = signal('');
-  $isDropdownOpen = signal(false);
+
+  readonly translations = TAG_FILTER_TRANSLATIONS;
 
   constructor(private _elementRef: ElementRef) {}
+
+  $selectedTagOptions = computed(() => {
+    const selected = this.$selectedValues();
+    const options = this.$options();
+    return selected
+      .map((value) => options.find((o) => o.value === value))
+      .filter((o): o is TagOption => !!o);
+  });
+
+  $selectedCount = computed(() => this.$selectedValues().length);
+
+  $hasSelection = computed(() => this.$selectedValues().length > 0);
 
   $filteredOptions = computed(() => {
     const searchText = this.$searchText().toLowerCase();
     const options = this.$options();
 
     if (!searchText) {
-      return options;
+      return [];
     }
 
-    return options.filter(
-      (option) => option.label.toLowerCase().includes(searchText) || option.value.toLowerCase().includes(searchText)
-    );
+    return options.filter((option) => option.label.toLowerCase().includes(searchText));
+  });
+
+  $buttonLabel = computed(() => {
+    const count = this.$selectedValues().length;
+    const isOpen = this.$isPopupOpen();
+    if (isOpen || count === 0) {
+      return this.translations.defaultLabel;
+    }
+    if (count === 1) {
+      return this.translations.oneTagSelected;
+    }
+    return `${count} ${this.translations.tagsSelected}`;
+  });
+
+  $isActive = computed(() => this.$selectedValues().length > 0 && !this.$isPopupOpen());
+
+  $counterLabel = computed(() => {
+    const count = this.$selectedValues().length;
+    if (count === 1) {
+      return `${count} ${this.translations.countSelectedSingular}`;
+    }
+    return `${count} ${this.translations.countSelectedPlural}`;
   });
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: Event): void {
     if (!this._elementRef.nativeElement.contains(event.target)) {
-      this.$isDropdownOpen.set(false);
+      this.$isPopupOpen.set(false);
+      this.$searchText.set('');
     }
   }
 
-  public onInputFocus(): void {
-    this.$isDropdownOpen.set(true);
+  public togglePopup(): void {
+    this.$isPopupOpen.update((isOpen) => !isOpen);
+    if (!this.$isPopupOpen()) {
+      this.$searchText.set('');
+    }
   }
 
-  public onInputChange(value: string): void {
+  public isSelected(value: string): boolean {
+    return this.$selectedValues().includes(value);
+  }
+
+  public toggleTag(option: TagOption): void {
+    const current = this.$selectedValues();
+    if (current.includes(option.value)) {
+      this.tagsChange.emit(current.filter((v) => v !== option.value));
+    } else {
+      this.tagsChange.emit([...current, option.value]);
+    }
+  }
+
+  public removeTag(value: string): void {
+    this.tagsChange.emit(this.$selectedValues().filter((v) => v !== value));
+  }
+
+  public clearAll(): void {
+    this.tagsChange.emit([]);
+  }
+
+  public onSearchChange(value: string): void {
     this.$searchText.set(value);
-    this.$isDropdownOpen.set(true);
-    this.valueChange.emit(value || null);
-  }
-
-  public selectOption(option: TagOption): void {
-    this.$searchText.set(option.label);
-    this.valueChange.emit(option.value);
-    this.$isDropdownOpen.set(false);
   }
 }
