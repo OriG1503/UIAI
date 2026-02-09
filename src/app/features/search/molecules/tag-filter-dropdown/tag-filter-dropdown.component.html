@@ -1,22 +1,103 @@
 <div class="tag-filter-wrapper">
-  <div class="input-container">
-    <input
-      type="text"
-      class="tag-input"
-      [ngModel]="$searchText()"
-      (ngModelChange)="onInputChange($event)"
-      (focus)="onInputFocus()"
-      [placeholder]="$placeholder()"
+  <button
+    type="button"
+    class="tag-btn"
+    [class.tag-btn-open]="$isPopupOpen()"
+    [class.tag-btn-active]="$isActive()"
+    (click)="togglePopup()"
+  >
+    <span class="tag-btn-label">{{ $buttonLabel() }}</span>
+    <app-icon
+      name="chevron-down"
+      size="0.7rem"
+      [color]="$isPopupOpen() || $isActive() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
     />
-    <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" class="dropdown-icon" />
-  </div>
+  </button>
 
-  @if ($isDropdownOpen() && $filteredOptions().length > 0) {
-    <div class="dropdown-list">
-      @for (option of $filteredOptions(); track option.value) {
-        <button type="button" class="dropdown-item" (click)="selectOption(option)">
-          {{ option.label }}
+  @if ($isPopupOpen()) {
+    <div class="popup-container">
+      <div class="popup-header">
+        <button
+          type="button"
+          class="clear-btn"
+          [class.clear-btn-disabled]="!$hasSelection()"
+          [disabled]="!$hasSelection()"
+          (click)="clearAll()"
+        >
+          {{ translations.clear }}
         </button>
+        <span class="counter-label">{{ $counterLabel() }}</span>
+      </div>
+
+      @if ($selectedTagOptions().length > 0) {
+        <div class="selected-tags">
+          @for (tag of $selectedTagOptions(); track tag.value) {
+            <div class="selected-tag">
+              <span class="selected-tag-label">{{ tag.label }}</span>
+              <button
+                type="button"
+                class="selected-tag-remove"
+                (click)="removeTag(tag.value)"
+              >
+                <app-icon
+                  name="trash"
+                  size="0.7rem"
+                  color="var(--color-white)"
+                />
+              </button>
+            </div>
+          }
+        </div>
+      }
+
+      <div class="separator"></div>
+
+      <div class="search-section">
+        <input
+          type="text"
+          class="search-input"
+          dir="rtl"
+          [placeholder]="translations.searchPlaceholder"
+          [ngModel]="$searchText()"
+          (ngModelChange)="onSearchChange($event)"
+        />
+        @if ($searchText()) {
+          <button
+            type="button"
+            class="search-clear-btn"
+            (click)="onSearchChange('')"
+          >
+            <app-icon
+              name="times"
+              size="0.65rem"
+              color="var(--color-navy-gray)"
+            />
+          </button>
+        }
+      </div>
+
+      @if ($searchText() === '') {
+        <div class="empty-state">
+          <span class="empty-state-text">{{ translations.searchToStart }}</span>
+        </div>
+      } @else {
+        <div class="results-list">
+          @for (option of $filteredOptions(); track option.value) {
+            <button
+              type="button"
+              class="result-item"
+              [class.result-item-selected]="isSelected(option.value)"
+              (click)="toggleTag(option)"
+            >
+              {{ option.label }}
+            </button>
+          }
+          @if ($filteredOptions().length === 0) {
+            <div class="no-results">
+              <span class="no-results-text">No results</span>
+            </div>
+          }
+        </div>
       }
     </div>
   }
