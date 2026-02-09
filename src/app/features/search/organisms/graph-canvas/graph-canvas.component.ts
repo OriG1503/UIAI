@@ -13,10 +13,7 @@ import {
 } from '@angular/core';
 import Graph from 'graphology';
 import Sigma from 'sigma';
-import { Settings } from 'sigma/settings';
-import { NodeDisplayData, PartialButFor } from 'sigma/types';
 import { EdgeArrowProgram } from 'sigma/rendering';
-import { createNodeBorderProgram } from '@sigma/node-border';
 import { EdgeCurvedArrowProgram, indexParallelEdgesIndex } from '@sigma/edge-curve';
 import { GraphData } from '../../types/graph-data.type';
 import { GraphSelection } from '../../types/graph-selection.type';
@@ -31,108 +28,16 @@ import {
   NODE_COLOR_SELECTED,
   NODE_COLOR_DIMMED,
   NODE_COLOR_HOVER,
-  NODE_COLOR_WHITE,
-  NODE_BORDER_RATIO,
-  NODE_WHITE_GAP_RATIO,
   EDGE_COLOR_DEFAULT,
   EDGE_COLOR_SELECTED,
   EDGE_COLOR_DIMMED,
   EDGE_COLOR_HOVER,
   LABEL_COLOR,
-  LABEL_COLOR_DIMMED,
-  LABEL_FONT_FAMILY,
-  LABEL_FONT_SIZE,
-  LABEL_STROKE_WIDTH,
-  LABEL_STROKE_COLOR,
   LABEL_RENDERED_SIZE_THRESHOLD,
   LABEL_CLICK_RADIUS,
-  EDGE_LABEL_ZOOM_THRESHOLD,
-  ICON_COLOR_DEFAULT
+  EDGE_LABEL_ZOOM_THRESHOLD
 } from '../../constants/graph.constants';
-
-const BorderedNodeProgram = createNodeBorderProgram({
-  borders: [
-    {
-      size: { value: NODE_WHITE_GAP_RATIO },
-      color: { value: NODE_COLOR_WHITE }
-    },
-    {
-      size: { value: NODE_BORDER_RATIO },
-      color: { attribute: 'borderColor' }
-    },
-    {
-      size: { value: NODE_WHITE_GAP_RATIO },
-      color: { value: NODE_COLOR_WHITE }
-    },
-    {
-      size: { fill: true },
-      color: { attribute: 'color' }
-    }
-  ]
-});
-
-const ENVELOPE_ICON_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${ICON_COLOR_DEFAULT}" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
-
-const ENVELOPE_ICON_DIMMED_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
-
-const envelopeImage = new Image();
-envelopeImage.src = ENVELOPE_ICON_SVG;
-
-const envelopeImageDimmed = new Image();
-envelopeImageDimmed.src = ENVELOPE_ICON_DIMMED_SVG;
-
-let sigmaInstanceForRefresh: Sigma | null = null;
-envelopeImage.onload = () => {
-  sigmaInstanceForRefresh?.refresh();
-};
-
-const drawEnvelopeIcon = (
-  context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  size: number,
-  isDimmed: boolean = false
-): void => {
-  const iconSize = size * 0.9;
-  const img = isDimmed ? envelopeImageDimmed : envelopeImage;
-  if (img.complete) {
-    context.drawImage(img, x - iconSize / 2, y - iconSize / 2, iconSize, iconSize);
-  }
-};
-
-const drawCustomLabel = (
-  context: CanvasRenderingContext2D,
-  data: PartialButFor<NodeDisplayData, 'x' | 'y' | 'size' | 'label' | 'color'>,
-  _settings: Settings
-): void => {
-  if (!data.label) {
-    return;
-  }
-
-  const size = data.size;
-  const x = data.x;
-  const y = data.y;
-  const isDimmed = data.color === NODE_COLOR_DIMMED;
-
-  drawEnvelopeIcon(context, x, y, size, isDimmed);
-
-  const fontSize = LABEL_FONT_SIZE;
-  const labelY = y + size + fontSize * 0.4;
-  const labelColor = isDimmed ? LABEL_COLOR_DIMMED : LABEL_COLOR;
-
-  context.font = `400 ${fontSize}px ${LABEL_FONT_FAMILY}, sans-serif`;
-  context.textAlign = 'center';
-  context.textBaseline = 'top';
-
-  context.strokeStyle = LABEL_STROKE_COLOR;
-  context.lineWidth = LABEL_STROKE_WIDTH;
-  context.lineJoin = 'round';
-  context.miterLimit = 2;
-  context.strokeText(data.label, x, labelY);
-
-  context.fillStyle = labelColor;
-  context.fillText(data.label, x, labelY);
-};
+import { BorderedNodeProgram, drawCustomLabel, setSigmaInstanceForRefresh } from './graph-canvas-rendering';
 
 @Component({
   selector: 'app-graph-canvas',
@@ -210,7 +115,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     this._sigma?.kill();
     this._sigma = null;
     this._graph = null;
-    sigmaInstanceForRefresh = null;
+    setSigmaInstanceForRefresh(null);
   }
 
   private _buildGraph(data: GraphData, positions: Record<string, { x: number; y: number }>): void {
@@ -288,7 +193,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         defaultDrawNodeHover: drawCustomLabel
       });
 
-      sigmaInstanceForRefresh = this._sigma;
+      setSigmaInstanceForRefresh(this._sigma);
 
       this._sigma.on('downNode', ({ node, event }) => {
         this._isDragging = true;
