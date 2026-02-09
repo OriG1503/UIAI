@@ -28,8 +28,8 @@
     </div>
   </div>
 
-  <div class="node-panel-area" [class.hidden]="$isLoading()">
-    <app-node-panel
+  <div class="graph-filters-panel-area" [class.hidden]="$isLoading()">
+    <app-graph-filters-panel
       [nodes]="$nodeList()"
       [selectedEmail]="$selectedNodeEmail()"
       [dateMin]="$dateMin()"

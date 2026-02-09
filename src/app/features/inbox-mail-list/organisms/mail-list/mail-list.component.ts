@@ -4,7 +4,6 @@ import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
 import { SortDirection } from '../../types/sort-direction.type';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
-import { MockGraphMailService } from '../../../../core/services/mock-graph-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
@@ -12,7 +11,7 @@ import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-fil
 import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
-import { BubbleOverride } from '../../types/bubble-override.type';
+import { GraphSelectionInfo } from '../../types/graph-selection-info.type';
 import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 
 type ContextMenuState = {
@@ -31,7 +30,6 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
-  private _graphMailService = inject(MockGraphMailService);
   private _selectedMailService = inject(SelectedMailService);
   private _highlightService = inject(HighlightService);
 
@@ -99,14 +97,14 @@ export class MailListComponent {
   $selectedMailId = signal<string | null>(null);
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
-  $overrideMails = input<Mail[] | null>(null, { alias: 'overrideMails' });
-  $bubbleOverride = input<BubbleOverride | null>(null, { alias: 'bubbleOverride' });
+  $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
+  $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
 
   readonly userEmail = this._mailService.userEmail;
   readonly inboxTranslations = INBOX_TRANSLATIONS;
 
-  $allMails = computed(() => this.$overrideMails() ?? this._mailService.mails());
+  $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
 
   $filteredMails = computed(() => {
     const filter = this.$activeFilter();
@@ -195,11 +193,7 @@ export class MailListComponent {
   }
 
   public onMailClick(mail: Mail): void {
-    if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsSeen(mail.filename);
-    } else {
-      this._mailService.markAsSeen(mail.filename);
-    }
+    this._selectedMailService.markMailAsSeen(mail);
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
@@ -232,11 +226,7 @@ export class MailListComponent {
   public onMarkAsUnseen(): void {
     const mail = this.$contextMenu().mail;
     if (mail) {
-      if (mail.filename.startsWith('graph-mail-')) {
-        this._graphMailService.markAsUnseen(mail.filename);
-      } else {
-        this._mailService.markAsUnseen(mail.filename);
-      }
+      this._selectedMailService.markMailAsUnseen(mail);
     }
     this.onCloseContextMenu();
   }

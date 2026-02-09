@@ -7,13 +7,13 @@ import { GraphNode } from '../../types/graph-node.type';
 import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
 import { GraphCanvasComponent } from '../../organisms/graph-canvas/graph-canvas.component';
 import { GraphDrawerComponent } from '../../organisms/graph-drawer/graph-drawer.component';
-import { NodePanelComponent } from '../../molecules/node-panel/node-panel.component';
+import { GraphFiltersPanelComponent } from '../../molecules/graph-filters-panel/graph-filters-panel.component';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 
 @Component({
   selector: 'app-graph-view',
   standalone: true,
-  imports: [GraphCanvasComponent, GraphDrawerComponent, NodePanelComponent],
+  imports: [GraphCanvasComponent, GraphDrawerComponent, GraphFiltersPanelComponent],
   templateUrl: './graph-view.component.html',
   styleUrl: './graph-view.component.scss'
 })

@@ -1,18 +1,18 @@
 <div class="mail-list-container">
-  @if ($bubbleOverride(); as override) {
+  @if ($graphSelectionInfo(); as selectionInfo) {
     <div class="override-bubble">
       <div class="override-bubble-info">
-        @if (override.type === 'node') {
-          <span class="override-bubble-email">{{ override.email }}</span>
+        @if (selectionInfo.type === 'node') {
+          <span class="override-bubble-email">{{ selectionInfo.email }}</span>
         }
-        @if (override.type === 'edge') {
+        @if (selectionInfo.type === 'edge') {
           <div class="override-bubble-row">
             <span class="override-bubble-label">From:</span>
-            <span class="override-bubble-email">{{ override.fromEmail }}</span>
+            <span class="override-bubble-email">{{ selectionInfo.fromEmail }}</span>
           </div>
           <div class="override-bubble-row">
             <span class="override-bubble-label">To:</span>
-            <span class="override-bubble-email">{{ override.toEmail }}</span>
+            <span class="override-bubble-email">{{ selectionInfo.toEmail }}</span>
           </div>
         }
       </div>

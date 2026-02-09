@@ -8,14 +8,14 @@ import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
-  selector: 'app-node-panel',
+  selector: 'app-graph-filters-panel',
   standalone: true,
   imports: [FormsModule, Slider, IconComponent],
-  templateUrl: './node-panel.component.html',
-  styleUrl: './node-panel.component.scss',
+  templateUrl: './graph-filters-panel.component.html',
+  styleUrl: './graph-filters-panel.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class NodePanelComponent {
+export class GraphFiltersPanelComponent {
   $nodes = input<GraphNode[]>([], { alias: 'nodes' });
   $selectedEmail = input<string | null>(null, { alias: 'selectedEmail' });
   $dateMin = input<number>(0, { alias: 'dateMin' });
@@ -55,7 +55,7 @@ export class NodePanelComponent {
       if (sortMode === 'mails') {
         return (b.mailCount - a.mailCount) * multiplier;
       }
-      return (b.rank - a.rank) * multiplier;
+      return (b.degree - a.degree) * multiplier;
     });
     if (!search) {
       return sorted;

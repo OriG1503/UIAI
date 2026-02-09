@@ -1,1 +1,1 @@
-export type NodeSortMode = 'mails' | 'rank';
+export type NodeSortMode = 'mails' | 'degree';

@@ -51,7 +51,7 @@ export class SelectedMailService {
     const list = this._mailList();
     if (index > 0) {
       const mail = list[index - 1];
-      this._markMailAsSeen(mail);
+      this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
     }
   }
@@ -61,16 +61,24 @@ export class SelectedMailService {
     const list = this._mailList();
     if (index >= 0 && index < list.length - 1) {
       const mail = list[index + 1];
-      this._markMailAsSeen(mail);
+      this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
     }
   }
 
-  private _markMailAsSeen(mail: Mail): void {
+  public markMailAsSeen(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
       this._graphMailService.markAsSeen(mail.filename);
     } else {
       this._mailService.markAsSeen(mail.filename);
+    }
+  }
+
+  public markMailAsUnseen(mail: Mail): void {
+    if (mail.filename.startsWith('graph-mail-')) {
+      this._graphMailService.markAsUnseen(mail.filename);
+    } else {
+      this._mailService.markAsUnseen(mail.filename);
     }
   }
 }

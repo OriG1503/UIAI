@@ -1,4 +1,4 @@
-<div class="node-panel">
+<div class="graph-filters-panel">
   <div class="filter-bubble">
     <div class="filter-group">
       <span class="filter-label">{{ translations.dateFilterLabel }}</span>
@@ -13,7 +13,6 @@
         (ngModelChange)="onDateRangeChange($event)"
         [range]="true"
         [step]="$dateStep()"
-        [style]="{ width: '100%' }"
       />
     </div>
 
@@ -30,7 +29,6 @@
         (ngModelChange)="onMailCountRangeChange($event)"
         [range]="true"
         [step]="1"
-        [style]="{ width: '100%' }"
       />
     </div>
   </div>
@@ -66,15 +64,15 @@
       </button>
       <button
         class="sort-button sort-button-left"
-        [class.sort-button-active]="$sortMode() === 'rank'"
-        (click)="onSortModeChange('rank')"
+        [class.sort-button-active]="$sortMode() === 'degree'"
+        (click)="onSortModeChange('degree')"
       >
         <app-icon
-          [name]="$sortMode() === 'rank' && $sortDirection() === 'asc' ? 'sort-amount-up' : 'sort-amount-down'"
+          [name]="$sortMode() === 'degree' && $sortDirection() === 'asc' ? 'sort-amount-up' : 'sort-amount-down'"
           size="0.7rem"
-          [color]="$sortMode() === 'rank' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+          [color]="$sortMode() === 'degree' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
         />
-        {{ translations.sortByRank }}
+        {{ translations.sortByDegree }}
       </button>
     </div>
 
@@ -91,7 +89,7 @@
           @if ($sortMode() === 'mails') {
             <span class="node-count node-count-mail">{{ node.mailCount }}</span>
           } @else {
-            <span class="node-count node-count-rank">{{ node.rank }}</span>
+            <span class="node-count node-count-degree">{{ node.degree }}</span>
           }
         </button>
       }

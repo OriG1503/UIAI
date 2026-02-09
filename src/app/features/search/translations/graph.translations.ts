@@ -9,7 +9,7 @@ export const GRAPH_TRANSLATIONS = {
   connections: 'קשרים',
   noSelection: 'לחץ על צומת או קשר לצפייה במיילים',
   sortByMails: 'מיילים',
-  sortByRank: 'דרגה',
+  sortByDegree: 'דרגה',
   zoomIn: 'הגדל',
   zoomOut: 'הקטן',
   recenter: 'מרכז',

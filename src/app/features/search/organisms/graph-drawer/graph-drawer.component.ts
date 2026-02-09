@@ -2,7 +2,7 @@ import { Component, input, output, signal, computed, inject, ElementRef, ViewChi
 import { Mail } from '../../../../shared/types/mail.type';
 import { DrawerState } from '../../types/drawer-state.type';
 import { GraphSelection } from '../../types/graph-selection.type';
-import { BubbleOverride } from '../../../inbox-mail-list/types/bubble-override.type';
+import { GraphSelectionInfo } from '../../../inbox-mail-list/types/graph-selection-info.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../../constants/graph.constants';
 import { MailListComponent } from '../../../inbox-mail-list/organisms/mail-list/mail-list.component';
@@ -24,7 +24,7 @@ export class GraphDrawerComponent {
 
   drawerClose = output<void>();
 
-  $bubbleOverride = computed<BubbleOverride | null>(() => {
+  $graphSelectionInfo = computed<GraphSelectionInfo | null>(() => {
     const selection = this.$selection();
     if (selection.type === 'node' && selection.nodeEmail) {
       return { type: 'node', email: selection.nodeEmail };

@@ -1,4 +1,4 @@
-.node-panel {
+.graph-filters-panel {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -172,7 +172,7 @@
           background-color: rgba(221, 6, 73, 0.1);
         }
 
-        .node-count-rank {
+        .node-count-degree {
           color: #6a859d;
           background-color: rgba(106, 133, 157, 0.15);
         }
@@ -190,7 +190,7 @@
           color: var(--color-white);
         }
 
-        .node-count-rank {
+        .node-count-degree {
           background-color: #6a859d;
           color: var(--color-white);
         }
@@ -200,6 +200,8 @@
 }
 
 .p-slider {
+  width: 100%;
+
   .p-slider-range {
     background-color: #dd0649;
   }

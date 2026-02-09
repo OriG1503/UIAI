@@ -11,19 +11,8 @@ import {
   FORCEATLAS2_ITERATIONS,
   FORCEATLAS2_SETTINGS
 } from '../constants/graph.constants';
-
-type MailUserInfo = {
-  mail?: string;
-  tag?: string;
-  username?: string;
-};
-
-type WorkerMail = {
-  from: { mail?: string; username?: string };
-  to: MailUserInfo[];
-  cc?: MailUserInfo[];
-  bcc?: MailUserInfo[];
-};
+import { MailUserInfo } from '../../../shared/types/mail-user-info.type';
+import { WorkerMail } from '../types/worker-mail.type';
 
 addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   const mails = data;
@@ -36,7 +25,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
       return;
     }
     if (!nodes.has(email)) {
-      nodes.set(email, { email, username: user.username ?? email, mailCount: 0, rank: 0 });
+      nodes.set(email, { email, username: user.username ?? email, mailCount: 0, degree: 0 });
     }
   };
 
@@ -83,10 +72,10 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
     const sourceNode = nodes.get(edge.sourceEmail);
     const targetNode = nodes.get(edge.targetEmail);
     if (sourceNode) {
-      sourceNode.rank++;
+      sourceNode.degree++;
     }
     if (targetNode) {
-      targetNode.rank++;
+      targetNode.degree++;
     }
   });
 
