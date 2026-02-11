@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { TimeUnit, TimeUnitOption } from '../../types/time-unit.type';
 import { VerbalChange } from '../../types/verbal-change.type';
-import { MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../constants/date-range.constants';
+import { DEFAULT_VERBAL_AMOUNT, DEFAULT_VERBAL_UNIT, MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../constants/date-range.constants';
 import { TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../translations/date-range.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
@@ -18,8 +18,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 export class VerbalViewComponent {
   verbalChange = output<VerbalChange>();
 
-  $verbalAmount = signal(2);
-  $verbalUnit = signal<TimeUnit>('weeks');
+  $verbalAmount = signal(DEFAULT_VERBAL_AMOUNT);
+  $verbalUnit = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
 
   readonly timeUnitOptions: TimeUnitOption[] = [
     { value: 'days', label: TIME_UNIT_LABELS.days },

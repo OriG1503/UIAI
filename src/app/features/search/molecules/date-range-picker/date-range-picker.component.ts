@@ -9,6 +9,7 @@ import {
   TIME_UNIT_LABELS,
   DATE_RANGE_TRANSLATIONS
 } from '../../translations/date-range.translations';
+import { DEFAULT_VERBAL_AMOUNT, DEFAULT_VERBAL_UNIT } from '../../constants/date-range.constants';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { CalendarViewComponent } from '../calendar-view/calendar-view.component';
 import { VerbalViewComponent } from '../verbal-view/verbal-view.component';
@@ -29,8 +30,8 @@ export class DateRangePickerComponent {
   $selectedMode = signal<DateRangeMode>('calendar');
   $selectedOption = signal<DateFilterOption>('option1');
   $lastSelectionMode = signal<DateRangeMode>('calendar');
-  private _$verbalAmount = signal(2);
-  private _$verbalUnit = signal<TimeUnit>('weeks');
+  private _$verbalAmount = signal(DEFAULT_VERBAL_AMOUNT);
+  private _$verbalUnit = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
 
   readonly timeUnitOptions: TimeUnitOption[] = [
     { value: 'days', label: TIME_UNIT_LABELS.days },
