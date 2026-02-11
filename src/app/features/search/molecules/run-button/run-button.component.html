@@ -4,13 +4,13 @@
   @if ($isPopupOpen()) {
     <div class="popup-overlay" (click)="closePopup()"></div>
     <div class="popup-container">
-      <button class="option-btn" (click)="selectOption('graph')">
-        <app-icon name="chart-bar" color="var(--color-navy-gray)" />
-        <span>{{ viewLabels.graph }}</span>
-      </button>
       <button class="option-btn" (click)="selectOption('list')">
         <app-icon name="list" color="var(--color-navy-gray)" />
         <span>{{ viewLabels.list }}</span>
+      </button>
+      <button class="option-btn" (click)="selectOption('graph')">
+        <app-icon name="chart-bar" color="var(--color-navy-gray)" />
+        <span>{{ viewLabels.graph }}</span>
       </button>
     </div>
   }

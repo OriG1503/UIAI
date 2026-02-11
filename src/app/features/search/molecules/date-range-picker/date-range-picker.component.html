@@ -1,48 +1,91 @@
 <div class="date-range-wrapper">
-  <button class="trigger-btn" (click)="togglePopup()">
-    <app-icon name="calendar" color="var(--color-navy-gray)" />
-    <span class="trigger-text">{{ $displayText() }}</span>
-    <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" class="dropdown-icon" />
+  <button
+    type="button"
+    class="date-btn"
+    [class.date-btn-open]="$isPopupOpen()"
+    [class.date-btn-has-data]="$isActive()"
+    (click)="togglePopup()"
+  >
+    <app-icon
+      name="calendar"
+      size="0.85rem"
+      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+    />
+    <span
+      class="date-btn-label"
+      [class.date-btn-label-ltr]="$isButtonLabelLtr()"
+    >
+      {{ $buttonLabel() }}
+    </span>
+    <app-icon
+      [name]="$isPopupOpen() ? 'chevron-up' : 'chevron-down'"
+      size="0.7rem"
+      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+    />
   </button>
 
   @if ($isPopupOpen()) {
-    <div class="popup-overlay" (click)="closePopup()"></div>
     <div class="popup-container">
-      @if ($selectedMode() === null) {
-        <div class="mode-selection">
-          <button class="mode-btn" (click)="selectMode('calendar')">
-            <app-icon name="calendar" color="var(--color-navy-gray)" />
-            <span>{{ modeLabels.calendar }}</span>
+      <div class="mode-toggle">
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.toggle-btn-active]="$selectedMode() === 'verbal'"
+          (click)="selectMode('verbal')"
+        >
+          {{ modeLabels.verbal }}
+        </button>
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.toggle-btn-active]="$selectedMode() === 'calendar'"
+          (click)="selectMode('calendar')"
+        >
+          {{ modeLabels.calendar }}
+        </button>
+      </div>
+
+      <div class="radio-group">
+        <div class="radio-option">
+          <button
+            type="button"
+            class="radio-btn"
+            [class.radio-btn-active]="$selectedOption() === 'option1'"
+            (click)="selectOption('option1')"
+          >
+            <span class="radio-dot"></span>
           </button>
-          <button class="mode-btn" (click)="selectMode('verbal')">
-            <app-icon name="clock" color="var(--color-navy-gray)" />
-            <span>{{ modeLabels.verbal }}</span>
-          </button>
+          <span class="radio-label">{{ optionLabels.option1 }}</span>
         </div>
-      } @else if ($selectedMode() === 'calendar') {
-        <div class="calendar-mode">
-          <button class="back-btn" (click)="goBackToModeSelection()">
-            <app-icon name="arrow-right" color="var(--color-navy-gray)" />
-            <span>{{ translations.back }}</span>
+        <div class="radio-option">
+          <button
+            type="button"
+            class="radio-btn"
+            [class.radio-btn-active]="$selectedOption() === 'option2'"
+            (click)="selectOption('option2')"
+          >
+            <span class="radio-dot"></span>
           </button>
+          <span class="radio-label">{{ optionLabels.option2 }}</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      @if ($selectedMode() === 'calendar') {
+        <div class="calendar-section">
           <p-datepicker
             [ngModel]="$dateRange()"
             (ngModelChange)="onCalendarSelect($event)"
             selectionMode="range"
             [inline]="true"
+            [showOtherMonths]="true"
           />
         </div>
       } @else if ($selectedMode() === 'verbal') {
-        <div class="verbal-mode">
-          <button class="back-btn" (click)="goBackToModeSelection()">
-            <app-icon name="arrow-right" color="var(--color-navy-gray)" />
-            <span>{{ translations.back }}</span>
-          </button>
+        <div class="verbal-section">
           <div class="verbal-content">
             <div class="amount-stepper">
-              <button class="stepper-btn" (click)="decrementAmount()" [disabled]="$verbalAmount() <= 1">
-                <app-icon name="minus" size="0.75rem" />
-              </button>
               <input
                 type="number"
                 class="amount-input"
@@ -51,20 +94,59 @@
                 min="1"
                 [max]="maxAmount"
               />
-              <button class="stepper-btn" (click)="incrementAmount()" [disabled]="$verbalAmount() >= maxAmount">
-                <app-icon name="plus" size="0.75rem" />
-              </button>
+              <div class="stepper-arrows">
+                <button
+                  type="button"
+                  class="stepper-arrow-btn"
+                  (click)="incrementAmount()"
+                  [disabled]="$verbalAmount() >= maxAmount"
+                >
+                  <app-icon
+                    name="chevron-up"
+                    size="0.55rem"
+                  />
+                </button>
+                <button
+                  type="button"
+                  class="stepper-arrow-btn"
+                  (click)="decrementAmount()"
+                  [disabled]="$verbalAmount() <= 1"
+                >
+                  <app-icon
+                    name="chevron-down"
+                    size="0.55rem"
+                  />
+                </button>
+              </div>
             </div>
             <p-select
               [options]="timeUnitOptions"
               [ngModel]="$verbalUnit()"
-              (ngModelChange)="$verbalUnit.set($event)"
+              (ngModelChange)="onUnitChange($event)"
               optionLabel="label"
               optionValue="value"
               styleClass="unit-select"
             />
+            <span class="verbal-last-label">{{ translations.lastLabel }}</span>
           </div>
-          <button class="apply-btn" (click)="applyVerbalRange()">{{ translations.apply }}</button>
+        </div>
+      }
+
+      @if ($selectedMode() === 'calendar') {
+        <div class="divider"></div>
+
+        <div class="date-display">
+          <div class="date-display-item">
+            <span class="date-display-value">
+              {{ $fromDate() ?? translations.fromPlaceholder }}
+            </span>
+          </div>
+          <span class="date-display-separator">-</span>
+          <div class="date-display-item">
+            <span class="date-display-value">
+              {{ $toDate() ?? translations.toPlaceholder }}
+            </span>
+          </div>
         </div>
       }
     </div>

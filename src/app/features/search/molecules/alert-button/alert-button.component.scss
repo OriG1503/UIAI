@@ -1,62 +1,90 @@
 app-alert-button {
   display: block;
 
-  .alert-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--input-height);
-    height: var(--input-height);
-    border: none;
-    border-radius: var(--border-radius);
-    background-color: var(--color-white);
-    color: var(--color-dark-navy);
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  .alert-wrapper {
+    position: relative;
 
-    &:hover {
-      background-color: var(--color-light-gray);
+    .alert-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--input-height);
+      height: var(--input-height);
+      border: none;
+      border-radius: var(--border-radius);
+      background-color: var(--color-white);
+      color: var(--color-dark-navy);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--color-light-gray);
+      }
+
+      i {
+        font-size: 1rem;
+      }
     }
 
-    i {
-      font-size: 1rem;
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
     }
-  }
-}
 
-.alert-menu.p-menu {
-  border-radius: 0.5rem;
-  min-width: auto;
-  width: fit-content;
-  padding: 0.25rem;
+    .popup-container {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem 1rem;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-navy-gray);
+      border-radius: 0.5rem;
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      white-space: nowrap;
 
-  .p-menuitem {
-    width: fit-content;
+      .popup-header {
+        font-family: var(--font-family);
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--color-dark-navy);
+        direction: ltr;
+        text-align: center;
+      }
 
-    .p-menuitem-content {
-      width: fit-content;
+      .popup-divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-navy-gray);
+        margin: 0.5rem 0;
+      }
 
-      .p-menuitem-link {
-        display: inline-flex;
-        width: auto;
-        padding: 0.4rem 0.6rem;
-        border-radius: 0.25rem;
-        transition: all 0.2s ease;
+      .popup-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
 
-        &:hover {
-          background-color: var(--color-dark-navy);
-          color: var(--color-white);
-
-          .p-menuitem-text {
-            color: var(--color-white);
-          }
-        }
-
-        .p-menuitem-text {
+        .action-btn {
+          padding: 0.4rem 0.6rem;
+          border: none;
+          border-radius: 0.25rem;
+          background-color: transparent;
+          color: var(--color-dark-navy);
           font-family: var(--font-family);
           font-size: 0.875rem;
-          white-space: nowrap;
-          transition: color 0.2s ease;
+          cursor: pointer;
+          text-align: start;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background-color: rgba(63, 112, 227, 0.1);
+          }
         }
       }
     }

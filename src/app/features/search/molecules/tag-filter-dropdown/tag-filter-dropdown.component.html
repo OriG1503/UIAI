@@ -7,16 +7,18 @@
     (click)="togglePopup()"
   >
     <span class="tag-btn-label">{{ $buttonLabel() }}</span>
-    <app-icon
-      name="chevron-down"
-      size="0.7rem"
-      [color]="$isPopupOpen() || $isActive() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
-    />
+    <span class="tag-btn-icon">
+      <app-icon
+        [name]="$isPopupOpen() ? 'chevron-up' : 'chevron-down'"
+        size="0.7rem"
+        [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+      />
+    </span>
   </button>
 
   @if ($isPopupOpen()) {
     <div class="popup-container">
-      <div class="popup-header">
+      <div class="search-row">
         <button
           type="button"
           class="clear-btn"
@@ -26,10 +28,25 @@
         >
           {{ translations.clear }}
         </button>
-        <span class="counter-label">{{ $counterLabel() }}</span>
+        <input
+          #searchInput
+          type="text"
+          class="search-input"
+          dir="ltr"
+          [placeholder]="translations.searchPlaceholder"
+          [ngModel]="$searchText()"
+          (ngModelChange)="onSearchChange($event)"
+          (keydown)="onSearchKeydown($event)"
+        />
       </div>
 
-      @if ($selectedTagOptions().length > 0) {
+      @if ($searchText() === '') {
+        <div class="empty-state">
+          <span class="empty-state-text">{{ translations.searchToStart }}</span>
+        </div>
+      } @else {
+        <div class="divider"></div>
+
         <div class="selected-tags">
           @for (tag of $selectedTagOptions(); track tag.value) {
             <div class="selected-tag">
@@ -42,51 +59,22 @@
                 <app-icon
                   name="trash"
                   size="0.7rem"
-                  color="var(--color-white)"
+                  color="var(--color-red)"
                 />
               </button>
             </div>
           }
         </div>
-      }
 
-      <div class="separator"></div>
+        <div class="divider"></div>
 
-      <div class="search-section">
-        <input
-          type="text"
-          class="search-input"
-          dir="rtl"
-          [placeholder]="translations.searchPlaceholder"
-          [ngModel]="$searchText()"
-          (ngModelChange)="onSearchChange($event)"
-        />
-        @if ($searchText()) {
-          <button
-            type="button"
-            class="search-clear-btn"
-            (click)="onSearchChange('')"
-          >
-            <app-icon
-              name="times"
-              size="0.65rem"
-              color="var(--color-navy-gray)"
-            />
-          </button>
-        }
-      </div>
-
-      @if ($searchText() === '') {
-        <div class="empty-state">
-          <span class="empty-state-text">{{ translations.searchToStart }}</span>
-        </div>
-      } @else {
-        <div class="results-list">
-          @for (option of $filteredOptions(); track option.value) {
+        <div class="results-list" #resultsList>
+          @for (option of $filteredOptions(); track option.value; let i = $index) {
             <button
               type="button"
               class="result-item"
               [class.result-item-selected]="isSelected(option.value)"
+              [class.result-item-highlighted]="$highlightedIndex() === i"
               (click)="toggleTag(option)"
             >
               {{ option.label }}
@@ -94,7 +82,7 @@
           }
           @if ($filteredOptions().length === 0) {
             <div class="no-results">
-              <span class="no-results-text">No results</span>
+              <span class="no-results-text">{{ translations.noResults }}</span>
             </div>
           }
         </div>

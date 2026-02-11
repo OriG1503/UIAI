@@ -4,26 +4,33 @@
 
 .switch-container {
   display: flex;
-  gap: 0.25rem;
+  direction: ltr;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-dark-navy);
+  border-radius: 1.5rem;
+  padding: 0.15rem;
+  width: fit-content;
 
   .switch-btn {
-    height: var(--input-height);
-    padding: 0 1rem;
+    padding: 0.3rem 1.25rem;
     border: 1px solid transparent;
-    border-radius: var(--border-radius);
-    background-color: var(--color-white);
+    border-radius: 1.25rem;
+    background-color: transparent;
     color: var(--color-dark-navy);
     font-family: var(--font-family);
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    transition: border-color 0.2s ease;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
 
-    &:hover {
-      border-color: var(--color-navy-gray);
-    }
+  .switch-btn-active {
+    border-color: var(--color-dark-navy);
+  }
 
-    &.active {
-      border-color: var(--color-navy-gray);
-    }
+  .switch-btn-agent {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 }

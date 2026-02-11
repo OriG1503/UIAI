@@ -1,37 +1,47 @@
-import { Component, output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Menu } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { Component, output, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { BUTTON_TRANSLATIONS } from '../../../../shared/translations/common.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-alert-button',
   standalone: true,
-  imports: [Menu, IconComponent],
+  imports: [IconComponent],
   templateUrl: './alert-button.component.html',
   styleUrl: './alert-button.component.scss',
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class AlertButtonComponent {
-  @ViewChild('menu') menu!: Menu;
-
   openIssue = output<void>();
   openRequest = output<void>();
 
+  $isPopupOpen = signal(false);
+
   readonly buttonLabels = BUTTON_TRANSLATIONS;
 
-  menuItems: MenuItem[] = [
-    {
-      label: this.buttonLabels.openIssue,
-      command: () => this.openIssue.emit(),
-    },
-    {
-      label: this.buttonLabels.openRequest,
-      command: () => this.openRequest.emit(),
-    },
-  ];
+  constructor(private _elementRef: ElementRef) {}
 
-  public onButtonClick(event: Event): void {
-    this.menu.toggle(event);
+  @HostListener('document:click', ['$event'])
+  public onDocumentClick(event: Event): void {
+    if (!this._elementRef.nativeElement.contains(event.target)) {
+      this.$isPopupOpen.set(false);
+    }
+  }
+
+  public togglePopup(): void {
+    this.$isPopupOpen.update((isOpen) => !isOpen);
+  }
+
+  public closePopup(): void {
+    this.$isPopupOpen.set(false);
+  }
+
+  public onIssueClick(): void {
+    this.openIssue.emit();
+    this.closePopup();
+  }
+
+  public onRequestClick(): void {
+    this.openRequest.emit();
+    this.closePopup();
   }
 }
