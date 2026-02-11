@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { IconName } from '../../constants/icon-name.constants';
 
 @Component({
   selector: 'app-icon',
@@ -7,7 +8,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './icon.component.scss',
 })
 export class IconComponent {
-  $name = input.required<string>({ alias: 'name' });
+  $name = input.required<IconName>({ alias: 'name' });
   $size = input<string>('1rem', { alias: 'size' });
-  $color = input<string>('inherit', { alias: 'color' });
+  $color = input<string>('currentColor', { alias: 'color' });
 }

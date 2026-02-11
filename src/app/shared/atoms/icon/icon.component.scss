@@ -2,4 +2,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  .icon {
+    display: inline-block;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
 }

@@ -3,6 +3,7 @@ import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.transl
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../core/services/highlight.service';
+import { IconName } from '../../../../shared/constants/icon-name.constants';
 
 const EXTENSION_COLORS: Record<string, string> = {
   docx: '#2f67bf',
@@ -21,7 +22,7 @@ const EXTENSION_COLORS: Record<string, string> = {
   default: '#9ca3af'
 };
 
-const EXTENSION_ICONS: Record<string, string> = {
+const EXTENSION_ICONS: Record<string, IconName> = {
   docx: 'file-word',
   doc: 'file-word',
   xlsx: 'file-excel',
@@ -77,7 +78,7 @@ export class MailAttachmentsComponent {
     return EXTENSION_COLORS[ext] ?? EXTENSION_COLORS['default'];
   }
 
-  public getExtensionIcon(filename: string): string {
+  public getExtensionIcon(filename: string): IconName {
     const ext = filename.split('.').pop()?.toLowerCase() ?? '';
     return EXTENSION_ICONS[ext] ?? EXTENSION_ICONS['default'];
   }

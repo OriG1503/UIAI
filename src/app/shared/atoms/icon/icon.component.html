@@ -1,5 +1,8 @@
-<i
-  class="pi pi-{{ $name() }}"
-  [style.font-size]="$size()"
-  [style.color]="$color()"
-></i>
+<span
+  class="icon"
+  [style.width]="$size()"
+  [style.height]="$size()"
+  [style.backgroundColor]="$color()"
+  [style.-webkit-mask-image]="'url(assets/icons/' + $name() + '.svg)'"
+  [style.mask-image]="'url(assets/icons/' + $name() + '.svg)'"
+></span>
