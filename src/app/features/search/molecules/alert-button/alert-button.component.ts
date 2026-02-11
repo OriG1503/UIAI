@@ -1,6 +1,7 @@
 import { Component, output, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { BUTTON_TRANSLATIONS } from '../../../../shared/translations/common.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-alert-button',
@@ -11,6 +12,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   encapsulation: ViewEncapsulation.None
 })
 export class AlertButtonComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   openIssue = output<void>();
   openRequest = output<void>();
 

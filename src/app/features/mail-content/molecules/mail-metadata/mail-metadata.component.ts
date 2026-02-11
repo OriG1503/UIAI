@@ -5,6 +5,7 @@ import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.transl
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../core/services/highlight.service';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-mail-metadata',
@@ -18,6 +19,7 @@ export class MailMetadataComponent {
 
   $mail = input.required<Mail>({ alias: 'mail' });
 
+  readonly ICON_NAMES = ICON_NAMES;
   readonly translations = INBOX_TRANSLATIONS;
 
   $searchTerms = computed(() => this._highlightService.$searchTerms());

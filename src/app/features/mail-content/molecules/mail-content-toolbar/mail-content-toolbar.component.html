@@ -1,7 +1,7 @@
 <div class="mail-content-toolbar">
   <div class="toolbar-right">
     <button type="button" class="icon-btn" (click)="onDownloadClick()">
-      <app-icon name="download" size="0.875rem" color="var(--color-navy-gray)" />
+      <app-icon [name]="ICON_NAMES.DOWNLOAD" size="0.875rem" color="var(--color-navy-gray)" />
     </button>
     <div class="nav-buttons">
       <button
@@ -10,7 +10,7 @@
         [disabled]="!$hasPrevious()"
         (click)="onPreviousClick()"
       >
-        <app-icon name="chevron-left" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
+        <app-icon [name]="ICON_NAMES.CHEVRON_LEFT" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
       </button>
       <button
         type="button"
@@ -18,7 +18,7 @@
         [disabled]="!$hasNext()"
         (click)="onNextClick()"
       >
-        <app-icon name="chevron-right" size="0.875rem" [color]="$hasNext() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
+        <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.875rem" [color]="$hasNext() ? 'var(--color-navy-gray)' : 'var(--color-light-gray)'" />
       </button>
     </div>
   </div>
@@ -27,7 +27,7 @@
     <div class="encoding-wrapper">
       <button type="button" class="encoding-btn" (click)="onEncodingClick()">
         <span>{{ $selectedEncoding() === 'none' ? translations.encoding : encodingLabels[$selectedEncoding()] }}</span>
-        <app-icon name="chevron-down" size="0.75rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.CHEVRON_DOWN" size="0.75rem" color="var(--color-navy-gray)" />
       </button>
       @if ($isEncodingPopupOpen()) {
         <div class="encoding-popup">
@@ -40,7 +40,7 @@
             >
               {{ encodingLabels[enc] }}
               @if ($selectedEncoding() === enc) {
-                <app-icon name="check" size="0.75rem" color="var(--color-blue)" />
+                <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-blue)" />
               }
             </button>
           }

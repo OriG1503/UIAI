@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../types/tag-option.type';
 import { TAG_FILTER_TRANSLATIONS } from '../../translations/search.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-tag-filter-dropdown',
@@ -12,6 +13,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   styleUrl: './tag-filter-dropdown.component.scss'
 })
 export class TagFilterDropdownComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   $options = input<TagOption[]>([], { alias: 'options' });
   $selectedValues = input<string[]>([], { alias: 'selectedValues' });
 

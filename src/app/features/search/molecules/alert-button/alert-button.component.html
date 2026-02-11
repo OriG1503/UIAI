@@ -1,6 +1,6 @@
 <div class="alert-wrapper">
   <button type="button" class="alert-btn" (click)="togglePopup()" [title]="buttonLabels.openTicket">
-    <app-icon name="exclamation-triangle" />
+    <app-icon [name]="ICON_NAMES.EXCLAMATION_TRIANGLE" />
   </button>
 
   @if ($isPopupOpen()) {

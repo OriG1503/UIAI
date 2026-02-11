@@ -3,7 +3,7 @@ import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.transl
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../core/services/highlight.service';
-import { IconName } from '../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES, IconName } from '../../../../shared/constants/icon-name.constants';
 
 const EXTENSION_COLORS: Record<string, string> = {
   docx: '#2f67bf',
@@ -23,20 +23,20 @@ const EXTENSION_COLORS: Record<string, string> = {
 };
 
 const EXTENSION_ICONS: Record<string, IconName> = {
-  docx: 'file-word',
-  doc: 'file-word',
-  xlsx: 'file-excel',
-  xls: 'file-excel',
-  png: 'image',
-  jpg: 'image',
-  jpeg: 'image',
-  gif: 'image',
-  pdf: 'file-pdf',
-  pptx: 'file',
-  ppt: 'file',
-  txt: 'file',
-  zip: 'file',
-  default: 'file'
+  docx: ICON_NAMES.FILE_WORD,
+  doc: ICON_NAMES.FILE_WORD,
+  xlsx: ICON_NAMES.FILE_EXCEL,
+  xls: ICON_NAMES.FILE_EXCEL,
+  png: ICON_NAMES.IMAGE,
+  jpg: ICON_NAMES.IMAGE,
+  jpeg: ICON_NAMES.IMAGE,
+  gif: ICON_NAMES.IMAGE,
+  pdf: ICON_NAMES.FILE_PDF,
+  pptx: ICON_NAMES.FILE,
+  ppt: ICON_NAMES.FILE,
+  txt: ICON_NAMES.FILE,
+  zip: ICON_NAMES.FILE,
+  default: ICON_NAMES.FILE
 };
 
 @Component({
@@ -54,6 +54,7 @@ export class MailAttachmentsComponent {
   downloadAllClick = output<void>();
   downloadAttachmentClick = output<string>();
 
+  readonly ICON_NAMES = ICON_NAMES;
   readonly translations = INBOX_TRANSLATIONS;
 
   $attachmentCount = computed(() => this.$attachments().length);

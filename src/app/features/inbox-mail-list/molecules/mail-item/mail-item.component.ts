@@ -4,6 +4,7 @@ import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
 import { HighlightTextPipe } from '../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../core/services/highlight.service';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 export type ContextMenuEvent = {
   mail: Mail;
@@ -20,6 +21,8 @@ export type ContextMenuEvent = {
 })
 export class MailItemComponent {
   private _highlightService = inject(HighlightService);
+
+  readonly ICON_NAMES = ICON_NAMES;
 
   $mail = input.required<Mail>({ alias: 'mail' });
   $isStarred = input<boolean>(false, { alias: 'isStarred' });

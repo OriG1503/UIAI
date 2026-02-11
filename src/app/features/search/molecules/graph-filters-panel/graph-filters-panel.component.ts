@@ -6,6 +6,7 @@ import { NodeSortMode } from '../../types/node-sort-mode.type';
 import { SortDirection } from '../../types/sort-direction.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-graph-filters-panel',
@@ -16,6 +17,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   encapsulation: ViewEncapsulation.None
 })
 export class GraphFiltersPanelComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   $nodes = input<GraphNode[]>([], { alias: 'nodes' });
   $selectedEmail = input<string | null>(null, { alias: 'selectedEmail' });
   $dateMin = input<number>(0, { alias: 'dateMin' });

@@ -1,6 +1,7 @@
 import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
 import { SortDirection } from '../../types/sort-direction.type';
@@ -30,6 +31,7 @@ export class MailFilterBarComponent {
   $isLanguagePopupOpen = signal<boolean>(false);
   $selectedLanguage = signal<Language>('en');
 
+  readonly ICON_NAMES = ICON_NAMES;
   readonly languages: Language[] = ['en', 'es', 'fr'];
   readonly languageLabels = LANGUAGE_LABELS;
   readonly translations = INBOX_TRANSLATIONS;

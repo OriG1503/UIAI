@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { SEARCH_TRANSLATIONS } from '../../translations/search.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-search-input',
@@ -12,6 +13,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   styleUrl: './search-input.component.scss',
 })
 export class SearchInputComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   $value = input<string>('', { alias: 'value' });
   valueChange = output<string>();
   advancedClick = output<void>();

@@ -1,6 +1,7 @@
 import { Component, input, output, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 const MENU_WIDTH = 160;
 const MENU_HEIGHT = 40;
@@ -21,6 +22,7 @@ export class ContextMenuComponent implements AfterViewInit {
   markAsUnseenClick = output<void>();
   closeMenu = output<void>();
 
+  readonly ICON_NAMES = ICON_NAMES;
   readonly translations = INBOX_TRANSLATIONS;
 
   private _menuDimensions = signal({ width: MENU_WIDTH, height: MENU_HEIGHT });
