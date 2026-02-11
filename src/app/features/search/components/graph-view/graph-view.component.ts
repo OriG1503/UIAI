@@ -179,6 +179,9 @@ export class GraphViewComponent {
 
   public onDateRangeChange(values: number[]): void {
     this.$dateRangeValues.set(values);
+    const newMax = this.$mailCountMax();
+    const [currentMin] = this.$mailCountRangeValues();
+    this.$mailCountRangeValues.set([currentMin, newMax]);
   }
 
   public onMailCountRangeChange(values: number[]): void {
