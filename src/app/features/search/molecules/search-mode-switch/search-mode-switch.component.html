@@ -1,18 +1,19 @@
 <div class="switch-container">
   <button
     type="button"
-    class="switch-btn"
-    [class.active]="$mode() === 'regular'"
-    (click)="onModeSelect('regular')"
+    class="switch-btn switch-btn-agent"
+    [class.switch-btn-active]="$mode() === 'agent'"
+    (click)="onModeSelect('agent')"
   >
-    {{ labels.regular }}
+    <span class="agent-label">{{ labels.agent }}</span>
+    <app-gemini-icon size="0.75rem" />
   </button>
   <button
     type="button"
-    class="switch-btn"
-    [class.active]="$mode() === 'agent'"
-    (click)="onModeSelect('agent')"
+    class="switch-btn switch-btn-search"
+    [class.switch-btn-active]="$mode() === 'regular'"
+    (click)="onModeSelect('regular')"
   >
-    {{ labels.agent }}
+    {{ labels.regular }}
   </button>
 </div>

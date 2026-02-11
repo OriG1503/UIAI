@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, ElementRef, HostListener } from '@angular/core';
+import { Component, input, output, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../types/tag-option.type';
 import { TAG_FILTER_TRANSLATIONS } from '../../translations/search.translations';
@@ -17,8 +17,12 @@ export class TagFilterDropdownComponent {
 
   tagsChange = output<string[]>();
 
+  @ViewChild('resultsList') private _resultsList?: ElementRef<HTMLDivElement>;
+  @ViewChild('searchInput') private _searchInput?: ElementRef<HTMLInputElement>;
+
   $isPopupOpen = signal(false);
   $searchText = signal('');
+  $highlightedIndex = signal(-1);
 
   readonly translations = TAG_FILTER_TRANSLATIONS;
 
@@ -44,13 +48,14 @@ export class TagFilterDropdownComponent {
       return [];
     }
 
-    return options.filter((option) => option.label.toLowerCase().includes(searchText));
+    return options
+      .filter((option) => option.label.toLowerCase().includes(searchText))
+      .sort((a, b) => a.label.localeCompare(b.label));
   });
 
   $buttonLabel = computed(() => {
     const count = this.$selectedValues().length;
-    const isOpen = this.$isPopupOpen();
-    if (isOpen || count === 0) {
+    if (count === 0 && !this.$isPopupOpen()) {
       return this.translations.defaultLabel;
     }
     if (count === 1) {
@@ -79,7 +84,9 @@ export class TagFilterDropdownComponent {
 
   public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);
-    if (!this.$isPopupOpen()) {
+    if (this.$isPopupOpen()) {
+      setTimeout(() => this._searchInput?.nativeElement.focus());
+    } else {
       this.$searchText.set('');
     }
   }
@@ -107,5 +114,43 @@ export class TagFilterDropdownComponent {
 
   public onSearchChange(value: string): void {
     this.$searchText.set(value);
+    this.$highlightedIndex.set(-1);
+  }
+
+  public onSearchKeydown(event: KeyboardEvent): void {
+    const options = this.$filteredOptions();
+    if (options.length === 0) {
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.$highlightedIndex.update((i) => (i < options.length - 1 ? i + 1 : 0));
+      this._scrollToHighlighted();
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.$highlightedIndex.update((i) => (i > 0 ? i - 1 : options.length - 1));
+      this._scrollToHighlighted();
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      const index = this.$highlightedIndex();
+      if (index >= 0 && index < options.length) {
+        this.toggleTag(options[index]);
+      }
+    }
+  }
+
+  private _scrollToHighlighted(): void {
+    setTimeout(() => {
+      const list = this._resultsList?.nativeElement;
+      if (!list) {
+        return;
+      }
+      const items = list.querySelectorAll('.result-item');
+      const item = items[this.$highlightedIndex()];
+      if (item) {
+        item.scrollIntoView({ block: 'nearest' });
+      }
+    });
   }
 }

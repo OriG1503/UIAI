@@ -18,7 +18,8 @@
       "Bash(tree /F \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\search\" -L 3)",
       "Bash(npm ls:*)",
       "Bash(git -C \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\" log --oneline -10)",
-      "Bash(del \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\inbox-mail-list\\\\types\\\\bubble-override.type.ts\")"
+      "Bash(del \"C:\\\\Users\\\\Ori\\\\Desktop\\\\Coding\\\\uiai\\\\src\\\\app\\\\features\\\\inbox-mail-list\\\\types\\\\bubble-override.type.ts\")",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, output, signal, ElementRef, HostListener } from '@angular/core';
 import { SearchViewType } from '../../types/search-view-type.type';
 import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../translations/search.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
@@ -17,6 +17,15 @@ export class RunButtonComponent {
 
   readonly viewLabels = SEARCH_VIEW_LABELS;
   readonly translations = SEARCH_TRANSLATIONS;
+
+  constructor(private _elementRef: ElementRef) {}
+
+  @HostListener('document:click', ['$event'])
+  public onDocumentClick(event: Event): void {
+    if (!this._elementRef.nativeElement.contains(event.target)) {
+      this.$isPopupOpen.set(false);
+    }
+  }
 
   public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);

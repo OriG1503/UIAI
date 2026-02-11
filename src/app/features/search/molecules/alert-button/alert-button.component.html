@@ -1,4 +1,21 @@
-<button type="button" class="alert-btn" (click)="onButtonClick($event)" [title]="buttonLabels.openTicket">
-  <app-icon name="exclamation-triangle" />
-</button>
-<p-menu #menu [model]="menuItems" [popup]="true" styleClass="alert-menu" />
+<div class="alert-wrapper">
+  <button type="button" class="alert-btn" (click)="togglePopup()" [title]="buttonLabels.openTicket">
+    <app-icon name="exclamation-triangle" />
+  </button>
+
+  @if ($isPopupOpen()) {
+    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div class="popup-container">
+      <span class="popup-header">VOIP 1234</span>
+      <div class="popup-divider"></div>
+      <div class="popup-actions">
+        <button type="button" class="action-btn" (click)="onIssueClick()">
+          {{ buttonLabels.openIssue }}
+        </button>
+        <button type="button" class="action-btn" (click)="onRequestClick()">
+          {{ buttonLabels.openRequest }}
+        </button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,241 +1,146 @@
-:host {
+app-date-range-picker {
   display: block;
-}
 
-.date-range-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
+  .date-range-wrapper {
+    position: relative;
 
-  .trigger-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    height: var(--input-height);
-    padding: 0 0.75rem;
-    border: 1px solid var(--color-navy-gray);
-    border-radius: var(--border-radius);
-    background-color: var(--color-white);
-    color: var(--color-dark-navy);
-    font-family: var(--font-family);
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: border-color 0.2s ease;
-    white-space: nowrap;
+    .date-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      height: var(--input-height);
+      min-width: 12.5rem;
+      padding: 0 0.75rem;
+      border: 1px solid var(--color-dark-navy);
+      border-radius: var(--border-radius);
+      background-color: var(--color-white);
+      color: var(--color-dark-navy);
+      font-family: var(--font-family);
+      font-size: 0.875rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
 
-    &:hover {
+      .date-btn-label {
+        direction: rtl;
+      }
+    }
+
+    .date-btn-open {
+      background-color: var(--color-dark-navy);
+      border-color: var(--color-dark-navy);
+      color: var(--color-white);
+
+      &:hover {
+        border-color: var(--color-dark-navy);
+      }
+    }
+
+    .date-btn-has-data {
       border-color: var(--color-dark-navy);
     }
 
-    i.pi-calendar {
-      color: var(--color-navy-gray);
-    }
-
-    .trigger-text {
-      flex: 1;
-    }
-
-    .dropdown-icon {
-      color: var(--color-navy-gray);
-      font-size: 0.75rem;
-    }
-  }
-
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-  }
-
-  .popup-container {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-navy-gray);
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    min-width: 200px;
-
-    .mode-selection {
+    .popup-container {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 17rem;
       display: flex;
       flex-direction: column;
+      background-color: var(--color-white);
+      border: 1px solid var(--color-navy-gray);
+      border-radius: 0.5rem;
+      box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+      z-index: 1000;
       padding: 0.5rem;
-      gap: 0.25rem;
 
-      .mode-btn {
+      .mode-toggle {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1rem;
-        border: none;
-        border-radius: 0.25rem;
-        background-color: transparent;
-        color: var(--color-dark-navy);
-        font-family: var(--font-family);
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-        text-align: right;
+        direction: ltr;
+        background-color: var(--color-light-gray);
+        border-radius: 1.5rem;
+        padding: 0.15rem;
+        width: fit-content;
+        align-self: center;
 
-        &:hover {
-          background-color: var(--color-light-gray);
-        }
-
-        i {
-          color: var(--color-navy-gray);
-        }
-      }
-    }
-
-    .calendar-mode {
-      padding-bottom: 0.5rem;
-
-      .back-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        padding: 0.5rem;
-        margin: 0.5rem;
-        border: none;
-        border-radius: 0.25rem;
-        background-color: transparent;
-        color: var(--color-navy-gray);
-        font-family: var(--font-family);
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: color 0.2s ease;
-
-        &:hover {
+        .toggle-btn {
+          padding: 0.3rem 1.25rem;
+          border: 2px solid transparent;
+          border-radius: 1.25rem;
+          background-color: transparent;
           color: var(--color-dark-navy);
+          font-family: var(--font-family);
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
         }
-      }
-    }
 
-    .verbal-mode {
-      padding: 0 0.5rem 0.5rem;
-
-      .back-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        padding: 0.5rem;
-        margin: 0.5rem 0;
-        border: none;
-        border-radius: 0.25rem;
-        background-color: transparent;
-        color: var(--color-navy-gray);
-        font-family: var(--font-family);
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: color 0.2s ease;
-
-        &:hover {
-          color: var(--color-dark-navy);
+        .toggle-btn-active {
+          border-color: var(--color-dark-navy);
+          background-color: var(--color-white);
         }
       }
 
-      .verbal-content {
+      .radio-group {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 0.5rem;
+        justify-content: center;
+        gap: 1.5rem;
+        padding: 0.5rem 0;
 
-        .amount-stepper {
+        .radio-option {
           display: flex;
+          flex-direction: row;
           align-items: center;
-          border: 1px solid var(--color-navy-gray);
-          border-radius: 0.25rem;
-          overflow: hidden;
+          gap: 0.35rem;
+          cursor: pointer;
 
-          .stepper-btn {
+          .radio-btn {
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 50%;
+            border: 1.5px solid var(--color-navy-gray);
+            background: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            border: none;
-            background-color: var(--color-light-gray);
-            color: var(--color-dark-navy);
-            cursor: pointer;
-            transition: background-color 0.2s ease;
+            padding: 0;
+            flex-shrink: 0;
+            transition: border-color 0.2s ease;
 
-            &:hover:not(:disabled) {
-              background-color: var(--color-navy-gray);
-            }
-
-            &:disabled {
-              opacity: 0.5;
-              cursor: not-allowed;
-            }
-
-            i {
-              font-size: 0.75rem;
+            .radio-dot {
+              width: 0.4rem;
+              height: 0.4rem;
+              border-radius: 50%;
+              background-color: transparent;
+              transition: background-color 0.2s ease;
             }
           }
 
-          .amount-input {
-            width: 3rem;
-            height: 2rem;
-            border: none;
-            border-left: 1px solid var(--color-navy-gray);
-            border-right: 1px solid var(--color-navy-gray);
-            text-align: center;
+          .radio-btn-active {
+            border-color: var(--color-red);
+
+            .radio-dot {
+              background-color: var(--color-red);
+            }
+          }
+
+          .radio-label {
+            font-size: 0.7rem;
+            color: var(--color-dark-navy);
             font-family: var(--font-family);
-            font-size: 0.875rem;
-            color: var(--color-dark-navy);
-            -moz-appearance: textfield;
-
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-              -webkit-appearance: none;
-              margin: 0;
-            }
-
-            &:focus {
-              outline: none;
-            }
           }
         }
       }
 
-      .apply-btn {
-        display: block;
-        width: 100%;
-        margin-top: 0.5rem;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.25rem;
-        background-color: var(--color-dark-navy);
-        color: var(--color-white);
-        font-family: var(--font-family);
-        font-size: 0.875rem;
-        cursor: pointer;
-        transition: opacity 0.2s ease;
-
-        &:hover {
-          opacity: 0.9;
-        }
+      .divider {
+        height: 1px;
+        background-color: var(--color-navy-gray);
+        margin: 0.25rem 0;
       }
-    }
-  }
-}
-
-::ng-deep {
-  .unit-select.p-select {
-    border-radius: 0.25rem;
-    border: 1px solid var(--color-navy-gray);
-    height: 2rem;
-    min-width: 6rem;
-
-    .p-select-label {
-      padding: 0 0.5rem;
-      line-height: 2rem;
-      font-size: 0.875rem;
     }
   }
 }
