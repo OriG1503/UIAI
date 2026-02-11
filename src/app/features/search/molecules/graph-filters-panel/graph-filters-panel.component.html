@@ -3,8 +3,14 @@
     <div class="filter-group">
       <span class="filter-label">{{ translations.dateFilterLabel }}</span>
       <div class="filter-range-values">
-        <span class="filter-range-min">{{ formatDate($dateRangeValues()[0]) }}</span>
-        <span class="filter-range-max">{{ formatDate($dateRangeValues()[1]) }}</span>
+        <div class="filter-range-min">
+          <span class="filter-range-date">{{ formatDate($dateRangeValues()[0]) }}</span>
+          <span class="filter-range-time">{{ formatTime($dateRangeValues()[0]) }}</span>
+        </div>
+        <div class="filter-range-max">
+          <span class="filter-range-date">{{ formatDate($dateRangeValues()[1]) }}</span>
+          <span class="filter-range-time">{{ formatTime($dateRangeValues()[1]) }}</span>
+        </div>
       </div>
       <p-slider
         [min]="$dateMin()"
@@ -35,10 +41,6 @@
 
   <div class="node-list-bubble">
     <div class="node-list-search">
-      <app-icon
-        [name]="ICON_NAMES.SEARCH"
-        size="0.85rem"
-      />
       <input
         type="text"
         class="node-search-input"
@@ -50,28 +52,30 @@
 
     <div class="sort-toggle">
       <button
-        class="sort-button sort-button-right"
-        [class.sort-button-active]="$sortMode() === 'mails'"
-        (click)="onSortModeChange('mails')"
-      >
-        <app-icon
-          [name]="$sortMode() === 'mails' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
-          size="0.7rem"
-          [color]="$sortMode() === 'mails' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
-        />
-        {{ translations.sortByMails }}
-      </button>
-      <button
-        class="sort-button sort-button-left"
+        type="button"
+        class="sort-button"
         [class.sort-button-active]="$sortMode() === 'degree'"
         (click)="onSortModeChange('degree')"
       >
         <app-icon
           [name]="$sortMode() === 'degree' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
           size="0.7rem"
-          [color]="$sortMode() === 'degree' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+          [color]="$sortMode() === 'degree' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
         />
         {{ translations.sortByDegree }}
+      </button>
+      <button
+        type="button"
+        class="sort-button"
+        [class.sort-button-active]="$sortMode() === 'mails'"
+        (click)="onSortModeChange('mails')"
+      >
+        <app-icon
+          [name]="$sortMode() === 'mails' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
+          size="0.7rem"
+          [color]="$sortMode() === 'mails' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
+        />
+        {{ translations.sortByMails }}
       </button>
     </div>
 
@@ -85,11 +89,7 @@
           (mouseleave)="onNodeHoverLeave()"
         >
           <span class="node-email">{{ node.email }}</span>
-          @if ($sortMode() === 'mails') {
-            <span class="node-count node-count-mail">{{ node.mailCount }}</span>
-          } @else {
-            <span class="node-count node-count-degree">{{ node.degree }}</span>
-          }
+          <span class="node-count">{{ $sortMode() === 'mails' ? node.mailCount : node.degree }}</span>
         </button>
       }
     </div>
