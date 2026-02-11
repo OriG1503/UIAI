@@ -10,7 +10,7 @@
   <div class="recipients">
     <div class="recipient-row">
       <div class="recipient-label">
-        <app-icon name="user" size="0.875rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.USER" size="0.875rem" color="var(--color-navy-gray)" />
         <span>From:</span>
       </div>
       <span class="recipient-value" [innerHTML]="$fromDisplay() | highlightText:$searchTerms()"></span>
@@ -18,7 +18,7 @@
 
     <div class="recipient-row">
       <div class="recipient-label">
-        <app-icon name="users" size="0.875rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.USERS" size="0.875rem" color="var(--color-navy-gray)" />
         <span>To:</span>
       </div>
       <span class="recipient-value" [innerHTML]="$toDisplay() | highlightText:$searchTerms()"></span>
@@ -27,7 +27,7 @@
     @if ($ccDisplay()) {
       <div class="recipient-row">
         <div class="recipient-label">
-          <app-icon name="copy" size="0.875rem" color="var(--color-navy-gray)" />
+          <app-icon [name]="ICON_NAMES.COPY" size="0.875rem" color="var(--color-navy-gray)" />
           <span>CC:</span>
         </div>
         <span class="recipient-value" [innerHTML]="$ccDisplay() | highlightText:$searchTerms()"></span>
@@ -37,7 +37,7 @@
     @if ($bccDisplay()) {
       <div class="recipient-row">
         <div class="recipient-label">
-          <app-icon name="eye-slash" size="0.875rem" color="var(--color-navy-gray)" />
+          <app-icon [name]="ICON_NAMES.EYE_SLASH" size="0.875rem" color="var(--color-navy-gray)" />
           <span>BCC:</span>
         </div>
         <span class="recipient-value" [innerHTML]="$bccDisplay() | highlightText:$searchTerms()"></span>

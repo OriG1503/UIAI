@@ -1,6 +1,7 @@
 import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 import { Encoding } from '../../types/encoding.type';
 import { ENCODING_LABELS } from '../../translations/mail-content.translations';
 
@@ -24,6 +25,7 @@ export class MailContentToolbarComponent {
 
   $isEncodingPopupOpen = signal<boolean>(false);
 
+  readonly ICON_NAMES = ICON_NAMES;
   readonly encodings: Encoding[] = ['none', 'utf-8', 'iso-8859-1', 'windows-1255'];
   readonly encodingLabels = ENCODING_LABELS;
   readonly translations = INBOX_TRANSLATIONS;

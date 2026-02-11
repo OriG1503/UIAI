@@ -11,7 +11,7 @@
   @if ($isSelectMode()) {
     <div class="select-circle" [class.is-selected]="$isSelected()">
       @if ($isSelected()) {
-        <app-icon name="check" size="0.75rem" color="var(--color-white)" />
+        <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-white)" />
       }
     </div>
   }
@@ -20,7 +20,7 @@
     <div class="mail-header">
       <button type="button" class="star-btn" [class.starred]="$isStarred()" (click)="onStarClick($event)">
         <app-icon
-          [name]="$isStarred() ? 'star-fill' : 'star'"
+          [name]="$isStarred() ? ICON_NAMES.STAR_FILL : ICON_NAMES.STAR"
           size="0.875rem"
           [color]="$isStarred() ? 'var(--color-orange)' : 'var(--color-navy-gray)'"
         />
@@ -31,7 +31,7 @@
         <span class="mail-time">{{ $formattedTime() }}</span>
         @if ($attachmentCount() > 0) {
           <div class="attachment-badge" [class.highlight-attachment-badge]="$isAttachmentBadgeHighlighted()">
-            <app-icon name="paperclip" size="0.75rem" color="var(--color-navy-gray)" />
+            <app-icon [name]="ICON_NAMES.PAPERCLIP" size="0.75rem" color="var(--color-navy-gray)" />
             <span class="attachment-count">{{ $attachmentCount() }}</span>
           </div>
         }

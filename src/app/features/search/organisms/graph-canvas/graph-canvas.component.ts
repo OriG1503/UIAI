@@ -19,6 +19,7 @@ import { GraphData } from '../../types/graph-data.type';
 import { GraphSelection } from '../../types/graph-selection.type';
 import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 import {
   NODE_SIZE_MIN,
   NODE_SIZE_MAX,
@@ -47,6 +48,8 @@ import { BorderedNodeProgram, drawCustomLabel, setSigmaInstanceForRefresh } from
   styleUrl: './graph-canvas.component.scss'
 })
 export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
+  readonly ICON_NAMES = ICON_NAMES;
+
   @ViewChild('sigmaContainer', { static: true }) private _containerRef!: ElementRef<HTMLDivElement>;
 
   $graphData = input<GraphData | null>(null, { alias: 'graphData' });

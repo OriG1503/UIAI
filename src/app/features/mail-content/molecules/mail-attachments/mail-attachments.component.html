@@ -1,6 +1,6 @@
 <div class="mail-attachments">
   <button type="button" class="download-all-btn" (click)="onDownloadAllClick()">
-    <app-icon name="download" size="1rem" color="var(--color-navy-gray)" />
+    <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-navy-gray)" />
   </button>
 
   @for (attachment of $attachments(); track attachment) {
@@ -20,7 +20,7 @@
       <span class="attachment-name" [innerHTML]="attachment | highlightText:$searchTerms()"></span>
       <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
       <div class="download-overlay">
-        <app-icon name="download" size="1rem" color="var(--color-white)" />
+        <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-white)" />
       </div>
     </button>
   }

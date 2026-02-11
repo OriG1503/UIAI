@@ -36,7 +36,7 @@
   <div class="node-list-bubble">
     <div class="node-list-search">
       <app-icon
-        name="search"
+        [name]="ICON_NAMES.SEARCH"
         size="0.85rem"
         color="var(--color-navy-gray)"
       />
@@ -56,7 +56,7 @@
         (click)="onSortModeChange('mails')"
       >
         <app-icon
-          [name]="$sortMode() === 'mails' && $sortDirection() === 'asc' ? 'sort-amount-up' : 'sort-amount-down'"
+          [name]="$sortMode() === 'mails' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
           size="0.7rem"
           [color]="$sortMode() === 'mails' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
         />
@@ -68,7 +68,7 @@
         (click)="onSortModeChange('degree')"
       >
         <app-icon
-          [name]="$sortMode() === 'degree' && $sortDirection() === 'asc' ? 'sort-amount-up' : 'sort-amount-down'"
+          [name]="$sortMode() === 'degree' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
           size="0.7rem"
           [color]="$sortMode() === 'degree' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
         />

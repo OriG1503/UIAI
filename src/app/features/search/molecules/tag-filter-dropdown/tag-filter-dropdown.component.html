@@ -9,7 +9,7 @@
     <span class="tag-btn-label">{{ $buttonLabel() }}</span>
     <span class="tag-btn-icon">
       <app-icon
-        [name]="$isPopupOpen() ? 'chevron-up' : 'chevron-down'"
+        [name]="$isPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
         size="0.7rem"
         [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
       />
@@ -57,7 +57,7 @@
                 (click)="removeTag(tag.value)"
               >
                 <app-icon
-                  name="trash"
+                  [name]="ICON_NAMES.TRASH"
                   size="0.7rem"
                   color="var(--color-red)"
                 />

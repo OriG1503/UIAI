@@ -17,7 +17,7 @@
           [disabled]="$verbalAmount() >= maxAmount"
         >
           <app-icon
-            name="chevron-up"
+            [name]="ICON_NAMES.CHEVRON_UP"
             size="0.55rem"
           />
         </button>
@@ -28,7 +28,7 @@
           [disabled]="$verbalAmount() <= 1"
         >
           <app-icon
-            name="chevron-down"
+            [name]="ICON_NAMES.CHEVRON_DOWN"
             size="0.55rem"
           />
         </button>

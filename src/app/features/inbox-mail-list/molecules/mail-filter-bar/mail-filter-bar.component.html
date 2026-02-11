@@ -2,7 +2,7 @@
   <div class="filter-actions-right">
     <div class="translate-wrapper">
       <button type="button" class="icon-btn" (click)="onTranslateClick()">
-        <app-icon name="globe" size="1rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" color="var(--color-navy-gray)" />
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">
@@ -15,7 +15,7 @@
             >
               {{ languageLabels[lang] }}
               @if ($selectedLanguage() === lang) {
-                <app-icon name="check" size="0.75rem" color="var(--color-blue)" />
+                <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-blue)" />
               }
             </button>
           }
@@ -24,7 +24,7 @@
     </div>
 
     <button type="button" class="icon-btn" [class.active]="$isSelectMode()" (click)="onExcelClick()">
-      <app-icon name="file-excel" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-navy-gray)'" />
+      <app-icon [name]="ICON_NAMES.FILE_EXCEL" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-navy-gray)'" />
     </button>
 
     @if ($isSelectMode() && $selectedCount() > 0) {
@@ -37,7 +37,7 @@
   <div class="filter-actions-left">
     <button type="button" class="icon-btn" (click)="onSortToggle()">
       <app-icon
-        [name]="$sortDirection() === 'desc' ? 'sort-amount-down' : 'sort-amount-up'"
+        [name]="$sortDirection() === 'desc' ? ICON_NAMES.SORT_AMOUNT_DOWN : ICON_NAMES.SORT_AMOUNT_UP"
         size="1rem"
         color="var(--color-navy-gray)"
       />
@@ -50,7 +50,7 @@
       (click)="onFilterClick('starred')"
     >
       <app-icon
-        name="star"
+        [name]="ICON_NAMES.STAR"
         size="1rem"
         [color]="$activeFilter() === 'starred' ? 'var(--color-orange)' : 'var(--color-navy-gray)'"
       />
@@ -63,7 +63,7 @@
       (click)="onFilterClick('unseen')"
     >
       <app-icon
-        name="envelope"
+        [name]="ICON_NAMES.ENVELOPE"
         size="1rem"
         [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
       />
@@ -76,7 +76,7 @@
       (click)="onFilterClick('seen')"
     >
       <app-icon
-        name="eye"
+        [name]="ICON_NAMES.EYE"
         size="1rem"
         [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
       />

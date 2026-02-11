@@ -9,6 +9,7 @@ import { MailListComponent } from '../../../inbox-mail-list/organisms/mail-list/
 import { MailContentViewComponent } from '../../../mail-content/organisms/mail-content-view/mail-content-view.component';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-graph-drawer',
@@ -18,6 +19,8 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
   styleUrl: './graph-drawer.component.scss'
 })
 export class GraphDrawerComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   $mails = input<Mail[]>([], { alias: 'mails' });
   $isOpen = input<boolean>(false, { alias: 'isOpen' });
   $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
