@@ -9,7 +9,7 @@
     <app-icon
       [name]="ICON_NAMES.CALENDAR"
       size="0.85rem"
-      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'"
     />
     <span class="date-btn-label">
       {{ $buttonLabel() }}
@@ -17,7 +17,7 @@
     <app-icon
       [name]="$isPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
       size="0.7rem"
-      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'"
     />
   </button>
 

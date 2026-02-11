@@ -46,12 +46,11 @@
           transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: var(--color-light-gray);
+            background-color: var(--color-option-hover);
           }
 
           &.selected {
-            color: var(--color-blue);
-            font-weight: 500;
+            background-color: var(--color-option-selected);
           }
         }
       }

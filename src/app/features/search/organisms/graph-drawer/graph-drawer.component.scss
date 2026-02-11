@@ -64,6 +64,11 @@
       overflow-y: auto;
       scroll-behavior: smooth;
       min-width: 0;
+      direction: ltr;
+
+      > * {
+        direction: rtl;
+      }
     }
 
     .drawer-mail-list {
@@ -72,6 +77,11 @@
       scroll-behavior: smooth;
       min-width: 0;
       border-left: 1px solid var(--color-light-gray);
+      direction: ltr;
+
+      > * {
+        direction: rtl;
+      }
     }
   }
 }

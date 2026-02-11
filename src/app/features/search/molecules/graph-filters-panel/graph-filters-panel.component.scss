@@ -36,13 +36,13 @@
 
         .filter-range-min {
           font-size: 0.7rem;
-          color: var(--color-navy-gray);
+          color: var(--color-dark-navy);
           font-weight: 500;
         }
 
         .filter-range-max {
           font-size: 0.7rem;
-          color: var(--color-navy-gray);
+          color: var(--color-dark-navy);
           font-weight: 500;
         }
       }
@@ -129,6 +129,11 @@
       flex: 1;
       overflow-y: auto;
       padding: 0 0.25rem;
+      direction: ltr;
+
+      > * {
+        direction: rtl;
+      }
 
       .node-item {
         display: flex;

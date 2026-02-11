@@ -1,6 +1,6 @@
 <div class="mail-metadata">
   <div class="subject-row">
-    <h2 class="subject" [innerHTML]="$mail().subject | highlightText:$searchTerms()"></h2>
+    <h2 class="subject" dir="auto" [innerHTML]="$mail().subject | highlightText:$searchTerms()"></h2>
     <div class="datetime">
       <span class="date">{{ $formattedDate() }}</span>
       <span class="time">{{ $formattedTime() }}</span>
@@ -10,37 +10,37 @@
   <div class="recipients">
     <div class="recipient-row">
       <div class="recipient-label">
-        <app-icon [name]="ICON_NAMES.USER" size="0.875rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.USER" size="0.875rem" />
         <span>From:</span>
       </div>
-      <span class="recipient-value" [innerHTML]="$fromDisplay() | highlightText:$searchTerms()"></span>
+      <span class="recipient-value" dir="auto" [innerHTML]="$fromDisplay() | highlightText:$searchTerms()"></span>
     </div>
 
     <div class="recipient-row">
       <div class="recipient-label">
-        <app-icon [name]="ICON_NAMES.USERS" size="0.875rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.USERS" size="0.875rem" />
         <span>To:</span>
       </div>
-      <span class="recipient-value" [innerHTML]="$toDisplay() | highlightText:$searchTerms()"></span>
+      <span class="recipient-value" dir="auto" [innerHTML]="$toDisplay() | highlightText:$searchTerms()"></span>
     </div>
 
     @if ($ccDisplay()) {
       <div class="recipient-row">
         <div class="recipient-label">
-          <app-icon [name]="ICON_NAMES.COPY" size="0.875rem" color="var(--color-navy-gray)" />
+          <app-icon [name]="ICON_NAMES.COPY" size="0.875rem" />
           <span>CC:</span>
         </div>
-        <span class="recipient-value" [innerHTML]="$ccDisplay() | highlightText:$searchTerms()"></span>
+        <span class="recipient-value" dir="auto" [innerHTML]="$ccDisplay() | highlightText:$searchTerms()"></span>
       </div>
     }
 
     @if ($bccDisplay()) {
       <div class="recipient-row">
         <div class="recipient-label">
-          <app-icon [name]="ICON_NAMES.EYE_SLASH" size="0.875rem" color="var(--color-navy-gray)" />
+          <app-icon [name]="ICON_NAMES.EYE_SLASH" size="0.875rem" />
           <span>BCC:</span>
         </div>
-        <span class="recipient-value" [innerHTML]="$bccDisplay() | highlightText:$searchTerms()"></span>
+        <span class="recipient-value" dir="auto" [innerHTML]="$bccDisplay() | highlightText:$searchTerms()"></span>
       </div>
     }
   </div>

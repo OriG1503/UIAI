@@ -1,6 +1,6 @@
 <div class="mail-attachments">
   <button type="button" class="download-all-btn" (click)="onDownloadAllClick()">
-    <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-navy-gray)" />
+    <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" />
   </button>
 
   @for (attachment of $attachments(); track attachment) {

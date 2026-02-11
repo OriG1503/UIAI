@@ -10,5 +10,5 @@ import { IconName } from '../../constants/icon-name.constants';
 export class IconComponent {
   $name = input.required<IconName>({ alias: 'name' });
   $size = input<string>('1rem', { alias: 'size' });
-  $color = input<string>('currentColor', { alias: 'color' });
+  $color = input<string>('var(--color-dark-navy)', { alias: 'color' });
 }
