@@ -115,12 +115,12 @@
       }
 
       .sort-button-active {
-        background-color: #dd0649;
-        border-color: #dd0649;
+        background-color: #e74b3b;
+        border-color: #e74b3b;
         color: var(--color-white);
 
         &:hover {
-          background-color: #c4053f;
+          background-color: #d4382e;
         }
       }
     }
@@ -173,13 +173,13 @@
         }
 
         .node-count-mail {
-          color: #dd0649;
-          background-color: rgba(221, 6, 73, 0.1);
+          color: #e74b3b;
+          background-color: rgba(231, 75, 59, 0.1);
         }
 
         .node-count-degree {
-          color: #6a859d;
-          background-color: rgba(106, 133, 157, 0.15);
+          color: var(--color-dark-navy);
+          background-color: rgba(3, 21, 58, 0.1);
         }
       }
 
@@ -191,12 +191,12 @@
         }
 
         .node-count-mail {
-          background-color: #dd0649;
+          background-color: #e74b3b;
           color: var(--color-white);
         }
 
         .node-count-degree {
-          background-color: #6a859d;
+          background-color: var(--color-dark-navy);
           color: var(--color-white);
         }
       }
@@ -208,11 +208,11 @@
   width: 100%;
 
   .p-slider-range {
-    background-color: #dd0649;
+    background-color: #e74b3b;
   }
 
   .p-slider-handle {
-    border-color: #dd0649;
+    border-color: #e74b3b;
     background-color: var(--color-white);
   }
 }
