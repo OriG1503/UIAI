@@ -11,10 +11,7 @@
       size="0.85rem"
       [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-navy-gray)'"
     />
-    <span
-      class="date-btn-label"
-      [class.date-btn-label-ltr]="$isButtonLabelLtr()"
-    >
+    <span class="date-btn-label">
       {{ $buttonLabel() }}
     </span>
     <app-icon

@@ -64,10 +64,6 @@ export class DateRangePickerComponent {
     return `${this._formatDate(dateRange[0]!)} - ${this._formatDate(dateRange[1]!)}`;
   });
 
-  $isButtonLabelLtr = computed(() => {
-    return this.$isActive() && this.$lastSelectionMode() === 'calendar';
-  });
-
   $isActive = computed(() => {
     const dateRange = this.$dateRange();
     return !this.$isPopupOpen() && !!dateRange && dateRange.length === 2 && !!dateRange[0] && !!dateRange[1];
