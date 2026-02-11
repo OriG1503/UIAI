@@ -3,9 +3,9 @@ import { Settings } from 'sigma/settings';
 import { NodeDisplayData, PartialButFor } from 'sigma/types';
 import { createNodeBorderProgram } from '@sigma/node-border';
 import {
-  NODE_COLOR_WHITE,
+  NODE_GAP_COLOR,
   NODE_BORDER_RATIO,
-  NODE_WHITE_GAP_RATIO,
+  NODE_GAP_RATIO,
   NODE_COLOR_DIMMED,
   ICON_COLOR_DEFAULT,
   LABEL_COLOR,
@@ -19,16 +19,16 @@ import {
 export const BorderedNodeProgram = createNodeBorderProgram({
   borders: [
     {
-      size: { value: NODE_WHITE_GAP_RATIO },
-      color: { value: NODE_COLOR_WHITE }
+      size: { value: NODE_GAP_RATIO },
+      color: { value: NODE_GAP_COLOR }
     },
     {
       size: { value: NODE_BORDER_RATIO },
       color: { attribute: 'borderColor' }
     },
     {
-      size: { value: NODE_WHITE_GAP_RATIO },
-      color: { value: NODE_COLOR_WHITE }
+      size: { value: NODE_GAP_RATIO },
+      color: { value: NODE_GAP_COLOR }
     },
     {
       size: { fill: true },
@@ -37,9 +37,9 @@ export const BorderedNodeProgram = createNodeBorderProgram({
   ]
 });
 
-const ENVELOPE_ICON_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${ICON_COLOR_DEFAULT}" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
+const ENVELOPE_ICON_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${ICON_COLOR_DEFAULT}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
 
-const ENVELOPE_ICON_DIMMED_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
+const ENVELOPE_ICON_DIMMED_SVG = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>`)}`;
 
 const envelopeImage = new Image();
 envelopeImage.src = ENVELOPE_ICON_SVG;

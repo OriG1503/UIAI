@@ -131,9 +131,8 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       const sizeRatio = node.mailCount / maxMailCount;
       const size = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
       const pos = positions[node.email];
-      const shortLabel = node.email.includes('@') ? node.email.split('@')[0] : node.email;
       this._graph!.addNode(node.email, {
-        label: shortLabel,
+        label: node.email,
         size,
         color: NODE_COLOR_DEFAULT,
         borderColor: NODE_COLOR_DEFAULT,
