@@ -70,7 +70,7 @@ src/app/
 
 ## SCSS Rules
 - **Mirror HTML hierarchy**: SCSS nesting must match the HTML structure exactly
-- **No global styles**: Avoid adding styles to `styles.scss` - use component styles instead
+- **No global styles**: Avoid adding styles to `styles.scss` - use component styles instead (exception: scrollbar appearance and CSS variables are defined globally)
 - **No !important**: Use `ViewEncapsulation.None` at component level for PrimeNG overrides
 - **Component encapsulation**: Each component handles its own PrimeNG overrides
 
@@ -106,6 +106,8 @@ src/app/
 | Blue | `#3f70e3` | `--color-blue` |
 | Orange | `#ffb656` | `--color-orange` |
 | Yellow | `#ffee80` | `--color-yellow` |
+| Option Hover | `rgba(63, 112, 227, 0.1)` | `--color-option-hover` |
+| Option Selected | `rgba(231, 75, 59, 0.18)` | `--color-option-selected` |
 
 ### Attachment Colors
 | Extension | Hex |
@@ -157,6 +159,22 @@ The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (
 The app is globally RTL (`dir="rtl"`), but email-related content (addresses, metadata, attachments) is displayed LTR. Pattern:
 - Use `direction: ltr` in SCSS on containers that show English/email content
 - Use `dir="rtl"` attribute on inline elements that need to remain RTL within an LTR container (e.g., Hebrew mail count text)
+- Use `dir="auto"` on text elements that may contain Hebrew or English (e.g., mail subjects, sender names, recipient values) — lets the Unicode bidi algorithm auto-detect direction
+
+## Scrollbar Rules
+- **Global scrollbar appearance** is defined once in `styles.scss` — thin (0.25rem), no arrows, `--color-navy-gray` thumb, transparent track
+- **Do NOT add per-component scrollbar appearance rules** (`::webkit-scrollbar` width/track/thumb) — the global rule handles it
+- **Right-side positioning**: RTL pages put scrollbars on the left by default. To force right side on scroll containers, add `direction: ltr` on the scroll container and `> * { direction: rtl; }` on its children
+
+## Icon & Text Color Rules
+- **Icon default color**: `app-icon` defaults to `var(--color-dark-navy)` — only pass a `color` attribute when you need a non-default color
+- **No gray text**: Use `--color-dark-navy` for text color, not `--color-navy-gray`. Keep `--color-navy-gray` only for: disabled states, placeholders, scrollbar thumbs, borders, and decorative elements
+- **Conditional icon colors**: In ternary expressions, use `'var(--color-dark-navy)'` as the inactive/default color (not `'var(--color-navy-gray)'`)
+
+## Dropdown Option Colors
+- **Hover**: `var(--color-option-hover)` — light blue tint (`rgba(63, 112, 227, 0.1)`)
+- **Selected**: `var(--color-option-selected)` — light red tint (`rgba(231, 75, 59, 0.18)`)
+- All dropdown/popup option lists must use these colors consistently (no `--color-light-gray` for hover, no `color: blue + bold` for selected)
 
 ## Core Types
 

@@ -38,7 +38,6 @@
       <app-icon
         [name]="ICON_NAMES.SEARCH"
         size="0.85rem"
-        color="var(--color-navy-gray)"
       />
       <input
         type="text"
@@ -58,7 +57,7 @@
         <app-icon
           [name]="$sortMode() === 'mails' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
           size="0.7rem"
-          [color]="$sortMode() === 'mails' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+          [color]="$sortMode() === 'mails' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
         />
         {{ translations.sortByMails }}
       </button>
@@ -70,7 +69,7 @@
         <app-icon
           [name]="$sortMode() === 'degree' && $sortDirection() === 'asc' ? ICON_NAMES.SORT_AMOUNT_UP : ICON_NAMES.SORT_AMOUNT_DOWN"
           size="0.7rem"
-          [color]="$sortMode() === 'degree' ? 'var(--color-white)' : 'var(--color-navy-gray)'"
+          [color]="$sortMode() === 'degree' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
         />
         {{ translations.sortByDegree }}
       </button>

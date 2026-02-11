@@ -39,6 +39,8 @@
   --color-blue: #3f70e3;
   --color-orange: #ffb656;
   --color-yellow: #ffee80;
+  --color-option-hover: rgba(63, 112, 227, 0.1);
+  --color-option-selected: rgba(231, 75, 59, 0.18);
   --border-radius: 1.5rem;
   --input-height: 1.875rem;
 }
@@ -58,5 +60,18 @@ body {
 
 mark.search-highlight {
   background-color: var(--color-yellow);
+  border-radius: 0.125rem;
+}
+
+*::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-navy-gray);
   border-radius: 0.125rem;
 }

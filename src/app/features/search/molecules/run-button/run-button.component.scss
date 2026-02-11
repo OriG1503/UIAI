@@ -62,11 +62,7 @@
       white-space: nowrap;
 
       &:hover {
-        background-color: var(--color-light-gray);
-      }
-
-      i {
-        color: var(--color-navy-gray);
+        background-color: var(--color-option-hover);
       }
     }
   }

@@ -126,17 +126,8 @@
       overflow-y: auto;
       direction: ltr;
 
-      &::-webkit-scrollbar {
-        width: 0.25rem;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: var(--color-navy-gray);
-        border-radius: 0.125rem;
+      > * {
+        direction: rtl;
       }
 
       .selected-tag {
@@ -145,7 +136,7 @@
         justify-content: space-between;
         flex-shrink: 0;
         padding: 0.35rem 0.5rem;
-        background-color: rgba(63, 112, 227, 0.1);
+        background-color: var(--color-option-hover);
         border-radius: 0.25rem;
         font-size: 0.75rem;
         font-family: var(--font-family);
@@ -200,17 +191,8 @@
       padding: 0.25rem 0;
       direction: ltr;
 
-      &::-webkit-scrollbar {
-        width: 0.25rem;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background-color: var(--color-navy-gray);
-        border-radius: 0.125rem;
+      > * {
+        direction: rtl;
       }
 
       .result-item {
@@ -228,16 +210,16 @@
         flex-shrink: 0;
 
         &:hover {
-          background-color: rgba(63, 112, 227, 0.1);
+          background-color: var(--color-option-hover);
         }
       }
 
       .result-item-highlighted {
-        background-color: rgba(63, 112, 227, 0.1);
+        background-color: var(--color-option-hover);
       }
 
       .result-item-selected {
-        background-color: rgba(231, 75, 59, 0.18);
+        background-color: var(--color-option-selected);
 
         &:hover {
           background-color: rgba(231, 75, 59, 0.25);

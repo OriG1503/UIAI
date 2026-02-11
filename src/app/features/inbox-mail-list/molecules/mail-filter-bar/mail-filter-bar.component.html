@@ -2,7 +2,7 @@
   <div class="filter-actions-right">
     <div class="translate-wrapper">
       <button type="button" class="icon-btn" (click)="onTranslateClick()">
-        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" color="var(--color-navy-gray)" />
+        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" />
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">
@@ -24,7 +24,7 @@
     </div>
 
     <button type="button" class="icon-btn" [class.active]="$isSelectMode()" (click)="onExcelClick()">
-      <app-icon [name]="ICON_NAMES.FILE_EXCEL" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-navy-gray)'" />
+      <app-icon [name]="ICON_NAMES.FILE_EXCEL" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-dark-navy)'" />
     </button>
 
     @if ($isSelectMode() && $selectedCount() > 0) {
@@ -39,7 +39,6 @@
       <app-icon
         [name]="$sortDirection() === 'desc' ? ICON_NAMES.SORT_AMOUNT_DOWN : ICON_NAMES.SORT_AMOUNT_UP"
         size="1rem"
-        color="var(--color-navy-gray)"
       />
     </button>
 
@@ -52,7 +51,7 @@
       <app-icon
         [name]="ICON_NAMES.STAR"
         size="1rem"
-        [color]="$activeFilter() === 'starred' ? 'var(--color-orange)' : 'var(--color-navy-gray)'"
+        [color]="$activeFilter() === 'starred' ? 'var(--color-orange)' : 'var(--color-dark-navy)'"
       />
     </button>
 
@@ -65,7 +64,7 @@
       <app-icon
         [name]="ICON_NAMES.ENVELOPE"
         size="1rem"
-        [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+        [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
       />
     </button>
 
@@ -78,7 +77,7 @@
       <app-icon
         [name]="ICON_NAMES.EYE"
         size="1rem"
-        [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-navy-gray)'"
+        [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
       />
     </button>
   </div>

@@ -73,22 +73,10 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
+      direction: ltr;
 
-      &::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: var(--color-light-gray);
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: var(--color-navy-gray);
-        border-radius: 3px;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: var(--color-dark-navy);
+      > * {
+        direction: rtl;
       }
     }
   }
