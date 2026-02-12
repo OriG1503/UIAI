@@ -1,14 +1,14 @@
 import { Component, inject, signal, computed } from '@angular/core';
-import { GraphDataService } from '../../../../core/services/graph-data.service';
-import { MockGraphMailService } from '../../../../core/services/mock-graph-mail.service';
-import { SelectedMailService } from '../../../../core/services/selected-mail.service';
-import { GraphSelection } from '../../types/graph-selection.type';
-import { GraphNode } from '../../types/graph-node.type';
-import { MailUserInfo } from '../../../../shared/types/mail-user-info.type';
-import { GraphCanvasComponent } from '../../organisms/graph-canvas/graph-canvas.component';
-import { GraphDrawerComponent } from '../../organisms/graph-drawer/graph-drawer.component';
-import { GraphFiltersPanelComponent } from '../../molecules/graph-filters-panel/graph-filters-panel.component';
-import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
+import { GraphDataService } from '../../services/graph-data.service';
+import { MockGraphMailService } from '../../services/mock-graph-mail.service';
+import { SelectedMailService } from '../../services/selected-mail.service';
+import { GraphSelection } from '../../../features/graph-canvas/types/graph-selection.type';
+import { GraphNode } from '../../../features/graph-canvas/types/graph-node.type';
+import { MailUserInfo } from '../../../shared/types/mail-user-info.type';
+import { GraphCanvasComponent } from '../../../features/graph-canvas/organisms/graph-canvas/graph-canvas.component';
+import { GraphDrawerComponent } from '../../../features/graph-canvas/organisms/graph-drawer/graph-drawer.component';
+import { GraphFiltersPanelComponent } from '../../../features/graph-filters/molecules/graph-filters-panel/graph-filters-panel.component';
+import { GRAPH_TRANSLATIONS } from '../../../features/graph-canvas/translations/graph.translations';
 
 @Component({
   selector: 'app-graph-view',

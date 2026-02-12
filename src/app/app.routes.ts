@@ -8,7 +8,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'search',
-        loadChildren: () => import('./features/search/search.routes').then((m) => m.SEARCH_ROUTES)
+        loadChildren: () => import('./core/routes/search.routes').then((m) => m.SEARCH_ROUTES)
       },
       { path: '', redirectTo: 'search/list', pathMatch: 'full' }
     ]

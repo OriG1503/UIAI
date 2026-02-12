@@ -22,7 +22,13 @@
       "WebFetch(domain:github.com)",
       "Bash(find:*)",
       "Bash(perl:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(for mol in alert-button calendar-view date-picker date-range-picker email-chips filter-dropdown run-button save-search-button search-input search-mode-switch tag-filter-dropdown verbal-view)",
+      "Bash(do mkdir -p \"src/app/features/search-bar/molecules/$mol\")",
+      "Bash(for t in date-filter-option date-range-mode dropdown-option search-mode-type search-view-type tag-option time-unit verbal-change)",
+      "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/search-bar/types/\")",
+      "Bash(for t in drawer-state graph-data graph-edge graph-node graph-selection graph-worker-result worker-mail)",
+      "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/graph-canvas/types/\")"
     ]
   }
 }

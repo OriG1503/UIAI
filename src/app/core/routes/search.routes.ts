@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ListViewComponent } from './components/list-view/list-view.component';
-import { GraphViewComponent } from './components/graph-view/graph-view.component';
+import { ListViewComponent } from './list-view/list-view.component';
+import { GraphViewComponent } from './graph-view/graph-view.component';
 
 export const SEARCH_ROUTES: Routes = [
   { path: 'list', component: ListViewComponent },

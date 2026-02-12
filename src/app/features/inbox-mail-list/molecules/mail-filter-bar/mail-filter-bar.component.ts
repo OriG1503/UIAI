@@ -4,7 +4,7 @@ import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
-import { SortDirection } from '../../types/sort-direction.type';
+import { SortDirection } from '../../../../shared/types/sort-direction.type';
 import { LANGUAGE_LABELS } from '../../translations/inbox-mail-list.translations';
 
 @Component({

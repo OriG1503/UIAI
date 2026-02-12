@@ -2,17 +2,17 @@
 
 import Graph from 'graphology';
 import forceAtlas2 from 'graphology-layout-forceatlas2';
-import { GraphNode } from '../types/graph-node.type';
-import { GraphEdge } from '../types/graph-edge.type';
-import { GraphWorkerResult } from '../types/graph-worker-result.type';
+import { GraphNode } from '../../features/graph-canvas/types/graph-node.type';
+import { GraphEdge } from '../../features/graph-canvas/types/graph-edge.type';
+import { GraphWorkerResult } from '../../features/graph-canvas/types/graph-worker-result.type';
 import {
   NODE_SIZE_MIN,
   NODE_SIZE_MAX,
   FORCEATLAS2_ITERATIONS,
   FORCEATLAS2_SETTINGS
-} from '../constants/graph.constants';
-import { MailUserInfo } from '../../../shared/types/mail-user-info.type';
-import { WorkerMail } from '../types/worker-mail.type';
+} from '../../features/graph-canvas/constants/graph.constants';
+import { MailUserInfo } from '../../shared/types/mail-user-info.type';
+import { WorkerMail } from '../../features/graph-canvas/types/worker-mail.type';
 
 addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   const mails = data;

@@ -1,8 +1,8 @@
 import { Injectable, inject, signal, NgZone } from '@angular/core';
 import { MockGraphMailService } from './mock-graph-mail.service';
 import { Mail } from '../../shared/types/mail.type';
-import { GraphData } from '../../features/search/types/graph-data.type';
-import { GraphWorkerResult } from '../../features/search/types/graph-worker-result.type';
+import { GraphData } from '../../features/graph-canvas/types/graph-data.type';
+import { GraphWorkerResult } from '../../features/graph-canvas/types/graph-worker-result.type';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class GraphDataService {
 
   constructor() {
     if (typeof Worker !== 'undefined') {
-      this._worker = new Worker(new URL('../../features/search/workers/graph-builder.worker', import.meta.url));
+      this._worker = new Worker(new URL('../workers/graph-builder.worker', import.meta.url));
 
       this._worker.onmessage = ({ data }: MessageEvent<GraphWorkerResult>) => {
         this._ngZone.run(() => {
