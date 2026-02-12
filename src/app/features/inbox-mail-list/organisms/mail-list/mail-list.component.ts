@@ -2,7 +2,7 @@ import { Component, signal, computed, inject, effect, input } from '@angular/cor
 import { Mail } from '../../../../shared/types/mail.type';
 import { Language } from '../../types/language.type';
 import { MailFilter } from '../../types/mail-filter.type';
-import { SortDirection } from '../../types/sort-direction.type';
+import { SortDirection } from '../../../../shared/types/sort-direction.type';
 import { MockMailService } from '../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../core/services/highlight.service';

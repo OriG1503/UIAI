@@ -1,10 +1,10 @@
 import { Component, input, output, signal, computed, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Slider } from 'primeng/slider';
-import { GraphNode } from '../../types/graph-node.type';
+import { GraphNode } from '../../../graph-canvas/types/graph-node.type';
 import { NodeSortMode } from '../../types/node-sort-mode.type';
-import { SortDirection } from '../../types/sort-direction.type';
-import { GRAPH_TRANSLATIONS } from '../../translations/graph.translations';
+import { SortDirection } from '../../../../shared/types/sort-direction.type';
+import { GRAPH_TRANSLATIONS } from '../../../graph-canvas/translations/graph.translations';
 import { IconComponent } from '../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../shared/constants/icon-name.constants';
 
