@@ -40,34 +40,34 @@
         />
       </div>
 
+      <div class="divider"></div>
+
+      <div class="selected-tags">
+        @for (tag of $selectedTagOptions(); track tag.value) {
+          <div class="selected-tag">
+            <span class="selected-tag-label">{{ tag.label }}</span>
+            <button
+              type="button"
+              class="selected-tag-remove"
+              (click)="removeTag(tag.value)"
+            >
+              <app-icon
+                [name]="ICON_NAMES.TRASH"
+                size="0.7rem"
+                color="var(--color-red)"
+              />
+            </button>
+          </div>
+        }
+      </div>
+
+      <div class="divider"></div>
+
       @if ($searchText() === '') {
         <div class="empty-state">
           <span class="empty-state-text">{{ translations.searchToStart }}</span>
         </div>
       } @else {
-        <div class="divider"></div>
-
-        <div class="selected-tags">
-          @for (tag of $selectedTagOptions(); track tag.value) {
-            <div class="selected-tag">
-              <span class="selected-tag-label">{{ tag.label }}</span>
-              <button
-                type="button"
-                class="selected-tag-remove"
-                (click)="removeTag(tag.value)"
-              >
-                <app-icon
-                  [name]="ICON_NAMES.TRASH"
-                  size="0.7rem"
-                  color="var(--color-red)"
-                />
-              </button>
-            </div>
-          }
-        </div>
-
-        <div class="divider"></div>
-
         <div class="results-list" #resultsList>
           @for (option of $filteredOptions(); track option.value; let i = $index) {
             <button
