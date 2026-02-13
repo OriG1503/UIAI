@@ -1,4 +1,4 @@
-import { Component, input, output, computed, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, computed, inject } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
@@ -51,8 +51,8 @@ export class MailAttachmentsComponent {
 
   $attachments = input.required<string[]>({ alias: 'attachments' });
   $mailFilename = input<string>('', { alias: 'mailFilename' });
-  downloadAllClick = output<void>();
-  downloadAttachmentClick = output<string>();
+  downloadAllClick: OutputEmitterRef<void> = output<void>();
+  downloadAttachmentClick: OutputEmitterRef<string> = output<string>();
 
   readonly ICON_NAMES = ICON_NAMES;
   readonly translations = INBOX_TRANSLATIONS;

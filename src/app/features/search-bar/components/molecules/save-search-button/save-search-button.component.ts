@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BUTTON_TRANSLATIONS, PLACEHOLDER_TRANSLATIONS, COMMON_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
@@ -14,7 +14,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class SaveSearchButtonComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
-  save = output<string>();
+  save: OutputEmitterRef<string> = output<string>();
 
   $isPopupOpen = signal(false);
   $searchName = signal('');

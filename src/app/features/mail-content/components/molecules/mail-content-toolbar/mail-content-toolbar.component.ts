@@ -1,4 +1,4 @@
-import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -18,10 +18,10 @@ export class MailContentToolbarComponent {
   $selectedEncoding = input<Encoding>('none', { alias: 'selectedEncoding' });
   $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
   $hasNext = input<boolean>(false, { alias: 'hasNext' });
-  encodingChange = output<Encoding>();
-  downloadClick = output<void>();
-  previousClick = output<void>();
-  nextClick = output<void>();
+  encodingChange: OutputEmitterRef<Encoding> = output<Encoding>();
+  downloadClick: OutputEmitterRef<void> = output<void>();
+  previousClick: OutputEmitterRef<void> = output<void>();
+  nextClick: OutputEmitterRef<void> = output<void>();
 
   $isEncodingPopupOpen = signal<boolean>(false);
 

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
@@ -12,7 +12,7 @@ import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/translations/com
 })
 export class DatePickerComponent {
   $value = input<Date | null>(null, { alias: 'value' });
-  valueChange = output<Date | null>();
+  valueChange: OutputEmitterRef<Date | null> = output<Date | null>();
 
   $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.selectDate, { alias: 'placeholder' });
 

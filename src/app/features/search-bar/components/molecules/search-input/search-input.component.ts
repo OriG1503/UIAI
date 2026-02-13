@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { SEARCH_TRANSLATIONS } from '../../../mapping/search.label-map';
@@ -16,8 +16,8 @@ export class SearchInputComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
   $value = input<string>('', { alias: 'value' });
-  valueChange = output<string>();
-  advancedClick = output<void>();
+  valueChange: OutputEmitterRef<string> = output<string>();
+  advancedClick: OutputEmitterRef<void> = output<void>();
 
   readonly translations = SEARCH_TRANSLATIONS;
 

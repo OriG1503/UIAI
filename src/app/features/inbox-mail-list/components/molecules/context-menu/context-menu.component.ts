@@ -1,4 +1,4 @@
-import { Component, input, output, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -19,8 +19,8 @@ export class ContextMenuComponent implements AfterViewInit {
 
   $x = input.required<number>({ alias: 'x' });
   $y = input.required<number>({ alias: 'y' });
-  markAsUnseenClick = output<void>();
-  closeMenu = output<void>();
+  markAsUnseenClick: OutputEmitterRef<void> = output<void>();
+  closeMenu: OutputEmitterRef<void> = output<void>();
 
   readonly ICON_NAMES = ICON_NAMES;
   readonly translations = INBOX_TRANSLATIONS;

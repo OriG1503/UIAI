@@ -1,4 +1,4 @@
-import { Component, output, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { BUTTON_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -14,8 +14,8 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class AlertButtonComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
-  openIssue = output<void>();
-  openRequest = output<void>();
+  openIssue: OutputEmitterRef<void> = output<void>();
+  openRequest: OutputEmitterRef<void> = output<void>();
 
   $isPopupOpen = signal(false);
 

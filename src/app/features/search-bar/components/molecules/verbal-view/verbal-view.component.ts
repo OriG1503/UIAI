@@ -1,4 +1,4 @@
-import { Component, output, signal, ViewEncapsulation } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { TimeUnit, TimeUnitOption } from '../../../types/time-unit.type';
@@ -19,7 +19,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class VerbalViewComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
-  verbalChange = output<VerbalChange>();
+  verbalChange: OutputEmitterRef<VerbalChange> = output<VerbalChange>();
 
   $verbalAmount = signal(DEFAULT_VERBAL_AMOUNT);
   $verbalUnit = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
