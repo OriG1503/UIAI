@@ -1,7 +1,7 @@
 <div class="mail-filter-bar">
   <div class="filter-actions-right">
     <div class="translate-wrapper">
-      <button type="button" class="icon-btn" (click)="onTranslateClick()">
+      <button type="button" class="icon-btn" [title]="translations.translateTooltip" (click)="onTranslateClick()">
         <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" />
       </button>
       @if ($isLanguagePopupOpen()) {
@@ -23,19 +23,38 @@
       }
     </div>
 
-    <button type="button" class="icon-btn" [class.active]="$isSelectMode()" (click)="onExcelClick()">
+    <button
+      type="button"
+      class="icon-btn"
+      [class.active]="$isSelectMode()"
+      [title]="translations.exportTooltip"
+      (click)="onExcelClick()"
+    >
       <app-icon [name]="ICON_NAMES.FILE_EXCEL" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-dark-navy)'" />
     </button>
-
-    @if ($isSelectMode() && $selectedCount() > 0) {
-      <button type="button" class="export-btn" (click)="onExportClick()">
-        {{ translations.export }}
+    @if ($isSelectMode()) {
+      <button
+        type="button"
+        class="export-btn"
+        [class.disabled]="$selectedCount() === 0"
+        [disabled]="$selectedCount() === 0"
+        (click)="onExportClick()"
+      >
+        {{ translations.exportWithCount }} ({{ $selectedCount() }})
+      </button>
+      <button type="button" class="cancel-btn" (click)="onCancelClick()">
+        {{ translations.cancel }}
       </button>
     }
   </div>
 
   <div class="filter-actions-left">
-    <button type="button" class="icon-btn" (click)="onSortToggle()">
+    <button
+      type="button"
+      class="icon-btn"
+      [title]="$sortDirection() === 'desc' ? translations.sortNewToOld : translations.sortOldToNew"
+      (click)="onSortToggle()"
+    >
       <app-icon
         [name]="$sortDirection() === 'desc' ? ICON_NAMES.SORT_AMOUNT_DOWN : ICON_NAMES.SORT_AMOUNT_UP"
         size="1rem"
@@ -45,20 +64,8 @@
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'starred'"
-      (click)="onFilterClick('starred')"
-    >
-      <app-icon
-        [name]="ICON_NAMES.STAR"
-        size="1rem"
-        [color]="$activeFilter() === 'starred' ? 'var(--color-orange)' : 'var(--color-dark-navy)'"
-      />
-    </button>
-
-    <button
-      type="button"
-      class="icon-btn"
       [class.active]="$activeFilter() === 'unseen'"
+      [title]="translations.unreadTooltip"
       (click)="onFilterClick('unseen')"
     >
       <app-icon
@@ -72,6 +79,7 @@
       type="button"
       class="icon-btn"
       [class.active]="$activeFilter() === 'seen'"
+      [title]="translations.readTooltip"
       (click)="onFilterClick('seen')"
     >
       <app-icon

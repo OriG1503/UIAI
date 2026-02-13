@@ -12,5 +12,13 @@ export const INBOX_TRANSLATIONS = {
   to: 'אל',
   cc: 'העתק',
   bcc: 'העתק מוסתר',
-  noMailSelected: 'לא נבחר מייל'
+  noMailSelected: 'לא נבחר מייל',
+  exportTooltip: 'סימון מיילים לייצוא',
+  cancel: 'ביטול',
+  exportWithCount: 'יצוא',
+  sortOldToNew: 'מהישן לחדש',
+  sortNewToOld: 'מהחדש לישן',
+  unreadTooltip: 'לא נקרא',
+  readTooltip: 'נקרא',
+  translateTooltip: 'תרגם'
 };

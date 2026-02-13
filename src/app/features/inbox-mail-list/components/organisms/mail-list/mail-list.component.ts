@@ -4,6 +4,7 @@ import { Language } from '../../../types/language.type';
 import { MailFilter } from '../../../types/mail-filter.type';
 import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { MockMailService } from '../../../../../core/services/mock-mail.service';
+import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
@@ -30,6 +31,7 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
+  private _mailContentService = inject(MockMailContentService);
   private _selectedMailService = inject(SelectedMailService);
   private _highlightService = inject(HighlightService);
 
@@ -97,6 +99,8 @@ export class MailListComponent {
   $selectedMailId = signal<string | null>(null);
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
+  private _lastSelectedIndex: number | null = null;
+
   $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
@@ -117,8 +121,6 @@ export class MailListComponent {
           return mails.filter((mail) => mail.seen);
         case 'unseen':
           return mails.filter((mail) => !mail.seen);
-        case 'starred':
-          return mails.filter((mail) => this._mailService.isStarred(mail.filename));
         default:
           return mails;
       }
@@ -155,7 +157,14 @@ export class MailListComponent {
     this.$isSelectMode.update((value) => !value);
     if (!this.$isSelectMode()) {
       this.$selectedMails.set(new Set());
+      this._lastSelectedIndex = null;
     }
+  }
+
+  public onCancelSelectMode(): void {
+    this.$isSelectMode.set(false);
+    this.$selectedMails.set(new Set());
+    this._lastSelectedIndex = null;
   }
 
   public onExportClick(): void {
@@ -188,26 +197,36 @@ export class MailListComponent {
     document.body.removeChild(link);
   }
 
-  public onStarClick(mail: Mail): void {
-    this._mailService.toggleStarred(mail.filename);
-  }
-
   public onMailClick(mail: Mail): void {
     this._selectedMailService.markMailAsSeen(mail);
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
 
-  public onSelectionChange(mail: Mail): void {
-    this.$selectedMails.update((selected) => {
-      const newSelected = new Set(selected);
-      if (newSelected.has(mail.filename)) {
-        newSelected.delete(mail.filename);
-      } else {
-        newSelected.add(mail.filename);
-      }
-      return newSelected;
-    });
+  public onSelectionChange(mail: Mail, event: { shiftKey: boolean }, index: number): void {
+    if (event.shiftKey && this._lastSelectedIndex !== null) {
+      const mails = this.$filteredMails();
+      const start = Math.min(this._lastSelectedIndex, index);
+      const end = Math.max(this._lastSelectedIndex, index);
+      this.$selectedMails.update((selected) => {
+        const newSelected = new Set(selected);
+        mails.slice(start, end + 1).forEach((m) => {
+          newSelected.add(m.filename);
+        });
+        return newSelected;
+      });
+    } else {
+      this.$selectedMails.update((selected) => {
+        const newSelected = new Set(selected);
+        if (newSelected.has(mail.filename)) {
+          newSelected.delete(mail.filename);
+        } else {
+          newSelected.add(mail.filename);
+        }
+        return newSelected;
+      });
+    }
+    this._lastSelectedIndex = index;
   }
 
   public onContextMenu(event: ContextMenuEvent): void {
@@ -231,10 +250,6 @@ export class MailListComponent {
     this.onCloseContextMenu();
   }
 
-  public isMailStarred(mail: Mail): boolean {
-    return this._mailService.isStarred(mail.filename);
-  }
-
   public isMailSelected(mail: Mail): boolean {
     return this.$selectedMails().has(mail.filename);
   }
@@ -242,6 +257,15 @@ export class MailListComponent {
   public isCurrentMail(mail: Mail): boolean {
     const selectedMail = this._selectedMailService.selectedMail();
     return selectedMail?.filename === mail.filename;
+  }
+
+  public getMailPreview(mail: Mail): string {
+    const html = this._mailContentService.getMailContent(mail.filename);
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const text = (div.textContent || '').trim();
+    const firstLine = text.split('\n').find((line) => line.trim().length > 0) || '';
+    return firstLine.trim();
   }
 
   public trackByMail(index: number, mail: Mail): string {

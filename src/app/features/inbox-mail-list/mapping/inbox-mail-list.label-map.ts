@@ -4,8 +4,7 @@ import { MailFilter } from '../types/mail-filter.type';
 export const MAIL_FILTER_LABELS: Record<MailFilter, string> = {
   all: 'הכל',
   seen: 'נקראו',
-  unseen: 'לא נקראו',
-  starred: 'מסומנים בכוכב'
+  unseen: 'לא נקראו'
 };
 
 export const LANGUAGE_LABELS: Record<Language, string> = {

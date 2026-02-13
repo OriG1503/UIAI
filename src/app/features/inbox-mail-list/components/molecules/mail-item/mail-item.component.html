@@ -3,7 +3,7 @@
   [class.unseen]="$isUnseen()"
   [class.selected]="$isSelected()"
   [class.current]="$isCurrent()"
-  (click)="onMailClick()"
+  (click)="onMailClick($event)"
   (contextmenu)="onContextMenu($event)"
 >
   <div class="unseen-indicator"></div>
@@ -18,14 +18,6 @@
 
   <div class="mail-content">
     <div class="mail-header">
-      <button type="button" class="star-btn" [class.starred]="$isStarred()" (click)="onStarClick($event)">
-        <app-icon
-          [name]="$isStarred() ? ICON_NAMES.STAR_FILL : ICON_NAMES.STAR"
-          size="0.875rem"
-          [color]="$isStarred() ? 'var(--color-orange)' : 'var(--color-dark-navy)'"
-        />
-      </button>
-
       <div class="mail-meta">
         <span class="mail-date">{{ $formattedDate() }}</span>
         <span class="mail-time">{{ $formattedTime() }}</span>
