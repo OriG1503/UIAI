@@ -13,13 +13,13 @@ export type ContextMenuEvent = {
 };
 
 @Component({
-  selector: 'app-mail-item',
+  selector: 'app-mail-preview',
   standalone: true,
   imports: [IconComponent, HighlightTextPipe],
-  templateUrl: './mail-item.component.html',
-  styleUrl: './mail-item.component.scss',
+  templateUrl: './mail-preview.component.html',
+  styleUrl: './mail-preview.component.scss',
 })
-export class MailItemComponent {
+export class MailPreviewComponent {
   private _highlightService = inject(HighlightService);
 
   readonly ICON_NAMES = ICON_NAMES;

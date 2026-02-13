@@ -45,7 +45,7 @@
 
     <div class="mail-list-scroll">
       @for (mail of $filteredMails(); track mail.filename) {
-        <app-mail-item
+        <app-mail-preview
           [mail]="mail"
           [preview]="getMailPreview(mail)"
           [isSelectMode]="$isSelectMode()"

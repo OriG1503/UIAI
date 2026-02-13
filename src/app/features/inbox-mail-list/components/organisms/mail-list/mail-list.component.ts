@@ -9,7 +9,7 @@ import { SelectedMailService } from '../../../../../core/services/selected-mail.
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
-import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/mail-item.component';
+import { MailPreviewComponent, ContextMenuEvent } from '../../molecules/mail-preview/mail-preview.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
@@ -25,7 +25,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailItemComponent, ContextMenuComponent, TagFilterBarComponent],
+  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
