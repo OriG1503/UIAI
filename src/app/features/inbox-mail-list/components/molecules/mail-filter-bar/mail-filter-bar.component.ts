@@ -1,4 +1,4 @@
-import { Component, input, output, signal, HostListener, ElementRef, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
 import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -22,11 +22,11 @@ export class MailFilterBarComponent {
   $sortDirection = input<SortDirection>('desc', { alias: 'sortDirection' });
   $selectedCount = input<number>(0, { alias: 'selectedCount' });
 
-  filterChange = output<MailFilter>();
-  translateClick = output<Language>();
-  exportModeToggle = output<void>();
-  exportClick = output<void>();
-  sortChange = output<SortDirection>();
+  filterChange: OutputEmitterRef<MailFilter> = output<MailFilter>();
+  translateClick: OutputEmitterRef<Language> = output<Language>();
+  exportModeToggle: OutputEmitterRef<void> = output<void>();
+  exportClick: OutputEmitterRef<void> = output<void>();
+  sortChange: OutputEmitterRef<SortDirection> = output<SortDirection>();
 
   $isLanguagePopupOpen = signal<boolean>(false);
   $selectedLanguage = signal<Language>('en');

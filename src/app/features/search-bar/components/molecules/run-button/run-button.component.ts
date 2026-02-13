@@ -1,4 +1,4 @@
-import { Component, output, signal, ElementRef, HostListener } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, ElementRef, HostListener } from '@angular/core';
 import { SearchViewType } from '../../../types/search-view-type.type';
 import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
@@ -14,7 +14,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class RunButtonComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
-  run = output<SearchViewType>();
+  run: OutputEmitterRef<SearchViewType> = output<SearchViewType>();
 
   $isPopupOpen = signal(false);
 

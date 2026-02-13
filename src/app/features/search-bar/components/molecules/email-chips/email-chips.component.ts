@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Chips } from 'primeng/chips';
 import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
@@ -12,7 +12,7 @@ import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/translations/com
 })
 export class EmailChipsComponent {
   $values = input<string[]>([], { alias: 'values' });
-  valuesChange = output<string[]>();
+  valuesChange: OutputEmitterRef<string[]> = output<string[]>();
 
   $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.addEmail, { alias: 'placeholder' });
 

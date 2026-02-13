@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SEARCH_MODE_LABELS } from '../../../mapping/search.label-map';
 import { GeminiIconComponent } from '../../../../../shared/atoms/gemini-icon/gemini-icon.component';
@@ -12,7 +12,7 @@ import { GeminiIconComponent } from '../../../../../shared/atoms/gemini-icon/gem
 })
 export class SearchModeSwitchComponent {
   $mode = input<SearchModeType>('regular', { alias: 'mode' });
-  modeChange = output<SearchModeType>();
+  modeChange: OutputEmitterRef<SearchModeType> = output<SearchModeType>();
 
   readonly labels = SEARCH_MODE_LABELS;
 

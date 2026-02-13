@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, computed, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 import { DateRangeMode } from '../../../types/date-range-mode.type';
 import { DateFilterOption } from '../../../types/date-filter-option.type';
 import { TimeUnit, TimeUnitOption } from '../../../types/time-unit.type';
@@ -26,7 +26,7 @@ import { VerbalViewComponent } from '../verbal-view/verbal-view.component';
 export class DateRangePickerComponent {
   readonly ICON_NAMES = ICON_NAMES;
   $dateRange = input<Date[] | null>(null, { alias: 'dateRange' });
-  dateRangeChange = output<Date[] | null>();
+  dateRangeChange: OutputEmitterRef<Date[] | null> = output<Date[] | null>();
 
   $isPopupOpen = signal(false);
   $selectedMode = signal<DateRangeMode>('calendar');

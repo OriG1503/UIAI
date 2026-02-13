@@ -1,4 +1,4 @@
-import { Component, input, output, computed, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, computed, inject } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
@@ -29,10 +29,10 @@ export class MailItemComponent {
   $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
   $isSelected = input<boolean>(false, { alias: 'isSelected' });
   $isCurrent = input<boolean>(false, { alias: 'isCurrent' });
-  starClick = output<void>();
-  mailClick = output<void>();
-  selectionChange = output<void>();
-  contextMenu = output<ContextMenuEvent>();
+  starClick: OutputEmitterRef<void> = output<void>();
+  mailClick: OutputEmitterRef<void> = output<void>();
+  selectionChange: OutputEmitterRef<void> = output<void>();
+  contextMenu: OutputEmitterRef<ContextMenuEvent> = output<ContextMenuEvent>();
 
   $searchTerms = computed(() => this._highlightService.$searchTerms());
 

@@ -1,4 +1,4 @@
-import { Component, input, computed, inject, signal, output } from '@angular/core';
+import { Component, input, computed, inject, signal, output, OutputEmitterRef } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
 import { Encoding } from '../../../types/encoding.type';
@@ -27,8 +27,8 @@ export class MailContentViewComponent {
   $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
   $hasNext = input<boolean>(false, { alias: 'hasNext' });
 
-  previousClick = output<void>();
-  nextClick = output<void>();
+  previousClick: OutputEmitterRef<void> = output<void>();
+  nextClick: OutputEmitterRef<void> = output<void>();
 
   $selectedEncoding = signal<Encoding>('none');
 

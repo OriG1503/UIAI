@@ -2,6 +2,7 @@ import {
   Component,
   input,
   output,
+  OutputEmitterRef,
   inject,
   OnDestroy,
   effect,
@@ -58,9 +59,9 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   $visibleNodes = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
   $hoveredNode = input<string | null>(null, { alias: 'hoveredNode' });
 
-  nodeClick = output<string>();
-  edgeClick = output<{ source: string; target: string }>();
-  stageClick = output<void>();
+  nodeClick: OutputEmitterRef<string> = output<string>();
+  edgeClick: OutputEmitterRef<{ source: string; target: string }> = output<{ source: string; target: string }>();
+  stageClick: OutputEmitterRef<void> = output<void>();
 
   private _ngZone = inject(NgZone);
   private _graph: Graph | null = null;

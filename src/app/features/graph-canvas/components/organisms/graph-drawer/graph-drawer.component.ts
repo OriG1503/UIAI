@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, inject, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, computed, inject, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { DrawerState } from '../../../types/drawer-state.type';
 import { GraphSelection } from '../../../types/graph-selection.type';
@@ -25,7 +25,7 @@ export class GraphDrawerComponent {
   $isOpen = input<boolean>(false, { alias: 'isOpen' });
   $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
 
-  drawerClose = output<void>();
+  drawerClose: OutputEmitterRef<void> = output<void>();
 
   $graphSelectionInfo = computed<GraphSelectionInfo | null>(() => {
     const selection = this.$selection();

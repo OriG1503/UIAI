@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../../types/tag-option.type';
 import { TAG_FILTER_TRANSLATIONS } from '../../../mapping/search.label-map';
@@ -18,7 +18,7 @@ export class TagFilterDropdownComponent {
   $options = input<TagOption[]>([], { alias: 'options' });
   $selectedValues = input<string[]>([], { alias: 'selectedValues' });
 
-  tagsChange = output<string[]>();
+  tagsChange: OutputEmitterRef<string[]> = output<string[]>();
 
   @ViewChild('resultsList') private _resultsList?: ElementRef<HTMLDivElement>;
   @ViewChild('searchInput') private _searchInput?: ElementRef<HTMLInputElement>;

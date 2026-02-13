@@ -1,4 +1,4 @@
-import { Component, input, output, computed, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, computed, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { DATE_RANGE_TRANSLATIONS } from '../../../mapping/date-range.label-map';
@@ -13,7 +13,7 @@ import { DATE_RANGE_TRANSLATIONS } from '../../../mapping/date-range.label-map';
 })
 export class CalendarViewComponent {
   $dateRange = input<Date[] | null>(null, { alias: 'dateRange' });
-  dateSelect = output<Date[]>();
+  dateSelect: OutputEmitterRef<Date[]> = output<Date[]>();
 
   readonly translations = DATE_RANGE_TRANSLATIONS;
 

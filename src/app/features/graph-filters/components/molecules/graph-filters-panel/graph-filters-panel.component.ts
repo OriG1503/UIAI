@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, ViewEncapsulation } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, computed, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Slider } from 'primeng/slider';
 import { GraphNode } from '../../../../graph-canvas/types/graph-node.type';
@@ -28,11 +28,11 @@ export class GraphFiltersPanelComponent {
   $mailCountMax = input<number>(1, { alias: 'mailCountMax' });
   $mailCountRangeValues = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
 
-  nodeClick = output<string>();
-  nodeHover = output<string>();
-  nodeHoverLeave = output<void>();
-  dateRangeChange = output<number[]>();
-  mailCountRangeChange = output<number[]>();
+  nodeClick: OutputEmitterRef<string> = output<string>();
+  nodeHover: OutputEmitterRef<string> = output<string>();
+  nodeHoverLeave: OutputEmitterRef<void> = output<void>();
+  dateRangeChange: OutputEmitterRef<number[]> = output<number[]>();
+  mailCountRangeChange: OutputEmitterRef<number[]> = output<number[]>();
 
   $searchText = signal('');
   $sortMode = signal<NodeSortMode>('mails');
