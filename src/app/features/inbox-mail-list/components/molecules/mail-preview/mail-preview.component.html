@@ -1,5 +1,5 @@
 <div
-  class="mail-item"
+  class="mail-preview"
   [class.unseen]="$isUnseen()"
   [class.selected]="$isSelected()"
   [class.current]="$isCurrent()"
@@ -37,7 +37,7 @@
         <div class="mail-cc-bcc" [innerHTML]="$ccBccDisplay() | highlightText:$searchTerms()"></div>
       }
       @if ($preview()) {
-        <div class="mail-preview">{{ $preview() }}</div>
+        <div class="preview-text">{{ $preview() }}</div>
       }
     </div>
   </div>

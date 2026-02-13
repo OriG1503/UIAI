@@ -2,7 +2,7 @@
   display: block;
 }
 
-.mail-item {
+.mail-preview {
   display: flex;
   flex-direction: row-reverse;
   position: relative;
@@ -144,7 +144,7 @@
         text-overflow: ellipsis;
       }
 
-      .mail-preview {
+      .preview-text {
         font-size: 0.75rem;
         color: var(--color-dark-navy);
         white-space: nowrap;
