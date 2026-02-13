@@ -66,12 +66,6 @@ export class MailMetadataComponent {
   });
 
   private _formatUserInfo(user: MailUserInfo): string {
-    if (user.username && user.mail) {
-      return `${user.username} <${user.mail}>`;
-    }
-    if (user.username) {
-      return user.username;
-    }
     if (user.mail) {
       return user.mail;
     }
