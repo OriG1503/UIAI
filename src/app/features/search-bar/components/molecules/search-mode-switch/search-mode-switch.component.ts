@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { SearchModeType } from '../../../types/search-mode-type.type';
-import { SEARCH_MODE_LABELS } from '../../../translations/search.translations';
+import { SEARCH_MODE_LABELS } from '../../../mapping/search.label-map';
 import { GeminiIconComponent } from '../../../../../shared/atoms/gemini-icon/gemini-icon.component';
 
 @Component({

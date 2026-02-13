@@ -1,7 +1,7 @@
 import { Component, input, output, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../../types/tag-option.type';
-import { TAG_FILTER_TRANSLATIONS } from '../../../translations/search.translations';
+import { TAG_FILTER_TRANSLATIONS } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 

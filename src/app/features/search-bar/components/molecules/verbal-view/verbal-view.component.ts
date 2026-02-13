@@ -4,7 +4,7 @@ import { Select } from 'primeng/select';
 import { TimeUnit, TimeUnitOption } from '../../../types/time-unit.type';
 import { VerbalChange } from '../../../types/verbal-change.type';
 import { DEFAULT_VERBAL_AMOUNT, DEFAULT_VERBAL_UNIT, MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../../constants/date-range.constants';
-import { TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../../translations/date-range.translations';
+import { TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../../mapping/date-range.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 

@@ -1,6 +1,6 @@
 import { Component, output, signal, ElementRef, HostListener } from '@angular/core';
 import { SearchViewType } from '../../../types/search-view-type.type';
-import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../../translations/search.translations';
+import { SEARCH_VIEW_LABELS, SEARCH_TRANSLATIONS } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 

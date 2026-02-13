@@ -3,7 +3,7 @@ import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.tra
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import { Encoding } from '../../../types/encoding.type';
-import { ENCODING_LABELS } from '../../../translations/mail-content.translations';
+import { ENCODING_LABELS } from '../../../mapping/mail-content.label-map';
 
 @Component({
   selector: 'app-mail-content-toolbar',
