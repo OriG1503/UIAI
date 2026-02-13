@@ -1,7 +1,7 @@
 import { Component, input, computed, inject } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
+import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';

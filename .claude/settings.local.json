@@ -28,7 +28,10 @@
       "Bash(for t in date-filter-option date-range-mode dropdown-option search-mode-type search-view-type tag-option time-unit verbal-change)",
       "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/search-bar/types/\")",
       "Bash(for t in drawer-state graph-data graph-edge graph-node graph-selection graph-worker-result worker-mail)",
-      "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/graph-canvas/types/\")"
+      "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/graph-canvas/types/\")",
+      "Bash(while read f)",
+      "Bash(do sed -i 's|shared/translations/inbox.translations|shared/mapping/inbox.label-map|g' \"$f\")",
+      "Bash(do sed -i 's|shared/translations/common.translations|shared/mapping/common.label-map|g' \"$f\")"
     ]
   }
 }
