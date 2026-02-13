@@ -1,6 +1,6 @@
 import { Component, output, OutputEmitterRef, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BUTTON_TRANSLATIONS, PLACEHOLDER_TRANSLATIONS, COMMON_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
+import { BUTTON_LABEL_MAPPING, PLACEHOLDER_LABEL_MAPPING, COMMON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -19,9 +19,9 @@ export class SaveSearchButtonComponent {
   $isPopupOpen = signal(false);
   $searchName = signal('');
 
-  readonly buttonLabels = BUTTON_TRANSLATIONS;
-  readonly placeholders = PLACEHOLDER_TRANSLATIONS;
-  readonly common = COMMON_TRANSLATIONS;
+  readonly buttonLabels = BUTTON_LABEL_MAPPING;
+  readonly placeholders = PLACEHOLDER_LABEL_MAPPING;
+  readonly common = COMMON_LABEL_MAPPING;
 
   public togglePopup(): void {
     this.$isPopupOpen.update((isOpen) => !isOpen);

@@ -2,7 +2,7 @@ import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { DropdownOption } from '../../../types/dropdown-option.type';
-import { COMMON_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
+import { COMMON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
 
 @Component({
   selector: 'app-filter-dropdown',
@@ -16,7 +16,7 @@ export class FilterDropdownComponent {
   valueChange: OutputEmitterRef<string | null> = output<string | null>();
 
   $options = input<DropdownOption[]>([], { alias: 'options' });
-  $placeholder = input<string>(COMMON_TRANSLATIONS.select, { alias: 'placeholder' });
+  $placeholder = input<string>(COMMON_LABEL_MAPPING.select, { alias: 'placeholder' });
 
   public onValueChange(value: string | null): void {
     this.valueChange.emit(value);

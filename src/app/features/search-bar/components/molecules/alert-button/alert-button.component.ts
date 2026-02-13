@@ -1,5 +1,5 @@
 import { Component, output, OutputEmitterRef, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
-import { BUTTON_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
+import { BUTTON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -19,7 +19,7 @@ export class AlertButtonComponent {
 
   $isPopupOpen = signal(false);
 
-  readonly buttonLabels = BUTTON_TRANSLATIONS;
+  readonly buttonLabels = BUTTON_LABEL_MAPPING;
 
   constructor(private _elementRef: ElementRef) {}
 

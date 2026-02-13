@@ -13,7 +13,7 @@ import { MailItemComponent, ContextMenuEvent } from '../../molecules/mail-item/m
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 
 type ContextMenuState = {
   isOpen: boolean;
@@ -106,7 +106,7 @@ export class MailListComponent {
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
 
   readonly userEmail = this._mailService.userEmail;
-  readonly inboxTranslations = INBOX_TRANSLATIONS;
+  readonly inboxTranslations = INBOX_LABEL_MAPPING;
 
   $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
 

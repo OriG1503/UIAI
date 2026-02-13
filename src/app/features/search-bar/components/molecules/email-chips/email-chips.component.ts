@@ -1,7 +1,7 @@
 import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Chips } from 'primeng/chips';
-import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
+import { PLACEHOLDER_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
 
 @Component({
   selector: 'app-email-chips',
@@ -14,7 +14,7 @@ export class EmailChipsComponent {
   $values = input<string[]>([], { alias: 'values' });
   valuesChange: OutputEmitterRef<string[]> = output<string[]>();
 
-  $placeholder = input<string>(PLACEHOLDER_TRANSLATIONS.addEmail, { alias: 'placeholder' });
+  $placeholder = input<string>(PLACEHOLDER_LABEL_MAPPING.addEmail, { alias: 'placeholder' });
 
   public onValuesChange(values: string[]): void {
     this.valuesChange.emit(values);

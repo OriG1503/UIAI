@@ -1,6 +1,6 @@
 import { Component, input, computed, inject, signal, output, OutputEmitterRef } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { Encoding } from '../../../types/encoding.type';
 import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
 import { MailContentToolbarComponent } from '../../molecules/mail-content-toolbar/mail-content-toolbar.component';
@@ -32,7 +32,7 @@ export class MailContentViewComponent {
 
   $selectedEncoding = signal<Encoding>('none');
 
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   $hasAttachments = computed(() => {
     const mail = this.$mail();

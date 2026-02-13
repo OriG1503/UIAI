@@ -1,4 +1,4 @@
-export const INBOX_TRANSLATIONS = {
+export const INBOX_LABEL_MAPPING = {
   mails: 'מיילים',
   noMails: 'אין מיילים',
   attachments: 'קבצים מצורפים',
