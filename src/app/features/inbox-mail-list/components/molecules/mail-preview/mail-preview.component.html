@@ -17,28 +17,38 @@
   }
 
   <div class="mail-content">
-    <div class="mail-header">
-      <div class="mail-meta">
-        <span class="mail-date">{{ $formattedDate() }}</span>
-        <span class="mail-time">{{ $formattedTime() }}</span>
-        @if ($attachmentCount() > 0) {
-          <div class="attachment-badge" [class.highlight-attachment-badge]="$isAttachmentBadgeHighlighted()">
-            <app-icon [name]="ICON_NAMES.PAPERCLIP" size="0.75rem" />
-            <span class="attachment-count">{{ $attachmentCount() }}</span>
-          </div>
-        }
-      </div>
+    <div class="mail-meta">
+      <span class="mail-date">{{ $formattedDate() }}</span>
+      <span class="mail-time">{{ $formattedTime() }}</span>
     </div>
 
-    <div class="mail-body">
-      <div class="mail-subject" dir="auto" [innerHTML]="$mail().subject | highlightText:$searchTerms()"></div>
-      <div class="mail-sender" dir="auto" [innerHTML]="$senderDisplay() | highlightText:$searchTerms()"></div>
-      @if ($ccBccDisplay()) {
-        <div class="mail-cc-bcc" [innerHTML]="$ccBccDisplay() | highlightText:$searchTerms()"></div>
-      }
-      @if ($preview()) {
-        <div class="preview-text">{{ $preview() }}</div>
+    <div class="mail-subject-row">
+      <div class="mail-subject" dir="auto">
+        <span [innerHTML]="$subjectPreview() | highlightText:$searchTerms()"></span>
+        @if ($isSubjectOverflow()) {
+          <span class="ellipsis" [class.highlighted]="$isSubjectEllipsisHighlighted()">...</span>
+        }
+      </div>
+      @if ($attachmentCount() > 0) {
+        <div class="attachment-badge" [class.highlight-attachment-badge]="$isAttachmentBadgeHighlighted()">
+          <app-icon [name]="ICON_NAMES.PAPERCLIP" size="0.875rem" />
+          <span class="attachment-count">{{ $attachmentCount() }}</span>
+        </div>
       }
     </div>
+
+    <div class="mail-from" dir="auto" [innerHTML]="$senderDisplay() | highlightText:$searchTerms()"></div>
+
+    <div class="mail-to">
+      <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.625rem" />
+      <span [innerHTML]="$toDisplayText() | highlightText:$searchTerms()"></span>
+      @if ($isToOverflow()) {
+        <span class="ellipsis" [class.highlighted]="$isToEllipsisHighlighted()">...</span>
+      }
+    </div>
+
+    @if ($contentPreview()) {
+      <div class="mail-body-preview" dir="auto" [innerHTML]="$contentPreview() | highlightText:$searchTerms()"></div>
+    }
   </div>
 </div>
