@@ -47,7 +47,6 @@
       @for (mail of $filteredMails(); track mail.filename) {
         <app-mail-preview
           [mail]="mail"
-          [preview]="getMailPreview(mail)"
           [isSelectMode]="$isSelectMode()"
           [isSelected]="isMailSelected(mail)"
           [isCurrent]="isCurrentMail(mail)"

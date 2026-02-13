@@ -4,7 +4,6 @@ import { Language } from '../../../types/language.type';
 import { MailFilter } from '../../../types/mail-filter.type';
 import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { MockMailService } from '../../../../../core/services/mock-mail.service';
-import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
@@ -31,7 +30,6 @@ type ContextMenuState = {
 })
 export class MailListComponent {
   private _mailService = inject(MockMailService);
-  private _mailContentService = inject(MockMailContentService);
   private _selectedMailService = inject(SelectedMailService);
   private _highlightService = inject(HighlightService);
 
@@ -257,15 +255,6 @@ export class MailListComponent {
   public isCurrentMail(mail: Mail): boolean {
     const selectedMail = this._selectedMailService.selectedMail();
     return selectedMail?.filename === mail.filename;
-  }
-
-  public getMailPreview(mail: Mail): string {
-    const html = this._mailContentService.getMailContent(mail.filename);
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const text = (div.textContent || '').trim();
-    const firstLine = text.split('\n').find((line) => line.trim().length > 0) || '';
-    return firstLine.trim();
   }
 
   public trackByMail(index: number, mail: Mail): string {
