@@ -139,7 +139,7 @@ export class MockMailService {
     },
     {
       tag: 'work',
-      subject: 'Production Incident Report – Jan 16',
+      subject: 'Production Incident Report – Jan 16, test this long headline hila',
       filename: 'mail-009',
       attachments: {
         filename: [
@@ -149,7 +149,7 @@ export class MockMailService {
         ],
       },
       from: { username: 'SRE Team', mail: 'sre@company.com' },
-      to: [{ mail: 'ori@gmail.com' }],
+      to: [{ mail: 'ori123456@gmail.com' }, { mail: 'hila7890@gmail.com' }, { mail: '534harel3654@gmail.com' }, { mail: 'lior@gmail.com' }, { mail: 'michal@gmail.com' }],
       sent: new Date('2024-01-16T07:40:00'),
       mailbox_name: 'inbox',
       seen: false,

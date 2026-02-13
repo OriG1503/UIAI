@@ -9,6 +9,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 import {
   MAIL_PREVIEW_SUBJECT_MAX_LENGTH,
   MAIL_PREVIEW_TO_MAX_COUNT,
+  MAIL_PREVIEW_TO_MAX_LENGTH,
   MAIL_PREVIEW_CONTENT_MAX_LENGTH
 } from '../../../constants/mail-preview.constants';
 
@@ -96,23 +97,37 @@ export class MailPreviewComponent {
     return this._containsSearchTerm(hiddenPart, this.$searchTerms());
   });
 
-  $toDisplayText = computed(() => {
-    const to = this.$mail().to;
-    return to.slice(0, MAIL_PREVIEW_TO_MAX_COUNT).map((user) => this._formatUserInfo(user)).join(', ');
+  $toAllFormatted = computed(() => {
+    return this.$mail().to.map((user) => this._formatUserInfo(user));
   });
 
-  $hasMoreTo = computed(() => {
-    return this.$mail().to.length > MAIL_PREVIEW_TO_MAX_COUNT;
+  $toVisibleText = computed(() => {
+    return this.$toAllFormatted().slice(0, MAIL_PREVIEW_TO_MAX_COUNT).join(', ');
+  });
+
+  $toDisplayText = computed(() => {
+    const visible = this.$toVisibleText();
+    if (visible.length <= MAIL_PREVIEW_TO_MAX_LENGTH) {
+      return visible;
+    }
+    return visible.substring(0, MAIL_PREVIEW_TO_MAX_LENGTH);
+  });
+
+  $isToOverflow = computed(() => {
+    return this.$mail().to.length > MAIL_PREVIEW_TO_MAX_COUNT || this.$toVisibleText().length > MAIL_PREVIEW_TO_MAX_LENGTH;
   });
 
   $isToEllipsisHighlighted = computed(() => {
-    if (!this.$hasMoreTo()) {
+    if (!this.$isToOverflow()) {
       return false;
     }
-    const hiddenAddresses = this.$mail().to
-      .slice(MAIL_PREVIEW_TO_MAX_COUNT)
-      .map((user) => this._formatUserInfo(user));
-    const hiddenText = hiddenAddresses.join(' ');
+    const allFormatted = this.$toAllFormatted();
+    const hiddenAddresses = allFormatted.slice(MAIL_PREVIEW_TO_MAX_COUNT).join(' ');
+    const visibleText = this.$toVisibleText();
+    const hiddenChars = visibleText.length > MAIL_PREVIEW_TO_MAX_LENGTH
+      ? visibleText.substring(MAIL_PREVIEW_TO_MAX_LENGTH)
+      : '';
+    const hiddenText = [hiddenChars, hiddenAddresses].filter((s) => s.length > 0).join(' ');
     return this._containsSearchTerm(hiddenText, this.$searchTerms());
   });
 

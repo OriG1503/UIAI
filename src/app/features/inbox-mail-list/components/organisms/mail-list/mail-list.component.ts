@@ -52,6 +52,8 @@ export class MailListComponent {
       'Review',
       'Incident',
       'Dashboard',
+      'Hila',
+      "Michal"
     ]);
 
     this._highlightService.setMailHighlight('mail-001', {

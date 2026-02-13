@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: row-reverse;
   position: relative;
-  height: 7.5rem;
+  height: 6.5rem;
   background-color: var(--color-white);
   border-bottom: 1px solid var(--color-light-gray);
   cursor: pointer;
@@ -74,6 +74,7 @@
       justify-content: flex-end;
       align-items: center;
       gap: 0.5rem;
+      margin-bottom: 0.25rem;
 
       .mail-date {
         font-size: 0.75rem;
@@ -84,46 +85,55 @@
         font-size: 0.75rem;
         color: var(--color-dark-navy);
       }
+    }
+
+    .mail-subject-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .mail-subject {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.9125rem;
+        font-weight: 500;
+        color: var(--color-dark-navy);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .ellipsis {
+          color: var(--color-navy-gray);
+
+          &.highlighted {
+            background-color: var(--color-yellow);
+            color: var(--color-dark-navy);
+          }
+        }
+      }
 
       .attachment-badge {
         display: flex;
         align-items: center;
         gap: 0.25rem;
+        flex-shrink: 0;
 
         .attachment-count {
           display: flex;
           align-items: center;
           justify-content: center;
-          min-width: 1rem;
-          height: 1rem;
+          min-width: 1.125rem;
+          height: 1.125rem;
           padding: 0 0.25rem;
           background-color: var(--color-light-gray);
           border-radius: 50%;
-          font-size: 0.625rem;
-          font-weight: 600;
+          font-size: 0.6875rem;
+          font-weight: 700;
           color: var(--color-dark-navy);
         }
 
         &.highlight-attachment-badge .attachment-count {
           background-color: var(--color-yellow);
-        }
-      }
-    }
-
-    .mail-subject {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--color-dark-navy);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-
-      .ellipsis {
-        color: var(--color-navy-gray);
-
-        &.highlighted {
-          background-color: var(--color-yellow);
-          color: var(--color-dark-navy);
         }
       }
     }
@@ -135,18 +145,17 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
+    
     .mail-to {
       display: flex;
       align-items: center;
       gap: 0.25rem;
       font-size: 0.75rem;
-      color: var(--color-dark-navy);
+      color: var(--color-blue);
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
 
       .ellipsis {
+        flex-shrink: 0;
         color: var(--color-navy-gray);
 
         &.highlighted {
