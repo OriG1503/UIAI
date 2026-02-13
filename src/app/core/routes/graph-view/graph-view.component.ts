@@ -5,9 +5,9 @@ import { SelectedMailService } from '../../services/selected-mail.service';
 import { GraphSelection } from '../../../features/graph-canvas/types/graph-selection.type';
 import { GraphNode } from '../../../features/graph-canvas/types/graph-node.type';
 import { MailUserInfo } from '../../../shared/types/mail-user-info.type';
-import { GraphCanvasComponent } from '../../../features/graph-canvas/organisms/graph-canvas/graph-canvas.component';
-import { GraphDrawerComponent } from '../../../features/graph-canvas/organisms/graph-drawer/graph-drawer.component';
-import { GraphFiltersPanelComponent } from '../../../features/graph-filters/molecules/graph-filters-panel/graph-filters-panel.component';
+import { GraphCanvasComponent } from '../../../features/graph-canvas/components/organisms/graph-canvas/graph-canvas.component';
+import { GraphDrawerComponent } from '../../../features/graph-canvas/components/organisms/graph-drawer/graph-drawer.component';
+import { GraphFiltersPanelComponent } from '../../../features/graph-filters/components/molecules/graph-filters-panel/graph-filters-panel.component';
 import { GRAPH_TRANSLATIONS } from '../../../features/graph-canvas/translations/graph.translations';
 
 @Component({

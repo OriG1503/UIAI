@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { MailListComponent } from '../../../features/inbox-mail-list/organisms/mail-list/mail-list.component';
-import { MailContentViewComponent } from '../../../features/mail-content/organisms/mail-content-view/mail-content-view.component';
+import { MailListComponent } from '../../../features/inbox-mail-list/components/organisms/mail-list/mail-list.component';
+import { MailContentViewComponent } from '../../../features/mail-content/components/organisms/mail-content-view/mail-content-view.component';
 import { SelectedMailService } from '../../services/selected-mail.service';
 
 @Component({
