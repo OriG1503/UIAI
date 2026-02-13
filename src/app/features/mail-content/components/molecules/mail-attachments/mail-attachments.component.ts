@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, computed, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
@@ -55,7 +55,7 @@ export class MailAttachmentsComponent {
   downloadAttachmentClick: OutputEmitterRef<string> = output<string>();
 
   readonly ICON_NAMES = ICON_NAMES;
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   $attachmentCount = computed(() => this.$attachments().length);
   $searchTerms = computed(() => this._highlightService.$searchTerms());

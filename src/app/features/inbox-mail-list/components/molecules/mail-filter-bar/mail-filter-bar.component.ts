@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import { Language } from '../../../types/language.type';
@@ -35,7 +35,7 @@ export class MailFilterBarComponent {
   readonly ICON_NAMES = ICON_NAMES;
   readonly languages: Language[] = ['en', 'es', 'fr'];
   readonly languageLabels = LANGUAGE_LABELS;
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {

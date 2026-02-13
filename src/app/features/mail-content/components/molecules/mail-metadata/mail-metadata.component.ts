@@ -1,7 +1,7 @@
 import { Component, input, computed, inject } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
@@ -20,7 +20,7 @@ export class MailMetadataComponent {
   $mail = input.required<Mail>({ alias: 'mail' });
 
   readonly ICON_NAMES = ICON_NAMES;
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   $searchTerms = computed(() => this._highlightService.$searchTerms());
 

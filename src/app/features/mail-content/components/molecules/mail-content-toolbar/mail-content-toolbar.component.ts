@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import { Encoding } from '../../../types/encoding.type';
@@ -28,7 +28,7 @@ export class MailContentToolbarComponent {
   readonly ICON_NAMES = ICON_NAMES;
   readonly encodings: Encoding[] = ['none', 'utf-8', 'iso-8859-1', 'windows-1255'];
   readonly encodingLabels = ENCODING_LABELS;
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {

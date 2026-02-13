@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -23,7 +23,7 @@ export class ContextMenuComponent implements AfterViewInit {
   closeMenu: OutputEmitterRef<void> = output<void>();
 
   readonly ICON_NAMES = ICON_NAMES;
-  readonly translations = INBOX_TRANSLATIONS;
+  readonly translations = INBOX_LABEL_MAPPING;
 
   private _menuDimensions = signal({ width: MENU_WIDTH, height: MENU_HEIGHT });
 

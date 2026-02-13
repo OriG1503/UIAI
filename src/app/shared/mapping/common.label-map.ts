@@ -1,4 +1,4 @@
-export const COMMON_TRANSLATIONS = {
+export const COMMON_LABEL_MAPPING = {
   save: 'שמור',
   cancel: 'ביטול',
   close: 'סגור',
@@ -10,7 +10,7 @@ export const COMMON_TRANSLATIONS = {
   delete: 'מחק'
 };
 
-export const PLACEHOLDER_TRANSLATIONS = {
+export const PLACEHOLDER_LABEL_MAPPING = {
   selectDate: 'בחר תאריך',
   addEmail: 'הוסף אימייל',
   selectTag: 'בחירת תגית',
@@ -18,7 +18,7 @@ export const PLACEHOLDER_TRANSLATIONS = {
   searchName: 'שם החיפוש'
 };
 
-export const BUTTON_TRANSLATIONS = {
+export const BUTTON_LABEL_MAPPING = {
   saveSearch: 'שמור חיפוש',
   openIssue: 'לפתיחת תקלה',
   openRequest: 'לפתיחת בקשה',
