@@ -139,7 +139,7 @@ export class MockMailService {
     },
     {
       tag: 'work',
-      subject: 'Production Incident Report – Jan 16, test this long headline hila',
+      subject: 'Production Incident Report – Jan 16, test this long headline hila and continue testing more and more longer headlines and subjesct',
       filename: 'mail-009',
       attachments: {
         filename: [

@@ -25,9 +25,19 @@
 
   <div class="toolbar-left">
     <div class="encoding-wrapper">
-      <button type="button" class="encoding-btn" (click)="onEncodingClick()">
+      <button
+        type="button"
+        class="encoding-btn"
+        [class.open]="$isEncodingPopupOpen()"
+        [class.active]="$selectedEncoding() !== 'none'"
+        (click)="onEncodingClick()"
+      >
         <span>{{ $selectedEncoding() === 'none' ? translations.encoding : encodingLabels[$selectedEncoding()] }}</span>
-        <app-icon [name]="ICON_NAMES.CHEVRON_DOWN" size="0.75rem" />
+        <app-icon
+          [name]="$isEncodingPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
+          size="0.625rem"
+          [color]="$isEncodingPopupOpen() || $selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+        />
       </button>
       @if ($isEncodingPopupOpen()) {
         <div class="encoding-popup">
