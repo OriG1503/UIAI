@@ -25,13 +25,12 @@ export class MailItemComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
   $mail = input.required<Mail>({ alias: 'mail' });
-  $isStarred = input<boolean>(false, { alias: 'isStarred' });
+  $preview = input<string>('', { alias: 'preview' });
   $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
   $isSelected = input<boolean>(false, { alias: 'isSelected' });
   $isCurrent = input<boolean>(false, { alias: 'isCurrent' });
-  starClick: OutputEmitterRef<void> = output<void>();
   mailClick: OutputEmitterRef<void> = output<void>();
-  selectionChange: OutputEmitterRef<void> = output<void>();
+  selectionChange: OutputEmitterRef<{ shiftKey: boolean }> = output<{ shiftKey: boolean }>();
   contextMenu: OutputEmitterRef<ContextMenuEvent> = output<ContextMenuEvent>();
 
   $searchTerms = computed(() => this._highlightService.$searchTerms());
@@ -47,12 +46,6 @@ export class MailItemComponent {
 
   $isUnseen = computed(() => {
     return !this.$mail().seen;
-  });
-
-  $preview = computed(() => {
-    const mail = this.$mail();
-    // For now, return empty - in real app this would come from body content
-    return '';
   });
 
   $formattedDate = computed(() => {
@@ -102,14 +95,9 @@ export class MailItemComponent {
     return user.tag ?? '';
   }
 
-  public onStarClick(event: Event): void {
-    event.stopPropagation();
-    this.starClick.emit();
-  }
-
-  public onMailClick(): void {
+  public onMailClick(event?: MouseEvent): void {
     if (this.$isSelectMode()) {
-      this.selectionChange.emit();
+      this.selectionChange.emit({ shiftKey: event?.shiftKey ?? false });
     } else {
       this.mailClick.emit();
     }

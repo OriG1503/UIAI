@@ -6,24 +6,10 @@ import { Mail } from '../../shared/types/mail.type';
 })
 export class MockMailService {
   private _mails = signal<Mail[]>(this._generateMockMails());
-  private _starredMailIds = signal<Set<string>>(new Set());
 
   readonly mails = this._mails.asReadonly();
-  readonly starredMailIds = this._starredMailIds.asReadonly();
 
   readonly userEmail = 'ori@gmail.com';
-
-  public toggleStarred(mailFilename: string): void {
-    this._starredMailIds.update((starred) => {
-      const newStarred = new Set(starred);
-      if (newStarred.has(mailFilename)) {
-        newStarred.delete(mailFilename);
-      } else {
-        newStarred.add(mailFilename);
-      }
-      return newStarred;
-    });
-  }
 
   public markAsSeen(mailFilename: string): void {
     this._mails.update((mails) =>
@@ -35,10 +21,6 @@ export class MockMailService {
     this._mails.update((mails) =>
       mails.map((mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail))
     );
-  }
-
-  public isStarred(mailFilename: string): boolean {
-    return this._starredMailIds().has(mailFilename);
   }
 
   private _generateMockMails(): Mail[] {
