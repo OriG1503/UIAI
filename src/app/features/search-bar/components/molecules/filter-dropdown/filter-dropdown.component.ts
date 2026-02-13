@@ -2,7 +2,7 @@ import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { DropdownOption } from '../../../types/dropdown-option.type';
-import { COMMON_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
+import { COMMON_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
 
 @Component({
   selector: 'app-filter-dropdown',

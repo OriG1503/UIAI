@@ -1,7 +1,7 @@
 import { Component, input, output, OutputEmitterRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
-import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/translations/common.translations';
+import { PLACEHOLDER_TRANSLATIONS } from '../../../../../shared/mapping/common.label-map';
 
 @Component({
   selector: 'app-date-picker',

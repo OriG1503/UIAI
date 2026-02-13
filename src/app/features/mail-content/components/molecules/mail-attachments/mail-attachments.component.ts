@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, computed, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
+import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';

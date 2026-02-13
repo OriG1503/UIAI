@@ -1,5 +1,5 @@
 import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
-import { INBOX_TRANSLATIONS } from '../../../../../shared/translations/inbox.translations';
+import { INBOX_TRANSLATIONS } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import { Language } from '../../../types/language.type';
