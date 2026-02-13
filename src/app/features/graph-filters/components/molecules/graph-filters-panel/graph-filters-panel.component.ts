@@ -4,7 +4,7 @@ import { Slider } from 'primeng/slider';
 import { GraphNode } from '../../../../graph-canvas/types/graph-node.type';
 import { NodeSortMode } from '../../../types/node-sort-mode.type';
 import { SortDirection } from '../../../../../shared/types/sort-direction.type';
-import { GRAPH_TRANSLATIONS } from '../../../../graph-canvas/translations/graph.translations';
+import { GRAPH_TRANSLATIONS } from '../../../../graph-canvas/mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 

@@ -17,7 +17,7 @@ import { EdgeArrowProgram } from 'sigma/rendering';
 import { EdgeCurvedArrowProgram, indexParallelEdgesIndex } from '@sigma/edge-curve';
 import { GraphData } from '../../../types/graph-data.type';
 import { GraphSelection } from '../../../types/graph-selection.type';
-import { GRAPH_TRANSLATIONS } from '../../../translations/graph.translations';
+import { GRAPH_TRANSLATIONS } from '../../../mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import {

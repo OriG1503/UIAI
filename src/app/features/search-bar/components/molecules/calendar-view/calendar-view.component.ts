@@ -1,7 +1,7 @@
 import { Component, input, output, computed, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
-import { DATE_RANGE_TRANSLATIONS } from '../../../translations/date-range.translations';
+import { DATE_RANGE_TRANSLATIONS } from '../../../mapping/date-range.label-map';
 
 @Component({
   selector: 'app-calendar-view',

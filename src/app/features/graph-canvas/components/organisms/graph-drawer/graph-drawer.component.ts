@@ -3,7 +3,7 @@ import { Mail } from '../../../../../shared/types/mail.type';
 import { DrawerState } from '../../../types/drawer-state.type';
 import { GraphSelection } from '../../../types/graph-selection.type';
 import { GraphSelectionInfo } from '../../../../inbox-mail-list/types/graph-selection-info.type';
-import { GRAPH_TRANSLATIONS } from '../../../translations/graph.translations';
+import { GRAPH_TRANSLATIONS } from '../../../mapping/graph.label-map';
 import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../../../constants/graph.constants';
 import { MailListComponent } from '../../../../inbox-mail-list/components/organisms/mail-list/mail-list.component';
 import { MailContentViewComponent } from '../../../../mail-content/components/organisms/mail-content-view/mail-content-view.component';

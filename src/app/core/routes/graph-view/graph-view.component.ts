@@ -8,7 +8,7 @@ import { MailUserInfo } from '../../../shared/types/mail-user-info.type';
 import { GraphCanvasComponent } from '../../../features/graph-canvas/components/organisms/graph-canvas/graph-canvas.component';
 import { GraphDrawerComponent } from '../../../features/graph-canvas/components/organisms/graph-drawer/graph-drawer.component';
 import { GraphFiltersPanelComponent } from '../../../features/graph-filters/components/molecules/graph-filters-panel/graph-filters-panel.component';
-import { GRAPH_TRANSLATIONS } from '../../../features/graph-canvas/translations/graph.translations';
+import { GRAPH_TRANSLATIONS } from '../../../features/graph-canvas/mapping/graph.label-map';
 
 @Component({
   selector: 'app-graph-view',
