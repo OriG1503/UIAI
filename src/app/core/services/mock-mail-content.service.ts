@@ -214,7 +214,7 @@ export class MockMailContentService {
 
                 <p style="font-size:15px; line-height:1.8; color:#374151;">
                   I wanted to follow up with a more detailed message to ensure alignment and clearly set expectations
-                  moving forward. While some of the points below may already be familiar, consolidating them into one
+                  moving forward. Incident While some of the points below may already be familiar, consolidating them into one
                   structured communication will help avoid ambiguity and misalignment.
                 </p>
 
@@ -233,7 +233,7 @@ export class MockMailContentService {
                 </h2>
 
                 <p style="font-size:15px; line-height:1.8; color:#374151;">
-                  Expectations must be explicit rather than implied. This includes timelines, deliverables, quality
+                  Expectations must be explicit Incident rather than implied. This includes timelines, deliverables, quality
                   standards, and communication cadence. Clear ownership removes uncertainty and accelerates execution.
                 </p>
 
@@ -263,7 +263,7 @@ export class MockMailContentService {
                 </p>
 
                 <p style="margin-top:32px; font-size:15px; line-height:1.8; color:#374151;">
-                  Alignment is not a one-time event, but an ongoing process. Open dialogue is encouraged, and every
+                  Alignment is not a one-time hila event, but an ongoing process.Incident  Open dialogue is encouraged, and every
                   perspective adds value.
                 </p>
 

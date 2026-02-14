@@ -1,9 +1,9 @@
-import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, signal, computed, HostListener, ElementRef, inject } from '@angular/core';
 import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 import { Encoding } from '../../../types/encoding.type';
-import { ENCODING_LABELS } from '../../../mapping/mail-content.label-map';
+import { ENCODING_LABELS, HIGHLIGHT_NAV_LABELS } from '../../../mapping/mail-content.label-map';
 
 @Component({
   selector: 'app-mail-content-toolbar',
@@ -16,8 +16,9 @@ export class MailContentToolbarComponent {
   private _elementRef = inject(ElementRef);
 
   $selectedEncoding = input<Encoding>('none', { alias: 'selectedEncoding' });
-  $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
-  $hasNext = input<boolean>(false, { alias: 'hasNext' });
+  $currentHighlightIndex = input<number>(0, { alias: 'currentHighlightIndex' });
+  $totalHighlights = input<number>(0, { alias: 'totalHighlights' });
+
   encodingChange: OutputEmitterRef<Encoding> = output<Encoding>();
   downloadClick: OutputEmitterRef<void> = output<void>();
   previousClick: OutputEmitterRef<void> = output<void>();
@@ -25,10 +26,14 @@ export class MailContentToolbarComponent {
 
   $isEncodingPopupOpen = signal<boolean>(false);
 
+  $hasPrevious = computed(() => this.$totalHighlights() > 0);
+  $hasNext = computed(() => this.$totalHighlights() > 0);
+
   readonly ICON_NAMES = ICON_NAMES;
   readonly encodings: Encoding[] = ['none', 'utf-8', 'iso-8859-1', 'windows-1255'];
   readonly encodingLabels = ENCODING_LABELS;
   readonly translations = INBOX_LABEL_MAPPING;
+  readonly highlightLabels = HIGHLIGHT_NAV_LABELS;
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {

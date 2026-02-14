@@ -14,29 +14,48 @@
     align-items: center;
     gap: 0.5rem;
 
-    .nav-buttons {
+    .separator {
+      color: var(--color-navy-gray);
+      font-size: 0.875rem;
+      line-height: 1;
+    }
+
+    .highlight-nav {
       display: flex;
-      flex-direction: row-reverse;
-      gap: 0.25rem;
+      align-items: center;
+      gap: 0.5rem;
+      
 
-      .nav-btn {
+      .highlight-counter {
+        font-size: 0.75rem;
+        color: var(--color-dark-navy);
+        white-space: nowrap;
+      }
+
+      .nav-buttons {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.25rem;
-        height: 1.25rem;
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
+        flex-direction: row-reverse;
+        gap: 0.25rem;
 
-        &:hover:not(:disabled) {
-          background-color: var(--color-light-gray);
-        }
+        .nav-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.25rem;
+          height: 1.25rem;
+          padding: 0;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
 
-        &:disabled {
-          cursor: default;
+          &:hover:not(:disabled) {
+            background-color: var(--color-light-gray);
+          }
+
+          &:disabled {
+            cursor: default;
+          }
         }
       }
     }
