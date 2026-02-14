@@ -17,6 +17,8 @@
   line-height: 1.6;
   direction: ltr;
   text-align: left;
+  user-select: text;
+  cursor: text;
 
   ::ng-deep {
     p {

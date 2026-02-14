@@ -31,7 +31,5 @@ export class MailBodyComponent {
     );
   });
 
-  public get safeContent(): SafeHtml {
-    return this._sanitizer.bypassSecurityTrustHtml(this.$highlightedContent());
-  }
+  $safeContent = computed(() => this._sanitizer.bypassSecurityTrustHtml(this.$highlightedContent()));
 }
