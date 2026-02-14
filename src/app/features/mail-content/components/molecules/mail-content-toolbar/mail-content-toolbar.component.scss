@@ -14,29 +14,48 @@
     align-items: center;
     gap: 0.5rem;
 
-    .nav-buttons {
+    .separator {
+      color: var(--color-navy-gray);
+      font-size: 0.875rem;
+      line-height: 1;
+    }
+
+    .highlight-nav {
       display: flex;
-      flex-direction: row-reverse;
-      gap: 0.25rem;
+      align-items: center;
+      gap: 0.5rem;
+      
 
-      .nav-btn {
+      .highlight-counter {
+        font-size: 0.75rem;
+        color: var(--color-dark-navy);
+        white-space: nowrap;
+      }
+
+      .nav-buttons {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.25rem;
-        height: 1.25rem;
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
+        flex-direction: row-reverse;
+        gap: 0.25rem;
 
-        &:hover:not(:disabled) {
-          background-color: var(--color-light-gray);
-        }
+        .nav-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.25rem;
+          height: 1.25rem;
+          padding: 0;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
 
-        &:disabled {
-          cursor: default;
+          &:hover:not(:disabled) {
+            background-color: var(--color-light-gray);
+          }
+
+          &:disabled {
+            cursor: default;
+          }
         }
       }
     }
@@ -54,15 +73,31 @@
         display: flex;
         align-items: center;
         gap: 0.375rem;
-        padding: 0.25rem 0.5rem;
-        border: none;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid var(--color-navy-gray);
+        border-radius: 1rem;
         background-color: transparent;
         font-family: var(--font-family);
-        font-size: 0.8125rem;
-        font-weight: 600;
+        font-size: 0.75rem;
         color: var(--color-dark-navy);
         cursor: pointer;
         transition: all 0.2s ease;
+
+        &:hover {
+          background-color: var(--color-light-gray);
+        }
+
+        &.open {
+          background-color: var(--color-dark-navy);
+          color: var(--color-white);
+          border-color: var(--color-dark-navy);
+        }
+
+        &.active {
+          background-color: var(--color-blue);
+          color: var(--color-white);
+          border-color: var(--color-blue);
+        }
       }
 
       .encoding-popup {

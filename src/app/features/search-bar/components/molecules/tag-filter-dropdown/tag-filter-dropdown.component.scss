@@ -118,7 +118,7 @@
     }
 
     .selected-tags {
-      flex: 1;
+      height: 7rem;
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
@@ -134,6 +134,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        direction: ltr;
         flex-shrink: 0;
         padding: 0.35rem 0.5rem;
         background-color: var(--color-option-hover);

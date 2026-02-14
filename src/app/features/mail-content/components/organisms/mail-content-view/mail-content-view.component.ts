@@ -1,4 +1,4 @@
-import { Component, input, computed, inject, signal, output, OutputEmitterRef } from '@angular/core';
+import { Component, input, computed, inject, signal, effect, ElementRef } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { Encoding } from '../../../types/encoding.type';
@@ -22,15 +22,13 @@ import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component
 })
 export class MailContentViewComponent {
   private _mailContentService = inject(MockMailContentService);
+  private _elementRef = inject(ElementRef);
 
   $mail = input<Mail | null>(null, { alias: 'mail' });
-  $hasPrevious = input<boolean>(false, { alias: 'hasPrevious' });
-  $hasNext = input<boolean>(false, { alias: 'hasNext' });
-
-  previousClick: OutputEmitterRef<void> = output<void>();
-  nextClick: OutputEmitterRef<void> = output<void>();
 
   $selectedEncoding = signal<Encoding>('none');
+  $currentHighlightIndex = signal<number>(0);
+  $totalHighlights = signal<number>(0);
 
   readonly translations = INBOX_LABEL_MAPPING;
 
@@ -54,6 +52,20 @@ export class MailContentViewComponent {
 
   $mailFilename = computed(() => this.$mail()?.filename ?? '');
 
+  constructor() {
+    effect(() => {
+      this.$mailFilename();
+      setTimeout(() => {
+        const marks = this._getNavigableMarks();
+        this.$totalHighlights.set(marks.length);
+        this.$currentHighlightIndex.set(0);
+        if (marks.length > 0) {
+          this._scrollToHighlight(0);
+        }
+      }, 0);
+    });
+  }
+
   public onEncodingChange(encoding: Encoding): void {
     this.$selectedEncoding.set(encoding);
     console.log('Encoding changed to:', encoding);
@@ -75,11 +87,51 @@ export class MailContentViewComponent {
     console.log('Downloading attachment:', filename);
   }
 
-  public onPreviousMail(): void {
-    this.previousClick.emit();
+  public onPreviousHighlight(): void {
+    const total = this.$totalHighlights();
+    if (total === 0) {
+      return;
+    }
+    const currentIndex = this.$currentHighlightIndex();
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : total - 1;
+    this.$currentHighlightIndex.set(newIndex);
+    this._scrollToHighlight(newIndex);
   }
 
-  public onNextMail(): void {
-    this.nextClick.emit();
+  public onNextHighlight(): void {
+    const total = this.$totalHighlights();
+    if (total === 0) {
+      return;
+    }
+    const currentIndex = this.$currentHighlightIndex();
+    const newIndex = currentIndex < total - 1 ? currentIndex + 1 : 0;
+    this.$currentHighlightIndex.set(newIndex);
+    this._scrollToHighlight(newIndex);
+  }
+
+  private _getNavigableMarks(): HTMLElement[] {
+    const el = this._elementRef.nativeElement;
+    const allMarks: HTMLElement[] = Array.from(
+      el.querySelectorAll('mark.search-highlight, .ellipsis.highlighted')
+    );
+    return allMarks.filter((mark) => !mark.closest('.attachment-tooltip'));
+  }
+
+  private _scrollToHighlight(index: number): void {
+    const marks = this._getNavigableMarks();
+    if (marks.length === 0 || index >= marks.length) {
+      return;
+    }
+
+    marks.forEach((mark) => mark.classList.remove('highlight-glow'));
+
+    const targetMark = marks[index];
+    void targetMark.offsetWidth;
+    targetMark.classList.add('highlight-glow');
+    targetMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    targetMark.addEventListener('animationend', () => {
+      targetMark.classList.remove('highlight-glow');
+    }, { once: true });
   }
 }

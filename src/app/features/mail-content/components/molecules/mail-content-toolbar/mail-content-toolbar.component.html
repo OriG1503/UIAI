@@ -3,31 +3,47 @@
     <button type="button" class="icon-btn" (click)="onDownloadClick()">
       <app-icon [name]="ICON_NAMES.DOWNLOAD" size="0.875rem" />
     </button>
-    <div class="nav-buttons">
-      <button
-        type="button"
-        class="nav-btn"
-        [disabled]="!$hasPrevious()"
-        (click)="onPreviousClick()"
-      >
-        <app-icon [name]="ICON_NAMES.CHEVRON_LEFT" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
-      </button>
-      <button
-        type="button"
-        class="nav-btn"
-        [disabled]="!$hasNext()"
-        (click)="onNextClick()"
-      >
-        <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.875rem" [color]="$hasNext() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
-      </button>
-    </div>
+    @if ($totalHighlights() > 0) {
+      <span class="separator">|</span>
+      <div class="highlight-nav">
+        <div class="nav-buttons">
+          <button
+            type="button"
+            class="nav-btn"
+            [disabled]="!$hasNext()"
+            (click)="onNextClick()"
+          >
+            <app-icon [name]="ICON_NAMES.CHEVRON_LEFT" size="0.875rem" [color]="$hasNext() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
+          </button>
+          <button
+            type="button"
+            class="nav-btn"
+            [disabled]="!$hasPrevious()"
+            (click)="onPreviousClick()"
+          >
+            <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
+          </button>
+        </div>
+        <span class="highlight-counter" dir="rtl">{{ $currentHighlightIndex() + 1 }} {{ highlightLabels.outOf }} {{ $totalHighlights() }} {{ highlightLabels.matches }}</span>
+      </div>
+    }
   </div>
 
   <div class="toolbar-left">
     <div class="encoding-wrapper">
-      <button type="button" class="encoding-btn" (click)="onEncodingClick()">
+      <button
+        type="button"
+        class="encoding-btn"
+        [class.open]="$isEncodingPopupOpen()"
+        [class.active]="$selectedEncoding() !== 'none'"
+        (click)="onEncodingClick()"
+      >
         <span>{{ $selectedEncoding() === 'none' ? translations.encoding : encodingLabels[$selectedEncoding()] }}</span>
-        <app-icon [name]="ICON_NAMES.CHEVRON_DOWN" size="0.75rem" />
+        <app-icon
+          [name]="$isEncodingPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
+          size="0.625rem"
+          [color]="$isEncodingPopupOpen() || $selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+        />
       </button>
       @if ($isEncodingPopupOpen()) {
         <div class="encoding-popup">

@@ -2,10 +2,6 @@
   <div class="main-content">
     <app-mail-content-view
       [mail]="$selectedMail()"
-      [hasPrevious]="$hasPrevious()"
-      [hasNext]="$hasNext()"
-      (previousClick)="onPreviousMail()"
-      (nextClick)="onNextMail()"
     />
   </div>
   <div class="mail-list-panel">
