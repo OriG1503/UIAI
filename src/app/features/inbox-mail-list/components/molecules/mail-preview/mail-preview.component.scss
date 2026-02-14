@@ -107,7 +107,7 @@
 
           &.highlighted {
             background-color: var(--color-yellow);
-            color: var(--color-dark-navy);
+            color: #03153a;
           }
         }
       }
@@ -134,6 +134,7 @@
 
         &.highlight-attachment-badge .attachment-count {
           background-color: var(--color-yellow);
+          color: #03153a;
         }
       }
     }
@@ -160,7 +161,7 @@
 
         &.highlighted {
           background-color: var(--color-yellow);
-          color: var(--color-dark-navy);
+          color: #03153a;
         }
       }
     }
