@@ -8,19 +8,15 @@ import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../
 import { MailListComponent } from '../../../../inbox-mail-list/components/organisms/mail-list/mail-list.component';
 import { MailContentViewComponent } from '../../../../mail-content/components/organisms/mail-content-view/mail-content-view.component';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
-import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-graph-drawer',
   standalone: true,
-  imports: [MailListComponent, MailContentViewComponent, IconComponent],
+  imports: [MailListComponent, MailContentViewComponent],
   templateUrl: './graph-drawer.component.html',
   styleUrl: './graph-drawer.component.scss'
 })
 export class GraphDrawerComponent {
-  readonly ICON_NAMES = ICON_NAMES;
-
   $mails = input<Mail[]>([], { alias: 'mails' });
   $isOpen = input<boolean>(false, { alias: 'isOpen' });
   $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
