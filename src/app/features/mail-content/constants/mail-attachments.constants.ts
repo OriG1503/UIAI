@@ -1,0 +1,1 @@
+export const ATTACHMENT_NAME_MAX_LENGTH = 20;

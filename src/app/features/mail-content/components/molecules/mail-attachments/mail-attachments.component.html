@@ -4,24 +4,32 @@
   </button>
 
   @for (attachment of $attachments(); track attachment) {
-    <button
-      type="button"
-      class="attachment-item"
-      [class.highlight-attachment-content]="isAttachmentContentHighlighted(attachment)"
-      [class.highlight-attachment-name]="isAttachmentNameHighlighted(attachment)"
-      (click)="onAttachmentClick(attachment)"
-    >
-      <app-icon
-        [name]="getExtensionIcon(attachment)"
-        size="1rem"
-        [color]="getExtensionColor(attachment)"
-        class="file-icon"
-      />
-      <span class="attachment-name" [innerHTML]="attachment | highlightText:$searchTerms()"></span>
-      <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
-      <div class="download-overlay">
-        <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-white)" />
-      </div>
-    </button>
+    <div class="attachment-wrapper">
+      <button
+        type="button"
+        class="attachment-item"
+        [class.highlight-attachment-content]="isAttachmentContentHighlighted(attachment)"
+        [class.highlight-attachment-name]="isAttachmentNameHighlighted(attachment)"
+        (click)="onAttachmentClick(attachment)"
+      >
+        <app-icon
+          [name]="getExtensionIcon(attachment)"
+          size="1rem"
+          [color]="getExtensionColor(attachment)"
+          class="file-icon"
+        />
+        <span class="attachment-name">
+          <span [innerHTML]="getDisplayName(attachment) | highlightText:$searchTerms()"></span>
+          @if (isNameOverflow(attachment)) {
+            <span class="ellipsis" [class.highlighted]="isEllipsisHighlighted(attachment)">...</span>
+          }
+        </span>
+        <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
+        <div class="download-overlay">
+          <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-white)" />
+        </div>
+      </button>
+      <span class="attachment-tooltip" [innerHTML]="attachment | highlightText:$searchTerms()"></span>
+    </div>
   }
 </div>
