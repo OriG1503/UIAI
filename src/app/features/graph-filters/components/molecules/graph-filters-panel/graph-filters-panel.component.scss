@@ -162,14 +162,14 @@
       }
 
       .node-item-checked {
-        background-color: var(--color-option-selected);
+        background-color: var(--color-option-hover);
 
         &:hover {
-          background-color: var(--color-option-selected);
+          background-color: var(--color-option-hover);
         }
 
         .node-count {
-          background-color: #e3ecfb;
+          background-color: var(--color-option-selected);
         }
       }
     }
