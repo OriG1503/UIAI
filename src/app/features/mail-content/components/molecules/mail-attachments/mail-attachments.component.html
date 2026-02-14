@@ -1,5 +1,6 @@
 <div class="mail-attachments">
   <button type="button" class="download-all-btn" (click)="onDownloadAllClick()">
+    <span class="attachment-count">({{ $attachmentCount() }})</span>
     <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" />
   </button>
 
