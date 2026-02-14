@@ -1,6 +1,6 @@
 <div class="mail-content-toolbar">
   <div class="toolbar-right">
-    <button type="button" class="icon-btn" (click)="onDownloadClick()">
+    <button type="button" class="icon-btn" title="הורד MAIL" (click)="onDownloadClick()">
       <app-icon [name]="ICON_NAMES.DOWNLOAD" size="0.875rem" />
     </button>
     @if ($totalHighlights() > 0) {
@@ -10,6 +10,7 @@
           <button
             type="button"
             class="nav-btn"
+            title="הבא"
             [disabled]="!$hasNext()"
             (click)="onNextClick()"
           >
@@ -18,6 +19,7 @@
           <button
             type="button"
             class="nav-btn"
+            title="הקודם"
             [disabled]="!$hasPrevious()"
             (click)="onPreviousClick()"
           >

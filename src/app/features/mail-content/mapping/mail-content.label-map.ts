@@ -9,5 +9,5 @@ export const ENCODING_LABELS: Record<Encoding, string> = {
 
 export const HIGHLIGHT_NAV_LABELS = {
   outOf: 'מתוך',
-  matches: 'התאמות'
+  matches: 'התאמתויות'
 };
