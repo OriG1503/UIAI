@@ -7,6 +7,7 @@ import { SearchInputComponent } from '../../molecules/search-input/search-input.
 import { RunButtonComponent } from '../../molecules/run-button/run-button.component';
 import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
+import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/theme-toggle.component';
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SearchViewType } from '../../../types/search-view-type.type';
 import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
@@ -21,7 +22,8 @@ import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
     SearchInputComponent,
     RunButtonComponent,
     SaveSearchButtonComponent,
-    AlertButtonComponent
+    AlertButtonComponent,
+    ThemeToggleComponent
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
