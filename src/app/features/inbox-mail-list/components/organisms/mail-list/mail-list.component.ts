@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, effect, input } from '@angular/core';
+import { Component, signal, computed, inject, effect, input, output } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { Language } from '../../../types/language.type';
 import { MailFilter } from '../../../types/mail-filter.type';
@@ -13,6 +13,8 @@ import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
 import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
 type ContextMenuState = {
   isOpen: boolean;
@@ -24,11 +26,13 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent],
+  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
 export class MailListComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   private _mailService = inject(MockMailService);
   private _selectedMailService = inject(SelectedMailService);
   private _highlightService = inject(HighlightService);
@@ -104,6 +108,9 @@ export class MailListComponent {
   $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
+  $isFullscreen = input<boolean>(false, { alias: 'isFullscreen' });
+  closeClick = output<void>();
+  fullscreenClick = output<void>();
 
   readonly userEmail = this._mailService.userEmail;
   readonly inboxTranslations = INBOX_LABEL_MAPPING;

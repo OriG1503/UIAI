@@ -5,19 +5,19 @@ export const NODE_SIZE_DEFAULT = 6;
 export const EDGE_SIZE_MIN = 1;
 export const EDGE_SIZE_MAX = 6;
 
-export const NODE_COLOR_DEFAULT = '#03153a';
-export const NODE_COLOR_SELECTED = '#e74b3b';
-export const NODE_COLOR_NEIGHBOR = '#e74b3b';
+export const NODE_COLOR_DEFAULT = '#8fabeb';
+export const NODE_COLOR_SELECTED = '#ca899b';
+export const NODE_COLOR_NEIGHBOR = '#ca899b';
 export const NODE_COLOR_DIMMED = '#9a9a9aB3';
-export const NODE_COLOR_HOVER = '#e74b3b';
+export const NODE_COLOR_HOVER = '#ca899b';
 export const NODE_GAP_COLOR = '#d9d9d9';
 
 export const NODE_BORDER_RATIO = 0.05;
 export const NODE_GAP_RATIO = 0.06;
 
-export const EDGE_COLOR_DEFAULT = '#03153a';
-export const EDGE_COLOR_SELECTED = '#e74b3b';
-export const EDGE_COLOR_HOVER = '#e74b3b';
+export const EDGE_COLOR_DEFAULT = '#8fabeb';
+export const EDGE_COLOR_SELECTED = '#ca899b';
+export const EDGE_COLOR_HOVER = '#ca899b';
 export const EDGE_COLOR_DIMMED = '#9a9a9aB3';
 
 export const LABEL_COLOR = '#000000';
