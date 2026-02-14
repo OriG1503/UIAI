@@ -80,8 +80,8 @@ export class MailListComponent {
     this._highlightService.setMailHighlight('mail-009', {
       searchTerms: ['Incident'],
       bodyWords: ['production', 'downtime', 'resolved'],
-      attachmentContents: ['incident-report.pdf', 'wmi-provider-host-dump.log'],
-      attachmentNames: ['cpu-usage-spike-graph-2024-01-16.png'],
+      attachmentContents: ['incident-report.pdf', 'wmi-provider-host-dump.log', 'cpu-usage-spike-graph-2024hila-01-16.png'],
+      attachmentNames: ['cpu-usage-spike-graph-2024hila-01-16.png'],
     });
 
     this._highlightService.setMailHighlight('mail-014', {

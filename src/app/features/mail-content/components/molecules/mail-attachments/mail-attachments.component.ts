@@ -4,6 +4,7 @@ import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pi
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { ICON_NAMES, IconName } from '../../../../../shared/constants/icon-name.constants';
+import { ATTACHMENT_NAME_MAX_LENGTH } from '../../../constants/mail-attachments.constants';
 
 const EXTENSION_COLORS: Record<string, string> = {
   docx: '#2f67bf',
@@ -82,6 +83,35 @@ export class MailAttachmentsComponent {
   public getExtensionIcon(filename: string): IconName {
     const ext = filename.split('.').pop()?.toLowerCase() ?? '';
     return EXTENSION_ICONS[ext] ?? EXTENSION_ICONS['default'];
+  }
+
+  public getDisplayName(filename: string): string {
+    if (filename.length <= ATTACHMENT_NAME_MAX_LENGTH) {
+      return filename;
+    }
+    return filename.substring(0, ATTACHMENT_NAME_MAX_LENGTH);
+  }
+
+  public isNameOverflow(filename: string): boolean {
+    return filename.length > ATTACHMENT_NAME_MAX_LENGTH;
+  }
+
+  public isEllipsisHighlighted(filename: string): boolean {
+    if (!this.isNameOverflow(filename)) {
+      return false;
+    }
+    const terms = this.$searchTerms();
+    if (terms.length === 0) {
+      return false;
+    }
+    const lowerFilename = filename.toLowerCase();
+    return terms.some((term) => {
+      const lowerTerm = term.toLowerCase();
+      const searchZone = lowerFilename.substring(
+        Math.max(0, ATTACHMENT_NAME_MAX_LENGTH - lowerTerm.length + 1)
+      );
+      return searchZone.includes(lowerTerm);
+    });
   }
 
   public onDownloadAllClick(): void {

@@ -144,7 +144,7 @@ export class MockMailService {
       attachments: {
         filename: [
           'incident-report.pdf',
-          'cpu-usage-spike-graph-2024-01-16.png',
+          'cpu-usage-spike-graph-2024hila-01-16.png',
           'wmi-provider-host-dump.log',
         ],
       },
