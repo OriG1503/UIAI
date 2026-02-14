@@ -2,12 +2,12 @@
   <div class="mail-content-view">
     <app-mail-content-toolbar
       [selectedEncoding]="$selectedEncoding()"
-      [hasPrevious]="$hasPrevious()"
-      [hasNext]="$hasNext()"
+      [currentHighlightIndex]="$currentHighlightIndex()"
+      [totalHighlights]="$totalHighlights()"
       (encodingChange)="onEncodingChange($event)"
       (downloadClick)="onDownloadMail()"
-      (previousClick)="onPreviousMail()"
-      (nextClick)="onNextMail()"
+      (previousClick)="onPreviousHighlight()"
+      (nextClick)="onNextHighlight()"
     />
 
     <app-mail-metadata [mail]="$mail()!" />

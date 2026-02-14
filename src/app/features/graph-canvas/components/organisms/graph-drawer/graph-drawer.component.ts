@@ -42,8 +42,6 @@ export class GraphDrawerComponent {
   private _ngZone = inject(NgZone);
 
   readonly $selectedMail = this._selectedMailService.selectedMail;
-  readonly $hasPrevious = this._selectedMailService.$hasPrevious;
-  readonly $hasNext = this._selectedMailService.$hasNext;
 
   $heightPercent = signal(DRAWER_HEIGHT_DEFAULT);
   $isFullscreen = signal(false);
@@ -119,11 +117,4 @@ export class GraphDrawerComponent {
     this.drawerClose.emit();
   }
 
-  public onPreviousMail(): void {
-    this._selectedMailService.selectPrevious();
-  }
-
-  public onNextMail(): void {
-    this._selectedMailService.selectNext();
-  }
 }

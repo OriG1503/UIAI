@@ -79,7 +79,7 @@ export class MailListComponent {
 
     this._highlightService.setMailHighlight('mail-009', {
       searchTerms: ['Incident'],
-      bodyWords: ['production', 'downtime', 'resolved'],
+      bodyWords: ['production', 'downtime', 'resolved', 'incident', 'hila'],
       attachmentContents: ['incident-report.pdf', 'wmi-provider-host-dump.log', 'cpu-usage-spike-graph-2024hila-01-16.png'],
       attachmentNames: ['cpu-usage-spike-graph-2024hila-01-16.png'],
     });
