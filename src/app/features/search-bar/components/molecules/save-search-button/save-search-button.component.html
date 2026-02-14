@@ -1,6 +1,6 @@
 <div class="save-search-wrapper">
   <button type="button" class="save-btn" [class.save-btn-open]="$isPopupOpen()" (click)="togglePopup()" [title]="buttonLabels.saveSearch">
-    <app-icon [name]="ICON_NAMES.SAVE" />
+    <app-icon [name]="ICON_NAMES.SAVE" [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'" />
   </button>
 
   @if ($isPopupOpen()) {
