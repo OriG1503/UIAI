@@ -94,9 +94,15 @@
       overflow-y: auto;
       overflow-x: hidden;
       direction: ltr;
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+      padding: 0.5rem;
+      background-color: var(--color-white-soft);
 
       > * {
         direction: rtl;
+        flex-shrink: 0;
       }
     }
   }
