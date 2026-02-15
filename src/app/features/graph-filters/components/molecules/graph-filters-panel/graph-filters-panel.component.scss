@@ -108,6 +108,21 @@
         cursor: pointer;
         transition: all 0.2s ease;
         white-space: nowrap;
+
+        .sort-info {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 0.875rem;
+          height: 0.875rem;
+          border-radius: 50%;
+          background-color: var(--color-red);
+          color: var(--color-white-soft);
+          font-size: 0.5625rem;
+          font-weight: 700;
+          font-style: italic;
+          cursor: default;
+        }
       }
 
       .sort-button-active {
