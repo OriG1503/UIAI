@@ -40,8 +40,6 @@ export class SearchBarComponent {
 
   readonly tagOptions = TAG_OPTIONS;
 
-  private _pendingViewType: SearchViewType | null = null;
-
   constructor(private _router: Router) {}
 
   public onTagsChange(tags: string[]): void {
@@ -65,23 +63,19 @@ export class SearchBarComponent {
   }
 
   public onRun(viewType: SearchViewType): void {
-    if (SPECIAL_CHARS_PATTERN.test(this.$searchText())) {
-      this._pendingViewType = viewType;
-      this.$isSpecialCharsWarningOpen.set(true);
-      return;
-    }
-    this._executeSearch(viewType);
+    const hasSpecialChars = SPECIAL_CHARS_PATTERN.test(this.$searchText());
+    this._executeSearch(viewType).then(() => {
+      if (hasSpecialChars) {
+        this.$isSpecialCharsWarningOpen.set(true);
+      }
+    });
   }
 
   public onWarningConfirm(): void {
     this.$isSpecialCharsWarningOpen.set(false);
-    if (this._pendingViewType) {
-      this._executeSearch(this._pendingViewType);
-      this._pendingViewType = null;
-    }
   }
 
-  private _executeSearch(viewType: SearchViewType): void {
+  private _executeSearch(viewType: SearchViewType): Promise<boolean> {
     const query = {
       tags: this.$selectedTags(),
       dateRange: this.$dateRange(),
@@ -89,7 +83,7 @@ export class SearchBarComponent {
       searchText: this.$searchText()
     };
     console.log('Running search:', query);
-    this._router.navigate(['/search', viewType]);
+    return this._router.navigate(['/search', viewType]);
   }
 
   public onSaveSearch(name: string): void {
