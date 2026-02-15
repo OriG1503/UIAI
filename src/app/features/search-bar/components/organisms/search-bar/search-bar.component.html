@@ -57,3 +57,7 @@
     />
   </div>
 </div>
+
+@if ($isSpecialCharsWarningOpen()) {
+  <app-special-chars-warning (confirm)="onWarningConfirm()" />
+}
