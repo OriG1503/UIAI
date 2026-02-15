@@ -10,6 +10,8 @@ export const GRAPH_TRANSLATIONS = {
   noSelection: 'לחץ על צומת או קשר לצפייה במיילים',
   sortByMails: 'מיילים',
   sortByDegree: 'דרגה',
+  sortByMailsInfo: 'מסונן לפי כמות מיילים בצומת',
+  sortByDegreeInfo: 'מסונן לפי כמות קשרים של צומת',
   zoomIn: 'הגדל',
   zoomOut: 'הקטן',
   recenter: 'מרכז',
