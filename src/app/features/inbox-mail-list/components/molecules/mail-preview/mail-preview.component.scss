@@ -7,7 +7,7 @@
   flex-direction: row-reverse;
   position: relative;
   height: 6.5rem;
-  background-color: var(--color-white);
+  background-color: var(--color-surface);
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   cursor: pointer;
@@ -15,7 +15,7 @@
   direction: ltr;
 
   &:hover {
-    background-color: var(--color-white-soft);
+    background-color: var(--color-surface-hover);
   }
 
   &.unseen {
@@ -29,11 +29,11 @@
   }
 
   &.selected {
-    background-color: var(--color-light-gray);
+    background-color: var(--color-surface-hover);
   }
 
   &.current {
-    background-color: var(--color-white-soft);
+    background-color: var(--color-surface-hover);
   }
 
   .unseen-indicator {
