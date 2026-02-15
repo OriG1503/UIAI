@@ -8,9 +8,11 @@ import { RunButtonComponent } from '../../molecules/run-button/run-button.compon
 import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
 import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/theme-toggle.component';
+import { SpecialCharsWarningComponent } from '../../molecules/special-chars-warning/special-chars-warning.component';
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SearchViewType } from '../../../types/search-view-type.type';
 import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
+import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constants';
 
 @Component({
   selector: 'app-search-bar',
@@ -23,7 +25,8 @@ import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
     RunButtonComponent,
     SaveSearchButtonComponent,
     AlertButtonComponent,
-    ThemeToggleComponent
+    ThemeToggleComponent,
+    SpecialCharsWarningComponent
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
@@ -33,8 +36,11 @@ export class SearchBarComponent {
   $dateRange = signal<Date[] | null>(null);
   $searchMode = signal<SearchModeType>('regular');
   $searchText = signal<string>('');
+  $isSpecialCharsWarningOpen = signal<boolean>(false);
 
   readonly tagOptions = TAG_OPTIONS;
+
+  private _pendingViewType: SearchViewType | null = null;
 
   constructor(private _router: Router) {}
 
@@ -59,6 +65,23 @@ export class SearchBarComponent {
   }
 
   public onRun(viewType: SearchViewType): void {
+    if (SPECIAL_CHARS_PATTERN.test(this.$searchText())) {
+      this._pendingViewType = viewType;
+      this.$isSpecialCharsWarningOpen.set(true);
+      return;
+    }
+    this._executeSearch(viewType);
+  }
+
+  public onWarningConfirm(): void {
+    this.$isSpecialCharsWarningOpen.set(false);
+    if (this._pendingViewType) {
+      this._executeSearch(this._pendingViewType);
+      this._pendingViewType = null;
+    }
+  }
+
+  private _executeSearch(viewType: SearchViewType): void {
     const query = {
       tags: this.$selectedTags(),
       dateRange: this.$dateRange(),

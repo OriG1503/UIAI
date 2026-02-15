@@ -1,0 +1,9 @@
+<div class="warning-overlay" (click)="onConfirm()">
+  <div class="warning-popup" (click)="$event.stopPropagation()">
+    <span class="warning-header">{{ translations.header }}</span>
+    <span class="warning-message">{{ translations.message }}</span>
+    <button class="warning-confirm-btn" (click)="onConfirm()">
+      {{ translations.confirm }}
+    </button>
+  </div>
+</div>
