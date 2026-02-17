@@ -110,7 +110,7 @@ export class MailListComponent {
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
   $isFullscreen = input<boolean>(false, { alias: 'isFullscreen' });
-  $isLoading = input<boolean>(true, { alias: 'isLoading' });
+  $isLoading = input<boolean>(false, { alias: 'isLoading' });
   closeClick = output<void>();
   fullscreenClick = output<void>();
 
