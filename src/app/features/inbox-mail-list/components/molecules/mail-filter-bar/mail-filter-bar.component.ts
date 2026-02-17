@@ -27,7 +27,6 @@ export class MailFilterBarComponent {
   translateClick: OutputEmitterRef<Language> = output<Language>();
   exportModeToggle: OutputEmitterRef<void> = output<void>();
   exportClick: OutputEmitterRef<void> = output<void>();
-  cancelClick: OutputEmitterRef<void> = output<void>();
   sortChange: OutputEmitterRef<SortDirection> = output<SortDirection>();
 
   $isLanguagePopupOpen = signal<boolean>(false);
@@ -73,7 +72,4 @@ export class MailFilterBarComponent {
     this.exportClick.emit();
   }
 
-  public onCancelClick(): void {
-    this.cancelClick.emit();
-  }
 }

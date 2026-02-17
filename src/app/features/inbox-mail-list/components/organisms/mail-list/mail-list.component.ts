@@ -167,12 +167,6 @@ export class MailListComponent {
     }
   }
 
-  public onCancelSelectMode(): void {
-    this.$isSelectMode.set(false);
-    this.$selectedMails.set(new Set());
-    this._lastSelectedIndex = null;
-  }
-
   public onExportClick(): void {
     const selectedMailIds = Array.from(this.$selectedMails());
     const selectedMailsData = this.$allMails().filter((mail) => selectedMailIds.includes(mail.filename));
