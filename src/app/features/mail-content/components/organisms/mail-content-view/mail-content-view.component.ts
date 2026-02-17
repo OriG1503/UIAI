@@ -7,6 +7,7 @@ import { MailContentToolbarComponent } from '../../molecules/mail-content-toolba
 import { MailMetadataComponent } from '../../molecules/mail-metadata/mail-metadata.component';
 import { MailAttachmentsComponent } from '../../molecules/mail-attachments/mail-attachments.component';
 import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component';
+import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-skeleton.component';
 
 @Component({
   selector: 'app-mail-content-view',
@@ -15,7 +16,8 @@ import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component
     MailContentToolbarComponent,
     MailMetadataComponent,
     MailAttachmentsComponent,
-    MailBodyComponent
+    MailBodyComponent,
+    ContentSkeletonComponent
   ],
   templateUrl: './mail-content-view.component.html',
   styleUrl: './mail-content-view.component.scss',
@@ -25,6 +27,7 @@ export class MailContentViewComponent {
   private _elementRef = inject(ElementRef);
 
   $mail = input<Mail | null>(null, { alias: 'mail' });
+  $isLoading = input<boolean>(false, { alias: 'isLoading' });
 
   $selectedEncoding = signal<Encoding>('none');
   $currentHighlightIndex = signal<number>(0);
