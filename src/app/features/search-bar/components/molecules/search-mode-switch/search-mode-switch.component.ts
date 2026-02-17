@@ -42,10 +42,10 @@ export class SearchModeSwitchComponent {
       return;
     }
 
-    const rect = iconEl.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const distanceFromCenter = Math.sqrt(
+    const rect: DOMRect = iconEl.getBoundingClientRect();
+    const centerX: number = rect.left + rect.width / 2;
+    const centerY: number = rect.top + rect.height / 2;
+    const distanceFromCenter: number = Math.sqrt(
       Math.pow(event.clientX - centerX, 2) + Math.pow(event.clientY - centerY, 2)
     );
 
