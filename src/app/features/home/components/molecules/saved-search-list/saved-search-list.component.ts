@@ -1,8 +1,8 @@
-import { Component, computed, HostListener, signal } from '@angular/core';
+import { Component, computed, HostListener, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
-import { MOCK_SAVED_SEARCHES, CURRENT_USERNAME } from '../../../constants/saved-search.constants';
+import { CURRENT_USERNAME } from '../../../constants/saved-search.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -17,9 +17,10 @@ export class SavedSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
   readonly labels = HOME_LABEL_MAP;
 
+  $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+
   $nameFilter = signal<string>('');
   $userFilter = signal<string>('');
-  $savedSearches = signal<SavedSearch[]>(MOCK_SAVED_SEARCHES);
   $openMenuIndex = signal<number>(-1);
 
   $hasFilters = computed<boolean>(() => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '');
@@ -73,11 +74,7 @@ export class SavedSearchListComponent {
   }
 
   public onTogglePin(search: SavedSearch): void {
-    this.$savedSearches.update((searches: SavedSearch[]) =>
-      searches.map((savedSearch: SavedSearch) =>
-        savedSearch === search ? { ...savedSearch, isPinned: !savedSearch.isPinned } : savedSearch
-      )
-    );
+    // TODO: dispatch pin toggle action to store
   }
 
   public onToggleMenu(index: number): void {
