@@ -1,0 +1,52 @@
+:host {
+  display: block;
+}
+
+.search-history {
+  background-color: var(--color-surface);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+
+    .tab {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      background: transparent;
+      font-family: var(--font-family);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--color-dark-navy);
+      cursor: pointer;
+      transition: color 0.2s ease;
+
+    }
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+
+    .divider-half {
+      flex: 1;
+      height: 1px;
+      background-color: var(--color-navy-gray);
+      transition: height 0.3s ease, background-color 0.3s ease;
+
+      &.active {
+        height: 3px;
+        background-color: var(--color-red);
+      }
+    }
+  }
+
+  .content {
+    min-height: 30rem;
+    padding: 0.75rem 1rem;
+  }
+}
