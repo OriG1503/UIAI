@@ -1,5 +1,5 @@
 <div class="mail-attachments">
-  <button type="button" class="download-all-btn" (click)="onDownloadAllClick()">
+  <button type="button" class="download-all-btn" title="הורד דבוקות" (click)="onDownloadAllClick()">
     <span class="attachment-count">({{ $attachmentCount() }})</span>
     <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" />
   </button>
@@ -27,7 +27,7 @@
         </span>
         <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
         <div class="download-overlay">
-          <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="var(--color-white)" />
+          <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="#ffffff" />
         </div>
       </button>
       <span class="attachment-tooltip" [innerHTML]="attachment | highlightText:$searchTerms()"></span>

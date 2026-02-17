@@ -2,20 +2,6 @@
   <div class="graph-drawer" [style]="$drawerStyle()" #drawerContainer>
     <div class="drawer-handle" (mousedown)="onDragStart($event)" (dblclick)="onHandleDoubleClick()">
       <div class="handle-bar"></div>
-      <div class="drawer-actions">
-        <button class="drawer-action-btn" (click)="onToggleFullscreen()">
-          <app-icon
-            [name]="$isFullscreen() ? ICON_NAMES.WINDOW_MINIMIZE : ICON_NAMES.WINDOW_MAXIMIZE"
-            size="0.85rem"
-          />
-        </button>
-        <button class="drawer-action-btn" (click)="onClose()">
-          <app-icon
-            [name]="ICON_NAMES.TIMES"
-            size="0.85rem"
-          />
-        </button>
-      </div>
     </div>
 
     <div class="drawer-content">
@@ -28,7 +14,10 @@
         <app-mail-list
           [graphSelectionMails]="$mails()"
           [graphSelectionInfo]="$graphSelectionInfo()"
-          [showTagFilter]="true"
+          [showTagFilter]="$graphSelectionInfo()?.type === 'node'"
+          [isFullscreen]="$isFullscreen()"
+          (closeClick)="onClose()"
+          (fullscreenClick)="onToggleFullscreen()"
         />
       </div>
     </div>

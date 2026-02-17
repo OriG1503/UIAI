@@ -9,7 +9,7 @@ Angular 19 client app using mock data instead of a real server. Hebrew (RTL) UI 
 - Angular 19
 - Node.js 20.10.0
 - npm 10.9.2
-- PrimeNG 19 with **Aura** preset theme (dark mode disabled)
+- PrimeNG 19 with **Aura** preset theme (dark mode via `.dark-mode` class selector, managed by `ThemeService` with localStorage persistence)
 - SCSS for styling
 - Sigma.js v3 + Graphology for graph visualization (ForceAtlas2 layout, `@sigma/node-border` for bordered nodes)
 
@@ -24,18 +24,22 @@ npm test         # Run unit tests with Karma
 ```
 src/app/
 ├── core/           # Singleton services, guards, interceptors, store logic, app-wide utilities
+│   ├── services/       # App-wide services (MockMailService, SelectedMailService, etc.)
+│   ├── routes/         # View components for routes (ListViewComponent, GraphViewComponent)
+│   └── workers/        # Web Workers (graph-builder.worker.ts)
+├── layouts/        # App-level layout wrappers (AppLayoutComponent)
 ├── features/       # Feature modules (lazy-loaded), each feature owns its own atomic design layers
-│   └── <feature>/  # e.g., search/, inbox-mail-list/, mail-content/
+│   └── <feature>/  # search-bar, inbox-mail-list, mail-content, graph-canvas, graph-filters, mail-preview
 │       ├── atoms/          # Feature-specific basic UI elements
 │       ├── molecules/      # Feature-specific combinations of atoms
 │       ├── organisms/      # Business logic components
 │       ├── types/          # Feature-specific types (each type in its own file)
 │       ├── constants/      # Feature-specific constants
-│       └── translations/   # Feature-specific translation maps
+│       └── mapping/        # Feature-specific translation maps (*.label-map.ts)
 ├── shared/         # Only truly cross-feature items (used by 2+ features)
 │   ├── atoms/      # Global basic UI elements (e.g., Icon)
 │   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch)
-│   ├── translations/ # Cross-feature translations (common, inbox)
+│   ├── mapping/    # Cross-feature translations (common, inbox label maps)
 │   └── pipes/      # Cross-feature pipes (HighlightTextPipe)
 ```
 
@@ -82,6 +86,7 @@ src/app/
 - **CSS classes**: lowercase with single hyphen separator, no IDs (e.g., `.search-bar`, `.field-text`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `MAX_VERBAL_DATE_AMOUNT`)
 - **Translation keys**: camelCase matching the context (e.g., `dateRangeLabels`, `buttonLabels`)
+- **Translation files**: `*.label-map.ts` in `mapping/` folders (e.g., `search.label-map.ts`)
 
 ## Code Style
 - **No** `let`, `for`, `while` - use `forEach`, `map`, `filter`, etc.
@@ -151,7 +156,7 @@ The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (
 - **Reducers for visibility only**: Sigma reducers (`nodeReducer`, `edgeReducer`) should only set `hidden: true/false` based on `visibleNodes`
 - **Angular zone re-entry**: Sigma event callbacks (clickNode, etc.) must wrap in `NgZone.run()` to trigger change detection
 - **Reactivity**: Use `effect()` (not `ngOnChanges`) to react to signal input changes for Sigma updates
-- **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `features/search/workers/graph-builder.worker.ts`
+- **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `core/workers/graph-builder.worker.ts`
 - **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `BubbleOverride` type to display node email or edge from/to emails
 - Graph constants defined in `features/search/constants/graph.constants.ts`
 

@@ -7,9 +7,12 @@ import { SearchInputComponent } from '../../molecules/search-input/search-input.
 import { RunButtonComponent } from '../../molecules/run-button/run-button.component';
 import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
+import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/theme-toggle.component';
+import { SpecialCharsWarningComponent } from '../../molecules/special-chars-warning/special-chars-warning.component';
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SearchViewType } from '../../../types/search-view-type.type';
 import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
+import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constants';
 
 @Component({
   selector: 'app-search-bar',
@@ -21,7 +24,9 @@ import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
     SearchInputComponent,
     RunButtonComponent,
     SaveSearchButtonComponent,
-    AlertButtonComponent
+    AlertButtonComponent,
+    ThemeToggleComponent,
+    SpecialCharsWarningComponent
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
@@ -31,6 +36,7 @@ export class SearchBarComponent {
   $dateRange = signal<Date[] | null>(null);
   $searchMode = signal<SearchModeType>('regular');
   $searchText = signal<string>('');
+  $isSpecialCharsWarningOpen = signal<boolean>(false);
 
   readonly tagOptions = TAG_OPTIONS;
 
@@ -57,6 +63,19 @@ export class SearchBarComponent {
   }
 
   public onRun(viewType: SearchViewType): void {
+    const hasSpecialChars = SPECIAL_CHARS_PATTERN.test(this.$searchText());
+    this._executeSearch(viewType).then(() => {
+      if (hasSpecialChars) {
+        this.$isSpecialCharsWarningOpen.set(true);
+      }
+    });
+  }
+
+  public onWarningConfirm(): void {
+    this.$isSpecialCharsWarningOpen.set(false);
+  }
+
+  private _executeSearch(viewType: SearchViewType): Promise<boolean> {
     const query = {
       tags: this.$selectedTags(),
       dateRange: this.$dateRange(),
@@ -64,7 +83,7 @@ export class SearchBarComponent {
       searchText: this.$searchText()
     };
     console.log('Running search:', query);
-    this._router.navigate(['/search', viewType]);
+    return this._router.navigate(['/search', viewType]);
   }
 
   public onSaveSearch(name: string): void {

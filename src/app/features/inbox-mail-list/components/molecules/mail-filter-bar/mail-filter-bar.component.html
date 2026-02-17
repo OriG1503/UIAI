@@ -1,8 +1,8 @@
 <div class="mail-filter-bar">
   <div class="filter-actions-right">
     <div class="translate-wrapper">
-      <button type="button" class="icon-btn" [title]="translations.translateTooltip" (click)="onTranslateClick()">
-        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" />
+      <button type="button" class="icon-btn" [class.active]="$isLanguagePopupOpen()" [title]="translations.translateTooltip" (click)="onTranslateClick()">
+        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" [color]="$isLanguagePopupOpen() ? 'var(--color-blue)' : 'var(--color-dark-navy)'" />
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">

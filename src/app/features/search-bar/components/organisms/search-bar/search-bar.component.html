@@ -50,9 +50,14 @@
   </div>
 
   <div class="section section-right">
+    <app-theme-toggle />
     <app-alert-button
       (openIssue)="onOpenIssue()"
       (openRequest)="onOpenRequest()"
     />
   </div>
 </div>
+
+@if ($isSpecialCharsWarningOpen()) {
+  <app-special-chars-warning (confirm)="onWarningConfirm()" />
+}

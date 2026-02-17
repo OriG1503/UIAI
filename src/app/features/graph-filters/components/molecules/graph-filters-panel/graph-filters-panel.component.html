@@ -63,6 +63,7 @@
           [color]="$sortMode() === 'degree' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
         />
         {{ translations.sortByDegree }}
+        <span class="sort-info" [title]="translations.sortByDegreeInfo">i</span>
       </button>
       <button
         type="button"
@@ -76,6 +77,7 @@
           [color]="$sortMode() === 'mails' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
         />
         {{ translations.sortByMails }}
+        <span class="sort-info" [title]="translations.sortByMailsInfo">i</span>
       </button>
     </div>
 
