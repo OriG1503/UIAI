@@ -1,8 +1,18 @@
 <div class="mail-filter-bar">
   <div class="filter-actions-right">
     <div class="translate-wrapper">
-      <button type="button" class="icon-btn" [class.active]="$isLanguagePopupOpen()" [title]="translations.translateTooltip" (click)="onTranslateClick()">
-        <app-icon [name]="ICON_NAMES.GLOBE" size="1rem" [color]="$isLanguagePopupOpen() ? 'var(--color-blue)' : 'var(--color-dark-navy)'" />
+      <button
+        type="button"
+        class="icon-btn"
+        [class.active]="$isLanguagePopupOpen()"
+        [title]="translations.translateTooltip"
+        (click)="onTranslateClick()"
+      >
+        <app-icon
+          [name]="ICON_NAMES.GLOBE"
+          size="1rem"
+          [color]="$isLanguagePopupOpen() ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        />
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">
@@ -15,7 +25,11 @@
             >
               {{ languageLabels[lang] }}
               @if ($selectedLanguage() === lang) {
-                <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-blue)" />
+                <app-icon
+                  [name]="ICON_NAMES.CHECK"
+                  size="0.75rem"
+                  color="var(--color-blue)"
+                />
               }
             </button>
           }
@@ -30,7 +44,11 @@
       [title]="translations.exportTooltip"
       (click)="onExcelClick()"
     >
-      <app-icon [name]="ICON_NAMES.FILE_EXCEL" size="1rem" [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-dark-navy)'" />
+      <app-icon
+        [name]="ICON_NAMES.FILE_EXCEL"
+        size="1rem"
+        [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+      />
     </button>
     @if ($isSelectMode()) {
       <button

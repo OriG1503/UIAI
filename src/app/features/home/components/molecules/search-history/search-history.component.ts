@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, signal, InputSignal, WritableSignal } from '@angular/core';
 import { SearchHistoryTab } from '../../../types/search-history-tab.type';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { LastSearch } from '../../../types/last-search.type';
@@ -11,17 +11,17 @@ import { LastSearchListComponent } from '../last-search-list/last-search-list.co
   standalone: true,
   imports: [SavedSearchListComponent, LastSearchListComponent],
   templateUrl: './search-history.component.html',
-  styleUrl: './search-history.component.scss'
+  styleUrl: './search-history.component.scss',
 })
 export class SearchHistoryComponent {
-  readonly labels = HOME_LABEL_MAP;
+  readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
 
-  $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
-  $lastSearches = input.required<LastSearch[]>({ alias: 'lastSearches' });
-  $isSavedSearchLoading = input<boolean>(false, { alias: 'isSavedSearchLoading' });
-  $isLastSearchLoading = input<boolean>(false, { alias: 'isLastSearchLoading' });
+  $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+  $lastSearches: InputSignal<LastSearch[]> = input.required<LastSearch[]>({ alias: 'lastSearches' });
+  $isSavedSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isSavedSearchLoading' });
+  $isLastSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLastSearchLoading' });
 
-  $activeTab = signal<SearchHistoryTab>('saved-search');
+  $activeTab: WritableSignal<SearchHistoryTab> = signal<SearchHistoryTab>('saved-search');
 
   public onTabClick(tab: SearchHistoryTab): void {
     this.$activeTab.set(tab);

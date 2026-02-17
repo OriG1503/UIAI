@@ -1,6 +1,7 @@
-import { Component, input, computed, inject } from '@angular/core';
+import { Component, input, computed, inject, InputSignal, Signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HighlightService } from '../../../../../core/services/highlight.service';
+import { HighlightData } from '../../../../../shared/types/highlight-match.type';
 
 @Component({
   selector: 'app-mail-body',
@@ -10,26 +11,25 @@ import { HighlightService } from '../../../../../core/services/highlight.service
   styleUrl: './mail-body.component.scss',
 })
 export class MailBodyComponent {
-  private _sanitizer = inject(DomSanitizer);
-  private _highlightService = inject(HighlightService);
+  private _sanitizer: DomSanitizer = inject(DomSanitizer);
+  private _highlightService: HighlightService = inject(HighlightService);
 
-  $content = input.required<string>({ alias: 'content' });
-  $mailFilename = input<string>('', { alias: 'mailFilename' });
+  $content: InputSignal<string> = input.required<string>({ alias: 'content' });
+  $mailFilename: InputSignal<string> = input<string>('', { alias: 'mailFilename' });
 
-  $highlightedContent = computed(() => {
-    const content = this.$content();
-    const mailFilename = this.$mailFilename();
-    const highlightData = this._highlightService.getMailHighlight(mailFilename);
+  private _$highlightedContent: Signal<string> = computed<string>(() => {
+    const content: string = this.$content();
+    const mailFilename: string = this.$mailFilename();
+    const highlightData: HighlightData | undefined = this._highlightService.getMailHighlight(mailFilename);
 
     if (!highlightData || highlightData.bodyWords.length === 0) {
       return content;
     }
 
-    return this._highlightService.highlightBodyContent(
-      content,
-      highlightData.bodyWords
-    );
+    return this._highlightService.highlightBodyContent(content, highlightData.bodyWords);
   });
 
-  $safeContent = computed(() => this._sanitizer.bypassSecurityTrustHtml(this.$highlightedContent()));
+  $safeContent: Signal<SafeHtml> = computed<SafeHtml>(() =>
+    this._sanitizer.bypassSecurityTrustHtml(this._$highlightedContent()),
+  );
 }

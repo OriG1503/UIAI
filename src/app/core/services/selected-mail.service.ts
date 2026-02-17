@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject, WritableSignal, Signal } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
 import { MockMailService } from './mock-mail.service';
 import { MockGraphMailService } from './mock-graph-mail.service';
@@ -7,30 +7,30 @@ import { MockGraphMailService } from './mock-graph-mail.service';
   providedIn: 'root',
 })
 export class SelectedMailService {
-  private _mailService = inject(MockMailService);
-  private _graphMailService = inject(MockGraphMailService);
-  private _selectedMail = signal<Mail | null>(null);
-  private _mailList = signal<Mail[]>([]);
+  private _mailService: MockMailService = inject(MockMailService);
+  private _graphMailService: MockGraphMailService = inject(MockGraphMailService);
+  private _selectedMail: WritableSignal<Mail | null> = signal<Mail | null>(null);
+  private _mailList: WritableSignal<Mail[]> = signal<Mail[]>([]);
 
-  readonly selectedMail = this._selectedMail.asReadonly();
-  readonly mailList = this._mailList.asReadonly();
+  readonly selectedMail: Signal<Mail | null> = this._selectedMail.asReadonly();
+  readonly mailList: Signal<Mail[]> = this._mailList.asReadonly();
 
-  $hasSelectedMail = computed(() => this._selectedMail() !== null);
+  $hasSelectedMail: Signal<boolean> = computed<boolean>(() => this._selectedMail() !== null);
 
-  $selectedIndex = computed(() => {
-    const mail = this._selectedMail();
-    const list = this._mailList();
+  $selectedIndex: Signal<number> = computed<number>(() => {
+    const mail: Mail | null = this._selectedMail();
+    const list: Mail[] = this._mailList();
     if (!mail || list.length === 0) {
       return -1;
     }
-    return list.findIndex((m) => m.filename === mail.filename);
+    return list.findIndex((m: Mail) => m.filename === mail.filename);
   });
 
-  $hasPrevious = computed(() => this.$selectedIndex() > 0);
+  $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
 
-  $hasNext = computed(() => {
-    const index = this.$selectedIndex();
-    const list = this._mailList();
+  $hasNext: Signal<boolean> = computed<boolean>(() => {
+    const index: number = this.$selectedIndex();
+    const list: Mail[] = this._mailList();
     return index >= 0 && index < list.length - 1;
   });
 
@@ -47,20 +47,20 @@ export class SelectedMailService {
   }
 
   public selectPrevious(): void {
-    const index = this.$selectedIndex();
-    const list = this._mailList();
+    const index: number = this.$selectedIndex();
+    const list: Mail[] = this._mailList();
     if (index > 0) {
-      const mail = list[index - 1];
+      const mail: Mail = list[index - 1];
       this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
     }
   }
 
   public selectNext(): void {
-    const index = this.$selectedIndex();
-    const list = this._mailList();
+    const index: number = this.$selectedIndex();
+    const list: Mail[] = this._mailList();
     if (index >= 0 && index < list.length - 1) {
-      const mail = list[index + 1];
+      const mail: Mail = list[index + 1];
       this.markMailAsSeen(mail);
       this._selectedMail.set(mail);
     }

@@ -1,7 +1,15 @@
 <div class="mail-attachments">
-  <button type="button" class="download-all-btn" title="הורד דבוקות" (click)="onDownloadAllClick()">
+  <button
+    type="button"
+    class="download-all-btn"
+    title="הורד דבוקות"
+    (click)="onDownloadAllClick()"
+  >
     <span class="attachment-count">({{ $attachmentCount() }})</span>
-    <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" />
+    <app-icon
+      [name]="ICON_NAMES.DOWNLOAD"
+      size="1rem"
+    />
   </button>
 
   @for (attachment of $attachments(); track attachment) {
@@ -20,17 +28,31 @@
           class="file-icon"
         />
         <span class="attachment-name">
-          <span [innerHTML]="getDisplayName(attachment) | highlightText:$searchTerms()"></span>
+          <span [innerHTML]="getDisplayName(attachment) | highlightText: $searchTerms()"></span>
           @if (isNameOverflow(attachment)) {
-            <span class="ellipsis" [class.highlighted]="isEllipsisHighlighted(attachment)">...</span>
+            <span
+              class="ellipsis"
+              [class.highlighted]="isEllipsisHighlighted(attachment)"
+              >...</span
+            >
           }
         </span>
-        <div class="corner-fold" [style.border-bottom-color]="getExtensionColor(attachment)"></div>
+        <div
+          class="corner-fold"
+          [style.border-bottom-color]="getExtensionColor(attachment)"
+        ></div>
         <div class="download-overlay">
-          <app-icon [name]="ICON_NAMES.DOWNLOAD" size="1rem" color="#ffffff" />
+          <app-icon
+            [name]="ICON_NAMES.DOWNLOAD"
+            size="1rem"
+            color="#ffffff"
+          />
         </div>
       </button>
-      <span class="attachment-tooltip" [innerHTML]="attachment | highlightText:$searchTerms()"></span>
+      <span
+        class="attachment-tooltip"
+        [innerHTML]="attachment | highlightText: $searchTerms()"
+      ></span>
     </div>
   }
 </div>

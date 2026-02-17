@@ -1,1 +1,1 @@
-export const SKELETON_COUNT = 9;
+export const SKELETON_COUNT: number = 9;

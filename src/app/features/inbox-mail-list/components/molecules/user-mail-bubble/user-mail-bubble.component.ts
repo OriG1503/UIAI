@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import { Component, input, InputSignal } from '@angular/core';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 
 @Component({
   selector: 'app-user-mail-bubble',
@@ -9,8 +9,8 @@ import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-m
   styleUrl: './user-mail-bubble.component.scss',
 })
 export class UserMailBubbleComponent {
-  $userEmail = input.required<string>({ alias: 'userEmail' });
-  $mailCount = input.required<number>({ alias: 'mailCount' });
+  $userEmail: InputSignal<string> = input.required<string>({ alias: 'userEmail' });
+  $mailCount: InputSignal<number> = input.required<number>({ alias: 'mailCount' });
 
-  readonly translations = INBOX_LABEL_MAPPING;
+  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 }

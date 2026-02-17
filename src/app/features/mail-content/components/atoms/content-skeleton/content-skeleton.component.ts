@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-content-skeleton',
   standalone: true,
   templateUrl: './content-skeleton.component.html',
-  styleUrl: './content-skeleton.component.scss'
+  styleUrl: './content-skeleton.component.scss',
 })
 export class ContentSkeletonComponent {}

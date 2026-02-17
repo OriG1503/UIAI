@@ -1,8 +1,12 @@
-import { Component, output, OutputEmitterRef, signal } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BUTTON_LABEL_MAPPING, PLACEHOLDER_LABEL_MAPPING, COMMON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
+import {
+  BUTTON_LABEL_MAP,
+  PLACEHOLDER_LABEL_MAP,
+  COMMON_LABEL_MAP,
+} from '../../../../../shared/mapping/common.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-save-search-button',
@@ -12,19 +16,19 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   styleUrl: './save-search-button.component.scss',
 })
 export class SaveSearchButtonComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
   save: OutputEmitterRef<string> = output<string>();
 
-  $isPopupOpen = signal(false);
-  $searchName = signal('');
+  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  $searchName: WritableSignal<string> = signal<string>('');
 
-  readonly buttonLabels = BUTTON_LABEL_MAPPING;
-  readonly placeholders = PLACEHOLDER_LABEL_MAPPING;
-  readonly common = COMMON_LABEL_MAPPING;
+  readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
+  readonly placeholders: typeof PLACEHOLDER_LABEL_MAP = PLACEHOLDER_LABEL_MAP;
+  readonly common: typeof COMMON_LABEL_MAP = COMMON_LABEL_MAP;
 
   public togglePopup(): void {
-    this.$isPopupOpen.update((isOpen) => !isOpen);
+    this.$isPopupOpen.update((isOpen: boolean) => !isOpen);
     if (!this.$isPopupOpen()) {
       this.$searchName.set('');
     }
@@ -36,7 +40,7 @@ export class SaveSearchButtonComponent {
   }
 
   public onSave(): void {
-    const name = this.$searchName();
+    const name: string = this.$searchName();
     if (name.trim()) {
       this.save.emit(name);
       this.closePopup();

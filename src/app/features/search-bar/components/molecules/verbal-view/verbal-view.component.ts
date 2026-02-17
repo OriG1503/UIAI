@@ -1,12 +1,17 @@
-import { Component, output, OutputEmitterRef, signal, ViewEncapsulation } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 import { TimeUnit, TimeUnitOption } from '../../../types/time-unit.type';
 import { VerbalChange } from '../../../types/verbal-change.type';
-import { DEFAULT_VERBAL_AMOUNT, DEFAULT_VERBAL_UNIT, MAX_VERBAL_DATE_AMOUNT, MIN_VERBAL_DATE_AMOUNT } from '../../../constants/date-range.constants';
-import { TIME_UNIT_LABELS, DATE_RANGE_TRANSLATIONS } from '../../../mapping/date-range.label-map';
+import {
+  DEFAULT_VERBAL_AMOUNT,
+  DEFAULT_VERBAL_UNIT,
+  MAX_VERBAL_DATE_AMOUNT,
+  MIN_VERBAL_DATE_AMOUNT,
+} from '../../../consts/date-range.consts';
+import { TIME_UNIT_LABEL_MAP, DATE_RANGE_LABEL_MAP } from '../../../mapping/date-range.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-verbal-view',
@@ -14,28 +19,28 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   imports: [FormsModule, Select, IconComponent],
   templateUrl: './verbal-view.component.html',
   styleUrl: './verbal-view.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class VerbalViewComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
   verbalChange: OutputEmitterRef<VerbalChange> = output<VerbalChange>();
 
-  $verbalAmount = signal(DEFAULT_VERBAL_AMOUNT);
-  $verbalUnit = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
+  $verbalAmount: WritableSignal<number> = signal<number>(DEFAULT_VERBAL_AMOUNT);
+  $verbalUnit: WritableSignal<TimeUnit> = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
 
   readonly timeUnitOptions: TimeUnitOption[] = [
-    { value: 'days', label: TIME_UNIT_LABELS.days },
-    { value: 'weeks', label: TIME_UNIT_LABELS.weeks },
-    { value: 'months', label: TIME_UNIT_LABELS.months },
-    { value: 'years', label: TIME_UNIT_LABELS.years }
+    { value: 'days', label: TIME_UNIT_LABEL_MAP.days },
+    { value: 'weeks', label: TIME_UNIT_LABEL_MAP.weeks },
+    { value: 'months', label: TIME_UNIT_LABEL_MAP.months },
+    { value: 'years', label: TIME_UNIT_LABEL_MAP.years },
   ];
 
-  readonly translations = DATE_RANGE_TRANSLATIONS;
-  readonly maxAmount = MAX_VERBAL_DATE_AMOUNT;
+  readonly translations: typeof DATE_RANGE_LABEL_MAP = DATE_RANGE_LABEL_MAP;
+  readonly maxAmount: typeof MAX_VERBAL_DATE_AMOUNT = MAX_VERBAL_DATE_AMOUNT;
 
   public decrementAmount(): void {
-    const current = this.$verbalAmount();
+    const current: number = this.$verbalAmount();
     if (current > MIN_VERBAL_DATE_AMOUNT) {
       this.$verbalAmount.set(current - 1);
       this._emitChange();
@@ -43,7 +48,7 @@ export class VerbalViewComponent {
   }
 
   public incrementAmount(): void {
-    const current = this.$verbalAmount();
+    const current: number = this.$verbalAmount();
     if (current < MAX_VERBAL_DATE_AMOUNT) {
       this.$verbalAmount.set(current + 1);
       this._emitChange();
@@ -51,10 +56,10 @@ export class VerbalViewComponent {
   }
 
   public onAmountInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const parsed = parseInt(input.value, 10);
+    const input: HTMLInputElement = event.target as HTMLInputElement;
+    const parsed: number = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
-      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, Math.min(MAX_VERBAL_DATE_AMOUNT, parsed));
+      const clamped: number = Math.max(MIN_VERBAL_DATE_AMOUNT, Math.min(MAX_VERBAL_DATE_AMOUNT, parsed));
       this.$verbalAmount.set(clamped);
       this._emitChange();
     }
@@ -68,7 +73,7 @@ export class VerbalViewComponent {
   private _emitChange(): void {
     this.verbalChange.emit({
       amount: this.$verbalAmount(),
-      unit: this.$verbalUnit()
+      unit: this.$verbalUnit(),
     });
   }
 }

@@ -336,7 +336,9 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
             border-radius: 50%;
             background: transparent;
             cursor: pointer;
-            transition: opacity 0.2s ease, visibility 0.2s ease;
+            transition:
+              opacity 0.2s ease,
+              visibility 0.2s ease;
 
             &.hidden {
               opacity: 0;
@@ -380,7 +382,10 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
               max-width: 0;
               overflow: hidden;
               opacity: 0;
-              transition: max-width 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
+              transition:
+                max-width 0.3s ease,
+                opacity 0.2s ease,
+                padding 0.3s ease;
               z-index: 1;
 
               &.open {

@@ -1,7 +1,7 @@
-import { Component, output, OutputEmitterRef, signal, ViewEncapsulation } from '@angular/core';
-import { BUTTON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
+import { Component, output, OutputEmitterRef, signal, ViewEncapsulation, WritableSignal } from '@angular/core';
+import { BUTTON_LABEL_MAP } from '../../../../../shared/mapping/common.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-alert-button',
@@ -9,17 +9,17 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   imports: [IconComponent],
   templateUrl: './alert-button.component.html',
   styleUrl: './alert-button.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class AlertButtonComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
   openIssue: OutputEmitterRef<void> = output<void>();
   openRequest: OutputEmitterRef<void> = output<void>();
 
-  $isPopupOpen = signal(false);
+  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
 
-  readonly buttonLabels = BUTTON_LABEL_MAPPING;
+  readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
 
   private _closeTimeout: ReturnType<typeof setTimeout> | null = null;
 

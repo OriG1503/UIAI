@@ -1,11 +1,22 @@
-import { Component, input, output, OutputEmitterRef, signal, HostListener, ElementRef, inject } from '@angular/core';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import {
+  Component,
+  input,
+  output,
+  OutputEmitterRef,
+  signal,
+  HostListener,
+  ElementRef,
+  inject,
+  InputSignal,
+  WritableSignal,
+} from '@angular/core';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 import { Language } from '../../../types/language.type';
 import { MailFilter } from '../../../types/mail-filter.type';
 import { SortDirection } from '../../../../../shared/types/sort-direction.type';
-import { LANGUAGE_LABELS } from '../../../mapping/inbox-mail-list.label-map';
+import { LANGUAGE_LABEL_MAP } from '../../../mapping/inbox-mail-list.label-map';
 
 @Component({
   selector: 'app-mail-filter-bar',
@@ -15,13 +26,13 @@ import { LANGUAGE_LABELS } from '../../../mapping/inbox-mail-list.label-map';
   styleUrl: './mail-filter-bar.component.scss',
 })
 export class MailFilterBarComponent {
-  private _elementRef = inject(ElementRef);
+  private _elementRef: ElementRef = inject(ElementRef);
 
-  $activeFilter = input<MailFilter>('all', { alias: 'activeFilter' });
-  $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
-  $sortDirection = input<SortDirection>('desc', { alias: 'sortDirection' });
-  $selectedCount = input<number>(0, { alias: 'selectedCount' });
-  $filteredCount = input<number>(0, { alias: 'filteredCount' });
+  $activeFilter: InputSignal<MailFilter> = input<MailFilter>('all', { alias: 'activeFilter' });
+  $isSelectMode: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelectMode' });
+  $sortDirection: InputSignal<SortDirection> = input<SortDirection>('desc', { alias: 'sortDirection' });
+  $selectedCount: InputSignal<number> = input<number>(0, { alias: 'selectedCount' });
+  $filteredCount: InputSignal<number> = input<number>(0, { alias: 'filteredCount' });
 
   filterChange: OutputEmitterRef<MailFilter> = output<MailFilter>();
   translateClick: OutputEmitterRef<Language> = output<Language>();
@@ -29,18 +40,18 @@ export class MailFilterBarComponent {
   exportClick: OutputEmitterRef<void> = output<void>();
   sortChange: OutputEmitterRef<SortDirection> = output<SortDirection>();
 
-  $isLanguagePopupOpen = signal<boolean>(false);
-  $selectedLanguage = signal<Language>('en');
+  $isLanguagePopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  $selectedLanguage: WritableSignal<Language> = signal<Language>('en');
 
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
   readonly languages: Language[] = ['en', 'es', 'fr'];
-  readonly languageLabels = LANGUAGE_LABELS;
-  readonly translations = INBOX_LABEL_MAPPING;
+  readonly languageLabels: Record<Language, string> = LANGUAGE_LABEL_MAP;
+  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
-    const translateWrapper = this._elementRef.nativeElement.querySelector('.translate-wrapper');
-    if (translateWrapper && !translateWrapper.contains(event.target)) {
+    const translateWrapper: HTMLElement | null = this._elementRef.nativeElement.querySelector('.translate-wrapper');
+    if (translateWrapper && !translateWrapper.contains(event.target as Node)) {
       this.$isLanguagePopupOpen.set(false);
     }
   }
@@ -55,7 +66,7 @@ export class MailFilterBarComponent {
   }
 
   public onTranslateClick(): void {
-    this.$isLanguagePopupOpen.update((value) => !value);
+    this.$isLanguagePopupOpen.update((value: boolean) => !value);
   }
 
   public onLanguageSelect(language: Language): void {
@@ -71,5 +82,4 @@ export class MailFilterBarComponent {
   public onExportClick(): void {
     this.exportClick.emit();
   }
-
 }

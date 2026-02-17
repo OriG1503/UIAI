@@ -1,7 +1,7 @@
 import { TagOption } from '../types/tag-option.type';
 
-export const TAG_SKELETON_COUNT = 5;
-export const TAG_SEARCH_DELAY = 400;
+export const TAG_SKELETON_COUNT: number = 5;
+export const TAG_SEARCH_DELAY: number = 400;
 
 export const TAG_OPTIONS: TagOption[] = [
   { label: 'Human Resources', value: 'human-resources' },
@@ -19,5 +19,5 @@ export const TAG_OPTIONS: TagOption[] = [
   { label: 'Product Development', value: 'product-development' },
   { label: 'Quality Assurance', value: 'quality-assurance' },
   { label: 'Finance', value: 'finance' },
-  { label: 'Operations', value: 'operations' }
+  { label: 'Operations', value: 'operations' },
 ];

@@ -1,1 +1,1 @@
-export const SPECIAL_CHARS_PATTERN = /[>?!@#$%^&*()]/;
+export const SPECIAL_CHARS_PATTERN: RegExp = /[>?!@#$%^&*()]/;

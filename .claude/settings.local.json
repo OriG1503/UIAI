@@ -31,7 +31,10 @@
       "Bash(do git mv \"src/app/features/search/types/$t.type.ts\" \"src/app/features/graph-canvas/types/\")",
       "Bash(while read f)",
       "Bash(do sed -i 's|shared/translations/inbox.translations|shared/mapping/inbox.label-map|g' \"$f\")",
-      "Bash(do sed -i 's|shared/translations/common.translations|shared/mapping/common.label-map|g' \"$f\")"
+      "Bash(do sed -i 's|shared/translations/common.translations|shared/mapping/common.label-map|g' \"$f\")",
+      "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -1 {}')",
+      "Bash(npx prettier --write \"src/**/*.{ts,html,scss}\")",
+      "Bash(npx prettier:*)"
     ]
   }
 }

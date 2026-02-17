@@ -76,7 +76,10 @@
           }
         </div>
       } @else {
-        <div class="results-list" #resultsList>
+        <div
+          class="results-list"
+          #resultsList
+        >
           @for (option of $filteredOptions(); track option.value; let i = $index) {
             <button
               type="button"

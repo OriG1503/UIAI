@@ -23,7 +23,10 @@
       />
     }
 
-    <app-mail-body [content]="$mailContent()" [mailFilename]="$mailFilename()" />
+    <app-mail-body
+      [content]="$mailContent()"
+      [mailFilename]="$mailFilename()"
+    />
   </div>
 } @else {
   <div class="no-mail-selected">

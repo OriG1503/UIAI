@@ -8,14 +8,17 @@ import {
   ElementRef,
   HostListener,
   ViewChild,
-  inject
+  inject,
+  InputSignal,
+  WritableSignal,
+  Signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../../types/tag-option.type';
-import { TAG_FILTER_TRANSLATIONS } from '../../../mapping/search.label-map';
+import { TAG_FILTER_LABEL_MAP } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
-import { TAG_SKELETON_COUNT } from '../../../constants/tag-filter.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { TAG_SKELETON_COUNT } from '../../../consts/tag-filter.consts';
 import { MockTagService } from '../../../../../core/services/mock-tag.service';
 
 @Component({
@@ -23,47 +26,47 @@ import { MockTagService } from '../../../../../core/services/mock-tag.service';
   standalone: true,
   imports: [FormsModule, IconComponent],
   templateUrl: './tag-filter-dropdown.component.html',
-  styleUrl: './tag-filter-dropdown.component.scss'
+  styleUrl: './tag-filter-dropdown.component.scss',
 })
 export class TagFilterDropdownComponent {
-  readonly ICON_NAMES = ICON_NAMES;
-  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_, i) => i);
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_: unknown, i: number) => i);
 
   private _mockTagService: MockTagService = inject(MockTagService);
 
-  $options = input<TagOption[]>([], { alias: 'options' });
-  $selectedValues = input<string[]>([], { alias: 'selectedValues' });
+  $options: InputSignal<TagOption[]> = input<TagOption[]>([], { alias: 'options' });
+  $selectedValues: InputSignal<string[]> = input<string[]>([], { alias: 'selectedValues' });
 
   tagsChange: OutputEmitterRef<string[]> = output<string[]>();
 
   @ViewChild('resultsList') private _resultsList?: ElementRef<HTMLDivElement>;
   @ViewChild('searchInput') private _searchInput?: ElementRef<HTMLInputElement>;
 
-  $isPopupOpen = signal(false);
-  $searchText = signal('');
-  $highlightedIndex = signal(-1);
+  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  $searchText: WritableSignal<string> = signal<string>('');
+  $highlightedIndex: WritableSignal<number> = signal<number>(-1);
 
-  readonly $isLoading = this._mockTagService.$isLoading;
-  readonly $filteredOptions = this._mockTagService.$filteredTags;
+  readonly $isLoading: WritableSignal<boolean> = this._mockTagService.$isLoading;
+  readonly $filteredOptions: WritableSignal<TagOption[]> = this._mockTagService.$filteredTags;
 
-  readonly translations = TAG_FILTER_TRANSLATIONS;
+  readonly translations: typeof TAG_FILTER_LABEL_MAP = TAG_FILTER_LABEL_MAP;
 
   constructor(private _elementRef: ElementRef) {}
 
-  $selectedTagOptions = computed(() => {
-    const selected = this.$selectedValues();
-    const options = this.$options();
+  $selectedTagOptions: Signal<TagOption[]> = computed<TagOption[]>(() => {
+    const selected: string[] = this.$selectedValues();
+    const options: TagOption[] = this.$options();
     return selected
-      .map((value) => options.find((o) => o.value === value))
-      .filter((o): o is TagOption => !!o);
+      .map((value: string) => options.find((o: TagOption) => o.value === value))
+      .filter((o: TagOption | undefined): o is TagOption => !!o);
   });
 
-  $selectedCount = computed(() => this.$selectedValues().length);
+  private _$selectedCount: Signal<number> = computed<number>(() => this.$selectedValues().length);
 
-  $hasSelection = computed(() => this.$selectedValues().length > 0);
+  $hasSelection: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0);
 
-  $buttonLabel = computed(() => {
-    const count = this.$selectedValues().length;
+  $buttonLabel: Signal<string> = computed<string>(() => {
+    const count: number = this.$selectedValues().length;
     if (count === 0 && !this.$isPopupOpen()) {
       return this.translations.defaultLabel;
     }
@@ -73,10 +76,10 @@ export class TagFilterDropdownComponent {
     return `${count} ${this.translations.tagsSelected}`;
   });
 
-  $isActive = computed(() => this.$selectedValues().length > 0 && !this.$isPopupOpen());
+  $isActive: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0 && !this.$isPopupOpen());
 
-  $counterLabel = computed(() => {
-    const count = this.$selectedValues().length;
+  private _$counterLabel: Signal<string> = computed<string>(() => {
+    const count: number = this.$selectedValues().length;
     if (count === 1) {
       return `${count} ${this.translations.countSelectedSingular}`;
     }
@@ -93,7 +96,7 @@ export class TagFilterDropdownComponent {
   }
 
   public togglePopup(): void {
-    this.$isPopupOpen.update((isOpen) => !isOpen);
+    this.$isPopupOpen.update((isOpen: boolean) => !isOpen);
     if (this.$isPopupOpen()) {
       setTimeout(() => this._searchInput?.nativeElement.focus());
     } else {
@@ -107,16 +110,16 @@ export class TagFilterDropdownComponent {
   }
 
   public toggleTag(option: TagOption): void {
-    const current = this.$selectedValues();
+    const current: string[] = this.$selectedValues();
     if (current.includes(option.value)) {
-      this.tagsChange.emit(current.filter((v) => v !== option.value));
+      this.tagsChange.emit(current.filter((v: string) => v !== option.value));
     } else {
       this.tagsChange.emit([...current, option.value]);
     }
   }
 
   public removeTag(value: string): void {
-    this.tagsChange.emit(this.$selectedValues().filter((v) => v !== value));
+    this.tagsChange.emit(this.$selectedValues().filter((v: string) => v !== value));
   }
 
   public clearAll(): void {
@@ -130,22 +133,22 @@ export class TagFilterDropdownComponent {
   }
 
   public onSearchKeydown(event: KeyboardEvent): void {
-    const options = this.$filteredOptions();
+    const options: TagOption[] = this.$filteredOptions();
     if (options.length === 0) {
       return;
     }
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      this.$highlightedIndex.update((i) => (i < options.length - 1 ? i + 1 : 0));
+      this.$highlightedIndex.update((i: number) => (i < options.length - 1 ? i + 1 : 0));
       this._scrollToHighlighted();
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
-      this.$highlightedIndex.update((i) => (i > 0 ? i - 1 : options.length - 1));
+      this.$highlightedIndex.update((i: number) => (i > 0 ? i - 1 : options.length - 1));
       this._scrollToHighlighted();
     } else if (event.key === 'Enter') {
       event.preventDefault();
-      const index = this.$highlightedIndex();
+      const index: number = this.$highlightedIndex();
       if (index >= 0 && index < options.length) {
         this.toggleTag(options[index]);
       }
@@ -154,12 +157,12 @@ export class TagFilterDropdownComponent {
 
   private _scrollToHighlighted(): void {
     setTimeout(() => {
-      const list = this._resultsList?.nativeElement;
+      const list: HTMLDivElement | undefined = this._resultsList?.nativeElement;
       if (!list) {
         return;
       }
-      const items = list.querySelectorAll('.result-item');
-      const item = items[this.$highlightedIndex()];
+      const items: NodeListOf<Element> = list.querySelectorAll('.result-item');
+      const item: Element = items[this.$highlightedIndex()];
       if (item) {
         item.scrollIntoView({ block: 'nearest' });
       }
