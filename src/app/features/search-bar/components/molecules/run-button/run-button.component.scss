@@ -4,6 +4,8 @@
 
 .run-button-wrapper {
   position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: -0.5rem;
 
   .run-btn {
     height: var(--input-height);
@@ -23,18 +25,9 @@
     }
   }
 
-  .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999;
-  }
-
   .popup-container {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: 100%;
     right: 0;
     display: flex;
     flex-direction: column;
