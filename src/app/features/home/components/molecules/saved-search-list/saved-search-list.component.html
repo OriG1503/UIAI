@@ -42,7 +42,10 @@
   } @else {
   <div class="list">
     @for (search of $filteredSavedSearches(); track search.name; let i = $index) {
-      <div class="saved-search-item">
+      <div
+        class="saved-search-item"
+        [class.glowing]="$glowingSearch() === search"
+      >
         <div class="unseen-indicator"></div>
 
         <div class="item-content">
@@ -58,10 +61,33 @@
             />
           </button>
 
-          <span
-            class="saved-search-name"
-            dir="auto"
-          >{{ search.name }}</span>
+          <div class="name-wrapper">
+            <span
+              class="saved-search-name"
+              dir="auto"
+            >{{ search.name }}</span>
+
+            @if ($editingIndex() === i) {
+              <div class="edit-popup">
+                <input
+                  type="text"
+                  class="edit-name-input"
+                  dir="auto"
+                  [maxlength]="MAX_NAME_LENGTH"
+                  [ngModel]="$editingName()"
+                  (ngModelChange)="onEditNameChange($event)"
+                  (keydown)="onEditKeydown($event, search)"
+                />
+                <button
+                  type="button"
+                  class="save-btn"
+                  (click)="onEditConfirm(search)"
+                >
+                  {{ labels.save }}
+                </button>
+              </div>
+            }
+          </div>
 
           <span
             class="saved-search-username"
@@ -103,33 +129,40 @@
                 class="actions-slider"
                 [class.open]="$openMenuIndex() === i"
               >
+                @if (isOwnSearch(search)) {
+                  <button
+                    type="button"
+                    class="slider-btn"
+                    (click)="onEdit(i, search)"
+                  >
+                    <app-icon
+                      [name]="ICON_NAMES.PENCIL"
+                      size="0.65rem"
+                    />
+                  </button>
+                }
                 <button
                   type="button"
                   class="slider-btn"
-                >
-                  <app-icon
-                    [name]="ICON_NAMES.PENCIL"
-                    size="0.65rem"
-                  />
-                </button>
-                <button
-                  type="button"
-                  class="slider-btn"
+                  (click)="onDuplicate(search)"
                 >
                   <app-icon
                     [name]="ICON_NAMES.COPY"
                     size="0.65rem"
                   />
                 </button>
-                <button
-                  type="button"
-                  class="slider-btn"
-                >
-                  <app-icon
-                    [name]="ICON_NAMES.TRASH"
-                    size="0.65rem"
-                  />
-                </button>
+                @if (isOwnSearch(search)) {
+                  <button
+                    type="button"
+                    class="slider-btn"
+                    (click)="onDelete(search)"
+                  >
+                    <app-icon
+                      [name]="ICON_NAMES.TRASH"
+                      size="0.65rem"
+                    />
+                  </button>
+                }
               </div>
             </div>
           </div>
@@ -139,3 +172,10 @@
   </div>
   }
 </div>
+
+@if ($editingIndex() !== -1) {
+  <div
+    class="edit-overlay"
+    (click)="onOverlayClick()"
+  ></div>
+}
