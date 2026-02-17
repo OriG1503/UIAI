@@ -6,6 +6,12 @@
   background-color: var(--color-light-gray);
   border-bottom: 1px solid var(--color-navy-gray);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+  &.embedded {
+    border-bottom: none;
+    box-shadow: none;
+    background-color: transparent;
+  }
 }
 
 .section {
@@ -45,6 +51,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
 }
 
 .logo-img {

@@ -1,0 +1,47 @@
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.top-left-actions {
+  position: absolute;
+  top: 0.5rem;
+  left: 1.5rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.top-section {
+  flex: 0 0 40%;
+  background-color: var(--color-light-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .home-logo {
+      height: 6rem;
+      width: auto;
+    }
+  }
+
+  .search-bar-container {
+    width: 70%;
+    max-width: 50rem;
+  }
+}
+
+.bottom-section {
+  flex: 0 0 60%;
+  background-color: var(--color-white);
+}
