@@ -19,6 +19,8 @@ export class HomeComponent {
   // TODO: replace with store selectors when connecting to server
   $savedSearches = signal<SavedSearch[]>(MOCK_SAVED_SEARCHES);
   $lastSearches = signal<LastSearch[]>(MOCK_LAST_SEARCHES);
+  $isSavedSearchLoading = signal<boolean>(false);
+  $isLastSearchLoading = signal<boolean>(false);
 
   public onOpenIssue(): void {
     console.log('Open issue clicked');

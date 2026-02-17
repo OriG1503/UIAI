@@ -18,6 +18,8 @@ export class SearchHistoryComponent {
 
   $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
   $lastSearches = input.required<LastSearch[]>({ alias: 'lastSearches' });
+  $isSavedSearchLoading = input<boolean>(false, { alias: 'isSavedSearchLoading' });
+  $isLastSearchLoading = input<boolean>(false, { alias: 'isLastSearchLoading' });
 
   $activeTab = signal<SearchHistoryTab>('saved-search');
 

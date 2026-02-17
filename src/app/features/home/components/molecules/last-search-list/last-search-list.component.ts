@@ -16,6 +16,7 @@ export class LastSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
   $lastSearches = input.required<LastSearch[]>({ alias: 'lastSearches' });
+  $isLoading = input<boolean>(false, { alias: 'isLoading' });
 
   public getSearchTypeLabel(searchType: SearchType): string {
     return SEARCH_TYPE_LABEL_MAP[searchType];

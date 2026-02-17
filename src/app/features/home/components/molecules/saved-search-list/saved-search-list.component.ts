@@ -18,6 +18,7 @@ export class SavedSearchListComponent {
   readonly labels = HOME_LABEL_MAP;
 
   $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+  $isLoading = input<boolean>(false, { alias: 'isLoading' });
 
   $nameFilter = signal<string>('');
   $userFilter = signal<string>('');

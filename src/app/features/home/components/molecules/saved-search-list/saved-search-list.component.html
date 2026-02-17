@@ -24,6 +24,11 @@
     </button>
   </div>
 
+  @if ($isLoading()) {
+    <div class="loader-container">
+      <div class="loader"></div>
+    </div>
+  } @else {
   <div class="list">
     @for (search of $filteredSavedSearches(); track search.name; let i = $index) {
       <div class="saved-search-item">
@@ -121,4 +126,5 @@
       </div>
     }
   </div>
+  }
 </div>
