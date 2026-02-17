@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, input, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { SearchBarVariant } from '../../../types/search-bar-variant.type';
 import { TagFilterDropdownComponent } from '../../molecules/tag-filter-dropdown/tag-filter-dropdown.component';
 import { DateRangePickerComponent } from '../../molecules/date-range-picker/date-range-picker.component';
 import { SearchModeSwitchComponent } from '../../molecules/search-mode-switch/search-mode-switch.component';
@@ -24,12 +25,17 @@ import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constant
     RunButtonComponent,
     AlertButtonComponent,
     ThemeToggleComponent,
-    SpecialCharsWarningComponent
+    SpecialCharsWarningComponent,
+    RouterLink
   ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
 })
 export class SearchBarComponent {
+  $isLeftSectionVisible = input<boolean>(true, { alias: 'isLeftSectionVisible' });
+  $isLogoVisible = input<boolean>(true, { alias: 'isLogoVisible' });
+  $variant = input<SearchBarVariant>('default', { alias: 'variant' });
+
   $selectedTags = signal<string[]>([]);
   $dateRange = signal<Date[] | null>(null);
   $searchMode = signal<SearchModeType>('regular');
