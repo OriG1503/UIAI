@@ -1,4 +1,4 @@
 export const HOME_LABEL_MAP = {
-  savedSearches: 'חיפושים שמורים',
-  recentSearches: 'חיפושים אחרונים'
+  savedSearch: 'חיפוש שמור',
+  lastSearch: 'חיפוש אחרון'
 };

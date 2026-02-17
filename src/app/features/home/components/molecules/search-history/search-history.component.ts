@@ -9,7 +9,7 @@ import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
   styleUrl: './search-history.component.scss'
 })
 export class SearchHistoryComponent {
-  $activeTab = signal<SearchHistoryTab>('saved');
+  $activeTab = signal<SearchHistoryTab>('saved-search');
 
   readonly labels = HOME_LABEL_MAP;
 

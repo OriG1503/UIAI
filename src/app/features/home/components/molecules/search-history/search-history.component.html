@@ -3,29 +3,27 @@
     <button
       type="button"
       class="tab"
-      [class.active]="$activeTab() === 'saved'"
-      (click)="onTabClick('saved')"
+      (click)="onTabClick('saved-search')"
     >
-      {{ labels.savedSearches }}
+      {{ labels.savedSearch }}
     </button>
     <button
       type="button"
       class="tab"
-      [class.active]="$activeTab() === 'recent'"
-      (click)="onTabClick('recent')"
+      (click)="onTabClick('last-search')"
     >
-      {{ labels.recentSearches }}
+      {{ labels.lastSearch }}
     </button>
   </div>
 
   <div class="divider">
     <div
       class="divider-half"
-      [class.active]="$activeTab() === 'saved'"
+      [class.active]="$activeTab() === 'saved-search'"
     ></div>
     <div
       class="divider-half"
-      [class.active]="$activeTab() === 'recent'"
+      [class.active]="$activeTab() === 'last-search'"
     ></div>
   </div>
 

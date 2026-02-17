@@ -1,1 +1,1 @@
-export type SearchHistoryTab = 'saved' | 'recent';
+export type SearchHistoryTab = 'saved-search' | 'last-search';
