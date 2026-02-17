@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
 import { CURRENT_USERNAME } from '../../../constants/saved-search.constants';
+import { SAVED_SEARCH_SKELETON_COUNT } from '../../../constants/search-history-skeleton.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -16,6 +17,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class SavedSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
   readonly labels = HOME_LABEL_MAP;
+  readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
 
   $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
   $isLoading = input<boolean>(false, { alias: 'isLoading' });

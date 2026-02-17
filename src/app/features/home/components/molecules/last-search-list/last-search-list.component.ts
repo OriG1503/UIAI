@@ -2,6 +2,7 @@ import { Component, input } from '@angular/core';
 import { LastSearch } from '../../../types/last-search.type';
 import { SearchType } from '../../../types/search-type.type';
 import { SEARCH_TYPE_LABEL_MAP } from '../../../mapping/home.label-map';
+import { LAST_SEARCH_SKELETON_COUNT } from '../../../constants/search-history-skeleton.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -14,6 +15,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 })
 export class LastSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
+  readonly skeletonItems: number[] = Array.from({ length: LAST_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
 
   $lastSearches = input.required<LastSearch[]>({ alias: 'lastSearches' });
   $isLoading = input<boolean>(false, { alias: 'isLoading' });

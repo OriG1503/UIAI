@@ -1,8 +1,16 @@
 <div class="last-search-list">
   @if ($isLoading()) {
-    <div class="loader-container">
-      <div class="loader"></div>
-    </div>
+    @for (i of skeletonItems; track i) {
+      <div class="skeleton-card">
+        <div class="skeleton-indicator"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-line skeleton-type"></div>
+          <div class="skeleton-line skeleton-date"></div>
+          <div class="skeleton-line skeleton-time"></div>
+          <div class="skeleton-line skeleton-action"></div>
+        </div>
+      </div>
+    }
   } @else {
     @for (search of $lastSearches(); track $index) {
       <div class="last-search-item">
