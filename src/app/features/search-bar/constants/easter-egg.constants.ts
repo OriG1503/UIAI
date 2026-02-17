@@ -1,0 +1,7 @@
+export const EASTER_EGG_ICON_COUNT = 80;
+export const EASTER_EGG_CENTER_THRESHOLD_PX = 4;
+export const EASTER_EGG_ICON_SIZE_MIN = 12;
+export const EASTER_EGG_ICON_SIZE_MAX = 32;
+export const EASTER_EGG_FALL_DURATION_MIN_S = 2;
+export const EASTER_EGG_FALL_DURATION_MAX_S = 5;
+export const EASTER_EGG_SPAWN_SPREAD_S = 3;

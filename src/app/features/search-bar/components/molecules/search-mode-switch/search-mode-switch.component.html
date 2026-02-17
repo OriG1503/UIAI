@@ -3,7 +3,7 @@
     type="button"
     class="switch-btn switch-btn-agent"
     [class.switch-btn-active]="$mode() === 'agent'"
-    (click)="onModeSelect('agent')"
+    (click)="onModeSelect('agent'); onGeminiClick($event)"
   >
     <span class="agent-label">{{ labels.agent }}</span>
     <app-gemini-icon size="0.75rem" />
