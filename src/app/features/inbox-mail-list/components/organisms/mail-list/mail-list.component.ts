@@ -104,6 +104,7 @@ export class MailListComponent {
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   private _lastSelectedIndex: number | null = null;
+  private _previouslySelectedMail: Mail | null = null;
 
   $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
@@ -205,7 +206,10 @@ export class MailListComponent {
   }
 
   public onMailClick(mail: Mail): void {
-    this._selectedMailService.markMailAsSeen(mail);
+    if (this._previouslySelectedMail && this._previouslySelectedMail.filename !== mail.filename) {
+      this._selectedMailService.markMailAsSeen(this._previouslySelectedMail);
+    }
+    this._previouslySelectedMail = mail;
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
