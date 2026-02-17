@@ -1,35 +1,62 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, HostListener, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchHistoryTab } from '../../../types/search-history-tab.type';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
-import { MOCK_SAVED_SEARCHES } from '../../../constants/saved-search.constants';
+import { MOCK_SAVED_SEARCHES, CURRENT_USERNAME, MAX_VISIBLE_SAVED_SEARCHES } from '../../../constants/saved-search.constants';
+import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
 @Component({
   selector: 'app-search-history',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, IconComponent],
   templateUrl: './search-history.component.html',
   styleUrl: './search-history.component.scss'
 })
 export class SearchHistoryComponent {
+  readonly ICON_NAMES = ICON_NAMES;
+
   $activeTab = signal<SearchHistoryTab>('saved-search');
   $nameFilter = signal<string>('');
-  $option2Filter = signal<string>('');
+  $userFilter = signal<string>('');
+  $savedSearches = signal<SavedSearch[]>(MOCK_SAVED_SEARCHES);
+  $openMenuIndex = signal<number>(-1);
 
   readonly labels = HOME_LABEL_MAP;
-  readonly savedSearches: SavedSearch[] = MOCK_SAVED_SEARCHES;
+  readonly maxVisibleSearches: number = MAX_VISIBLE_SAVED_SEARCHES;
 
   $filteredSavedSearches = computed<SavedSearch[]>(() => {
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
-    const option2Filter: string = this.$option2Filter().trim().toLowerCase();
+    const userFilter: string = this.$userFilter().trim().toLowerCase();
+    const isUserFiltering: boolean = userFilter !== '';
 
-    return this.savedSearches.filter((search: SavedSearch) => {
+    const filtered: SavedSearch[] = this.$savedSearches().filter((search: SavedSearch) => {
       const isNameMatch: boolean = nameFilter === '' || search.name.toLowerCase().includes(nameFilter);
-      const isOption2Match: boolean = option2Filter === '';
-      return isNameMatch && isOption2Match;
+      const isUserMatch: boolean = isUserFiltering
+        ? search.username.toLowerCase().includes(userFilter)
+        : search.username === CURRENT_USERNAME;
+      return isNameMatch && isUserMatch;
+    });
+
+    return [...filtered].sort((a: SavedSearch, b: SavedSearch) => {
+      if (a.isPinned && !b.isPinned) {
+        return -1;
+      }
+      if (!a.isPinned && b.isPinned) {
+        return 1;
+      }
+      return b.date.getTime() - a.date.getTime();
     });
   });
+
+  @HostListener('document:click', ['$event'])
+  public onDocumentClick(event: MouseEvent): void {
+    const target: HTMLElement = event.target as HTMLElement;
+    if (!target.closest('.dots-btn') && !target.closest('.actions-slider')) {
+      this.$openMenuIndex.set(-1);
+    }
+  }
 
   public onTabClick(tab: SearchHistoryTab): void {
     this.$activeTab.set(tab);
@@ -39,7 +66,26 @@ export class SearchHistoryComponent {
     this.$nameFilter.set(value);
   }
 
-  public onOption2FilterChange(value: string): void {
-    this.$option2Filter.set(value);
+  public onUserFilterChange(value: string): void {
+    this.$userFilter.set(value);
+  }
+
+  public onTogglePin(search: SavedSearch): void {
+    this.$savedSearches.update((searches: SavedSearch[]) =>
+      searches.map((s: SavedSearch) =>
+        s === search ? { ...s, isPinned: !s.isPinned } : s
+      )
+    );
+  }
+
+  public onToggleMenu(index: number): void {
+    this.$openMenuIndex.update((current: number) => current === index ? -1 : index);
+  }
+
+  public formatDate(date: Date): string {
+    const day: string = date.getDate().toString().padStart(2, '0');
+    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year: string = date.getFullYear().toString().slice(2);
+    return `${day}/${month}/${year}`;
   }
 }
