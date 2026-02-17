@@ -1,0 +1,186 @@
+@use 'sass:math';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+$section-count: 4;
+$stagger: 0.15s;
+$highlight-duration: 0.4s;
+$total-cycle: $section-count * $stagger + $highlight-duration + 0.8s;
+
+$highlight-peak: math.percentage(math.div($highlight-duration * 0.5, $total-cycle));
+$highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  #{$highlight-peak} {
+    opacity: 0.6;
+  }
+  #{$highlight-end} {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.content-skeleton {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-white);
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  direction: ltr;
+}
+
+.skeleton-line {
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    var(--color-navy-gray) 0%,
+    var(--color-light-gray) 50%,
+    var(--color-navy-gray) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  opacity: 0.25;
+}
+
+.skeleton-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-navy-gray);
+  animation: highlight $total-cycle ease-in-out infinite;
+  animation-delay: 0s;
+
+  .skeleton-toolbar-btn {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+  }
+}
+
+.skeleton-metadata {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-navy-gray);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: highlight $total-cycle ease-in-out infinite;
+  animation-delay: #{$stagger};
+
+  .skeleton-subject-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .skeleton-subject {
+      width: 55%;
+      height: 1rem;
+    }
+
+    .skeleton-datetime {
+      display: flex;
+      gap: 0.5rem;
+
+      .skeleton-date {
+        width: 3.5rem;
+        height: 0.75rem;
+      }
+
+      .skeleton-time {
+        width: 2.5rem;
+        height: 0.75rem;
+      }
+    }
+  }
+
+  .skeleton-recipients {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .skeleton-recipient-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .skeleton-label {
+        width: 2.5rem;
+        height: 0.75rem;
+      }
+
+      .skeleton-value {
+        width: 30%;
+        height: 0.75rem;
+      }
+
+      .skeleton-value-long {
+        width: 50%;
+        height: 0.75rem;
+      }
+    }
+  }
+}
+
+.skeleton-attachments {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-navy-gray);
+  animation: highlight $total-cycle ease-in-out infinite;
+  animation-delay: #{$stagger * 2};
+
+  .skeleton-attachment-chip {
+    width: 5rem;
+    height: 1.5rem;
+    border-radius: 0.75rem;
+  }
+}
+
+.skeleton-body {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  animation: highlight $total-cycle ease-in-out infinite;
+  animation-delay: #{$stagger * 3};
+
+  .skeleton-body-line {
+    height: 0.7rem;
+  }
+
+  .skeleton-body-full {
+    width: 100%;
+  }
+
+  .skeleton-body-long {
+    width: 85%;
+  }
+
+  .skeleton-body-medium {
+    width: 65%;
+  }
+
+  .skeleton-body-short {
+    width: 40%;
+  }
+}

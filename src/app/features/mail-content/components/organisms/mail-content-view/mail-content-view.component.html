@@ -1,4 +1,6 @@
-@if ($mail()) {
+@if ($isLoading()) {
+  <app-content-skeleton />
+} @else if ($mail()) {
   <div class="mail-content-view">
     <app-mail-content-toolbar
       [selectedEncoding]="$selectedEncoding()"
