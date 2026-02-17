@@ -1,0 +1,32 @@
+<div class="search-history">
+  <div class="tabs">
+    <button
+      type="button"
+      class="tab"
+      (click)="onTabClick('saved-search')"
+    >
+      {{ labels.savedSearches }}
+    </button>
+    <button
+      type="button"
+      class="tab"
+      (click)="onTabClick('last-search')"
+    >
+      {{ labels.lastSearches }}
+    </button>
+  </div>
+
+  <div class="divider">
+    <div
+      class="divider-half"
+      [class.active]="$activeTab() === 'saved-search'"
+    ></div>
+    <div
+      class="divider-half"
+      [class.active]="$activeTab() === 'last-search'"
+    ></div>
+  </div>
+
+  <div class="content">
+  </div>
+</div>
