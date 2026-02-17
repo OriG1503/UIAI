@@ -2,7 +2,7 @@ import { Component, computed, HostListener, input, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
-import { CURRENT_USERNAME } from '../../../constants/saved-search.constants';
+import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../constants/saved-search.constants';
 import { SAVED_SEARCH_SKELETON_COUNT } from '../../../constants/search-history-skeleton.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -17,6 +17,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class SavedSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
   readonly labels = HOME_LABEL_MAP;
+  readonly MAX_NAME_LENGTH = MAX_SAVED_SEARCH_NAME_LENGTH;
   readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
 
   $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
@@ -25,6 +26,10 @@ export class SavedSearchListComponent {
   $nameFilter = signal<string>('');
   $userFilter = signal<string>('');
   $openMenuIndex = signal<number>(-1);
+  $editingIndex = signal<number>(-1);
+  $editingName = signal<string>('');
+  $glowingSearch = signal<SavedSearch | null>(null);
+  private _pendingGlowSearch: SavedSearch | null = null;
 
   $hasFilters = computed<boolean>(() => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '');
 
@@ -63,6 +68,10 @@ export class SavedSearchListComponent {
     }
   }
 
+  public isOwnSearch(search: SavedSearch): boolean {
+    return search.username === CURRENT_USERNAME;
+  }
+
   public onNameFilterChange(value: string): void {
     this.$nameFilter.set(value);
   }
@@ -84,10 +93,92 @@ export class SavedSearchListComponent {
     this.$openMenuIndex.update((current: number) => current === index ? -1 : index);
   }
 
+  public onDuplicate(search: SavedSearch): void {
+    const duplicated: SavedSearch = {
+      name: search.name,
+      username: CURRENT_USERNAME,
+      date: new Date(),
+      isPinned: false
+    };
+    this.$savedSearches().unshift(duplicated);
+    this.$openMenuIndex.set(-1);
+    this.$nameFilter.set('');
+    this.$userFilter.set('');
+
+    if (this.isOwnSearch(search)) {
+      this.$editingIndex.set(0);
+      this.$editingName.set(duplicated.name);
+      this._pendingGlowSearch = duplicated;
+    } else {
+      this.$glowingSearch.set(duplicated);
+      setTimeout(() => {
+        this.$glowingSearch.set(null);
+      }, 3000);
+    }
+  }
+
+  public onEdit(index: number, search: SavedSearch): void {
+    this.$editingIndex.set(index);
+    this.$editingName.set(search.name);
+    this.$openMenuIndex.set(-1);
+  }
+
+  public onEditNameChange(value: string): void {
+    this.$editingName.set(value);
+  }
+
+  public onEditConfirm(search: SavedSearch): void {
+    const newName: string = this.$editingName().trim();
+    if (newName !== '') {
+      search.name = newName;
+    }
+    this.$nameFilter.set('');
+    this.$userFilter.set('');
+    this.$glowingSearch.set(this._pendingGlowSearch ?? search);
+    this._pendingGlowSearch = null;
+    setTimeout(() => {
+      this.$glowingSearch.set(null);
+    }, 3000);
+    this.cancelEdit();
+  }
+
+  public onEditKeydown(event: KeyboardEvent, search: SavedSearch): void {
+    if (event.key === 'Enter') {
+      this.onEditConfirm(search);
+    }
+    if (event.key === 'Escape') {
+      this.cancelEdit();
+    }
+  }
+
+  public onOverlayClick(): void {
+    this.cancelEdit();
+  }
+
+  public onDelete(search: SavedSearch): void {
+    const index: number = this.$savedSearches().indexOf(search);
+    if (index !== -1) {
+      this.$savedSearches().splice(index, 1);
+    }
+    this.$openMenuIndex.set(-1);
+  }
+
   public formatDate(date: Date): string {
     const day: string = date.getDate().toString().padStart(2, '0');
     const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
     const year: string = date.getFullYear().toString().slice(2);
     return `${day}/${month}/${year}`;
+  }
+
+  private cancelEdit(): void {
+    if (this._pendingGlowSearch) {
+      const index: number = this.$savedSearches().indexOf(this._pendingGlowSearch);
+      if (index !== -1) {
+        this.$savedSearches().splice(index, 1);
+      }
+      this._pendingGlowSearch = null;
+    }
+    this.$editingIndex.set(-1);
+    this.$editingName.set('');
   }
 }

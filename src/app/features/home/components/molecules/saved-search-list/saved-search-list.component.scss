@@ -206,6 +206,10 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       flex-shrink: 0;
 
+      &.glowing {
+        animation: glow 1.5s ease-in-out 2;
+      }
+
       .unseen-indicator {
         width: 5px;
         min-height: 100%;
@@ -236,16 +240,64 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
           margin-left: 0.5rem;
         }
 
-        .saved-search-name {
+        .name-wrapper {
+          position: relative;
           flex: 1;
-          font-family: var(--font-family);
-          font-size: 0.8rem;
-          color: var(--color-dark-navy);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
           min-width: 0;
           max-width: 30rem;
+
+          .saved-search-name {
+            font-family: var(--font-family);
+            font-size: 0.8rem;
+            color: var(--color-dark-navy);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+          }
+
+          .edit-popup {
+            position: absolute;
+            top: calc(100% + 0.375rem);
+            right: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            z-index: 101;
+
+            .edit-name-input {
+              width: 28rem;
+              height: 2.25rem;
+              padding: 0 1rem;
+              border: 1px solid var(--color-navy-gray);
+              border-radius: 1.25rem;
+              background-color: var(--color-white);
+              font-family: var(--font-family);
+              font-size: 0.8rem;
+              color: var(--color-dark-navy);
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+              &:focus {
+                outline: none;
+                border-color: var(--color-dark-navy);
+              }
+            }
+
+            .save-btn {
+              height: 2.25rem;
+              padding: 0 1.25rem;
+              border: none;
+              border-radius: 1.25rem;
+              background-color: var(--color-red);
+              color: var(--color-white);
+              font-family: var(--font-family);
+              font-size: 0.8rem;
+              font-weight: 700;
+              cursor: pointer;
+              white-space: nowrap;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+            }
+          }
         }
 
         .saved-search-username {
@@ -353,5 +405,27 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
         }
       }
     }
+  }
+}
+
+.edit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    box-shadow: 0 0 0.75rem rgba(63, 112, 227, 0.4);
+  }
+  100% {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 }
