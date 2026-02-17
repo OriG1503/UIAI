@@ -10,6 +10,7 @@ import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-fil
 import { MailPreviewComponent, ContextMenuEvent } from '../../molecules/mail-preview/mail-preview.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
+import { MailSkeletonComponent } from '../../atoms/mail-skeleton/mail-skeleton.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
 import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
@@ -25,7 +26,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent],
+  imports: [MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent, MailSkeletonComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
@@ -109,6 +110,7 @@ export class MailListComponent {
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
   $isFullscreen = input<boolean>(false, { alias: 'isFullscreen' });
+  $isLoading = input<boolean>(true, { alias: 'isLoading' });
   closeClick = output<void>();
   fullscreenClick = output<void>();
 

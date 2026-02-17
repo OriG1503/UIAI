@@ -62,16 +62,20 @@
     />
 
     <div class="mail-list-scroll">
-      @for (mail of $filteredMails(); track mail.filename) {
-        <app-mail-preview
-          [mail]="mail"
-          [isSelectMode]="$isSelectMode()"
-          [isSelected]="isMailSelected(mail)"
-          [isCurrent]="isCurrentMail(mail)"
-          (mailClick)="onMailClick(mail)"
-          (selectionChange)="onSelectionChange(mail, $event, $index)"
-          (contextMenu)="onContextMenu($event)"
-        />
+      @if ($isLoading()) {
+        <app-mail-skeleton />
+      } @else {
+        @for (mail of $filteredMails(); track mail.filename) {
+          <app-mail-preview
+            [mail]="mail"
+            [isSelectMode]="$isSelectMode()"
+            [isSelected]="isMailSelected(mail)"
+            [isCurrent]="isCurrentMail(mail)"
+            (mailClick)="onMailClick(mail)"
+            (selectionChange)="onSelectionChange(mail, $event, $index)"
+            (contextMenu)="onContextMenu($event)"
+          />
+        }
       }
     </div>
   </div>
