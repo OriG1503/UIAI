@@ -7,7 +7,7 @@ export const HOME_LABEL_MAP = {
   user: 'משתמש',
   clear: 'ניקוי',
   save: 'שמור',
-  emptyLastSearch: 'אולי כדאי שתתחיל לחפש...'
+  emptyLastSearch: 'נראה שעוד לא חיפשת...'
 };
 
 export const SEARCH_TYPE_LABEL_MAP: Record<SearchType, string> = {
