@@ -1,9 +1,22 @@
-import { Component, input, output, OutputEmitterRef, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  OutputEmitterRef,
+  signal,
+  computed,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  inject
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TagOption } from '../../../types/tag-option.type';
 import { TAG_FILTER_TRANSLATIONS } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { TAG_SKELETON_COUNT } from '../../../constants/tag-filter.constants';
+import { MockTagService } from '../../../../../core/services/mock-tag.service';
 
 @Component({
   selector: 'app-tag-filter-dropdown',
@@ -14,6 +27,9 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 })
 export class TagFilterDropdownComponent {
   readonly ICON_NAMES = ICON_NAMES;
+  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_, i) => i);
+
+  private _mockTagService: MockTagService = inject(MockTagService);
 
   $options = input<TagOption[]>([], { alias: 'options' });
   $selectedValues = input<string[]>([], { alias: 'selectedValues' });
@@ -26,6 +42,9 @@ export class TagFilterDropdownComponent {
   $isPopupOpen = signal(false);
   $searchText = signal('');
   $highlightedIndex = signal(-1);
+
+  readonly $isLoading = this._mockTagService.$isLoading;
+  readonly $filteredOptions = this._mockTagService.$filteredTags;
 
   readonly translations = TAG_FILTER_TRANSLATIONS;
 
@@ -42,19 +61,6 @@ export class TagFilterDropdownComponent {
   $selectedCount = computed(() => this.$selectedValues().length);
 
   $hasSelection = computed(() => this.$selectedValues().length > 0);
-
-  $filteredOptions = computed(() => {
-    const searchText = this.$searchText().toLowerCase();
-    const options = this.$options();
-
-    if (!searchText) {
-      return [];
-    }
-
-    return options
-      .filter((option) => option.label.toLowerCase().includes(searchText))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  });
 
   $buttonLabel = computed(() => {
     const count = this.$selectedValues().length;
@@ -82,6 +88,7 @@ export class TagFilterDropdownComponent {
     if (!this._elementRef.nativeElement.contains(event.target)) {
       this.$isPopupOpen.set(false);
       this.$searchText.set('');
+      this._mockTagService.reset();
     }
   }
 
@@ -91,6 +98,7 @@ export class TagFilterDropdownComponent {
       setTimeout(() => this._searchInput?.nativeElement.focus());
     } else {
       this.$searchText.set('');
+      this._mockTagService.reset();
     }
   }
 
@@ -118,6 +126,7 @@ export class TagFilterDropdownComponent {
   public onSearchChange(value: string): void {
     this.$searchText.set(value);
     this.$highlightedIndex.set(-1);
+    this._mockTagService.search(value);
   }
 
   public onSearchKeydown(event: KeyboardEvent): void {

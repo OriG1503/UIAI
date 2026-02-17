@@ -1,3 +1,38 @@
+@use 'sass:math';
+
+$skeleton-count: 5;
+$stagger: 0.12s;
+$highlight-duration: 0.4s;
+$total-cycle: $skeleton-count * $stagger + $highlight-duration + 0.8s;
+
+$highlight-start: math.percentage(math.div(0s, $total-cycle));
+$highlight-peak: math.percentage(math.div($highlight-duration * 0.5, $total-cycle));
+$highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes highlight {
+  0% {
+    opacity: 1;
+  }
+  #{$highlight-peak} {
+    opacity: 0.6;
+  }
+  #{$highlight-end} {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 :host {
   display: block;
 }
@@ -166,6 +201,40 @@
       height: 1px;
       background-color: var(--color-navy-gray);
       margin: 0.25rem 0;
+    }
+
+    .skeleton-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0.25rem 0;
+
+      .skeleton-item {
+        padding: 0.4rem 0.5rem;
+        border-radius: 0.25rem;
+        animation: highlight $total-cycle ease-in-out infinite;
+
+        .skeleton-line {
+          height: 0.7rem;
+          border-radius: 0.25rem;
+          background: linear-gradient(
+            90deg,
+            var(--color-navy-gray) 0%,
+            var(--color-light-gray) 50%,
+            var(--color-navy-gray) 100%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.5s linear infinite;
+          opacity: 0.25;
+        }
+      }
+
+      @for $i from 1 through $skeleton-count {
+        .skeleton-item:nth-child(#{$i}) {
+          animation-delay: #{($i - 1) * $stagger};
+        }
+      }
     }
 
     .empty-state {
