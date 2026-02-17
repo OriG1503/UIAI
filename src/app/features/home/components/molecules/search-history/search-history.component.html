@@ -46,10 +46,7 @@
         />
       </div>
 
-      <div
-        class="saved-search-list"
-        [style.max-height.rem]="maxVisibleSearches * 2.875"
-      >
+      <div class="saved-search-list">
         @for (search of $filteredSavedSearches(); track search.name; let i = $index) {
           <div class="saved-search-item">
             <div class="unseen-indicator"></div>

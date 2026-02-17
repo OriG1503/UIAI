@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchHistoryTab } from '../../../types/search-history-tab.type';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
-import { MOCK_SAVED_SEARCHES, CURRENT_USERNAME, MAX_VISIBLE_SAVED_SEARCHES } from '../../../constants/saved-search.constants';
+import { MOCK_SAVED_SEARCHES, CURRENT_USERNAME } from '../../../constants/saved-search.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -24,7 +24,6 @@ export class SearchHistoryComponent {
   $openMenuIndex = signal<number>(-1);
 
   readonly labels = HOME_LABEL_MAP;
-  readonly maxVisibleSearches: number = MAX_VISIBLE_SAVED_SEARCHES;
 
   $filteredSavedSearches = computed<SavedSearch[]>(() => {
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
