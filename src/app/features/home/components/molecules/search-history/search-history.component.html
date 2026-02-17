@@ -28,5 +28,31 @@
   </div>
 
   <div class="content">
+    @if ($activeTab() === 'saved-search') {
+      <div class="filters">
+        <input
+          type="text"
+          class="filter-input name-input"
+          [placeholder]="labels.name"
+          [ngModel]="$nameFilter()"
+          (ngModelChange)="onNameFilterChange($event)"
+        />
+        <input
+          type="text"
+          class="filter-input option2-input"
+          [placeholder]="labels.option2"
+          [ngModel]="$option2Filter()"
+          (ngModelChange)="onOption2FilterChange($event)"
+        />
+      </div>
+
+      <div class="saved-search-list">
+        @for (search of $filteredSavedSearches(); track search.name) {
+          <div class="saved-search-item">
+            <span class="saved-search-name">{{ search.name }}</span>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
