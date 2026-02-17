@@ -54,6 +54,19 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
     direction: rtl;
   }
 
+  .empty-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    span {
+      font-family: var(--font-family);
+      font-size: 0.9rem;
+      color: var(--color-navy-gray);
+    }
+  }
+
   .skeleton-card {
     display: flex;
     background-color: var(--color-white);

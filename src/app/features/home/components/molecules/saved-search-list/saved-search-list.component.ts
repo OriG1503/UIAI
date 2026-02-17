@@ -33,15 +33,24 @@ export class SavedSearchListComponent {
 
   $hasFilters = computed<boolean>(() => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '');
 
+  $hasOwnSearches = computed<boolean>(() =>
+    this.$savedSearches().some((search: SavedSearch) => search.username === CURRENT_USERNAME)
+  );
+
   $filteredSavedSearches = computed<SavedSearch[]>(() => {
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
     const userFilter: string = this.$userFilter().trim().toLowerCase();
     const isUserFiltering: boolean = userFilter !== '';
-
     const isSearching: boolean = nameFilter !== '' || isUserFiltering;
+    const hasOwn: boolean = this.$hasOwnSearches();
 
     const filtered: SavedSearch[] = this.$savedSearches().filter((search: SavedSearch) => {
       const isNameMatch: boolean = nameFilter === '' || search.name.toLowerCase().includes(nameFilter);
+
+      if (!hasOwn) {
+        return isNameMatch && (!isUserFiltering || search.username.toLowerCase().includes(userFilter));
+      }
+
       const isUserMatch: boolean = isUserFiltering
         ? search.username.toLowerCase().includes(userFilter)
         : search.username === CURRENT_USERNAME;
