@@ -3,8 +3,16 @@
   [style.left.px]="$adjustedX()"
   [style.top.px]="$adjustedY()"
 >
-  <button type="button" class="menu-item" (click)="onMarkAsUnseen()">
-    <app-icon [name]="ICON_NAMES.ENVELOPE" size="0.875rem" color="var(--color-dark-navy)" />
+  <button
+    type="button"
+    class="menu-item"
+    (click)="onMarkAsUnseen()"
+  >
+    <app-icon
+      [name]="ICON_NAMES.ENVELOPE"
+      size="0.875rem"
+      color="var(--color-dark-navy)"
+    />
     <span>{{ translations.markAsUnseen }}</span>
   </button>
 </div>

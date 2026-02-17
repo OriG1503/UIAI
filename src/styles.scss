@@ -6,24 +6,27 @@
 /* Ploni font */
 @font-face {
   font-family: 'Ploni';
-  src: url('/assets/fonts/ploni-regular.woff2') format('woff2'),
-       url('/assets/fonts/ploni-regular.woff') format('woff');
+  src:
+    url('/assets/fonts/ploni-regular.woff2') format('woff2'),
+    url('/assets/fonts/ploni-regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Ploni';
-  src: url('/assets/fonts/ploni-medium.woff2') format('woff2'),
-       url('/assets/fonts/ploni-medium.woff') format('woff');
+  src:
+    url('/assets/fonts/ploni-medium.woff2') format('woff2'),
+    url('/assets/fonts/ploni-medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Ploni';
-  src: url('/assets/fonts/ploni-bold.woff2') format('woff2'),
-       url('/assets/fonts/ploni-bold.woff') format('woff');
+  src:
+    url('/assets/fonts/ploni-bold.woff2') format('woff2'),
+    url('/assets/fonts/ploni-bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
 }
@@ -93,9 +96,15 @@ mark.search-highlight.highlight-glow,
 }
 
 @keyframes highlight-glow {
-  0% { box-shadow: 0 0 14px 7px rgba(255, 165, 0, 0.9); }
-  40% { box-shadow: 0 0 10px 5px rgba(255, 140, 0, 0.6); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 165, 0, 0); }
+  0% {
+    box-shadow: 0 0 14px 7px rgba(255, 165, 0, 0.9);
+  }
+  40% {
+    box-shadow: 0 0 10px 5px rgba(255, 140, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
+  }
 }
 
 *::-webkit-scrollbar {

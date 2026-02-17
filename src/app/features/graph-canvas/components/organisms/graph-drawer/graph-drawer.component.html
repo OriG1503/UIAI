@@ -1,14 +1,20 @@
 @if ($isOpen()) {
-  <div class="graph-drawer" [style]="$drawerStyle()" #drawerContainer>
-    <div class="drawer-handle" (mousedown)="onDragStart($event)" (dblclick)="onHandleDoubleClick()">
+  <div
+    class="graph-drawer"
+    [style]="$drawerStyle()"
+    #drawerContainer
+  >
+    <div
+      class="drawer-handle"
+      (mousedown)="onDragStart($event)"
+      (dblclick)="onHandleDoubleClick()"
+    >
       <div class="handle-bar"></div>
     </div>
 
     <div class="drawer-content">
       <div class="drawer-mail-content">
-        <app-mail-content-view
-          [mail]="$selectedMail()"
-        />
+        <app-mail-content-view [mail]="$selectedMail()" />
       </div>
       <div class="drawer-mail-list">
         <app-mail-list

@@ -1,6 +1,17 @@
-import { Component, input, computed, inject, signal, effect, ElementRef } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  inject,
+  signal,
+  effect,
+  ElementRef,
+  InputSignal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { Encoding } from '../../../types/encoding.type';
 import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
 import { MailContentToolbarComponent } from '../../molecules/mail-content-toolbar/mail-content-toolbar.component';
@@ -17,49 +28,49 @@ import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-s
     MailMetadataComponent,
     MailAttachmentsComponent,
     MailBodyComponent,
-    ContentSkeletonComponent
+    ContentSkeletonComponent,
   ],
   templateUrl: './mail-content-view.component.html',
   styleUrl: './mail-content-view.component.scss',
 })
 export class MailContentViewComponent {
-  private _mailContentService = inject(MockMailContentService);
-  private _elementRef = inject(ElementRef);
+  private _mailContentService: MockMailContentService = inject(MockMailContentService);
+  private _elementRef: ElementRef = inject(ElementRef);
 
-  $mail = input<Mail | null>(null, { alias: 'mail' });
-  $isLoading = input<boolean>(false, { alias: 'isLoading' });
+  $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
+  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
 
-  $selectedEncoding = signal<Encoding>('none');
-  $currentHighlightIndex = signal<number>(0);
-  $totalHighlights = signal<number>(0);
+  $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
+  $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
+  $totalHighlights: WritableSignal<number> = signal<number>(0);
 
-  readonly translations = INBOX_LABEL_MAPPING;
+  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
-  $hasAttachments = computed(() => {
-    const mail = this.$mail();
-    return mail && mail.attachments?.filename?.length > 0;
+  $hasAttachments: Signal<boolean> = computed<boolean>(() => {
+    const mail: Mail | null = this.$mail();
+    return mail !== null && mail.attachments?.filename?.length > 0;
   });
 
-  $attachments = computed(() => {
-    const mail = this.$mail();
+  $attachments: Signal<string[]> = computed<string[]>(() => {
+    const mail: Mail | null = this.$mail();
     return mail?.attachments?.filename ?? [];
   });
 
-  $mailContent = computed(() => {
-    const mail = this.$mail();
+  $mailContent: Signal<string> = computed<string>(() => {
+    const mail: Mail | null = this.$mail();
     if (!mail) {
       return '';
     }
     return this._mailContentService.getMailContent(mail.filename);
   });
 
-  $mailFilename = computed(() => this.$mail()?.filename ?? '');
+  $mailFilename: Signal<string> = computed<string>(() => this.$mail()?.filename ?? '');
 
   constructor() {
     effect(() => {
       this.$mailFilename();
       setTimeout(() => {
-        const marks = this._getNavigableMarks();
+        const marks: HTMLElement[] = this._getNavigableMarks();
         this.$totalHighlights.set(marks.length);
         this.$currentHighlightIndex.set(0);
         if (marks.length > 0) {
@@ -75,14 +86,14 @@ export class MailContentViewComponent {
   }
 
   public onDownloadMail(): void {
-    const mail = this.$mail();
+    const mail: Mail | null = this.$mail();
     if (mail) {
       console.log('Downloading mail:', mail.subject);
     }
   }
 
   public onDownloadAllAttachments(): void {
-    const attachments = this.$attachments();
+    const attachments: string[] = this.$attachments();
     console.log('Downloading all attachments:', attachments);
   }
 
@@ -91,50 +102,52 @@ export class MailContentViewComponent {
   }
 
   public onPreviousHighlight(): void {
-    const total = this.$totalHighlights();
+    const total: number = this.$totalHighlights();
     if (total === 0) {
       return;
     }
-    const currentIndex = this.$currentHighlightIndex();
-    const newIndex = currentIndex > 0 ? currentIndex - 1 : total - 1;
+    const currentIndex: number = this.$currentHighlightIndex();
+    const newIndex: number = currentIndex > 0 ? currentIndex - 1 : total - 1;
     this.$currentHighlightIndex.set(newIndex);
     this._scrollToHighlight(newIndex);
   }
 
   public onNextHighlight(): void {
-    const total = this.$totalHighlights();
+    const total: number = this.$totalHighlights();
     if (total === 0) {
       return;
     }
-    const currentIndex = this.$currentHighlightIndex();
-    const newIndex = currentIndex < total - 1 ? currentIndex + 1 : 0;
+    const currentIndex: number = this.$currentHighlightIndex();
+    const newIndex: number = currentIndex < total - 1 ? currentIndex + 1 : 0;
     this.$currentHighlightIndex.set(newIndex);
     this._scrollToHighlight(newIndex);
   }
 
   private _getNavigableMarks(): HTMLElement[] {
-    const el = this._elementRef.nativeElement;
-    const allMarks: HTMLElement[] = Array.from(
-      el.querySelectorAll('mark.search-highlight, .ellipsis.highlighted')
-    );
-    return allMarks.filter((mark) => !mark.closest('.attachment-tooltip'));
+    const el: HTMLElement = this._elementRef.nativeElement;
+    const allMarks: HTMLElement[] = Array.from(el.querySelectorAll('mark.search-highlight, .ellipsis.highlighted'));
+    return allMarks.filter((mark: HTMLElement) => !mark.closest('.attachment-tooltip'));
   }
 
   private _scrollToHighlight(index: number): void {
-    const marks = this._getNavigableMarks();
+    const marks: HTMLElement[] = this._getNavigableMarks();
     if (marks.length === 0 || index >= marks.length) {
       return;
     }
 
-    marks.forEach((mark) => mark.classList.remove('highlight-glow'));
+    marks.forEach((mark: HTMLElement) => mark.classList.remove('highlight-glow'));
 
-    const targetMark = marks[index];
+    const targetMark: HTMLElement = marks[index];
     void targetMark.offsetWidth;
     targetMark.classList.add('highlight-glow');
     targetMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    targetMark.addEventListener('animationend', () => {
-      targetMark.classList.remove('highlight-glow');
-    }, { once: true });
+    targetMark.addEventListener(
+      'animationend',
+      () => {
+        targetMark.classList.remove('highlight-glow');
+      },
+      { once: true },
+    );
   }
 }

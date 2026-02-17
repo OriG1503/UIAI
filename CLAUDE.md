@@ -34,7 +34,7 @@ src/app/
 │       ├── molecules/      # Feature-specific combinations of atoms
 │       ├── organisms/      # Business logic components
 │       ├── types/          # Feature-specific types (each type in its own file)
-│       ├── constants/      # Feature-specific constants
+│       ├── consts/         # Feature-specific constants
 │       └── mapping/        # Feature-specific translation maps (*.label-map.ts)
 ├── shared/         # Only truly cross-feature items (used by 2+ features)
 │   ├── atoms/      # Global basic UI elements (e.g., Icon)
@@ -53,7 +53,7 @@ src/app/
 - **Open/Closed**: Use inputs/outputs for extensibility, avoid modifying existing code
 - **Dependency Inversion**: Depend on abstractions (types, interfaces) not concrete implementations
 - **DRY**: Extract reusable logic into shared components, types, and constants
-- **No magic numbers**: All numeric constants must be defined in the feature's `constants/` folder (or `shared/constants/` if cross-feature)
+- **No magic numbers**: All numeric constants must be defined in the feature's `consts/` folder (or `shared/consts/` if cross-feature)
 - **No hardcoded strings**: Use translation types/maps for all user-facing text (especially Hebrew)
 - **Reuse atoms**: Always use the Icon atom (`<app-icon>`) instead of raw `<i>` tags
 
@@ -66,7 +66,7 @@ src/app/
 - SCSS for component styling
 - **Direct imports**: Always import from the specific file path, not from folder barrels (no index.ts files)
 - No spec/test files (.spec.ts) in the project
-- Prettier for code formatting: `semi: true`, `arrowParens: always`, `useTabs: false`, `bracketSpacing: true`,`printWidth: 120`, `singleQuote: true`, `trailingComma: "none"`, `tabWidth: 2`, `singleAttributePerLine: true`
+- Prettier for code formatting: `semi: true`, `arrowParens: always`, `useTabs: false`, `bracketSpacing: true`,`printWidth: 120`, `singleQuote: true`, `trailingComma: "all"`, `tabWidth: 2`, `singleAttributePerLine: true`
 - Each type should have its own file in the owning feature's `types/` folder (or `shared/types/` only if used by 2+ features)
 - Prefer `type` over `interface`
 - **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
@@ -80,7 +80,8 @@ src/app/
 
 ## Naming Conventions
 - Private members: prefix with `_` (e.g., `_privateVar`)
-- Signals: prefix with `$` (e.g., `$count`)
+- Signals: prefix with `$` (e.g., `$count`); private signals use `_$` (e.g., `private _$internalState`)
+- **Constants files**: `*.consts.ts` in `consts/` folders (e.g., `graph.consts.ts`)
 - Booleans: prefix with `is` (e.g., `isActive`, `isAvailable`)
 - **File names**: lowercase with single hyphen separator (e.g., `search-bar.component.ts`)
 - **CSS classes**: lowercase with single hyphen separator, no IDs (e.g., `.search-bar`, `.field-text`)
@@ -158,7 +159,7 @@ The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (
 - **Reactivity**: Use `effect()` (not `ngOnChanges`) to react to signal input changes for Sigma updates
 - **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `core/workers/graph-builder.worker.ts`
 - **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `BubbleOverride` type to display node email or edge from/to emails
-- Graph constants defined in `features/search/constants/graph.constants.ts`
+- Graph constants defined in `features/graph-canvas/consts/graph.consts.ts`
 
 ## RTL / LTR Handling
 The app is globally RTL (`dir="rtl"`), but email-related content (addresses, metadata, attachments) is displayed LTR. Pattern:

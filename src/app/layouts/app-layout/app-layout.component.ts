@@ -7,6 +7,6 @@ import { SearchBarComponent } from '../../features/search-bar/components/organis
   standalone: true,
   imports: [RouterOutlet, SearchBarComponent],
   templateUrl: './app-layout.component.html',
-  styleUrl: './app-layout.component.scss'
+  styleUrl: './app-layout.component.scss',
 })
 export class AppLayoutComponent {}

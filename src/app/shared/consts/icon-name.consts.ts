@@ -41,7 +41,7 @@ export const ICON_NAMES = {
   USER: 'user',
   USERS: 'users',
   WINDOW_MAXIMIZE: 'window-maximize',
-  WINDOW_MINIMIZE: 'window-minimize'
+  WINDOW_MINIMIZE: 'window-minimize',
 } as const;
 
 export type IconName = (typeof ICON_NAMES)[keyof typeof ICON_NAMES];

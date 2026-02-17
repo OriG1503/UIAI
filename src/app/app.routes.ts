@@ -6,7 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
@@ -14,8 +14,8 @@ export const routes: Routes = [
     children: [
       {
         path: 'search',
-        loadChildren: () => import('./core/routes/search.routes').then((m) => m.SEARCH_ROUTES)
-      }
-    ]
-  }
+        loadChildren: () => import('./core/routes/search.routes').then((m) => m.SEARCH_ROUTES),
+      },
+    ],
+  },
 ];

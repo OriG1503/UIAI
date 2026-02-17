@@ -1,4 +1,4 @@
-export const INBOX_LABEL_MAPPING = {
+export const INBOX_LABEL_MAP = {
   mails: 'מיילים',
   noMails: 'אין מיילים',
   attachments: 'קבצים מצורפים',
@@ -20,5 +20,5 @@ export const INBOX_LABEL_MAPPING = {
   sortNewToOld: 'מהחדש לישן',
   unreadTooltip: 'לא נקרא',
   readTooltip: 'נקרא',
-  translateTooltip: 'תרגם'
+  translateTooltip: 'תרגם',
 };

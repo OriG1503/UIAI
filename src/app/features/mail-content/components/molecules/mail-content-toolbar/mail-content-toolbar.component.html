@@ -1,7 +1,15 @@
 <div class="mail-content-toolbar">
   <div class="toolbar-right">
-    <button type="button" class="icon-btn" title="הורד MAIL" (click)="onDownloadClick()">
-      <app-icon [name]="ICON_NAMES.DOWNLOAD" size="0.875rem" />
+    <button
+      type="button"
+      class="icon-btn"
+      title="הורד MAIL"
+      (click)="onDownloadClick()"
+    >
+      <app-icon
+        [name]="ICON_NAMES.DOWNLOAD"
+        size="0.875rem"
+      />
     </button>
     @if ($totalHighlights() > 0) {
       <span class="separator">|</span>
@@ -14,7 +22,11 @@
             [disabled]="!$hasNext()"
             (click)="onNextClick()"
           >
-            <app-icon [name]="ICON_NAMES.CHEVRON_LEFT" size="0.875rem" [color]="$hasNext() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
+            <app-icon
+              [name]="ICON_NAMES.CHEVRON_LEFT"
+              size="0.875rem"
+              [color]="$hasNext() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'"
+            />
           </button>
           <button
             type="button"
@@ -23,10 +35,19 @@
             [disabled]="!$hasPrevious()"
             (click)="onPreviousClick()"
           >
-            <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.875rem" [color]="$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'" />
+            <app-icon
+              [name]="ICON_NAMES.CHEVRON_RIGHT"
+              size="0.875rem"
+              [color]="$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'"
+            />
           </button>
         </div>
-        <span class="highlight-counter" dir="rtl">{{ $currentHighlightIndex() + 1 }} {{ highlightLabels.outOf }} {{ $totalHighlights() }} {{ highlightLabels.matches }}</span>
+        <span
+          class="highlight-counter"
+          dir="rtl"
+          >{{ $currentHighlightIndex() + 1 }} {{ highlightLabels.outOf }} {{ $totalHighlights() }}
+          {{ highlightLabels.matches }}</span
+        >
       </div>
     }
   </div>
@@ -44,7 +65,9 @@
         <app-icon
           [name]="$isEncodingPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
           size="0.625rem"
-          [color]="$isEncodingPopupOpen() || $selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+          [color]="
+            $isEncodingPopupOpen() || $selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)'
+          "
         />
       </button>
       @if ($isEncodingPopupOpen()) {
@@ -58,7 +81,11 @@
             >
               {{ encodingLabels[enc] }}
               @if ($selectedEncoding() === enc) {
-                <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-blue)" />
+                <app-icon
+                  [name]="ICON_NAMES.CHECK"
+                  size="0.75rem"
+                  color="var(--color-blue)"
+                />
               }
             </button>
           }

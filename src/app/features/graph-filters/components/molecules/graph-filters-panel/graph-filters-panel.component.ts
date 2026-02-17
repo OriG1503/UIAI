@@ -1,12 +1,23 @@
-import { Component, input, output, OutputEmitterRef, signal, computed, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  OutputEmitterRef,
+  signal,
+  computed,
+  ViewEncapsulation,
+  InputSignal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Slider } from 'primeng/slider';
 import { GraphNode } from '../../../../graph-canvas/types/graph-node.type';
 import { NodeSortMode } from '../../../types/node-sort-mode.type';
 import { SortDirection } from '../../../../../shared/types/sort-direction.type';
-import { GRAPH_TRANSLATIONS } from '../../../../graph-canvas/mapping/graph.label-map';
+import { GRAPH_LABEL_MAP } from '../../../../graph-canvas/mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-graph-filters-panel',
@@ -14,19 +25,19 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   imports: [FormsModule, Slider, IconComponent],
   templateUrl: './graph-filters-panel.component.html',
   styleUrl: './graph-filters-panel.component.scss',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GraphFiltersPanelComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  $nodes = input<GraphNode[]>([], { alias: 'nodes' });
-  $selectedEmail = input<string | null>(null, { alias: 'selectedEmail' });
-  $dateMin = input<number>(0, { alias: 'dateMin' });
-  $dateMax = input<number>(0, { alias: 'dateMax' });
-  $dateRangeValues = input<number[]>([0, 0], { alias: 'dateRangeValues' });
-  $mailCountMin = input<number>(1, { alias: 'mailCountMin' });
-  $mailCountMax = input<number>(1, { alias: 'mailCountMax' });
-  $mailCountRangeValues = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
+  $nodes: InputSignal<GraphNode[]> = input<GraphNode[]>([], { alias: 'nodes' });
+  $selectedEmail: InputSignal<string | null> = input<string | null>(null, { alias: 'selectedEmail' });
+  $dateMin: InputSignal<number> = input<number>(0, { alias: 'dateMin' });
+  $dateMax: InputSignal<number> = input<number>(0, { alias: 'dateMax' });
+  $dateRangeValues: InputSignal<number[]> = input<number[]>([0, 0], { alias: 'dateRangeValues' });
+  $mailCountMin: InputSignal<number> = input<number>(1, { alias: 'mailCountMin' });
+  $mailCountMax: InputSignal<number> = input<number>(1, { alias: 'mailCountMax' });
+  $mailCountRangeValues: InputSignal<number[]> = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
 
   nodeClick: OutputEmitterRef<string> = output<string>();
   nodeHover: OutputEmitterRef<string> = output<string>();
@@ -34,27 +45,27 @@ export class GraphFiltersPanelComponent {
   dateRangeChange: OutputEmitterRef<number[]> = output<number[]>();
   mailCountRangeChange: OutputEmitterRef<number[]> = output<number[]>();
 
-  $searchText = signal('');
-  $sortMode = signal<NodeSortMode>('mails');
-  $sortDirection = signal<SortDirection>('desc');
+  $searchText: WritableSignal<string> = signal<string>('');
+  $sortMode: WritableSignal<NodeSortMode> = signal<NodeSortMode>('mails');
+  $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
 
-  readonly translations = GRAPH_TRANSLATIONS;
+  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
-  $dateStep = computed(() => {
-    const range = this.$dateMax() - this.$dateMin();
+  $dateStep: Signal<number> = computed<number>(() => {
+    const range: number = this.$dateMax() - this.$dateMin();
     if (range <= 0) {
       return 1;
     }
     return Math.max(1, Math.floor(range / 200));
   });
 
-  $filteredNodes = computed(() => {
-    const search = this.$searchText().toLowerCase();
-    const nodes = this.$nodes();
-    const sortMode = this.$sortMode();
-    const sortDirection = this.$sortDirection();
-    const multiplier = sortDirection === 'desc' ? 1 : -1;
-    const sorted = [...nodes].sort((a, b) => {
+  $filteredNodes: Signal<GraphNode[]> = computed<GraphNode[]>(() => {
+    const search: string = this.$searchText().toLowerCase();
+    const nodes: GraphNode[] = this.$nodes();
+    const sortMode: NodeSortMode = this.$sortMode();
+    const sortDirection: SortDirection = this.$sortDirection();
+    const multiplier: number = sortDirection === 'desc' ? 1 : -1;
+    const sorted: GraphNode[] = [...nodes].sort((a: GraphNode, b: GraphNode) => {
       if (sortMode === 'mails') {
         return (b.mailCount - a.mailCount) * multiplier;
       }
@@ -63,7 +74,7 @@ export class GraphFiltersPanelComponent {
     if (!search) {
       return sorted;
     }
-    return sorted.filter((node) => node.email.toLowerCase().includes(search));
+    return sorted.filter((node: GraphNode) => node.email.toLowerCase().includes(search));
   });
 
   public onSearchChange(value: string): void {
@@ -100,17 +111,17 @@ export class GraphFiltersPanelComponent {
   }
 
   public formatDate(timestamp: number): string {
-    const date = new Date(timestamp);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = String(date.getFullYear()).slice(-2);
+    const date: Date = new Date(timestamp);
+    const day: string = String(date.getDate()).padStart(2, '0');
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const year: string = String(date.getFullYear()).slice(-2);
     return `${day}/${month}/${year}`;
   }
 
   public formatTime(timestamp: number): string {
-    const date = new Date(timestamp);
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const date: Date = new Date(timestamp);
+    const hours: string = String(date.getHours()).padStart(2, '0');
+    const minutes: string = String(date.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
   }
 }

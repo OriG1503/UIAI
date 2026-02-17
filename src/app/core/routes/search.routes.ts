@@ -5,5 +5,5 @@ import { GraphViewComponent } from './graph-view/graph-view.component';
 export const SEARCH_ROUTES: Routes = [
   { path: 'list', component: ListViewComponent },
   { path: 'graph', component: GraphViewComponent },
-  { path: '', redirectTo: 'list', pathMatch: 'full' }
+  { path: '', redirectTo: 'list', pathMatch: 'full' },
 ];

@@ -6,21 +6,16 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: true,
 })
 export class HighlightTextPipe implements PipeTransform {
-  private _sanitizer = inject(DomSanitizer);
+  private _sanitizer: DomSanitizer = inject(DomSanitizer);
 
   public transform(text: string, words: string[]): SafeHtml {
     if (!text || !words || words.length === 0) {
       return text;
     }
 
-    const escapedWords = words.map((word) =>
-      word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    );
-    const pattern = new RegExp(`(${escapedWords.join('|')})`, 'gi');
-    const highlighted = text.replace(
-      pattern,
-      '<mark class="search-highlight">$1</mark>'
-    );
+    const escapedWords: string[] = words.map((word: string) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const pattern: RegExp = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+    const highlighted: string = text.replace(pattern, '<mark class="search-highlight">$1</mark>');
 
     return this._sanitizer.bypassSecurityTrustHtml(highlighted);
   }

@@ -82,7 +82,7 @@ export class MockMailContentService {
       `
       <h2>Tech Weekly Newsletter</h2>
 
-      <p>Welcome to this week's edition! Here are the top stories you shouldn’t miss:</p>
+      <p>Welcome to this week's edition! Here are the top stories you shouldn't miss:</p>
 
       <ol>
         <li><strong>AI Breakthroughs:</strong> New language models show unprecedented reasoning capabilities.</li>
@@ -147,7 +147,7 @@ export class MockMailContentService {
       `
       <p>Hi Ori,</p>
 
-      <p>I’ve opened a pull request for the <strong>user authentication feature</strong>.</p>
+      <p>I've opened a pull request for the <strong>user authentication feature</strong>.</p>
 
       <p><strong>Summary:</strong></p>
       <ul>
@@ -307,7 +307,7 @@ export class MockMailContentService {
                 </p>
 
                 <p style="margin:0 0 16px; font-size:15px; line-height:1.7; color:#374151;">
-                  I hope this message finds you well. I’m writing to provide a detailed update, clarify the current status,
+                  I hope this message finds you well. I'm writing to provide a detailed update, clarify the current status,
                   and outline the next steps moving forward. This message is intentionally thorough so that all relevant
                   information is consolidated into a single reference point.
                 </p>
@@ -365,7 +365,7 @@ export class MockMailContentService {
 
                 <p style="margin:32px 0 0; font-size:15px; line-height:1.7; color:#374151;">
                   Thank you for your time and continued collaboration. If you have questions or suggestions, please
-                  don’t hesitate to reach out.
+                  don't hesitate to reach out.
                 </p>
 
                 <p style="margin:32px 0 0; font-size:15px; color:#111827;">

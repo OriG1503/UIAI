@@ -1,10 +1,24 @@
-import { Component, input, output, OutputEmitterRef, signal, computed, inject, ElementRef, ViewChild, NgZone } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  OutputEmitterRef,
+  signal,
+  computed,
+  inject,
+  ElementRef,
+  ViewChild,
+  NgZone,
+  InputSignal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { DrawerState } from '../../../types/drawer-state.type';
 import { GraphSelection } from '../../../types/graph-selection.type';
 import { GraphSelectionInfo } from '../../../../inbox-mail-list/types/graph-selection-info.type';
-import { GRAPH_TRANSLATIONS } from '../../../mapping/graph.label-map';
-import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../../../constants/graph.constants';
+import { GRAPH_LABEL_MAP } from '../../../mapping/graph.label-map';
+import { DRAWER_HEIGHT_MIN, DRAWER_HEIGHT_MAX, DRAWER_HEIGHT_DEFAULT } from '../../../consts/graph.consts';
 import { MailListComponent } from '../../../../inbox-mail-list/components/organisms/mail-list/mail-list.component';
 import { MailContentViewComponent } from '../../../../mail-content/components/organisms/mail-content-view/mail-content-view.component';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
@@ -14,17 +28,17 @@ import { SelectedMailService } from '../../../../../core/services/selected-mail.
   standalone: true,
   imports: [MailListComponent, MailContentViewComponent],
   templateUrl: './graph-drawer.component.html',
-  styleUrl: './graph-drawer.component.scss'
+  styleUrl: './graph-drawer.component.scss',
 })
 export class GraphDrawerComponent {
-  $mails = input<Mail[]>([], { alias: 'mails' });
-  $isOpen = input<boolean>(false, { alias: 'isOpen' });
-  $selection = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
+  $mails: InputSignal<Mail[]> = input<Mail[]>([], { alias: 'mails' });
+  $isOpen: InputSignal<boolean> = input<boolean>(false, { alias: 'isOpen' });
+  $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
 
   drawerClose: OutputEmitterRef<void> = output<void>();
 
-  $graphSelectionInfo = computed<GraphSelectionInfo | null>(() => {
-    const selection = this.$selection();
+  $graphSelectionInfo: Signal<GraphSelectionInfo | null> = computed<GraphSelectionInfo | null>(() => {
+    const selection: GraphSelection = this.$selection();
     if (selection.type === 'node' && selection.nodeEmail) {
       return { type: 'node', email: selection.nodeEmail };
     }
@@ -34,40 +48,40 @@ export class GraphDrawerComponent {
     return null;
   });
 
-  private _selectedMailService = inject(SelectedMailService);
-  private _ngZone = inject(NgZone);
+  private _selectedMailService: SelectedMailService = inject(SelectedMailService);
+  private _ngZone: NgZone = inject(NgZone);
 
-  readonly $selectedMail = this._selectedMailService.selectedMail;
+  readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
 
-  $heightPercent = signal(DRAWER_HEIGHT_DEFAULT);
-  $isFullscreen = signal(false);
-  $isDragging = signal(false);
+  private _$heightPercent: WritableSignal<number> = signal<number>(DRAWER_HEIGHT_DEFAULT);
+  $isFullscreen: WritableSignal<boolean> = signal<boolean>(false);
+  private _$isDragging: WritableSignal<boolean> = signal<boolean>(false);
 
-  private _lastHeightBeforeFullscreen = DRAWER_HEIGHT_DEFAULT;
+  private _lastHeightBeforeFullscreen: number = DRAWER_HEIGHT_DEFAULT;
 
-  readonly translations = GRAPH_TRANSLATIONS;
+  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
-  private _startY = 0;
-  private _startHeight = 0;
-  private _containerHeight = 0;
+  private _startY: number = 0;
+  private _startHeight: number = 0;
+  private _containerHeight: number = 0;
 
-  private _boundOnMouseMove = this._onMouseMove.bind(this);
-  private _boundOnMouseUp = this._onMouseUp.bind(this);
+  private _boundOnMouseMove: (event: MouseEvent) => void = this._onMouseMove.bind(this);
+  private _boundOnMouseUp: () => void = this._onMouseUp.bind(this);
 
   @ViewChild('drawerContainer') private _drawerContainer!: ElementRef<HTMLDivElement>;
 
-  $drawerStyle = computed(() => {
+  $drawerStyle: Signal<{ height: string }> = computed<{ height: string }>(() => {
     if (this.$isFullscreen()) {
       return { height: '100%' };
     }
-    return { height: `${this.$heightPercent()}%` };
+    return { height: `${this._$heightPercent()}%` };
   });
 
   public onDragStart(event: MouseEvent): void {
     event.preventDefault();
-    this.$isDragging.set(true);
+    this._$isDragging.set(true);
     this._startY = event.clientY;
-    this._startHeight = this.$heightPercent();
+    this._startHeight = this._$heightPercent();
     this._containerHeight = (this._drawerContainer?.nativeElement?.offsetParent as HTMLElement)?.clientHeight ?? 0;
 
     document.addEventListener('mousemove', this._boundOnMouseMove);
@@ -75,20 +89,23 @@ export class GraphDrawerComponent {
   }
 
   private _onMouseMove(event: MouseEvent): void {
-    if (!this.$isDragging()) {
+    if (!this._$isDragging()) {
       return;
     }
     this._ngZone.run(() => {
-      const deltaY = this._startY - event.clientY;
-      const deltaPercent = (deltaY / this._containerHeight) * 100;
-      const newHeight = Math.max(DRAWER_HEIGHT_MIN, Math.min(DRAWER_HEIGHT_MAX, this._startHeight + deltaPercent));
-      this.$heightPercent.set(newHeight);
+      const deltaY: number = this._startY - event.clientY;
+      const deltaPercent: number = (deltaY / this._containerHeight) * 100;
+      const newHeight: number = Math.max(
+        DRAWER_HEIGHT_MIN,
+        Math.min(DRAWER_HEIGHT_MAX, this._startHeight + deltaPercent),
+      );
+      this._$heightPercent.set(newHeight);
     });
   }
 
   private _onMouseUp(): void {
     this._ngZone.run(() => {
-      this.$isDragging.set(false);
+      this._$isDragging.set(false);
     });
     document.removeEventListener('mousemove', this._boundOnMouseMove);
     document.removeEventListener('mouseup', this._boundOnMouseUp);
@@ -97,9 +114,9 @@ export class GraphDrawerComponent {
   public onToggleFullscreen(): void {
     if (this.$isFullscreen()) {
       this.$isFullscreen.set(false);
-      this.$heightPercent.set(this._lastHeightBeforeFullscreen);
+      this._$heightPercent.set(this._lastHeightBeforeFullscreen);
     } else {
-      this._lastHeightBeforeFullscreen = this.$heightPercent();
+      this._lastHeightBeforeFullscreen = this._$heightPercent();
       this.$isFullscreen.set(true);
     }
   }
@@ -112,5 +129,4 @@ export class GraphDrawerComponent {
     this.$isFullscreen.set(false);
     this.drawerClose.emit();
   }
-
 }

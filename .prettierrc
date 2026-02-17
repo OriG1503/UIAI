@@ -5,7 +5,7 @@
   "useTabs": false,
   "bracketSpacing": true,
   "printWidth": 120,
-  "trailingComma": "none",
+  "trailingComma": "all",
   "arrowParens": "always",
   "singleAttributePerLine": true
 }

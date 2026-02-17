@@ -9,9 +9,16 @@
   <div class="unseen-indicator"></div>
 
   @if ($isSelectMode()) {
-    <div class="select-circle" [class.is-selected]="$isSelected()">
+    <div
+      class="select-circle"
+      [class.is-selected]="$isSelected()"
+    >
       @if ($isSelected()) {
-        <app-icon [name]="ICON_NAMES.CHECK" size="0.75rem" color="var(--color-white)" />
+        <app-icon
+          [name]="ICON_NAMES.CHECK"
+          size="0.75rem"
+          color="var(--color-white)"
+        />
       }
     </div>
   }
@@ -23,32 +30,60 @@
     </div>
 
     <div class="mail-subject-row">
-      <div class="mail-subject" dir="auto">
-        <span [innerHTML]="$subjectPreview() | highlightText:$searchTerms()"></span>
+      <div
+        class="mail-subject"
+        dir="auto"
+      >
+        <span [innerHTML]="$subjectPreview() | highlightText: $searchTerms()"></span>
         @if ($isSubjectOverflow()) {
-          <span class="ellipsis" [class.highlighted]="$isSubjectEllipsisHighlighted()">...</span>
+          <span
+            class="ellipsis"
+            [class.highlighted]="$isSubjectEllipsisHighlighted()"
+            >...</span
+          >
         }
       </div>
       @if ($attachmentCount() > 0) {
-        <div class="attachment-badge" [class.highlight-attachment-badge]="$isAttachmentBadgeHighlighted()">
-          <app-icon [name]="ICON_NAMES.PAPERCLIP" size="0.875rem" />
+        <div
+          class="attachment-badge"
+          [class.highlight-attachment-badge]="$isAttachmentBadgeHighlighted()"
+        >
+          <app-icon
+            [name]="ICON_NAMES.PAPERCLIP"
+            size="0.875rem"
+          />
           <span class="attachment-count">{{ $attachmentCount() }}</span>
         </div>
       }
     </div>
 
-    <div class="mail-from" dir="auto" [innerHTML]="$senderDisplay() | highlightText:$searchTerms()"></div>
+    <div
+      class="mail-from"
+      dir="auto"
+      [innerHTML]="$senderDisplay() | highlightText: $searchTerms()"
+    ></div>
 
     <div class="mail-to">
-      <app-icon [name]="ICON_NAMES.CHEVRON_RIGHT" size="0.625rem" />
-      <span [innerHTML]="$toDisplayText() | highlightText:$searchTerms()"></span>
+      <app-icon
+        [name]="ICON_NAMES.CHEVRON_RIGHT"
+        size="0.625rem"
+      />
+      <span [innerHTML]="$toDisplayText() | highlightText: $searchTerms()"></span>
       @if ($isToOverflow()) {
-        <span class="ellipsis" [class.highlighted]="$isToEllipsisHighlighted()">...</span>
+        <span
+          class="ellipsis"
+          [class.highlighted]="$isToEllipsisHighlighted()"
+          >...</span
+        >
       }
     </div>
 
     @if ($contentPreview()) {
-      <div class="mail-body-preview" dir="auto" [innerHTML]="$contentPreview() | highlightText:$searchTerms()"></div>
+      <div
+        class="mail-body-preview"
+        dir="auto"
+        [innerHTML]="$contentPreview() | highlightText: $searchTerms()"
+      ></div>
     }
   </div>
 </div>

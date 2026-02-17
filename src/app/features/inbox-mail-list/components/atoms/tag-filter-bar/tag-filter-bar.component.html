@@ -1,19 +1,30 @@
 <div class="tag-filter-bar">
-  <button class="scroll-btn" (click)="onScrollLeft()">
+  <button
+    class="scroll-btn"
+    (click)="onScrollLeft()"
+  >
     &lt;&lt;
   </button>
 
-  <div class="tag-scroll-container" #scrollContainer>
+  <div
+    class="tag-scroll-container"
+    #scrollContainer
+  >
     @for (tag of tags; track tag) {
       <button
         class="tag-btn"
         [class.checked]="isTagSelected(tag)"
         (click)="onTagClick(tag)"
-      >{{ tag }}</button>
+      >
+        {{ tag }}
+      </button>
     }
   </div>
 
-  <button class="scroll-btn" (click)="onScrollRight()">
+  <button
+    class="scroll-btn"
+    (click)="onScrollRight()"
+  >
     &gt;&gt;
   </button>
 </div>

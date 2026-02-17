@@ -6,7 +6,10 @@
     </div>
   }
 
-  <div class="graph-area" [class.hidden]="$isLoading()">
+  <div
+    class="graph-area"
+    [class.hidden]="$isLoading()"
+  >
     <div class="graph-canvas-wrapper">
       <app-graph-canvas
         [graphData]="$graphData()"
@@ -28,7 +31,10 @@
     </div>
   </div>
 
-  <div class="graph-filters-panel-area" [class.hidden]="$isLoading()">
+  <div
+    class="graph-filters-panel-area"
+    [class.hidden]="$isLoading()"
+  >
     <app-graph-filters-panel
       [nodes]="$nodeList()"
       [selectedEmail]="$selectedNodeEmail()"
