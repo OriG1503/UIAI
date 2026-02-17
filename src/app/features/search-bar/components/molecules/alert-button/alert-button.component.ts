@@ -1,4 +1,4 @@
-import { Component, output, OutputEmitterRef, signal, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, ViewEncapsulation } from '@angular/core';
 import { BUTTON_LABEL_MAPPING } from '../../../../../shared/mapping/common.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
@@ -21,30 +21,30 @@ export class AlertButtonComponent {
 
   readonly buttonLabels = BUTTON_LABEL_MAPPING;
 
-  constructor(private _elementRef: ElementRef) {}
+  private _closeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  @HostListener('document:click', ['$event'])
-  public onDocumentClick(event: Event): void {
-    if (!this._elementRef.nativeElement.contains(event.target)) {
-      this.$isPopupOpen.set(false);
+  public onMouseEnter(): void {
+    if (this._closeTimeout) {
+      clearTimeout(this._closeTimeout);
+      this._closeTimeout = null;
     }
+    this.$isPopupOpen.set(true);
   }
 
-  public togglePopup(): void {
-    this.$isPopupOpen.update((isOpen) => !isOpen);
-  }
-
-  public closePopup(): void {
-    this.$isPopupOpen.set(false);
+  public onMouseLeave(): void {
+    this._closeTimeout = setTimeout(() => {
+      this.$isPopupOpen.set(false);
+      this._closeTimeout = null;
+    }, 150);
   }
 
   public onIssueClick(): void {
     this.openIssue.emit();
-    this.closePopup();
+    this.$isPopupOpen.set(false);
   }
 
   public onRequestClick(): void {
     this.openRequest.emit();
-    this.closePopup();
+    this.$isPopupOpen.set(false);
   }
 }
