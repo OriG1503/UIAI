@@ -100,6 +100,12 @@
     }
   }
 
+  .mail-count {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-navy-gray);
+  }
+
   .filter-actions-left {
     display: flex;
     align-items: center;

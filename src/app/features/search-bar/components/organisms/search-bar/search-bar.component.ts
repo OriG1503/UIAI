@@ -6,7 +6,6 @@ import { DateRangePickerComponent } from '../../molecules/date-range-picker/date
 import { SearchModeSwitchComponent } from '../../molecules/search-mode-switch/search-mode-switch.component';
 import { SearchInputComponent } from '../../molecules/search-input/search-input.component';
 import { RunButtonComponent } from '../../molecules/run-button/run-button.component';
-import { SaveSearchButtonComponent } from '../../molecules/save-search-button/save-search-button.component';
 import { AlertButtonComponent } from '../../molecules/alert-button/alert-button.component';
 import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/theme-toggle.component';
 import { SpecialCharsWarningComponent } from '../../molecules/special-chars-warning/special-chars-warning.component';
@@ -24,7 +23,6 @@ import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constant
     SearchModeSwitchComponent,
     SearchInputComponent,
     RunButtonComponent,
-    SaveSearchButtonComponent,
     AlertButtonComponent,
     ThemeToggleComponent,
     SpecialCharsWarningComponent,
@@ -90,10 +88,6 @@ export class SearchBarComponent {
     };
     console.log('Running search:', query);
     return this._router.navigate(['/search', viewType]);
-  }
-
-  public onSaveSearch(name: string): void {
-    console.log('Saving search as:', name);
   }
 
   public onOpenIssue(): void {

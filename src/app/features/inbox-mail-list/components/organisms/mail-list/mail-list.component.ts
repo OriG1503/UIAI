@@ -6,11 +6,11 @@ import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { MockMailService } from '../../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../../core/services/highlight.service';
-import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailPreviewComponent, ContextMenuEvent } from '../../molecules/mail-preview/mail-preview.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
+import { MailSkeletonComponent } from '../../atoms/mail-skeleton/mail-skeleton.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
 import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
@@ -26,7 +26,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent],
+  imports: [MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent, MailSkeletonComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
@@ -104,15 +104,16 @@ export class MailListComponent {
   $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   private _lastSelectedIndex: number | null = null;
+  private _previouslySelectedMail: Mail | null = null;
 
   $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
   $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
   $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
   $isFullscreen = input<boolean>(false, { alias: 'isFullscreen' });
+  $isLoading = input<boolean>(false, { alias: 'isLoading' });
   closeClick = output<void>();
   fullscreenClick = output<void>();
 
-  readonly userEmail = this._mailService.userEmail;
   readonly inboxTranslations = INBOX_LABEL_MAPPING;
 
   $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
@@ -139,8 +140,6 @@ export class MailListComponent {
       return sortDirection === 'desc' ? dateB - dateA : dateA - dateB;
     });
   });
-
-  $mailCount = computed(() => this.$allMails().length);
 
   $selectedCount = computed(() => this.$selectedMails().size);
 
@@ -205,7 +204,10 @@ export class MailListComponent {
   }
 
   public onMailClick(mail: Mail): void {
-    this._selectedMailService.markMailAsSeen(mail);
+    if (this._previouslySelectedMail && this._previouslySelectedMail.filename !== mail.filename) {
+      this._selectedMailService.markMailAsSeen(this._previouslySelectedMail);
+    }
+    this._previouslySelectedMail = mail;
     this.$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }

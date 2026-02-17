@@ -1,11 +1,4 @@
 <div class="mail-list-container">
-  @if (!$graphSelectionInfo()) {
-    <app-user-mail-bubble
-      [userEmail]="userEmail"
-      [mailCount]="$mailCount()"
-    />
-  }
-
   <div class="mail-list-wrapper">
     @if ($graphSelectionInfo(); as selectionInfo) {
       <div class="override-header">
@@ -24,7 +17,7 @@
             </div>
           }
         </div>
-        <span class="override-header-count" dir="rtl">({{ $mailCount() }} {{ inboxTranslations.mails }})</span>
+        <span class="override-header-count" dir="rtl">({{ $filteredMails().length }} {{ inboxTranslations.mails }})</span>
         <div class="override-header-actions">
           <button
             class="override-action-btn"
@@ -59,6 +52,7 @@
       [isSelectMode]="$isSelectMode()"
       [sortDirection]="$sortDirection()"
       [selectedCount]="$selectedCount()"
+      [filteredCount]="$graphSelectionInfo() ? -1 : $filteredMails().length"
       (filterChange)="onFilterChange($event)"
       (sortChange)="onSortChange($event)"
       (translateClick)="onTranslateClick($event)"
@@ -68,16 +62,20 @@
     />
 
     <div class="mail-list-scroll">
-      @for (mail of $filteredMails(); track mail.filename) {
-        <app-mail-preview
-          [mail]="mail"
-          [isSelectMode]="$isSelectMode()"
-          [isSelected]="isMailSelected(mail)"
-          [isCurrent]="isCurrentMail(mail)"
-          (mailClick)="onMailClick(mail)"
-          (selectionChange)="onSelectionChange(mail, $event, $index)"
-          (contextMenu)="onContextMenu($event)"
-        />
+      @if ($isLoading()) {
+        <app-mail-skeleton />
+      } @else {
+        @for (mail of $filteredMails(); track mail.filename) {
+          <app-mail-preview
+            [mail]="mail"
+            [isSelectMode]="$isSelectMode()"
+            [isSelected]="isMailSelected(mail)"
+            [isCurrent]="isCurrentMail(mail)"
+            (mailClick)="onMailClick(mail)"
+            (selectionChange)="onSelectionChange(mail, $event, $index)"
+            (contextMenu)="onContextMenu($event)"
+          />
+        }
       }
     </div>
   </div>
