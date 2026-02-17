@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { SearchBarComponent } from '../../../features/search-bar/components/organisms/search-bar/search-bar.component';
-import { ThemeToggleComponent } from '../../../shared/atoms/theme-toggle/theme-toggle.component';
-import { AlertButtonComponent } from '../../../features/search-bar/components/molecules/alert-button/alert-button.component';
+import { SearchBarComponent } from '../../../../search-bar/components/organisms/search-bar/search-bar.component';
+import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/theme-toggle.component';
+import { AlertButtonComponent } from '../../../../search-bar/components/molecules/alert-button/alert-button.component';
 
 @Component({
   selector: 'app-home',
