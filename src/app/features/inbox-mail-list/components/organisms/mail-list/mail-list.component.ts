@@ -6,7 +6,6 @@ import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { MockMailService } from '../../../../../core/services/mock-mail.service';
 import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { HighlightService } from '../../../../../core/services/highlight.service';
-import { UserMailBubbleComponent } from '../../molecules/user-mail-bubble/user-mail-bubble.component';
 import { MailFilterBarComponent } from '../../molecules/mail-filter-bar/mail-filter-bar.component';
 import { MailPreviewComponent, ContextMenuEvent } from '../../molecules/mail-preview/mail-preview.component';
 import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.component';
@@ -26,7 +25,7 @@ type ContextMenuState = {
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [UserMailBubbleComponent, MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent],
+  imports: [MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
@@ -113,7 +112,6 @@ export class MailListComponent {
   closeClick = output<void>();
   fullscreenClick = output<void>();
 
-  readonly userEmail = this._mailService.userEmail;
   readonly inboxTranslations = INBOX_LABEL_MAPPING;
 
   $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
@@ -140,8 +138,6 @@ export class MailListComponent {
       return sortDirection === 'desc' ? dateB - dateA : dateA - dateB;
     });
   });
-
-  $mailCount = computed(() => this.$allMails().length);
 
   $selectedCount = computed(() => this.$selectedMails().size);
 
