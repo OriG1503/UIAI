@@ -1,14 +1,28 @@
-<div class="run-button-wrapper">
-  <button type="button" class="run-btn" (click)="togglePopup()">{{ translations.run }}</button>
+<div
+  class="run-button-wrapper"
+  (mouseenter)="openPopup()"
+  (mouseleave)="closePopup()"
+>
+  <button
+    type="button"
+    class="run-btn"
+  >
+    {{ translations.run }}
+  </button>
 
   @if ($isPopupOpen()) {
-    <div class="popup-overlay" (click)="closePopup()"></div>
     <div class="popup-container">
-      <button class="option-btn" (click)="selectOption('list')">
+      <button
+        class="option-btn"
+        (click)="selectOption('list')"
+      >
         <app-icon [name]="ICON_NAMES.LIST" />
         <span>{{ viewLabels.list }}</span>
       </button>
-      <button class="option-btn" (click)="selectOption('graph')">
+      <button
+        class="option-btn"
+        (click)="selectOption('graph')"
+      >
         <app-icon [name]="ICON_NAMES.CHART_BAR" />
         <span>{{ viewLabels.graph }}</span>
       </button>
