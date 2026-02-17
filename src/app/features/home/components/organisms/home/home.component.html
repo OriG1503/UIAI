@@ -26,7 +26,10 @@
 
   <div class="bottom-section">
     <div class="search-history-container">
-      <app-search-history />
+      <app-search-history
+        [savedSearches]="$savedSearches()"
+        [lastSearches]="$lastSearches()"
+      />
     </div>
   </div>
 </div>

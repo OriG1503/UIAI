@@ -1,8 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LastSearch } from '../../../types/last-search.type';
 import { SearchType } from '../../../types/search-type.type';
 import { SEARCH_TYPE_LABEL_MAP } from '../../../mapping/home.label-map';
-import { MOCK_LAST_SEARCHES } from '../../../constants/last-search.constants';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
 
@@ -16,7 +15,7 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
 export class LastSearchListComponent {
   readonly ICON_NAMES = ICON_NAMES;
 
-  $lastSearches = signal<LastSearch[]>(MOCK_LAST_SEARCHES);
+  $lastSearches = input.required<LastSearch[]>({ alias: 'lastSearches' });
 
   public getSearchTypeLabel(searchType: SearchType): string {
     return SEARCH_TYPE_LABEL_MAP[searchType];

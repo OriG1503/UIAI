@@ -29,11 +29,11 @@
 
   <div class="content">
     @if ($activeTab() === 'saved-search') {
-      <app-saved-search-list />
+      <app-saved-search-list [savedSearches]="$savedSearches()" />
     }
 
     @if ($activeTab() === 'last-search') {
-      <app-last-search-list />
+      <app-last-search-list [lastSearches]="$lastSearches()" />
     }
   </div>
 </div>
