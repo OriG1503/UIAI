@@ -11,6 +11,10 @@
         </div>
       </div>
     }
+  } @else if ($lastSearches().length === 0) {
+    <div class="empty-message">
+      <span>{{ labels.emptyLastSearch }}</span>
+    </div>
   } @else {
     @for (search of $lastSearches(); track $index) {
       <div class="last-search-item">
