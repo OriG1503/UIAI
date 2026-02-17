@@ -13,7 +13,7 @@ import { MOCK_LAST_SEARCHES } from '../../../constants/last-search.constants';
   standalone: true,
   imports: [SearchBarComponent, ThemeToggleComponent, AlertButtonComponent, SearchHistoryComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrls: ['./home.component.scss', './floating-icons.scss']
 })
 export class HomeComponent {
   // TODO: replace with store selectors when connecting to server
