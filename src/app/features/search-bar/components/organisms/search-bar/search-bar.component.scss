@@ -11,6 +11,8 @@
     border-bottom: none;
     box-shadow: none;
     background-color: transparent;
+    width: max-content;
+
   }
 }
 
@@ -24,6 +26,7 @@
 }
 
 .section-middle {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 0.75rem;
