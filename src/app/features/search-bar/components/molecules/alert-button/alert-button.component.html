@@ -1,18 +1,33 @@
-<div class="alert-wrapper">
-  <button type="button" class="alert-btn" (click)="togglePopup()" [title]="buttonLabels.openTicket">
+<div
+  class="alert-wrapper"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+>
+  <button
+    type="button"
+    class="alert-btn"
+    [title]="buttonLabels.openTicket"
+  >
     <app-icon [name]="ICON_NAMES.EXCLAMATION_TRIANGLE" />
   </button>
 
   @if ($isPopupOpen()) {
-    <div class="popup-overlay" (click)="closePopup()"></div>
     <div class="popup-container">
       <span class="popup-header">VOIP 1234</span>
       <div class="popup-divider"></div>
       <div class="popup-actions">
-        <button type="button" class="action-btn" (click)="onIssueClick()">
+        <button
+          type="button"
+          class="action-btn"
+          (click)="onIssueClick()"
+        >
           {{ buttonLabels.openIssue }}
         </button>
-        <button type="button" class="action-btn" (click)="onRequestClick()">
+        <button
+          type="button"
+          class="action-btn"
+          (click)="onRequestClick()"
+        >
           {{ buttonLabels.openRequest }}
         </button>
       </div>
