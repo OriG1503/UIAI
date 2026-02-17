@@ -48,6 +48,10 @@
     }
   </div>
 
+  @if ($filteredCount() >= 0) {
+    <span class="mail-count">({{ $filteredCount() }} {{ translations.mails }})</span>
+  }
+
   <div class="filter-actions-left">
     <button
       type="button"

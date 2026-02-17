@@ -1,0 +1,21 @@
+@for (i of items; track i) {
+  <div
+    class="skeleton-card"
+    [style.animation-delay]="i * 0.1 + 's'"
+  >
+    <div class="skeleton-indicator"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-meta">
+        <div class="skeleton-line skeleton-date"></div>
+        <div class="skeleton-line skeleton-time"></div>
+      </div>
+      <div class="skeleton-subject-row">
+        <div class="skeleton-line skeleton-subject"></div>
+        <div class="skeleton-line skeleton-attachment"></div>
+      </div>
+      <div class="skeleton-line skeleton-from"></div>
+      <div class="skeleton-line skeleton-to"></div>
+      <div class="skeleton-line skeleton-body"></div>
+    </div>
+  </div>
+}

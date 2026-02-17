@@ -21,6 +21,7 @@ export class MailFilterBarComponent {
   $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
   $sortDirection = input<SortDirection>('desc', { alias: 'sortDirection' });
   $selectedCount = input<number>(0, { alias: 'selectedCount' });
+  $filteredCount = input<number>(0, { alias: 'filteredCount' });
 
   filterChange: OutputEmitterRef<MailFilter> = output<MailFilter>();
   translateClick: OutputEmitterRef<Language> = output<Language>();
