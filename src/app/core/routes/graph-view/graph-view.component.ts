@@ -195,10 +195,32 @@ export class GraphViewComponent {
   }
 
   public onDateRangeChange(values: number[]): void {
+    const [newMin, newMax]: number[] = values;
+    if (newMin >= newMax) {
+      const [prevMin]: number[] = this.$dateRangeValues();
+      const range: number = this.$dateMax() - this.$dateMin();
+      const step: number = range <= 0 ? 1 : Math.max(1, Math.floor(range / 200));
+      if (newMin !== prevMin) {
+        this.$dateRangeValues.set([newMax - step, newMax]);
+      } else {
+        this.$dateRangeValues.set([newMin, newMin + step]);
+      }
+      return;
+    }
     this.$dateRangeValues.set(values);
   }
 
   public onMailCountRangeChange(values: number[]): void {
+    const [newMin, newMax]: number[] = values;
+    if (newMin >= newMax) {
+      const [prevMin]: number[] = this.$mailCountRangeValues();
+      if (newMin !== prevMin) {
+        this.$mailCountRangeValues.set([newMax - 1, newMax]);
+      } else {
+        this.$mailCountRangeValues.set([newMin, newMin + 1]);
+      }
+      return;
+    }
     this.$mailCountRangeValues.set(values);
   }
 
