@@ -86,10 +86,24 @@ export class GraphViewComponent {
   });
 
   $mailCountMax: Signal<number> = computed<number>(() => {
-    const counts: Map<string, number> = this._$filteredNodeCounts();
-    if (counts.size === 0) {
+    const mails: Mail[] = this._mockGraphMailService.mails();
+    if (mails.length === 0) {
       return 1;
     }
+    const counts: Map<string, number> = new Map<string, number>();
+    mails.forEach((mail: Mail) => {
+      const fromEmail: string = mail.from.mail ?? '';
+      if (fromEmail) {
+        counts.set(fromEmail, (counts.get(fromEmail) ?? 0) + 1);
+      }
+      const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
+      recipients.forEach((r: MailUserInfo) => {
+        const email: string = r.mail ?? '';
+        if (email) {
+          counts.set(email, (counts.get(email) ?? 0) + 1);
+        }
+      });
+    });
     return Math.max(...Array.from(counts.values()));
   });
 
@@ -181,13 +195,32 @@ export class GraphViewComponent {
   }
 
   public onDateRangeChange(values: number[]): void {
+    const [newMin, newMax]: number[] = values;
+    if (newMin >= newMax) {
+      const [prevMin]: number[] = this.$dateRangeValues();
+      const range: number = this.$dateMax() - this.$dateMin();
+      const step: number = range <= 0 ? 1 : Math.max(1, Math.floor(range / 200));
+      if (newMin !== prevMin) {
+        this.$dateRangeValues.set([newMax - step, newMax]);
+      } else {
+        this.$dateRangeValues.set([newMin, newMin + step]);
+      }
+      return;
+    }
     this.$dateRangeValues.set(values);
-    const newMax: number = this.$mailCountMax();
-    const [currentMin]: number[] = this.$mailCountRangeValues();
-    this.$mailCountRangeValues.set([currentMin, newMax]);
   }
 
   public onMailCountRangeChange(values: number[]): void {
+    const [newMin, newMax]: number[] = values;
+    if (newMin >= newMax) {
+      const [prevMin]: number[] = this.$mailCountRangeValues();
+      if (newMin !== prevMin) {
+        this.$mailCountRangeValues.set([newMax - 1, newMax]);
+      } else {
+        this.$mailCountRangeValues.set([newMin, newMin + 1]);
+      }
+      return;
+    }
     this.$mailCountRangeValues.set(values);
   }
 
