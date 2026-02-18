@@ -17,6 +17,7 @@ Angular 19 client app using mock data instead of a real server. Hebrew (RTL) UI 
 ```bash
 npm start        # Start dev server (http://localhost:4200)
 npm run build    # Production build
+npm run watch    # Incremental dev build (watch mode)
 npm test         # Run unit tests with Karma
 ```
 
@@ -29,7 +30,7 @@ src/app/
 │   └── workers/        # Web Workers (graph-builder.worker.ts)
 ├── layouts/        # App-level layout wrappers (AppLayoutComponent)
 ├── features/       # Feature modules (lazy-loaded), each feature owns its own atomic design layers
-│   └── <feature>/  # search-bar, inbox-mail-list, mail-content, graph-canvas, graph-filters, mail-preview
+│   └── <feature>/  # home, search-bar, inbox-mail-list, mail-content, graph-canvas, graph-filters
 │       ├── atoms/          # Feature-specific basic UI elements
 │       ├── molecules/      # Feature-specific combinations of atoms
 │       ├── organisms/      # Business logic components
@@ -37,9 +38,10 @@ src/app/
 │       ├── consts/         # Feature-specific constants
 │       └── mapping/        # Feature-specific translation maps (*.label-map.ts)
 ├── shared/         # Only truly cross-feature items (used by 2+ features)
-│   ├── atoms/      # Global basic UI elements (e.g., Icon)
-│   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch)
-│   ├── mapping/    # Cross-feature translations (common, inbox label maps)
+│   ├── atoms/      # Global basic UI elements (e.g., Icon, ThemeToggle)
+│   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch, SortDirection)
+│   ├── consts/     # Cross-feature constants (e.g., icon-name.consts.ts with all PrimeIcon names)
+│   ├── mapping/    # Cross-feature translations (common.label-map.ts, inbox.label-map.ts)
 │   └── pipes/      # Cross-feature pipes (HighlightTextPipe)
 ```
 
@@ -71,6 +73,7 @@ src/app/
 - Prefer `type` over `interface`
 - **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
 - **No inline templates/styles**: Always use `templateUrl` and `styleUrl` pointing to external files
+- **Multiple SCSS files**: A component may declare `styleUrl` as an array for compositional styling (e.g., `[component.scss, floating-icons.scss]`)
 
 ## SCSS Rules
 - **Mirror HTML hierarchy**: SCSS nesting must match the HTML structure exactly
@@ -124,18 +127,20 @@ src/app/
 | .pdf | `#ea355a` |
 
 ## Routing
-- Default route redirects to `/search/list`
-- `search` feature is lazy-loaded, contains nested child routes:
-  - `/search/list` → `ListViewComponent` (mail list view)
-  - `/search/graph` → `GraphViewComponent` (graph visualization)
+- `/` → `HomeComponent` (search history landing page: last searches + saved searches)
+- `/search/*` → `AppLayoutComponent` (layout wrapper: SearchBar + RouterOutlet), with nested child routes:
+  - `/search/list` → `ListViewComponent` (mail list + content split view)
+  - `/search/graph` → `GraphViewComponent` (graph visualization + drawer + filters)
 
 ## Core Services (in `core/services/`)
 - `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
 - `MockMailContentService` - Email body content retrieval
-- `SelectedMailService` - Shared state for currently selected mail and navigation
+- `MockTagService` - Tag CRUD operations
+- `SelectedMailService` - Shared state for currently selected mail and navigation (bridges regular vs. graph mails)
 - `HighlightService` - Search term highlighting: per-mail highlight state, `highlightText()` and `highlightBodyContent()` for safe HTML marking
 - `MockGraphMailService` - Generates ~1000+ mock mails with 40 users for graph visualization
 - `GraphDataService` - Builds graph from `Mail[]`: nodes (users), edges (mail connections). Provides `getMailsForNode()` and `getMailsForEdge()`
+- `ThemeService` - Dark mode toggle with localStorage persistence
 
 ## Store Structure (in `core/`)
 The real application uses NgRx with the following structure, but this mock app does not implement the store - it uses services with signals instead.
@@ -158,7 +163,8 @@ The graph canvas (`GraphCanvasComponent`) runs Sigma.js outside Angular's zone (
 - **Angular zone re-entry**: Sigma event callbacks (clickNode, etc.) must wrap in `NgZone.run()` to trigger change detection
 - **Reactivity**: Use `effect()` (not `ngOnChanges`) to react to signal input changes for Sigma updates
 - **Web Worker**: `GraphDataService` offloads graph building (node/edge creation, ForceAtlas2 layout) to `core/workers/graph-builder.worker.ts`
-- **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `BubbleOverride` type to display node email or edge from/to emails
+- **Graph Drawer**: Floating bubble panel that shows mail list + content for selected node/edge. Uses `GraphSelectionInfo` type to display node email or edge from/to emails
+- **Pre-config extraction**: Sigma rendering setup (BorderedNodeProgram, `drawCustomLabel`, canvas envelope icon) lives in `graph-canvas-rendering.ts` alongside the component — not inside the component class
 - Graph constants defined in `features/graph-canvas/consts/graph.consts.ts`
 
 ## RTL / LTR Handling
