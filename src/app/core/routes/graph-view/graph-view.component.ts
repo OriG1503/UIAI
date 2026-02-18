@@ -86,10 +86,24 @@ export class GraphViewComponent {
   });
 
   $mailCountMax: Signal<number> = computed<number>(() => {
-    const counts: Map<string, number> = this._$filteredNodeCounts();
-    if (counts.size === 0) {
+    const mails: Mail[] = this._mockGraphMailService.mails();
+    if (mails.length === 0) {
       return 1;
     }
+    const counts: Map<string, number> = new Map<string, number>();
+    mails.forEach((mail: Mail) => {
+      const fromEmail: string = mail.from.mail ?? '';
+      if (fromEmail) {
+        counts.set(fromEmail, (counts.get(fromEmail) ?? 0) + 1);
+      }
+      const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
+      recipients.forEach((r: MailUserInfo) => {
+        const email: string = r.mail ?? '';
+        if (email) {
+          counts.set(email, (counts.get(email) ?? 0) + 1);
+        }
+      });
+    });
     return Math.max(...Array.from(counts.values()));
   });
 
@@ -182,9 +196,6 @@ export class GraphViewComponent {
 
   public onDateRangeChange(values: number[]): void {
     this.$dateRangeValues.set(values);
-    const newMax: number = this.$mailCountMax();
-    const [currentMin]: number[] = this.$mailCountRangeValues();
-    this.$mailCountRangeValues.set([currentMin, newMax]);
   }
 
   public onMailCountRangeChange(values: number[]): void {
