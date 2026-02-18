@@ -28,9 +28,8 @@ src/app/
 │   ├── services/       # App-wide services (MockMailService, SelectedMailService, etc.)
 │   ├── routes/         # View components for routes (ListViewComponent, GraphViewComponent)
 │   └── workers/        # Web Workers (graph-builder.worker.ts)
-├── layouts/        # App-level layout wrappers (AppLayoutComponent)
 ├── features/       # Feature modules (lazy-loaded), each feature owns its own atomic design layers
-│   └── <feature>/  # home, search-bar, inbox-mail-list, mail-content, graph-canvas, graph-filters
+│   └── <feature>/  # home, search-view, search-bar, inbox-mail-list, mail-content, graph-canvas, graph-filters
 │       ├── atoms/          # Feature-specific basic UI elements
 │       ├── molecules/      # Feature-specific combinations of atoms
 │       ├── organisms/      # Business logic components
@@ -128,7 +127,7 @@ src/app/
 
 ## Routing
 - `/` → `HomeComponent` (search history landing page: last searches + saved searches)
-- `/search/*` → `AppLayoutComponent` (layout wrapper: SearchBar + RouterOutlet), with nested child routes:
+- `/search/*` → `SearchViewComponent` (organism in `features/search-view`: SearchBar + RouterOutlet), with nested child routes:
   - `/search/list` → `ListViewComponent` (mail list + content split view)
   - `/search/graph` → `GraphViewComponent` (graph visualization + drawer + filters)
 
