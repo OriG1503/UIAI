@@ -1,11 +1,11 @@
-import { Component, input, computed, inject } from '@angular/core';
+import { Component, input, computed, inject, InputSignal, Signal } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-mail-metadata',
@@ -15,54 +15,56 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   styleUrl: './mail-metadata.component.scss',
 })
 export class MailMetadataComponent {
-  private _highlightService = inject(HighlightService);
+  private _highlightService: HighlightService = inject(HighlightService);
 
-  $mail = input.required<Mail>({ alias: 'mail' });
+  $mail: InputSignal<Mail> = input.required<Mail>({ alias: 'mail' });
 
-  readonly ICON_NAMES = ICON_NAMES;
-  readonly translations = INBOX_LABEL_MAPPING;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
-  $searchTerms = computed(() => this._highlightService.$searchTerms());
+  $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
 
-  $formattedDate = computed(() => {
-    const mail = this.$mail();
-    const date = new Date(mail.sent);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
+  $formattedDate: Signal<string> = computed<string>(() => {
+    const mail: Mail = this.$mail();
+    const date: Date = new Date(mail.sent);
+    const day: string = date.getDate().toString().padStart(2, '0');
+    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year: number = date.getFullYear();
     return `${day}/${month}/${year}`;
   });
 
-  $formattedTime = computed(() => {
-    const mail = this.$mail();
-    const date = new Date(mail.sent);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+  $formattedTime: Signal<string> = computed<string>(() => {
+    const mail: Mail = this.$mail();
+    const date: Date = new Date(mail.sent);
+    const hours: string = date.getHours().toString().padStart(2, '0');
+    const minutes: string = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   });
 
-  $fromDisplay = computed(() => {
+  $fromDisplay: Signal<string> = computed<string>(() => {
     return this._formatUserInfo(this.$mail().from);
   });
 
-  $toDisplay = computed(() => {
-    return this.$mail().to.map((user) => this._formatUserInfo(user)).join(', ');
+  $toDisplay: Signal<string> = computed<string>(() => {
+    return this.$mail()
+      .to.map((user: MailUserInfo) => this._formatUserInfo(user))
+      .join(', ');
   });
 
-  $ccDisplay = computed(() => {
-    const cc = this.$mail().cc;
+  $ccDisplay: Signal<string> = computed<string>(() => {
+    const cc: MailUserInfo[] | undefined = this.$mail().cc;
     if (!cc || cc.length === 0) {
       return '';
     }
-    return cc.map((user) => this._formatUserInfo(user)).join(', ');
+    return cc.map((user: MailUserInfo) => this._formatUserInfo(user)).join(', ');
   });
 
-  $bccDisplay = computed(() => {
-    const bcc = this.$mail().bcc;
+  $bccDisplay: Signal<string> = computed<string>(() => {
+    const bcc: MailUserInfo[] | undefined = this.$mail().bcc;
     if (!bcc || bcc.length === 0) {
       return '';
     }
-    return bcc.map((user) => this._formatUserInfo(user)).join(', ');
+    return bcc.map((user: MailUserInfo) => this._formatUserInfo(user)).join(', ');
   });
 
   private _formatUserInfo(user: MailUserInfo): string {

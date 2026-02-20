@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { MailListComponent } from '../../../features/inbox-mail-list/components/organisms/mail-list/mail-list.component';
 import { MailContentViewComponent } from '../../../features/mail-content/components/organisms/mail-content-view/mail-content-view.component';
 import { SelectedMailService } from '../../services/selected-mail.service';
+import { Mail } from '../../../shared/types/mail.type';
 
 @Component({
   selector: 'app-list-view',
@@ -11,7 +12,7 @@ import { SelectedMailService } from '../../services/selected-mail.service';
   styleUrl: './list-view.component.scss',
 })
 export class ListViewComponent {
-  private _selectedMailService = inject(SelectedMailService);
+  private _selectedMailService: SelectedMailService = inject(SelectedMailService);
 
-  readonly $selectedMail = this._selectedMailService.selectedMail;
+  readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
 }

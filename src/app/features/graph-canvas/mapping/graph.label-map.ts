@@ -1,4 +1,4 @@
-export const GRAPH_TRANSLATIONS = {
+export const GRAPH_LABEL_MAP = {
   dateFilterLabel: 'טווח תאריכים',
   mailCountFilterLabel: 'סך מיילים בצומת',
   fullscreen: 'מסך מלא',
@@ -15,5 +15,5 @@ export const GRAPH_TRANSLATIONS = {
   zoomIn: 'הגדל',
   zoomOut: 'הקטן',
   recenter: 'מרכז',
-  loadingGraph: 'טוען גרף...'
+  loadingGraph: 'טוען גרף...',
 };

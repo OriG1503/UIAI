@@ -1,48 +1,50 @@
-import { Component, computed, HostListener, input, signal } from '@angular/core';
+import { Component, computed, HostListener, input, signal, InputSignal, Signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
-import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../constants/saved-search.constants';
-import { SAVED_SEARCH_SKELETON_COUNT } from '../../../constants/search-history-skeleton.constants';
+import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../consts/saved-search.consts';
+import { SAVED_SEARCH_SKELETON_COUNT } from '../../../consts/search-history-skeleton.consts';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-saved-search-list',
   standalone: true,
   imports: [FormsModule, IconComponent],
   templateUrl: './saved-search-list.component.html',
-  styleUrl: './saved-search-list.component.scss'
+  styleUrl: './saved-search-list.component.scss',
 })
 export class SavedSearchListComponent {
-  readonly ICON_NAMES = ICON_NAMES;
-  readonly labels = HOME_LABEL_MAP;
-  readonly MAX_NAME_LENGTH = MAX_SAVED_SEARCH_NAME_LENGTH;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
+  readonly MAX_NAME_LENGTH: number = MAX_SAVED_SEARCH_NAME_LENGTH;
   readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
 
-  $savedSearches = input.required<SavedSearch[]>({ alias: 'savedSearches' });
-  $isLoading = input<boolean>(false, { alias: 'isLoading' });
+  $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
 
-  $nameFilter = signal<string>('');
-  $userFilter = signal<string>('');
-  $openMenuIndex = signal<number>(-1);
-  $editingIndex = signal<number>(-1);
-  $editingName = signal<string>('');
-  $glowingSearch = signal<SavedSearch | null>(null);
+  $nameFilter: WritableSignal<string> = signal<string>('');
+  $userFilter: WritableSignal<string> = signal<string>('');
+  $openMenuIndex: WritableSignal<number> = signal<number>(-1);
+  $editingIndex: WritableSignal<number> = signal<number>(-1);
+  $editingName: WritableSignal<string> = signal<string>('');
+  $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
   private _pendingGlowSearch: SavedSearch | null = null;
 
-  $hasFilters = computed<boolean>(() => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '');
-
-  $hasOwnSearches = computed<boolean>(() =>
-    this.$savedSearches().some((search: SavedSearch) => search.username === CURRENT_USERNAME)
+  $hasFilters: Signal<boolean> = computed<boolean>(
+    () => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '',
   );
 
-  $filteredSavedSearches = computed<SavedSearch[]>(() => {
+  private _$hasOwnSearches: Signal<boolean> = computed<boolean>(() =>
+    this.$savedSearches().some((search: SavedSearch) => search.username === CURRENT_USERNAME),
+  );
+
+  $filteredSavedSearches: Signal<SavedSearch[]> = computed<SavedSearch[]>(() => {
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
     const userFilter: string = this.$userFilter().trim().toLowerCase();
     const isUserFiltering: boolean = userFilter !== '';
     const isSearching: boolean = nameFilter !== '' || isUserFiltering;
-    const hasOwn: boolean = this.$hasOwnSearches();
+    const hasOwn: boolean = this._$hasOwnSearches();
 
     const filtered: SavedSearch[] = this.$savedSearches().filter((search: SavedSearch) => {
       const isNameMatch: boolean = nameFilter === '' || search.name.toLowerCase().includes(nameFilter);
@@ -99,7 +101,7 @@ export class SavedSearchListComponent {
   }
 
   public onToggleMenu(index: number): void {
-    this.$openMenuIndex.update((current: number) => current === index ? -1 : index);
+    this.$openMenuIndex.update((current: number) => (current === index ? -1 : index));
   }
 
   public onDuplicate(search: SavedSearch): void {
@@ -107,7 +109,7 @@ export class SavedSearchListComponent {
       name: search.name,
       username: CURRENT_USERNAME,
       date: new Date(),
-      isPinned: false
+      isPinned: false,
     };
     this.$savedSearches().unshift(duplicated);
     this.$openMenuIndex.set(-1);

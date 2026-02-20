@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, signal, InputSignal, WritableSignal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { SearchBarVariant } from '../../../types/search-bar-variant.type';
 import { TagFilterDropdownComponent } from '../../molecules/tag-filter-dropdown/tag-filter-dropdown.component';
@@ -11,8 +11,9 @@ import { ThemeToggleComponent } from '../../../../../shared/atoms/theme-toggle/t
 import { SpecialCharsWarningComponent } from '../../molecules/special-chars-warning/special-chars-warning.component';
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SearchViewType } from '../../../types/search-view-type.type';
-import { TAG_OPTIONS } from '../../../constants/tag-filter.constants';
-import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constants';
+import { TAG_OPTIONS } from '../../../consts/tag-filter.consts';
+import { SPECIAL_CHARS_PATTERN } from '../../../consts/special-chars.consts';
+import { TagOption } from '../../../types/tag-option.type';
 
 @Component({
   selector: 'app-search-bar',
@@ -26,23 +27,23 @@ import { SPECIAL_CHARS_PATTERN } from '../../../constants/special-chars.constant
     AlertButtonComponent,
     ThemeToggleComponent,
     SpecialCharsWarningComponent,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.scss'
+  styleUrl: './search-bar.component.scss',
 })
 export class SearchBarComponent {
-  $isLeftSectionVisible = input<boolean>(true, { alias: 'isLeftSectionVisible' });
-  $isLogoVisible = input<boolean>(true, { alias: 'isLogoVisible' });
-  $variant = input<SearchBarVariant>('default', { alias: 'variant' });
+  $isLeftSectionVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLeftSectionVisible' });
+  $isLogoVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLogoVisible' });
+  $variant: InputSignal<SearchBarVariant> = input<SearchBarVariant>('default', { alias: 'variant' });
 
-  $selectedTags = signal<string[]>([]);
-  $dateRange = signal<Date[] | null>(null);
-  $searchMode = signal<SearchModeType>('regular');
-  $searchText = signal<string>('');
-  $isSpecialCharsWarningOpen = signal<boolean>(false);
+  $selectedTags: WritableSignal<string[]> = signal<string[]>([]);
+  $dateRange: WritableSignal<Date[] | null> = signal<Date[] | null>(null);
+  $searchMode: WritableSignal<SearchModeType> = signal<SearchModeType>('regular');
+  $searchText: WritableSignal<string> = signal<string>('');
+  $isSpecialCharsWarningOpen: WritableSignal<boolean> = signal<boolean>(false);
 
-  readonly tagOptions = TAG_OPTIONS;
+  readonly tagOptions: TagOption[] = TAG_OPTIONS;
 
   constructor(private _router: Router) {}
 
@@ -63,11 +64,12 @@ export class SearchBarComponent {
   }
 
   public onAdvancedClick(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Advanced query clicked');
   }
 
   public onRun(viewType: SearchViewType): void {
-    const hasSpecialChars = SPECIAL_CHARS_PATTERN.test(this.$searchText());
+    const hasSpecialChars: boolean = SPECIAL_CHARS_PATTERN.test(this.$searchText());
     this._executeSearch(viewType).then(() => {
       if (hasSpecialChars) {
         this.$isSpecialCharsWarningOpen.set(true);
@@ -80,21 +82,24 @@ export class SearchBarComponent {
   }
 
   private _executeSearch(viewType: SearchViewType): Promise<boolean> {
-    const query = {
+    const query: { tags: string[]; dateRange: Date[] | null; searchMode: SearchModeType; searchText: string } = {
       tags: this.$selectedTags(),
       dateRange: this.$dateRange(),
       searchMode: this.$searchMode(),
-      searchText: this.$searchText()
+      searchText: this.$searchText(),
     };
+    // TODO: connect to real service / NgRx action
     console.log('Running search:', query);
     return this._router.navigate(['/search', viewType]);
   }
 
   public onOpenIssue(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open issue clicked');
   }
 
   public onOpenRequest(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open request clicked');
   }
 }

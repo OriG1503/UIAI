@@ -1,4 +1,16 @@
-import { Component, signal, computed, inject, effect, input, output } from '@angular/core';
+import {
+  Component,
+  signal,
+  computed,
+  inject,
+  effect,
+  input,
+  output,
+  InputSignal,
+  OutputEmitterRef,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { Language } from '../../../types/language.type';
 import { MailFilter } from '../../../types/mail-filter.type';
@@ -12,30 +24,31 @@ import { ContextMenuComponent } from '../../molecules/context-menu/context-menu.
 import { TagFilterBarComponent } from '../../atoms/tag-filter-bar/tag-filter-bar.component';
 import { MailSkeletonComponent } from '../../atoms/mail-skeleton/mail-skeleton.component';
 import { GraphSelectionInfo } from '../../../types/graph-selection-info.type';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
-
-type ContextMenuState = {
-  isOpen: boolean;
-  x: number;
-  y: number;
-  mail: Mail | null;
-};
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ContextMenuState } from '../../../types/context-menu-state.type';
 
 @Component({
   selector: 'app-mail-list',
   standalone: true,
-  imports: [MailFilterBarComponent, MailPreviewComponent, ContextMenuComponent, TagFilterBarComponent, IconComponent, MailSkeletonComponent],
+  imports: [
+    MailFilterBarComponent,
+    MailPreviewComponent,
+    ContextMenuComponent,
+    TagFilterBarComponent,
+    IconComponent,
+    MailSkeletonComponent,
+  ],
   templateUrl: './mail-list.component.html',
   styleUrl: './mail-list.component.scss',
 })
 export class MailListComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  private _mailService = inject(MockMailService);
-  private _selectedMailService = inject(SelectedMailService);
-  private _highlightService = inject(HighlightService);
+  private _mailService: MockMailService = inject(MockMailService);
+  private _selectedMailService: SelectedMailService = inject(SelectedMailService);
+  private _highlightService: HighlightService = inject(HighlightService);
 
   constructor() {
     effect(() => {
@@ -57,7 +70,7 @@ export class MailListComponent {
       'Incident',
       'Dashboard',
       'Hila',
-      "Michal"
+      'Michal',
     ]);
 
     this._highlightService.setMailHighlight('mail-001', {
@@ -84,7 +97,11 @@ export class MailListComponent {
     this._highlightService.setMailHighlight('mail-009', {
       searchTerms: ['Incident'],
       bodyWords: ['production', 'downtime', 'resolved', 'incident', 'hila'],
-      attachmentContents: ['incident-report.pdf', 'wmi-provider-host-dump.log', 'cpu-usage-spike-graph-2024hila-01-16.png'],
+      attachmentContents: [
+        'incident-report.pdf',
+        'wmi-provider-host-dump.log',
+        'cpu-usage-spike-graph-2024hila-01-16.png',
+      ],
       attachmentNames: ['cpu-usage-spike-graph-2024hila-01-16.png'],
     });
 
@@ -96,52 +113,54 @@ export class MailListComponent {
     });
   }
 
-  $activeFilter = signal<MailFilter>('all');
-  $sortDirection = signal<SortDirection>('desc');
-  $isSelectMode = signal<boolean>(false);
-  $selectedMails = signal<Set<string>>(new Set());
-  $selectedMailId = signal<string | null>(null);
-  $contextMenu = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
+  $activeFilter: WritableSignal<MailFilter> = signal<MailFilter>('all');
+  $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
+  $isSelectMode: WritableSignal<boolean> = signal<boolean>(false);
+  private _$selectedMails: WritableSignal<Set<string>> = signal<Set<string>>(new Set());
+  private _$selectedMailId: WritableSignal<string | null> = signal<string | null>(null);
+  $contextMenu: WritableSignal<ContextMenuState> = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   private _lastSelectedIndex: number | null = null;
   private _previouslySelectedMail: Mail | null = null;
 
-  $graphSelectionMails = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
-  $graphSelectionInfo = input<GraphSelectionInfo | null>(null, { alias: 'graphSelectionInfo' });
-  $showTagFilter = input<boolean>(false, { alias: 'showTagFilter' });
-  $isFullscreen = input<boolean>(false, { alias: 'isFullscreen' });
-  $isLoading = input<boolean>(false, { alias: 'isLoading' });
-  closeClick = output<void>();
-  fullscreenClick = output<void>();
+  $graphSelectionMails: InputSignal<Mail[] | null> = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
+  $graphSelectionInfo: InputSignal<GraphSelectionInfo | null> = input<GraphSelectionInfo | null>(null, {
+    alias: 'graphSelectionInfo',
+  });
+  $showTagFilter: InputSignal<boolean> = input<boolean>(false, { alias: 'showTagFilter' });
+  $isFullscreen: InputSignal<boolean> = input<boolean>(false, { alias: 'isFullscreen' });
+  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+  closeClick: OutputEmitterRef<void> = output<void>();
+  fullscreenClick: OutputEmitterRef<void> = output<void>();
 
-  readonly inboxTranslations = INBOX_LABEL_MAPPING;
+  readonly inboxTranslations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
-  $allMails = computed(() => this.$graphSelectionMails() ?? this._mailService.mails());
+  private _$allMails: Signal<Mail[]> = computed<Mail[]>(() => this.$graphSelectionMails() ?? this._mailService.mails());
 
-  $filteredMails = computed(() => {
-    const filter = this.$activeFilter();
-    const mails = this.$allMails();
-    const sortDirection = this.$sortDirection();
+  $filteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
+    const filter: MailFilter = this.$activeFilter();
+    const mails: Mail[] = this._$allMails();
+    const sortDirection: SortDirection = this.$sortDirection();
 
-    const filtered = (() => {
+    const filtered: Mail[] = (() => {
       switch (filter) {
         case 'seen':
-          return mails.filter((mail) => mail.seen);
+          return mails.filter((mail: Mail) => mail.seen);
         case 'unseen':
-          return mails.filter((mail) => !mail.seen);
+          return mails.filter((mail: Mail) => !mail.seen);
         default:
           return mails;
       }
     })();
 
-    return [...filtered].sort((a, b) => {
-      const dateA = new Date(a.sent).getTime();
-      const dateB = new Date(b.sent).getTime();
+    return [...filtered].sort((a: Mail, b: Mail) => {
+      const dateA: number = new Date(a.sent).getTime();
+      const dateB: number = new Date(b.sent).getTime();
       return sortDirection === 'desc' ? dateB - dateA : dateA - dateB;
     });
   });
 
-  $selectedCount = computed(() => this.$selectedMails().size);
+  $selectedCount: Signal<number> = computed<number>(() => this._$selectedMails().size);
 
   public onFilterChange(filter: MailFilter): void {
     if (this.$activeFilter() === filter) {
@@ -156,39 +175,42 @@ export class MailListComponent {
   }
 
   public onTranslateClick(language: Language): void {
+    // TODO: connect to real service / NgRx action
     console.log('Translation language selected:', language);
   }
 
   public onExportModeToggle(): void {
-    this.$isSelectMode.update((value) => !value);
+    this.$isSelectMode.update((value: boolean) => !value);
     if (!this.$isSelectMode()) {
-      this.$selectedMails.set(new Set());
+      this._$selectedMails.set(new Set());
       this._lastSelectedIndex = null;
     }
   }
 
   public onExportClick(): void {
-    const selectedMailIds = Array.from(this.$selectedMails());
-    const selectedMailsData = this.$allMails().filter((mail) => selectedMailIds.includes(mail.filename));
+    const selectedMailIds: string[] = Array.from(this._$selectedMails());
+    const selectedMailsData: Mail[] = this._$allMails().filter((mail: Mail) => selectedMailIds.includes(mail.filename));
     console.log('Exporting mails to Excel:', selectedMailsData);
     this.exportToExcel(selectedMailsData);
   }
 
   public exportToExcel(mails: Mail[]): void {
-    const headers = ['Subject', 'From', 'To', 'Date', 'Tag'];
-    const rows = mails.map((mail) => [
+    const headers: string[] = ['Subject', 'From', 'To', 'Date', 'Tag'];
+    const rows: string[][] = mails.map((mail: Mail) => [
       mail.subject,
       mail.from.username || mail.from.mail || '',
-      mail.to.map((t) => t.username || t.mail || '').join('; '),
+      mail.to.map((t: { username?: string; mail?: string }) => t.username || t.mail || '').join('; '),
       new Date(mail.sent).toISOString(),
-      mail.tag
+      mail.tag,
     ]);
 
-    const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(',')).join('\n');
+    const csvContent: string = [headers, ...rows]
+      .map((row: string[]) => row.map((cell: string) => `"${cell}"`).join(','))
+      .join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
+    const blob: Blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link: HTMLAnchorElement = document.createElement('a');
+    const url: string = URL.createObjectURL(blob);
     link.setAttribute('href', url);
     link.setAttribute('download', 'mails_export.csv');
     link.style.visibility = 'hidden';
@@ -202,25 +224,25 @@ export class MailListComponent {
       this._selectedMailService.markMailAsSeen(this._previouslySelectedMail);
     }
     this._previouslySelectedMail = mail;
-    this.$selectedMailId.set(mail.filename);
+    this._$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
 
   public onSelectionChange(mail: Mail, event: { shiftKey: boolean }, index: number): void {
     if (event.shiftKey && this._lastSelectedIndex !== null) {
-      const mails = this.$filteredMails();
-      const start = Math.min(this._lastSelectedIndex, index);
-      const end = Math.max(this._lastSelectedIndex, index);
-      this.$selectedMails.update((selected) => {
-        const newSelected = new Set(selected);
-        mails.slice(start, end + 1).forEach((m) => {
+      const mails: Mail[] = this.$filteredMails();
+      const start: number = Math.min(this._lastSelectedIndex, index);
+      const end: number = Math.max(this._lastSelectedIndex, index);
+      this._$selectedMails.update((selected: Set<string>) => {
+        const newSelected: Set<string> = new Set(selected);
+        mails.slice(start, end + 1).forEach((m: Mail) => {
           newSelected.add(m.filename);
         });
         return newSelected;
       });
     } else {
-      this.$selectedMails.update((selected) => {
-        const newSelected = new Set(selected);
+      this._$selectedMails.update((selected: Set<string>) => {
+        const newSelected: Set<string> = new Set(selected);
         if (newSelected.has(mail.filename)) {
           newSelected.delete(mail.filename);
         } else {
@@ -237,7 +259,7 @@ export class MailListComponent {
       isOpen: true,
       x: event.x,
       y: event.y,
-      mail: event.mail
+      mail: event.mail,
     });
   }
 
@@ -246,7 +268,7 @@ export class MailListComponent {
   }
 
   public onMarkAsUnseen(): void {
-    const mail = this.$contextMenu().mail;
+    const mail: Mail | null = this.$contextMenu().mail;
     if (mail) {
       this._selectedMailService.markMailAsUnseen(mail);
     }
@@ -254,11 +276,11 @@ export class MailListComponent {
   }
 
   public isMailSelected(mail: Mail): boolean {
-    return this.$selectedMails().has(mail.filename);
+    return this._$selectedMails().has(mail.filename);
   }
 
   public isCurrentMail(mail: Mail): boolean {
-    const selectedMail = this._selectedMailService.selectedMail();
+    const selectedMail: Mail | null = this._selectedMailService.selectedMail();
     return selectedMail?.filename === mail.filename;
   }
 

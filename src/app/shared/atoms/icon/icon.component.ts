@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { IconName } from '../../constants/icon-name.constants';
+import { Component, input, InputSignal } from '@angular/core';
+import { IconName } from '../../consts/icon-name.consts';
 
 @Component({
   selector: 'app-icon',
@@ -8,7 +8,7 @@ import { IconName } from '../../constants/icon-name.constants';
   styleUrl: './icon.component.scss',
 })
 export class IconComponent {
-  $name = input.required<IconName>({ alias: 'name' });
-  $size = input<string>('1rem', { alias: 'size' });
-  $color = input<string>('var(--color-dark-navy)', { alias: 'color' });
+  $name: InputSignal<IconName> = input.required<IconName>({ alias: 'name' });
+  $size: InputSignal<string> = input<string>('1rem', { alias: 'size' });
+  $color: InputSignal<string> = input<string>('var(--color-dark-navy)', { alias: 'color' });
 }

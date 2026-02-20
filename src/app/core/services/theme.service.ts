@@ -1,13 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 
-const THEME_STORAGE_KEY = 'darkMode';
+const THEME_STORAGE_KEY: string = 'darkMode';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  $isDarkMode = signal<boolean>(false);
+  $isDarkMode: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor() {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
+    const stored: string | null = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === 'true') {
       this.$isDarkMode.set(true);
       document.documentElement.classList.add('dark-mode');
@@ -15,7 +15,7 @@ export class ThemeService {
   }
 
   toggle(): void {
-    const next = !this.$isDarkMode();
+    const next: boolean = !this.$isDarkMode();
     this.$isDarkMode.set(next);
     if (next) {
       document.documentElement.classList.add('dark-mode');

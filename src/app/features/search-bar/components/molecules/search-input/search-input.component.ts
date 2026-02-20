@@ -1,9 +1,9 @@
-import { Component, input, output, OutputEmitterRef } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, InputSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
-import { SEARCH_TRANSLATIONS } from '../../../mapping/search.label-map';
+import { SEARCH_LABEL_MAP } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-search-input',
@@ -13,13 +13,13 @@ import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants'
   styleUrl: './search-input.component.scss',
 })
 export class SearchInputComponent {
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  $value = input<string>('', { alias: 'value' });
+  $value: InputSignal<string> = input<string>('', { alias: 'value' });
   valueChange: OutputEmitterRef<string> = output<string>();
   advancedClick: OutputEmitterRef<void> = output<void>();
 
-  readonly translations = SEARCH_TRANSLATIONS;
+  readonly translations: typeof SEARCH_LABEL_MAP = SEARCH_LABEL_MAP;
 
   public onValueChange(value: string): void {
     this.valueChange.emit(value);

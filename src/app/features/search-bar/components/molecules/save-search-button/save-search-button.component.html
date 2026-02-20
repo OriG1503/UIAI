@@ -1,10 +1,22 @@
 <div class="save-search-wrapper">
-  <button type="button" class="save-btn" [class.save-btn-open]="$isPopupOpen()" (click)="togglePopup()" [title]="buttonLabels.saveSearch">
-    <app-icon [name]="ICON_NAMES.SAVE" [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'" />
+  <button
+    type="button"
+    class="save-btn"
+    [class.save-btn-open]="$isPopupOpen()"
+    (click)="togglePopup()"
+    [title]="buttonLabels.saveSearch"
+  >
+    <app-icon
+      [name]="ICON_NAMES.SAVE"
+      [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+    />
   </button>
 
   @if ($isPopupOpen()) {
-    <div class="popup-overlay" (click)="closePopup()"></div>
+    <div
+      class="popup-overlay"
+      (click)="closePopup()"
+    ></div>
     <div class="popup-container">
       <input
         type="text"
@@ -13,7 +25,13 @@
         [placeholder]="placeholders.searchName"
         class="name-input"
       />
-      <button type="button" class="save-confirm-btn" (click)="onSave()">{{ common.save }}</button>
+      <button
+        type="button"
+        class="save-confirm-btn"
+        (click)="onSave()"
+      >
+        {{ common.save }}
+      </button>
     </div>
   }
 </div>

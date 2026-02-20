@@ -1,4 +1,4 @@
-export const COMMON_LABEL_MAPPING = {
+export const COMMON_LABEL_MAP = {
   save: 'שמור',
   cancel: 'ביטול',
   close: 'סגור',
@@ -7,20 +7,20 @@ export const COMMON_LABEL_MAPPING = {
   add: 'הוסף',
   remove: 'הסר',
   edit: 'ערוך',
-  delete: 'מחק'
+  delete: 'מחק',
 };
 
-export const PLACEHOLDER_LABEL_MAPPING = {
+export const PLACEHOLDER_LABEL_MAP = {
   selectDate: 'בחר תאריך',
   addEmail: 'הוסף אימייל',
   selectTag: 'בחירת תגית',
   searchTag: 'חפש תגית...',
-  searchName: 'שם החיפוש'
+  searchName: 'שם החיפוש',
 };
 
-export const BUTTON_LABEL_MAPPING = {
+export const BUTTON_LABEL_MAP = {
   saveSearch: 'שמור חיפוש',
   openIssue: 'לפתיחת תקלה',
   openRequest: 'לפתיחת בקשה',
-  openTicket: 'פתיחת פניה'
+  openTicket: 'פתיחת פניה',
 };

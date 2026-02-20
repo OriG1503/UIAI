@@ -9,18 +9,18 @@ import {
   NODE_SIZE_MIN,
   NODE_SIZE_MAX,
   FORCEATLAS2_ITERATIONS,
-  FORCEATLAS2_SETTINGS
-} from '../../features/graph-canvas/constants/graph.constants';
+  FORCEATLAS2_SETTINGS,
+} from '../../features/graph-canvas/consts/graph.consts';
 import { MailUserInfo } from '../../shared/types/mail-user-info.type';
 import { WorkerMail } from '../../features/graph-canvas/types/worker-mail.type';
 
-addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
-  const mails = data;
-  const nodes = new Map<string, GraphNode>();
-  const edgeMap = new Map<string, GraphEdge>();
+addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
+  const mails: WorkerMail[] = data;
+  const nodes: Map<string, GraphNode> = new Map<string, GraphNode>();
+  const edgeMap: Map<string, GraphEdge> = new Map<string, GraphEdge>();
 
   const addNode = (user: MailUserInfo): void => {
-    const email = user.mail ?? '';
+    const email: string = user.mail ?? '';
     if (!email) {
       return;
     }
@@ -30,7 +30,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   };
 
   const incrementNodeCount = (email: string): void => {
-    const node = nodes.get(email);
+    const node: GraphNode | undefined = nodes.get(email);
     if (node) {
       node.mailCount++;
     }
@@ -40,8 +40,8 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
     if (!fromEmail || !toEmail || fromEmail === toEmail) {
       return;
     }
-    const key = `${fromEmail}|${toEmail}`;
-    const existing = edgeMap.get(key);
+    const key: string = `${fromEmail}|${toEmail}`;
+    const existing: GraphEdge | undefined = edgeMap.get(key);
     if (existing) {
       existing.mailCount++;
     } else {
@@ -49,28 +49,28 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
     }
   };
 
-  mails.forEach((mail) => {
-    const fromEmail = mail.from.mail ?? '';
+  mails.forEach((mail: WorkerMail) => {
+    const fromEmail: string = mail.from.mail ?? '';
     addNode(mail.from);
     incrementNodeCount(fromEmail);
 
     const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
 
-    recipients.forEach((recipient) => {
+    recipients.forEach((recipient: MailUserInfo) => {
       addNode(recipient);
       incrementNodeCount(recipient.mail ?? '');
       addEdge(fromEmail, recipient.mail ?? '');
     });
   });
 
-  const edges = Array.from(edgeMap.values());
-  const edgeCounts = edges.map((e) => e.mailCount);
-  const minEdgeCount = edgeCounts.length > 0 ? Math.min(...edgeCounts) : 0;
-  const maxEdgeCount = edgeCounts.length > 0 ? Math.max(...edgeCounts) : 0;
+  const edges: GraphEdge[] = Array.from(edgeMap.values());
+  const edgeCounts: number[] = edges.map((e: GraphEdge) => e.mailCount);
+  const minEdgeCount: number = edgeCounts.length > 0 ? Math.min(...edgeCounts) : 0;
+  const maxEdgeCount: number = edgeCounts.length > 0 ? Math.max(...edgeCounts) : 0;
 
-  edges.forEach((edge) => {
-    const sourceNode = nodes.get(edge.sourceEmail);
-    const targetNode = nodes.get(edge.targetEmail);
+  edges.forEach((edge: GraphEdge) => {
+    const sourceNode: GraphNode | undefined = nodes.get(edge.sourceEmail);
+    const targetNode: GraphNode | undefined = nodes.get(edge.targetEmail);
     if (sourceNode) {
       sourceNode.degree++;
     }
@@ -79,20 +79,20 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
     }
   });
 
-  const graph = new Graph();
-  const maxMailCount = Math.max(...Array.from(nodes.values()).map((n) => n.mailCount), 1);
+  const graph: Graph = new Graph();
+  const maxMailCount: number = Math.max(...Array.from(nodes.values()).map((n: GraphNode) => n.mailCount), 1);
 
-  nodes.forEach((node) => {
-    const sizeRatio = node.mailCount / maxMailCount;
-    const size = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
+  nodes.forEach((node: GraphNode) => {
+    const sizeRatio: number = node.mailCount / maxMailCount;
+    const size: number = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
     graph.addNode(node.email, {
       x: Math.random() * 1000,
       y: Math.random() * 1000,
-      size
+      size,
     });
   });
 
-  edges.forEach((edge) => {
+  edges.forEach((edge: GraphEdge) => {
     if (graph.hasNode(edge.sourceEmail) && graph.hasNode(edge.targetEmail)) {
       graph.addDirectedEdge(edge.sourceEmail, edge.targetEmail);
     }
@@ -100,33 +100,33 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
 
   forceAtlas2.assign(graph, {
     iterations: FORCEATLAS2_ITERATIONS,
-    settings: FORCEATLAS2_SETTINGS
+    settings: FORCEATLAS2_SETTINGS,
   });
 
-  const OVERLAP_PADDING = 4;
-  const OVERLAP_PASSES = 20;
-  const nodeEntries = Array.from(nodes.keys());
+  const OVERLAP_PADDING: number = 4;
+  const OVERLAP_PASSES: number = 20;
+  const nodeEntries: string[] = Array.from(nodes.keys());
 
   Array.from({ length: OVERLAP_PASSES }).forEach(() => {
-    nodeEntries.forEach((nodeA, i) => {
-      const ax = graph.getNodeAttribute(nodeA, 'x') as number;
-      const ay = graph.getNodeAttribute(nodeA, 'y') as number;
-      const aSize = graph.getNodeAttribute(nodeA, 'size') as number;
+    nodeEntries.forEach((nodeA: string, i: number) => {
+      const ax: number = graph.getNodeAttribute(nodeA, 'x') as number;
+      const ay: number = graph.getNodeAttribute(nodeA, 'y') as number;
+      const aSize: number = graph.getNodeAttribute(nodeA, 'size') as number;
 
-      nodeEntries.slice(i + 1).forEach((nodeB) => {
-        const bx = graph.getNodeAttribute(nodeB, 'x') as number;
-        const by = graph.getNodeAttribute(nodeB, 'y') as number;
-        const bSize = graph.getNodeAttribute(nodeB, 'size') as number;
+      nodeEntries.slice(i + 1).forEach((nodeB: string) => {
+        const bx: number = graph.getNodeAttribute(nodeB, 'x') as number;
+        const by: number = graph.getNodeAttribute(nodeB, 'y') as number;
+        const bSize: number = graph.getNodeAttribute(nodeB, 'size') as number;
 
-        const dx = bx - ax;
-        const dy = by - ay;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const minDist = (aSize + bSize) * OVERLAP_PADDING;
+        const dx: number = bx - ax;
+        const dy: number = by - ay;
+        const dist: number = Math.sqrt(dx * dx + dy * dy);
+        const minDist: number = (aSize + bSize) * OVERLAP_PADDING;
 
         if (dist < minDist && dist > 0) {
-          const overlap = (minDist - dist) / 2;
-          const ux = dx / dist;
-          const uy = dy / dist;
+          const overlap: number = (minDist - dist) / 2;
+          const ux: number = dx / dist;
+          const uy: number = dy / dist;
 
           graph.setNodeAttribute(nodeA, 'x', ax - ux * overlap);
           graph.setNodeAttribute(nodeA, 'y', ay - uy * overlap);
@@ -138,7 +138,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
   });
 
   const positions: Record<string, { x: number; y: number }> = {};
-  graph.forEachNode((node, attrs) => {
+  graph.forEachNode((node: string, attrs: Record<string, unknown>) => {
     positions[node] = { x: attrs['x'] as number, y: attrs['y'] as number };
   });
 
@@ -147,7 +147,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>) => {
     edges,
     minEdgeCount,
     maxEdgeCount,
-    positions
+    positions,
   };
 
   postMessage(result);

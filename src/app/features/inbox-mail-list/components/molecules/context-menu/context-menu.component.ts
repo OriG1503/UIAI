@@ -1,11 +1,22 @@
-import { Component, input, output, OutputEmitterRef, HostListener, ElementRef, inject, computed, AfterViewInit, signal } from '@angular/core';
-import { INBOX_LABEL_MAPPING } from '../../../../../shared/mapping/inbox.label-map';
+import {
+  Component,
+  input,
+  output,
+  OutputEmitterRef,
+  HostListener,
+  ElementRef,
+  inject,
+  computed,
+  AfterViewInit,
+  signal,
+  InputSignal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
+import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
-
-const MENU_WIDTH = 160;
-const MENU_HEIGHT = 40;
-const VIEWPORT_PADDING = 8;
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { MENU_WIDTH, MENU_HEIGHT, VIEWPORT_PADDING } from '../../../consts/context-menu.consts';
 
 @Component({
   selector: 'app-context-menu',
@@ -15,22 +26,25 @@ const VIEWPORT_PADDING = 8;
   styleUrl: './context-menu.component.scss',
 })
 export class ContextMenuComponent implements AfterViewInit {
-  private _elementRef = inject(ElementRef);
+  private _elementRef: ElementRef = inject(ElementRef);
 
-  $x = input.required<number>({ alias: 'x' });
-  $y = input.required<number>({ alias: 'y' });
+  $x: InputSignal<number> = input.required<number>({ alias: 'x' });
+  $y: InputSignal<number> = input.required<number>({ alias: 'y' });
   markAsUnseenClick: OutputEmitterRef<void> = output<void>();
   closeMenu: OutputEmitterRef<void> = output<void>();
 
-  readonly ICON_NAMES = ICON_NAMES;
-  readonly translations = INBOX_LABEL_MAPPING;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
-  private _menuDimensions = signal({ width: MENU_WIDTH, height: MENU_HEIGHT });
+  private _menuDimensions: WritableSignal<{ width: number; height: number }> = signal<{
+    width: number;
+    height: number;
+  }>({ width: MENU_WIDTH, height: MENU_HEIGHT });
 
-  $adjustedX = computed(() => {
-    const x = this.$x();
-    const menuWidth = this._menuDimensions().width;
-    const viewportWidth = window.innerWidth;
+  $adjustedX: Signal<number> = computed<number>(() => {
+    const x: number = this.$x();
+    const menuWidth: number = this._menuDimensions().width;
+    const viewportWidth: number = window.innerWidth;
 
     if (x + menuWidth + VIEWPORT_PADDING > viewportWidth) {
       return viewportWidth - menuWidth - VIEWPORT_PADDING;
@@ -38,10 +52,10 @@ export class ContextMenuComponent implements AfterViewInit {
     return x;
   });
 
-  $adjustedY = computed(() => {
-    const y = this.$y();
-    const menuHeight = this._menuDimensions().height;
-    const viewportHeight = window.innerHeight;
+  $adjustedY: Signal<number> = computed<number>(() => {
+    const y: number = this.$y();
+    const menuHeight: number = this._menuDimensions().height;
+    const viewportHeight: number = window.innerHeight;
 
     if (y + menuHeight + VIEWPORT_PADDING > viewportHeight) {
       return viewportHeight - menuHeight - VIEWPORT_PADDING;
@@ -50,11 +64,11 @@ export class ContextMenuComponent implements AfterViewInit {
   });
 
   public ngAfterViewInit(): void {
-    const menuElement = this._elementRef.nativeElement.querySelector('.context-menu');
+    const menuElement: HTMLElement | null = this._elementRef.nativeElement.querySelector('.context-menu');
     if (menuElement) {
       this._menuDimensions.set({
         width: menuElement.offsetWidth,
-        height: menuElement.offsetHeight
+        height: menuElement.offsetHeight,
       });
     }
   }

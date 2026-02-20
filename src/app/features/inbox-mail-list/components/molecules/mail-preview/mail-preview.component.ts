@@ -1,17 +1,18 @@
-import { Component, input, output, OutputEmitterRef, computed, inject } from '@angular/core';
+import { Component, input, output, OutputEmitterRef, computed, inject, InputSignal, Signal } from '@angular/core';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
-import { ICON_NAMES } from '../../../../../shared/constants/icon-name.constants';
+import { HighlightData } from '../../../../../shared/types/highlight-match.type';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 import {
   MAIL_PREVIEW_SUBJECT_MAX_LENGTH,
   MAIL_PREVIEW_TO_MAX_COUNT,
   MAIL_PREVIEW_TO_MAX_LENGTH,
-  MAIL_PREVIEW_CONTENT_MAX_LENGTH
-} from '../../../constants/mail-preview.constants';
+  MAIL_PREVIEW_CONTENT_MAX_LENGTH,
+} from '../../../consts/mail-preview.consts';
 
 export type ContextMenuEvent = {
   mail: Mail;
@@ -27,130 +28,131 @@ export type ContextMenuEvent = {
   styleUrl: './mail-preview.component.scss',
 })
 export class MailPreviewComponent {
-  private _highlightService = inject(HighlightService);
-  private _mailContentService = inject(MockMailContentService);
+  private _highlightService: HighlightService = inject(HighlightService);
+  private _mailContentService: MockMailContentService = inject(MockMailContentService);
 
-  readonly ICON_NAMES = ICON_NAMES;
+  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  $mail = input.required<Mail>({ alias: 'mail' });
-  $isSelectMode = input<boolean>(false, { alias: 'isSelectMode' });
-  $isSelected = input<boolean>(false, { alias: 'isSelected' });
-  $isCurrent = input<boolean>(false, { alias: 'isCurrent' });
+  $mail: InputSignal<Mail> = input.required<Mail>({ alias: 'mail' });
+  $isSelectMode: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelectMode' });
+  $isSelected: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelected' });
+  $isCurrent: InputSignal<boolean> = input<boolean>(false, { alias: 'isCurrent' });
   mailClick: OutputEmitterRef<void> = output<void>();
   selectionChange: OutputEmitterRef<{ shiftKey: boolean }> = output<{ shiftKey: boolean }>();
   contextMenu: OutputEmitterRef<ContextMenuEvent> = output<ContextMenuEvent>();
 
-  $searchTerms = computed(() => this._highlightService.$searchTerms());
+  $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
 
-  $isAttachmentBadgeHighlighted = computed(() =>
-    this._highlightService.hasAnyAttachmentHighlight(this.$mail().filename)
+  $isAttachmentBadgeHighlighted: Signal<boolean> = computed<boolean>(() =>
+    this._highlightService.hasAnyAttachmentHighlight(this.$mail().filename),
   );
 
-  $attachmentCount = computed(() => {
-    const mail = this.$mail();
+  $attachmentCount: Signal<number> = computed<number>(() => {
+    const mail: Mail = this.$mail();
     return mail.attachments?.filename?.length ?? 0;
   });
 
-  $isUnseen = computed(() => {
+  $isUnseen: Signal<boolean> = computed<boolean>(() => {
     return !this.$mail().seen;
   });
 
-  $formattedDate = computed(() => {
-    const mail = this.$mail();
-    const date = new Date(mail.sent);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
+  $formattedDate: Signal<string> = computed<string>(() => {
+    const mail: Mail = this.$mail();
+    const date: Date = new Date(mail.sent);
+    const day: string = date.getDate().toString().padStart(2, '0');
+    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year: number = date.getFullYear();
     return `${day}/${month}/${year}`;
   });
 
-  $formattedTime = computed(() => {
-    const mail = this.$mail();
-    const date = new Date(mail.sent);
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+  $formattedTime: Signal<string> = computed<string>(() => {
+    const mail: Mail = this.$mail();
+    const date: Date = new Date(mail.sent);
+    const hours: string = date.getHours().toString().padStart(2, '0');
+    const minutes: string = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
   });
 
-  $senderDisplay = computed(() => {
-    const from = this.$mail().from;
+  $senderDisplay: Signal<string> = computed<string>(() => {
+    const from: MailUserInfo = this.$mail().from;
     return this._formatUserInfo(from);
   });
 
-  $subjectPreview = computed(() => {
-    const subject = this.$mail().subject;
+  $subjectPreview: Signal<string> = computed<string>(() => {
+    const subject: string = this.$mail().subject;
     if (subject.length <= MAIL_PREVIEW_SUBJECT_MAX_LENGTH) {
       return subject;
     }
     return subject.substring(0, MAIL_PREVIEW_SUBJECT_MAX_LENGTH);
   });
 
-  $isSubjectOverflow = computed(() => {
+  $isSubjectOverflow: Signal<boolean> = computed<boolean>(() => {
     return this.$mail().subject.length > MAIL_PREVIEW_SUBJECT_MAX_LENGTH;
   });
 
-  $isSubjectEllipsisHighlighted = computed(() => {
+  $isSubjectEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
     if (!this.$isSubjectOverflow()) {
       return false;
     }
-    const hiddenPart = this.$mail().subject.substring(MAIL_PREVIEW_SUBJECT_MAX_LENGTH);
+    const hiddenPart: string = this.$mail().subject.substring(MAIL_PREVIEW_SUBJECT_MAX_LENGTH);
     return this._containsSearchTerm(hiddenPart, this.$searchTerms());
   });
 
-  $toAllFormatted = computed(() => {
-    return this.$mail().to.map((user) => this._formatUserInfo(user));
+  private _$toAllFormatted: Signal<string[]> = computed<string[]>(() => {
+    return this.$mail().to.map((user: MailUserInfo) => this._formatUserInfo(user));
   });
 
-  $toVisibleText = computed(() => {
-    return this.$toAllFormatted().slice(0, MAIL_PREVIEW_TO_MAX_COUNT).join(', ');
+  private _$toVisibleText: Signal<string> = computed<string>(() => {
+    return this._$toAllFormatted().slice(0, MAIL_PREVIEW_TO_MAX_COUNT).join(', ');
   });
 
-  $toDisplayText = computed(() => {
-    const visible = this.$toVisibleText();
+  $toDisplayText: Signal<string> = computed<string>(() => {
+    const visible: string = this._$toVisibleText();
     if (visible.length <= MAIL_PREVIEW_TO_MAX_LENGTH) {
       return visible;
     }
     return visible.substring(0, MAIL_PREVIEW_TO_MAX_LENGTH);
   });
 
-  $isToOverflow = computed(() => {
-    return this.$mail().to.length > MAIL_PREVIEW_TO_MAX_COUNT || this.$toVisibleText().length > MAIL_PREVIEW_TO_MAX_LENGTH;
+  $isToOverflow: Signal<boolean> = computed<boolean>(() => {
+    return (
+      this.$mail().to.length > MAIL_PREVIEW_TO_MAX_COUNT || this._$toVisibleText().length > MAIL_PREVIEW_TO_MAX_LENGTH
+    );
   });
 
-  $isToEllipsisHighlighted = computed(() => {
+  $isToEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
     if (!this.$isToOverflow()) {
       return false;
     }
-    const allFormatted = this.$toAllFormatted();
-    const hiddenAddresses = allFormatted.slice(MAIL_PREVIEW_TO_MAX_COUNT).join(' ');
-    const visibleText = this.$toVisibleText();
-    const hiddenChars = visibleText.length > MAIL_PREVIEW_TO_MAX_LENGTH
-      ? visibleText.substring(MAIL_PREVIEW_TO_MAX_LENGTH)
-      : '';
-    const hiddenText = [hiddenChars, hiddenAddresses].filter((s) => s.length > 0).join(' ');
+    const allFormatted: string[] = this._$toAllFormatted();
+    const hiddenAddresses: string = allFormatted.slice(MAIL_PREVIEW_TO_MAX_COUNT).join(' ');
+    const visibleText: string = this._$toVisibleText();
+    const hiddenChars: string =
+      visibleText.length > MAIL_PREVIEW_TO_MAX_LENGTH ? visibleText.substring(MAIL_PREVIEW_TO_MAX_LENGTH) : '';
+    const hiddenText: string = [hiddenChars, hiddenAddresses].filter((s: string) => s.length > 0).join(' ');
     return this._containsSearchTerm(hiddenText, this.$searchTerms());
   });
 
-  $contentPreview = computed(() => {
-    const mail = this.$mail();
-    const html = this._mailContentService.getMailContent(mail.filename);
-    const div = document.createElement('div');
+  $contentPreview: Signal<string> = computed<string>(() => {
+    const mail: Mail = this.$mail();
+    const html: string = this._mailContentService.getMailContent(mail.filename);
+    const div: HTMLDivElement = document.createElement('div');
     div.innerHTML = html;
-    const fullText = (div.textContent || '').replace(/\s+/g, ' ').trim();
+    const fullText: string = (div.textContent || '').replace(/\s+/g, ' ').trim();
 
     if (!fullText) {
       return '';
     }
 
-    const searchTerms = this.$searchTerms();
-    const highlightData = this._highlightService.getMailHighlight(mail.filename);
-    const bodyWords = highlightData?.bodyWords ?? [];
-    const allTerms = [...new Set([...searchTerms, ...bodyWords])];
+    const searchTerms: string[] = this.$searchTerms();
+    const highlightData: HighlightData | undefined = this._highlightService.getMailHighlight(mail.filename);
+    const bodyWords: string[] = highlightData?.bodyWords ?? [];
+    const allTerms: string[] = [...new Set([...searchTerms, ...bodyWords])];
 
     if (allTerms.length > 0) {
-      const lowerText = fullText.toLowerCase();
-      const matchIndex = allTerms.reduce((earliest, term) => {
-        const idx = lowerText.indexOf(term.toLowerCase());
+      const lowerText: string = fullText.toLowerCase();
+      const matchIndex: number = allTerms.reduce((earliest: number, term: string) => {
+        const idx: number = lowerText.indexOf(term.toLowerCase());
         if (idx === -1) {
           return earliest;
         }
@@ -158,7 +160,7 @@ export class MailPreviewComponent {
       }, -1);
 
       if (matchIndex !== -1) {
-        const start = Math.max(0, matchIndex - Math.floor(MAIL_PREVIEW_CONTENT_MAX_LENGTH / 4));
+        const start: number = Math.max(0, matchIndex - Math.floor(MAIL_PREVIEW_CONTENT_MAX_LENGTH / 4));
         return (start > 0 ? '...' : '') + fullText.substring(start, start + MAIL_PREVIEW_CONTENT_MAX_LENGTH);
       }
     }
@@ -180,7 +182,7 @@ export class MailPreviewComponent {
     if (!text || terms.length === 0) {
       return false;
     }
-    return terms.some((term) => text.toLowerCase().includes(term.toLowerCase()));
+    return terms.some((term: string) => text.toLowerCase().includes(term.toLowerCase()));
   }
 
   public onMailClick(event?: MouseEvent): void {
@@ -196,7 +198,7 @@ export class MailPreviewComponent {
     this.contextMenu.emit({
       mail: this.$mail(),
       x: event.clientX,
-      y: event.clientY
+      y: event.clientY,
     });
   }
 }

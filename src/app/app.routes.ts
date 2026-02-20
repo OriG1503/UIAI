@@ -1,21 +1,21 @@
 import { Routes } from '@angular/router';
-import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
+import { SearchViewComponent } from './features/search-view/components/organisms/search-view/search-view.component';
 import { HomeComponent } from './features/home/components/organisms/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: '',
-    component: AppLayoutComponent,
+    component: SearchViewComponent,
     children: [
       {
         path: 'search',
-        loadChildren: () => import('./core/routes/search.routes').then((m) => m.SEARCH_ROUTES)
-      }
-    ]
-  }
+        loadChildren: () => import('./core/routes/search.routes').then((m) => m.SEARCH_ROUTES),
+      },
+    ],
+  },
 ];
