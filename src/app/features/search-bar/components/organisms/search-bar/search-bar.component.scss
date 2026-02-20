@@ -11,8 +11,11 @@
     border-bottom: none;
     box-shadow: none;
     background-color: transparent;
-    width: max-content;
+    width: 100%;
 
+    .section-middle {
+      gap: 2.5rem;
+    }
   }
 }
 

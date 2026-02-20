@@ -32,7 +32,7 @@ export class VerbalViewComponent {
   ];
 
   readonly translations = DATE_RANGE_TRANSLATIONS;
-  readonly maxAmount = MAX_VERBAL_DATE_AMOUNT;
+  readonly maxAmount: number | null = MAX_VERBAL_DATE_AMOUNT;
 
   public decrementAmount(): void {
     const current = this.$verbalAmount();
@@ -44,7 +44,7 @@ export class VerbalViewComponent {
 
   public incrementAmount(): void {
     const current = this.$verbalAmount();
-    if (current < MAX_VERBAL_DATE_AMOUNT) {
+    if (this.maxAmount === null || current < this.maxAmount) {
       this.$verbalAmount.set(current + 1);
       this._emitChange();
     }
@@ -54,7 +54,7 @@ export class VerbalViewComponent {
     const input = event.target as HTMLInputElement;
     const parsed = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
-      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, Math.min(MAX_VERBAL_DATE_AMOUNT, parsed));
+      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, this.maxAmount !== null ? Math.min(this.maxAmount, parsed) : parsed);
       this.$verbalAmount.set(clamped);
       this._emitChange();
     }

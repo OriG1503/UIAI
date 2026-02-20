@@ -81,7 +81,11 @@ export class DateRangePickerComponent {
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: Event): void {
-    if (!this._elementRef.nativeElement.contains(event.target)) {
+    const target = event.target as HTMLElement;
+    if (!target.isConnected) {
+      return;
+    }
+    if (!this._elementRef.nativeElement.contains(target)) {
       this.$isPopupOpen.set(false);
     }
   }

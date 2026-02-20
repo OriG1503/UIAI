@@ -48,7 +48,7 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
     height: var(--input-height);
     min-width: 12.5rem;
     padding: 0 0.75rem;
-    border: 1px solid var(--color-dark-navy);
+    border: none;
     border-radius: var(--border-radius);
     background-color: var(--color-white);
     color: var(--color-dark-navy);
@@ -72,17 +72,11 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
 
   .tag-btn-open {
     background-color: var(--color-dark-navy);
-    border-color: var(--color-dark-navy);
     color: var(--color-white);
-
-    &:hover {
-      border-color: var(--color-dark-navy);
-    }
   }
 
   .tag-btn-active {
     background-color: var(--color-white);
-    border-color: var(--color-dark-navy);
     color: var(--color-dark-navy);
   }
 
