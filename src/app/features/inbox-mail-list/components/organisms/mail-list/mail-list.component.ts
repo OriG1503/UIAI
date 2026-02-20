@@ -175,6 +175,7 @@ export class MailListComponent {
   }
 
   public onTranslateClick(language: Language): void {
+    // TODO: connect to real service / NgRx action
     console.log('Translation language selected:', language);
   }
 

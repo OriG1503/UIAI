@@ -1,3 +1,6 @@
+// TODO: Replace with real MailContentService that fetches from the NestJS HTTP server.
+// Contract: must expose `getMailContent(filename: string): string`
+// API: GET /mails/:filename/content (returns HTML body string)
 import { Injectable } from '@angular/core';
 
 export type MailContent = {

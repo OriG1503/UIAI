@@ -1,3 +1,7 @@
+// TODO: Replace with real GraphMailService that fetches from the NestJS HTTP server.
+// Contract: must expose `mails: Signal<Mail[]>`,
+//           `markAsSeen(filename: string): void`, `markAsUnseen(filename: string): void`
+// API: GET /graph/mails (returns the full mail dataset used for graph visualization)
 import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
 import { MailUserInfo } from '../../shared/types/mail-user-info.type';

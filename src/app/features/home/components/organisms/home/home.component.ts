@@ -23,10 +23,12 @@ export class HomeComponent {
   $isLastSearchLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   public onOpenIssue(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open issue clicked');
   }
 
   public onOpenRequest(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open request clicked');
   }
 }

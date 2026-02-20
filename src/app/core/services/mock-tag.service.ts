@@ -1,3 +1,7 @@
+// TODO: Replace with real TagService that fetches from the NestJS HTTP server.
+// Contract: must expose `$isLoading: WritableSignal<boolean>`, `$filteredTags: WritableSignal<TagOption[]>`,
+//           `search(searchText: string): void`, `reset(): void`
+// API: GET /tags?q=<searchText>
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { TagOption } from '../../features/search-bar/types/tag-option.type';
 import { TAG_OPTIONS } from '../../features/search-bar/consts/tag-filter.consts';

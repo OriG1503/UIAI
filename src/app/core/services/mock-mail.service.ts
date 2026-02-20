@@ -1,3 +1,7 @@
+// TODO: Replace with real MailService that fetches from the NestJS HTTP server.
+// Contract: must expose `mails: Signal<Mail[]>`, `userEmail: string`,
+//           `markAsSeen(filename: string): void`, `markAsUnseen(filename: string): void`
+// API: GET /mails, PATCH /mails/:filename/seen, PATCH /mails/:filename/unseen
 import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
 
