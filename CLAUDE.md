@@ -90,6 +90,7 @@ src/app/
 - **Constants**: UPPER_SNAKE_CASE (e.g., `MAX_VERBAL_DATE_AMOUNT`)
 - **Translation keys**: camelCase matching the context (e.g., `dateRangeLabels`, `buttonLabels`)
 - **Translation files**: `*.label-map.ts` in `mapping/` folders (e.g., `search.label-map.ts`)
+- **Label map typing**: Type as `typeof LABEL_MAP` (not `Record<string, string>`) when accessed in templates via dot-notation — this preserves autocomplete and type safety. Use `Record<UnionType, string>` only when the map is keyed by a discriminated union type for programmatic lookup.
 
 ## Code Style
 - **No** `let`, `for`, `while` - use `forEach`, `map`, `filter`, etc.
@@ -127,15 +128,18 @@ src/app/
 
 ## Routing
 - `/` → `HomeComponent` (search history landing page: last searches + saved searches)
-- `/search/*` → `SearchViewComponent` (organism in `features/search-view`: SearchBar + RouterOutlet), with nested child routes:
+- `/search/*` → `SearchViewComponent` (pure layout shell in `features/search-view`: renders `SearchBarComponent` + `<router-outlet>`), with nested child routes:
   - `/search/list` → `ListViewComponent` (mail list + content split view)
   - `/search/graph` → `GraphViewComponent` (graph visualization + drawer + filters)
+  - `/search` → redirects to `/search/list`
+
+Child routes are defined in `core/routes/search.routes.ts`.
 
 ## Core Services (in `core/services/`)
 - `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
 - `MockMailContentService` - Email body content retrieval
 - `MockTagService` - Tag CRUD operations
-- `SelectedMailService` - Shared state for currently selected mail and navigation (bridges regular vs. graph mails)
+- `SelectedMailService` - Shared state for currently selected mail and navigation. Dispatches `markAsSeen` to the correct service based on filename prefix: filenames starting with `'graph-mail-'` route to `MockGraphMailService`, all others to `MockMailService`
 - `HighlightService` - Search term highlighting: per-mail highlight state, `highlightText()` and `highlightBodyContent()` for safe HTML marking
 - `MockGraphMailService` - Generates ~1000+ mock mails with 40 users for graph visualization
 - `GraphDataService` - Builds graph from `Mail[]`: nodes (users), edges (mail connections). Provides `getMailsForNode()` and `getMailsForEdge()`

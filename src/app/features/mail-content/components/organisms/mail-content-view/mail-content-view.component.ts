@@ -88,16 +88,19 @@ export class MailContentViewComponent {
   public onDownloadMail(): void {
     const mail: Mail | null = this.$mail();
     if (mail) {
+      // TODO: connect to real service / NgRx action
       console.log('Downloading mail:', mail.subject);
     }
   }
 
   public onDownloadAllAttachments(): void {
     const attachments: string[] = this.$attachments();
+    // TODO: connect to real service / NgRx action
     console.log('Downloading all attachments:', attachments);
   }
 
   public onDownloadAttachment(filename: string): void {
+    // TODO: connect to real service / NgRx action
     console.log('Downloading attachment:', filename);
   }
 

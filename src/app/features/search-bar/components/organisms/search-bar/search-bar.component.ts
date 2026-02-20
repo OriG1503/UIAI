@@ -64,6 +64,7 @@ export class SearchBarComponent {
   }
 
   public onAdvancedClick(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Advanced query clicked');
   }
 
@@ -87,15 +88,18 @@ export class SearchBarComponent {
       searchMode: this.$searchMode(),
       searchText: this.$searchText(),
     };
+    // TODO: connect to real service / NgRx action
     console.log('Running search:', query);
     return this._router.navigate(['/search', viewType]);
   }
 
   public onOpenIssue(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open issue clicked');
   }
 
   public onOpenRequest(): void {
+    // TODO: connect to real service / NgRx action
     console.log('Open request clicked');
   }
 }
