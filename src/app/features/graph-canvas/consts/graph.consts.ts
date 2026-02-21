@@ -5,20 +5,20 @@ export const NODE_SIZE_DEFAULT: number = 6;
 export const EDGE_SIZE_MIN: number = 1;
 export const EDGE_SIZE_MAX: number = 6;
 
-export const NODE_COLOR_DEFAULT: string = '#8fabeb';
-export const NODE_COLOR_SELECTED: string = '#ca899b';
-export const NODE_COLOR_NEIGHBOR: string = '#ca899b';
-export const NODE_COLOR_DIMMED: string = '#9a9a9aB3';
-export const NODE_COLOR_HOVER: string = '#ca899b';
+export const NODE_COLOR_DEFAULT: string = '#03153a';
+export const NODE_COLOR_SELECTED: string = '#e74b3b';
+export const NODE_COLOR_NEIGHBOR: string = '#1ecc2a';
+export const NODE_COLOR_DIMMED: string = '#5756568a';
+export const NODE_COLOR_HOVER: string = '#dc5d4f';
 export const NODE_GAP_COLOR: string = '#d9d9d9';
 
 export const NODE_BORDER_RATIO: number = 0.05;
 export const NODE_GAP_RATIO: number = 0.06;
 
-export const EDGE_COLOR_DEFAULT: string = '#8fabeb';
-export const EDGE_COLOR_SELECTED: string = '#ca899b';
-export const EDGE_COLOR_HOVER: string = '#ca899b';
-export const EDGE_COLOR_DIMMED: string = '#9a9a9aB3';
+export const EDGE_COLOR_DEFAULT: string = '#03153a';
+export const EDGE_COLOR_SELECTED: string = '#e74b3b';
+export const EDGE_COLOR_HOVER: string = '#dc5d4f';
+export const EDGE_COLOR_DIMMED: string = '#5756568a';
 
 export const LABEL_COLOR: string = '#000000';
 export const LABEL_COLOR_DEFAULT: string = '#03153a';

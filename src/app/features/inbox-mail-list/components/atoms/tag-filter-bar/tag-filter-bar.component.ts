@@ -24,7 +24,7 @@ export class TagFilterBarComponent {
     'Sales',
   ];
 
-  $selectedTags: WritableSignal<Set<string>> = signal<Set<string>>(new Set());
+  private _$selectedTag: WritableSignal<string> = signal<string>(this.tags[0]);
 
   public onScrollLeft(): void {
     this._scrollContainer.nativeElement.scrollLeft -= TAG_SCROLL_AMOUNT;
@@ -35,18 +35,10 @@ export class TagFilterBarComponent {
   }
 
   public onTagClick(tag: string): void {
-    this.$selectedTags.update((selected: Set<string>) => {
-      const newSelected: Set<string> = new Set(selected);
-      if (newSelected.has(tag)) {
-        newSelected.delete(tag);
-      } else {
-        newSelected.add(tag);
-      }
-      return newSelected;
-    });
+    this._$selectedTag.set(tag);
   }
 
   public isTagSelected(tag: string): boolean {
-    return this.$selectedTags().has(tag);
+    return this._$selectedTag() === tag;
   }
 }
