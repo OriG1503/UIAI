@@ -70,24 +70,6 @@
     flex-direction: column;
     gap: 0.125rem;
 
-    .mail-meta {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.25rem;
-
-      .mail-date {
-        font-size: 0.75rem;
-        color: var(--color-dark-navy);
-      }
-
-      .mail-time {
-        font-size: 0.75rem;
-        color: var(--color-dark-navy);
-      }
-    }
-
     .mail-subject-row {
       display: flex;
       align-items: center;
@@ -140,12 +122,28 @@
       }
     }
 
-    .mail-from {
-      font-size: 0.75rem;
-      color: var(--color-blue);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .mail-sender-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .mail-from {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.75rem;
+        color: var(--color-blue);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mail-date,
+      .mail-time {
+        font-size: 0.75rem;
+        color: var(--color-dark-navy);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
     }
 
     .mail-to {
