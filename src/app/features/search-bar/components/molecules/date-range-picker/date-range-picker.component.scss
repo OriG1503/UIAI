@@ -12,7 +12,7 @@ app-date-range-picker {
       height: var(--input-height);
       min-width: 12.5rem;
       padding: 0 0.75rem;
-      border: 1px solid var(--color-dark-navy);
+      border: none;
       border-radius: var(--border-radius);
       background-color: var(--color-white);
       color: var(--color-dark-navy);
@@ -29,16 +29,10 @@ app-date-range-picker {
 
     .date-btn-open {
       background-color: var(--color-dark-navy);
-      border-color: var(--color-dark-navy);
       color: var(--color-white);
-
-      &:hover {
-        border-color: var(--color-dark-navy);
-      }
     }
 
     .date-btn-has-data {
-      border-color: var(--color-dark-navy);
     }
 
     .popup-container {
@@ -67,7 +61,7 @@ app-date-range-picker {
 
         .toggle-btn {
           padding: 0.3rem 1.25rem;
-          border: 2px solid transparent;
+          border: none;
           border-radius: 1.25rem;
           background-color: transparent;
           color: var(--color-dark-navy);
@@ -79,7 +73,6 @@ app-date-range-picker {
         }
 
         .toggle-btn-active {
-          border-color: var(--color-dark-navy);
           background-color: var(--color-white);
         }
       }

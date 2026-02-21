@@ -9,7 +9,7 @@ import {
   MAX_VERBAL_DATE_AMOUNT,
   MIN_VERBAL_DATE_AMOUNT,
 } from '../../../consts/date-range.consts';
-import { TIME_UNIT_LABEL_MAP, DATE_RANGE_LABEL_MAP } from '../../../mapping/date-range.label-map';
+import { TIME_UNIT_LABEL_MAP, DATE_RANGE_LABEL_MAP, DATE_RANGE_MODE_LABEL_MAP } from '../../../mapping/date-range.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
@@ -36,8 +36,8 @@ export class VerbalViewComponent {
     { value: 'years', label: TIME_UNIT_LABEL_MAP.years },
   ];
 
-  readonly translations: typeof DATE_RANGE_LABEL_MAP = DATE_RANGE_LABEL_MAP;
-  readonly maxAmount: typeof MAX_VERBAL_DATE_AMOUNT = MAX_VERBAL_DATE_AMOUNT;
+  readonly translations = DATE_RANGE_LABEL_MAP;
+  readonly maxAmount: number | null = MAX_VERBAL_DATE_AMOUNT;
 
   public decrementAmount(): void {
     const current: number = this.$verbalAmount();
@@ -48,8 +48,8 @@ export class VerbalViewComponent {
   }
 
   public incrementAmount(): void {
-    const current: number = this.$verbalAmount();
-    if (current < MAX_VERBAL_DATE_AMOUNT) {
+    const current = this.$verbalAmount();
+    if (this.maxAmount === null || current < this.maxAmount) {
       this.$verbalAmount.set(current + 1);
       this._emitChange();
     }
@@ -59,7 +59,7 @@ export class VerbalViewComponent {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     const parsed: number = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
-      const clamped: number = Math.max(MIN_VERBAL_DATE_AMOUNT, Math.min(MAX_VERBAL_DATE_AMOUNT, parsed));
+      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, this.maxAmount !== null ? Math.min(this.maxAmount, parsed) : parsed);
       this.$verbalAmount.set(clamped);
       this._emitChange();
     }

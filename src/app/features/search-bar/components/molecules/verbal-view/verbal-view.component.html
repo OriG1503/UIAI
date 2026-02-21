@@ -14,7 +14,7 @@
           type="button"
           class="stepper-arrow-btn"
           (click)="incrementAmount()"
-          [disabled]="$verbalAmount() >= maxAmount"
+          [disabled]="maxAmount !== null && $verbalAmount() >= maxAmount"
         >
           <app-icon
             [name]="ICON_NAMES.CHEVRON_UP"

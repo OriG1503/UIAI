@@ -191,6 +191,34 @@ The app is globally RTL (`dir="rtl"`), but email-related content (addresses, met
 - **Selected**: `var(--color-option-selected)` — light red tint (`rgba(231, 75, 59, 0.18)`)
 - All dropdown/popup option lists must use these colors consistently (no `--color-light-gray` for hover, no `color: blue + bold` for selected)
 
+## PrimeNG Override Patterns
+
+### Button hover background
+Class-based selectors (even with higher specificity) can be beaten by PrimeNG Aura's button hover rules. **Always use CSS custom properties** set on a container element instead:
+```scss
+.p-datepicker {
+  --p-button-text-hover-background: rgba(231, 75, 59, 0.15);
+  --p-button-text-primary-hover-background: rgba(231, 75, 59, 0.15);
+  --p-button-text-primary-color: var(--color-dark-navy);
+  --p-button-text-hover-color: var(--color-dark-navy);
+}
+```
+Cover both `--p-button-text-hover-background` (default) and `--p-button-text-primary-hover-background` (primary-variant) since which one PrimeNG applies depends on the button's color variant.
+
+### HostListener + PrimeNG DOM re-renders
+When a `@HostListener('document:click')` is used to close a popup, PrimeNG components that switch views (e.g. DatePicker switching to month/year picker) destroy the clicked element before the listener fires. The detached element is no longer `contains()`-able, causing a false popup-close. Guard with:
+```ts
+public onDocumentClick(event: Event): void {
+  const target = event.target as HTMLElement;
+  if (!target.isConnected) {
+    return;
+  }
+  if (!this._elementRef.nativeElement.contains(target)) {
+    this.$isPopupOpen.set(false);
+  }
+}
+```
+
 ## Core Types
 
 ```typescript
