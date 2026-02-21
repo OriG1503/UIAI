@@ -24,11 +24,6 @@
   }
 
   <div class="mail-content">
-    <div class="mail-meta">
-      <span class="mail-date">{{ $formattedDate() }}</span>
-      <span class="mail-time">{{ $formattedTime() }}</span>
-    </div>
-
     <div class="mail-subject-row">
       <div
         class="mail-subject"
@@ -57,11 +52,15 @@
       }
     </div>
 
-    <div
-      class="mail-from"
-      dir="auto"
-      [innerHTML]="$senderDisplay() | highlightText: $searchTerms()"
-    ></div>
+    <div class="mail-sender-row">
+      <div
+        class="mail-from"
+        dir="auto"
+        [innerHTML]="$senderDisplay() | highlightText: $searchTerms()"
+      ></div>
+      <span class="mail-date">{{ $formattedDate() }}</span>
+      <span class="mail-time">{{ $formattedTime() }}</span>
+    </div>
 
     <div class="mail-to">
       <app-icon

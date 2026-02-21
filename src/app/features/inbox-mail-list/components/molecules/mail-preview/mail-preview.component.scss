@@ -15,7 +15,7 @@
   direction: ltr;
 
   &:hover {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-option-hover);
   }
 
   &.unseen {
@@ -29,11 +29,11 @@
   }
 
   &.selected {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-surface-selected);
   }
 
   &.current {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-surface-selected);
   }
 
   .unseen-indicator {
@@ -70,24 +70,6 @@
     flex-direction: column;
     gap: 0.125rem;
 
-    .mail-meta {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.25rem;
-
-      .mail-date {
-        font-size: 0.75rem;
-        color: var(--color-dark-navy);
-      }
-
-      .mail-time {
-        font-size: 0.75rem;
-        color: var(--color-dark-navy);
-      }
-    }
-
     .mail-subject-row {
       display: flex;
       align-items: center;
@@ -97,14 +79,14 @@
         flex: 1;
         min-width: 0;
         font-size: 0.9125rem;
-        font-weight: 500;
+        font-weight: 600;
         color: var(--color-dark-navy);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
         .ellipsis {
-          color: var(--color-navy-gray);
+          color: var(--color-dark-navy);
 
           &.highlighted {
             background-color: var(--color-yellow);
@@ -126,7 +108,7 @@
           min-width: 1.125rem;
           height: 1.125rem;
           padding: 0 0.25rem;
-          background-color: var(--color-light-gray);
+          background-color: var(--color-badge-bg);
           border-radius: 50%;
           font-size: 0.6875rem;
           font-weight: 700;
@@ -140,12 +122,28 @@
       }
     }
 
-    .mail-from {
-      font-size: 0.75rem;
-      color: var(--color-blue);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .mail-sender-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .mail-from {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.75rem;
+        color: var(--color-blue);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mail-date,
+      .mail-time {
+        font-size: 0.75rem;
+        color: var(--color-dark-navy);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
     }
 
     .mail-to {

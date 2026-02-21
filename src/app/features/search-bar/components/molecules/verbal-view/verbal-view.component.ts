@@ -9,7 +9,10 @@ import {
   MAX_VERBAL_DATE_AMOUNT,
   MIN_VERBAL_DATE_AMOUNT,
 } from '../../../consts/date-range.consts';
-import { TIME_UNIT_LABEL_MAP, DATE_RANGE_LABEL_MAP, DATE_RANGE_MODE_LABEL_MAP } from '../../../mapping/date-range.label-map';
+import {
+  TIME_UNIT_LABEL_MAP,
+  DATE_RANGE_LABEL_MAP,
+} from '../../../mapping/date-range.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
@@ -59,7 +62,10 @@ export class VerbalViewComponent {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     const parsed: number = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
-      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, this.maxAmount !== null ? Math.min(this.maxAmount, parsed) : parsed);
+      const clamped = Math.max(
+        MIN_VERBAL_DATE_AMOUNT,
+        this.maxAmount !== null ? Math.min(this.maxAmount, parsed) : parsed,
+      );
       this.$verbalAmount.set(clamped);
       this._emitChange();
     }
