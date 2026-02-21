@@ -15,7 +15,7 @@
   direction: ltr;
 
   &:hover {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-option-hover);
   }
 
   &.unseen {
@@ -29,11 +29,11 @@
   }
 
   &.selected {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-surface-selected);
   }
 
   &.current {
-    background-color: var(--color-surface-hover);
+    background-color: var(--color-surface-selected);
   }
 
   .unseen-indicator {

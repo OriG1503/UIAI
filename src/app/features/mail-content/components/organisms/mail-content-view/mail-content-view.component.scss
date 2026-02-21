@@ -9,7 +9,7 @@
   height: 100%;
   background-color: var(--color-white);
   border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--box-shadow-panel);
   overflow: hidden;
 }
 
@@ -20,7 +20,7 @@
   height: 100%;
   background-color: var(--color-white);
   border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--box-shadow-panel);
 
   span {
     font-size: 1rem;
