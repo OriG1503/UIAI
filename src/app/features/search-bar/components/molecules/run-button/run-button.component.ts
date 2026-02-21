@@ -1,36 +1,27 @@
-import { Component, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
+import { Component, output, OutputEmitterRef } from '@angular/core';
 import { SearchViewType } from '../../../types/search-view-type.type';
 import { SEARCH_VIEW_LABEL_MAP, SEARCH_LABEL_MAP } from '../../../mapping/search.label-map';
-import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
+import { HoverPopupComponent } from '../../../../../shared/molecules/hover-popup/hover-popup.component';
+import { PopupOption } from '../../../../../shared/types/popup-option.type';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 
 @Component({
   selector: 'app-run-button',
   standalone: true,
-  imports: [IconComponent],
+  imports: [HoverPopupComponent],
   templateUrl: './run-button.component.html',
   styleUrl: './run-button.component.scss',
 })
 export class RunButtonComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  readonly translations: typeof SEARCH_LABEL_MAP = SEARCH_LABEL_MAP;
+  readonly popupOptions: PopupOption[] = [
+    { value: 'list', label: SEARCH_VIEW_LABEL_MAP.list, icon: ICON_NAMES.LIST },
+    { value: 'graph', label: SEARCH_VIEW_LABEL_MAP.graph, icon: ICON_NAMES.CHART_BAR },
+  ];
 
   run: OutputEmitterRef<SearchViewType> = output<SearchViewType>();
 
-  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
-
-  readonly viewLabels: typeof SEARCH_VIEW_LABEL_MAP = SEARCH_VIEW_LABEL_MAP;
-  readonly translations: typeof SEARCH_LABEL_MAP = SEARCH_LABEL_MAP;
-
-  public openPopup(): void {
-    this.$isPopupOpen.set(true);
-  }
-
-  public closePopup(): void {
-    this.$isPopupOpen.set(false);
-  }
-
-  public selectOption(viewType: SearchViewType): void {
-    this.run.emit(viewType);
-    this.closePopup();
+  public onViewSelect(value: string): void {
+    this.run.emit(value as SearchViewType);
   }
 }

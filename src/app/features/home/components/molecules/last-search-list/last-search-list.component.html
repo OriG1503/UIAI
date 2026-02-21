@@ -35,15 +35,22 @@
             >{{ formatTime(search.date) }}</span
           >
 
-          <button
-            type="button"
-            class="play-btn"
-          >
-            <app-icon
-              [name]="ICON_NAMES.PLAY"
-              size="0.7rem"
-            />
-          </button>
+          <div class="play-btn-wrapper">
+            <app-hover-popup
+              [options]="playOptions"
+              (optionSelect)="onPlaySelect($event)"
+            >
+              <button
+                type="button"
+                class="play-btn"
+              >
+                <app-icon
+                  [name]="ICON_NAMES.PLAY"
+                  size="0.7rem"
+                />
+              </button>
+            </app-hover-popup>
+          </div>
         </div>
       </div>
     }

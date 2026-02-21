@@ -103,16 +103,25 @@
             >
 
             <div class="item-actions">
-              <button
-                type="button"
-                class="play-btn"
+              <div
+                class="play-btn-wrapper"
                 [class.hidden]="$openMenuIndex() === i"
               >
-                <app-icon
-                  [name]="ICON_NAMES.PLAY"
-                  size="0.7rem"
-                />
-              </button>
+                <app-hover-popup
+                  [options]="playOptions"
+                  (optionSelect)="onPlaySelect($event)"
+                >
+                  <button
+                    type="button"
+                    class="play-btn"
+                  >
+                    <app-icon
+                      [name]="ICON_NAMES.PLAY"
+                      size="0.7rem"
+                    />
+                  </button>
+                </app-hover-popup>
+              </div>
 
               <div class="actions-wrapper">
                 <button
@@ -132,28 +141,6 @@
                   class="actions-slider"
                   [class.open]="$openMenuIndex() === i"
                 >
-                  @if (isOwnSearch(search)) {
-                    <button
-                      type="button"
-                      class="slider-btn"
-                      (click)="onEdit(i, search)"
-                    >
-                      <app-icon
-                        [name]="ICON_NAMES.PENCIL"
-                        size="0.65rem"
-                      />
-                    </button>
-                  }
-                  <button
-                    type="button"
-                    class="slider-btn"
-                    (click)="onDuplicate(search)"
-                  >
-                    <app-icon
-                      [name]="ICON_NAMES.COPY"
-                      size="0.65rem"
-                    />
-                  </button>
                   @if (isOwnSearch(search)) {
                     <button
                       type="button"

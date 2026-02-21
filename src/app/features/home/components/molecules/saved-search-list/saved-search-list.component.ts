@@ -6,11 +6,13 @@ import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../consts/
 import { SAVED_SEARCH_SKELETON_COUNT } from '../../../consts/search-history-skeleton.consts';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { HoverPopupComponent } from '../../../../../shared/molecules/hover-popup/hover-popup.component';
+import { PopupOption } from '../../../../../shared/types/popup-option.type';
 
 @Component({
   selector: 'app-saved-search-list',
   standalone: true,
-  imports: [FormsModule, IconComponent],
+  imports: [FormsModule, IconComponent, HoverPopupComponent],
   templateUrl: './saved-search-list.component.html',
   styleUrl: './saved-search-list.component.scss',
 })
@@ -19,6 +21,10 @@ export class SavedSearchListComponent {
   readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
   readonly MAX_NAME_LENGTH: number = MAX_SAVED_SEARCH_NAME_LENGTH;
   readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
+  readonly playOptions: PopupOption[] = [
+    { value: 'list', label: HOME_LABEL_MAP.listView, icon: ICON_NAMES.LIST },
+    { value: 'graph', label: HOME_LABEL_MAP.graphView, icon: ICON_NAMES.CHART_BAR },
+  ];
 
   $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
   $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
@@ -27,6 +33,7 @@ export class SavedSearchListComponent {
   $userFilter: WritableSignal<string> = signal<string>('');
   $openMenuIndex: WritableSignal<number> = signal<number>(-1);
   $editingIndex: WritableSignal<number> = signal<number>(-1);
+  private _$mutationTick: WritableSignal<number> = signal<number>(0);
   $editingName: WritableSignal<string> = signal<string>('');
   $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
   private _pendingGlowSearch: SavedSearch | null = null;
@@ -40,6 +47,7 @@ export class SavedSearchListComponent {
   );
 
   $filteredSavedSearches: Signal<SavedSearch[]> = computed<SavedSearch[]>(() => {
+    this._$mutationTick();
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
     const userFilter: string = this.$userFilter().trim().toLowerCase();
     const isUserFiltering: boolean = userFilter !== '';
@@ -97,7 +105,13 @@ export class SavedSearchListComponent {
   }
 
   public onTogglePin(search: SavedSearch): void {
+    search.isPinned = !search.isPinned;
+    this._$mutationTick.update((n: number) => n + 1);
     // TODO: dispatch pin toggle action to store
+  }
+
+  public onPlaySelect(_viewType: string): void {
+    // TODO: navigate to search result with selected view type
   }
 
   public onToggleMenu(index: number): void {
