@@ -26,7 +26,11 @@ export class SavedSearchListComponent {
   $nameFilter: WritableSignal<string> = signal<string>('');
   $userFilter: WritableSignal<string> = signal<string>('');
   $openMenuIndex: WritableSignal<number> = signal<number>(-1);
+  $hoveredPlayIndex: WritableSignal<number> = signal<number>(-1);
+  $playPopupPosition: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
   $editingIndex: WritableSignal<number> = signal<number>(-1);
+  private _$mutationTick: WritableSignal<number> = signal<number>(0);
+  private _playCloseTimer: ReturnType<typeof setTimeout> | null = null;
   $editingName: WritableSignal<string> = signal<string>('');
   $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
   private _pendingGlowSearch: SavedSearch | null = null;
@@ -40,6 +44,7 @@ export class SavedSearchListComponent {
   );
 
   $filteredSavedSearches: Signal<SavedSearch[]> = computed<SavedSearch[]>(() => {
+    this._$mutationTick();
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
     const userFilter: string = this.$userFilter().trim().toLowerCase();
     const isUserFiltering: boolean = userFilter !== '';
@@ -97,7 +102,43 @@ export class SavedSearchListComponent {
   }
 
   public onTogglePin(search: SavedSearch): void {
+    search.isPinned = !search.isPinned;
+    this._$mutationTick.update((n: number) => n + 1);
     // TODO: dispatch pin toggle action to store
+  }
+
+  public onPlayEnter(index: number, event: MouseEvent): void {
+    if (this._playCloseTimer !== null) {
+      clearTimeout(this._playCloseTimer);
+      this._playCloseTimer = null;
+    }
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    this.$playPopupPosition.set({ top: rect.bottom, right: window.innerWidth - rect.right });
+    this.$hoveredPlayIndex.set(index);
+  }
+
+  public onPlayLeave(): void {
+    this._playCloseTimer = setTimeout(() => {
+      this.$hoveredPlayIndex.set(-1);
+      this._playCloseTimer = null;
+    }, 150);
+  }
+
+  public onPopupEnter(): void {
+    if (this._playCloseTimer !== null) {
+      clearTimeout(this._playCloseTimer);
+      this._playCloseTimer = null;
+    }
+  }
+
+  public onPopupLeave(): void {
+    this.$hoveredPlayIndex.set(-1);
+  }
+
+  public onPlaySelect(_viewType: 'list' | 'graph'): void {
+    // TODO: navigate to search result with selected view type
+    this.$hoveredPlayIndex.set(-1);
   }
 
   public onToggleMenu(index: number): void {

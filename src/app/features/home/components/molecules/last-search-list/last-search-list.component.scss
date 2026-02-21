@@ -44,7 +44,7 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.375rem;
+  gap: 0.5rem;
   overflow-y: auto;
   min-height: 0;
   padding-right: 0.75rem;
@@ -138,7 +138,7 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
     display: flex;
     background-color: var(--color-white);
     border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
     flex-shrink: 0;
 
     .unseen-indicator {
@@ -153,14 +153,13 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
       flex: 1;
       display: flex;
       align-items: center;
-      padding: 0.5rem 0.5rem;
+      padding: 0.65rem 0.75rem;
       min-width: 0;
-      min-height: 1.25rem;
 
       .last-search-type {
         width: 25%;
         font-family: var(--font-family);
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: var(--color-dark-navy);
         white-space: nowrap;
       }
@@ -169,7 +168,7 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
         width: 25%;
         text-align: center;
         font-family: var(--font-family);
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: var(--color-dark-navy);
         white-space: nowrap;
       }
@@ -178,23 +177,61 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
         width: 25%;
         text-align: center;
         font-family: var(--font-family);
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         color: var(--color-dark-navy);
         white-space: nowrap;
       }
 
-      .play-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.25rem;
-        height: 1.25rem;
-        border: none;
-        border-radius: 50%;
-        background: transparent;
-        cursor: pointer;
+      .play-btn-wrapper {
+        position: relative;
         flex-shrink: 0;
         margin-right: auto;
+        padding-bottom: 0.5rem;
+        margin-bottom: -0.5rem;
+
+        .play-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: none;
+          border-radius: 50%;
+          background: transparent;
+          cursor: pointer;
+        }
+
+        .play-popup {
+          position: fixed;
+          display: flex;
+          flex-direction: column;
+          padding: 0.25rem;
+          background-color: var(--color-white);
+          border: 1px solid var(--color-navy-gray);
+          border-radius: 0.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          z-index: 9999;
+
+          .play-option-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            border: none;
+            border-radius: 0.25rem;
+            background-color: transparent;
+            color: var(--color-dark-navy);
+            font-family: var(--font-family);
+            font-size: 0.75rem;
+            cursor: pointer;
+            white-space: nowrap;
+            direction: rtl;
+
+            &:hover {
+              background-color: var(--color-option-hover);
+            }
+          }
+        }
       }
     }
   }

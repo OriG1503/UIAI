@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, signal, WritableSignal } from '@angular/core';
 import { LastSearch } from '../../../types/last-search.type';
 import { SearchType } from '../../../types/search-type.type';
 import { HOME_LABEL_MAP, SEARCH_TYPE_LABEL_MAP } from '../../../mapping/home.label-map';
@@ -20,6 +20,44 @@ export class LastSearchListComponent {
 
   $lastSearches: InputSignal<LastSearch[]> = input.required<LastSearch[]>({ alias: 'lastSearches' });
   $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+
+  $hoveredPlayIndex: WritableSignal<number> = signal<number>(-1);
+  $playPopupPosition: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
+  private _playCloseTimer: ReturnType<typeof setTimeout> | null = null;
+
+  public onPlayEnter(index: number, event: MouseEvent): void {
+    if (this._playCloseTimer !== null) {
+      clearTimeout(this._playCloseTimer);
+      this._playCloseTimer = null;
+    }
+    const target = event.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    this.$playPopupPosition.set({ top: rect.bottom, right: window.innerWidth - rect.right });
+    this.$hoveredPlayIndex.set(index);
+  }
+
+  public onPlayLeave(): void {
+    this._playCloseTimer = setTimeout(() => {
+      this.$hoveredPlayIndex.set(-1);
+      this._playCloseTimer = null;
+    }, 150);
+  }
+
+  public onPopupEnter(): void {
+    if (this._playCloseTimer !== null) {
+      clearTimeout(this._playCloseTimer);
+      this._playCloseTimer = null;
+    }
+  }
+
+  public onPopupLeave(): void {
+    this.$hoveredPlayIndex.set(-1);
+  }
+
+  public onPlaySelect(_viewType: 'list' | 'graph'): void {
+    // TODO: navigate to search result with selected view type
+    this.$hoveredPlayIndex.set(-1);
+  }
 
   public getSearchTypeLabel(searchType: SearchType): string {
     return SEARCH_TYPE_LABEL_MAP[searchType];

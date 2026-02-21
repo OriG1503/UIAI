@@ -103,16 +103,55 @@
             >
 
             <div class="item-actions">
-              <button
-                type="button"
-                class="play-btn"
+              <div
+                class="play-btn-wrapper"
                 [class.hidden]="$openMenuIndex() === i"
+                (mouseenter)="onPlayEnter(i, $event)"
+                (mouseleave)="onPlayLeave()"
               >
-                <app-icon
-                  [name]="ICON_NAMES.PLAY"
-                  size="0.7rem"
-                />
-              </button>
+                <button
+                  type="button"
+                  class="play-btn"
+                >
+                  <app-icon
+                    [name]="ICON_NAMES.PLAY"
+                    size="0.7rem"
+                  />
+                </button>
+
+                @if ($hoveredPlayIndex() === i) {
+                  <div
+                    class="play-popup"
+                    [style.top.px]="$playPopupPosition().top"
+                    [style.right.px]="$playPopupPosition().right"
+                    (mouseenter)="onPopupEnter()"
+                    (mouseleave)="onPopupLeave()"
+                  >
+                    <button
+                      type="button"
+                      class="play-option-btn"
+                      (click)="onPlaySelect('list')"
+                    >
+                      <app-icon
+                        [name]="ICON_NAMES.LIST"
+                        size="0.65rem"
+                      />
+                      <span>{{ labels.listView }}</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="play-option-btn"
+                      (click)="onPlaySelect('graph')"
+                    >
+                      <app-icon
+                        [name]="ICON_NAMES.CHART_BAR"
+                        size="0.65rem"
+                      />
+                      <span>{{ labels.graphView }}</span>
+                    </button>
+                  </div>
+                }
+              </div>
 
               <div class="actions-wrapper">
                 <button
@@ -132,28 +171,6 @@
                   class="actions-slider"
                   [class.open]="$openMenuIndex() === i"
                 >
-                  @if (isOwnSearch(search)) {
-                    <button
-                      type="button"
-                      class="slider-btn"
-                      (click)="onEdit(i, search)"
-                    >
-                      <app-icon
-                        [name]="ICON_NAMES.PENCIL"
-                        size="0.65rem"
-                      />
-                    </button>
-                  }
-                  <button
-                    type="button"
-                    class="slider-btn"
-                    (click)="onDuplicate(search)"
-                  >
-                    <app-icon
-                      [name]="ICON_NAMES.COPY"
-                      size="0.65rem"
-                    />
-                  </button>
                   @if (isOwnSearch(search)) {
                     <button
                       type="button"

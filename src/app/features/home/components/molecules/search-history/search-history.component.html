@@ -3,6 +3,7 @@
     <button
       type="button"
       class="tab"
+      [class.active]="$activeTab() === 'saved-search'"
       (click)="onTabClick('saved-search')"
     >
       {{ labels.savedSearches }}
@@ -10,6 +11,7 @@
     <button
       type="button"
       class="tab"
+      [class.active]="$activeTab() === 'last-search'"
       (click)="onTabClick('last-search')"
     >
       {{ labels.lastSearches }}
