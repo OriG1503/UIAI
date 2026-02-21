@@ -34,7 +34,8 @@
       "Bash(do sed -i 's|shared/translations/common.translations|shared/mapping/common.label-map|g' \"$f\")",
       "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -1 {}')",
       "Bash(npx prettier --write \"src/**/*.{ts,html,scss}\")",
-      "Bash(npx prettier:*)"
+      "Bash(npx prettier:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

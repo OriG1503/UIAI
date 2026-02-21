@@ -1,0 +1,33 @@
+<div class="mail-extra-info">
+  <button
+    type="button"
+    class="accordion-header"
+    (click)="onToggle()"
+  >
+    <span class="accordion-title">{{ $title() }}</span>
+    <app-icon
+      [name]="$isOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
+      size="0.75rem"
+    />
+  </button>
+
+  @if ($isOpen()) {
+    <div class="accordion-content">
+      @for (row of $rows(); track row.label) {
+        <div class="info-row">
+          <div class="info-label">
+            <app-icon
+              [name]="row.icon"
+              size="0.875rem"
+            />
+            <span>{{ row.label }}</span>
+          </div>
+          <span
+            class="info-value"
+            dir="auto"
+          >{{ row.value }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

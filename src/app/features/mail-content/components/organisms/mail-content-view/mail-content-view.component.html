@@ -14,6 +14,8 @@
 
     <app-mail-metadata [mail]="$mail()!" />
 
+    <app-mail-extra-info [rows]="extraInfoRows" />
+
     @if ($hasAttachments()) {
       <app-mail-attachments
         [attachments]="$attachments()"

@@ -1,6 +1,6 @@
-import { Component, ElementRef, input, InputSignal, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
+import { Component, ElementRef, inject, input, InputSignal, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
 import { PopupOption } from '../../types/popup-option.type';
-import { IconComponent } from '../../../shared/atoms/icon/icon.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
   selector: 'app-hover-popup',
@@ -16,9 +16,8 @@ export class HoverPopupComponent {
 
   $isOpen: WritableSignal<boolean> = signal<boolean>(false);
   $position: WritableSignal<{ top: number; left: number }> = signal({ top: 0, left: 0 });
+  private _elementRef: ElementRef = inject(ElementRef);
   private _closeTimer: ReturnType<typeof setTimeout> | null = null;
-
-  constructor(private _elementRef: ElementRef) {}
 
   public onTriggerEnter(): void {
     if (this._closeTimer !== null) {

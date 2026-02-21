@@ -11,3 +11,7 @@ export const HIGHLIGHT_NAV_LABEL_MAP = {
   outOf: 'מתוך',
   matches: 'התאמתויות',
 };
+
+export const MAIL_EXTRA_INFO_LABEL_MAP = {
+  title: 'Additional Info',
+};
