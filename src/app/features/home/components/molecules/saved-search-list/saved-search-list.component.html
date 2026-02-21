@@ -106,51 +106,21 @@
               <div
                 class="play-btn-wrapper"
                 [class.hidden]="$openMenuIndex() === i"
-                (mouseenter)="onPlayEnter(i, $event)"
-                (mouseleave)="onPlayLeave()"
               >
-                <button
-                  type="button"
-                  class="play-btn"
+                <app-hover-popup
+                  [options]="playOptions"
+                  (optionSelect)="onPlaySelect($event)"
                 >
-                  <app-icon
-                    [name]="ICON_NAMES.PLAY"
-                    size="0.7rem"
-                  />
-                </button>
-
-                @if ($hoveredPlayIndex() === i) {
-                  <div
-                    class="play-popup"
-                    [style.top.px]="$playPopupPosition().top"
-                    [style.right.px]="$playPopupPosition().right"
-                    (mouseenter)="onPopupEnter()"
-                    (mouseleave)="onPopupLeave()"
+                  <button
+                    type="button"
+                    class="play-btn"
                   >
-                    <button
-                      type="button"
-                      class="play-option-btn"
-                      (click)="onPlaySelect('list')"
-                    >
-                      <app-icon
-                        [name]="ICON_NAMES.LIST"
-                        size="0.65rem"
-                      />
-                      <span>{{ labels.listView }}</span>
-                    </button>
-                    <button
-                      type="button"
-                      class="play-option-btn"
-                      (click)="onPlaySelect('graph')"
-                    >
-                      <app-icon
-                        [name]="ICON_NAMES.CHART_BAR"
-                        size="0.65rem"
-                      />
-                      <span>{{ labels.graphView }}</span>
-                    </button>
-                  </div>
-                }
+                    <app-icon
+                      [name]="ICON_NAMES.PLAY"
+                      size="0.7rem"
+                    />
+                  </button>
+                </app-hover-popup>
               </div>
 
               <div class="actions-wrapper">

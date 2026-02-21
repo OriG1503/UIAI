@@ -6,11 +6,13 @@ import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../consts/
 import { SAVED_SEARCH_SKELETON_COUNT } from '../../../consts/search-history-skeleton.consts';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { HoverPopupComponent } from '../../../../../shared/molecules/hover-popup/hover-popup.component';
+import { PopupOption } from '../../../../../shared/types/popup-option.type';
 
 @Component({
   selector: 'app-saved-search-list',
   standalone: true,
-  imports: [FormsModule, IconComponent],
+  imports: [FormsModule, IconComponent, HoverPopupComponent],
   templateUrl: './saved-search-list.component.html',
   styleUrl: './saved-search-list.component.scss',
 })
@@ -19,6 +21,10 @@ export class SavedSearchListComponent {
   readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
   readonly MAX_NAME_LENGTH: number = MAX_SAVED_SEARCH_NAME_LENGTH;
   readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
+  readonly playOptions: PopupOption[] = [
+    { value: 'list', label: HOME_LABEL_MAP.listView, icon: ICON_NAMES.LIST },
+    { value: 'graph', label: HOME_LABEL_MAP.graphView, icon: ICON_NAMES.CHART_BAR },
+  ];
 
   $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
   $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
@@ -26,11 +32,8 @@ export class SavedSearchListComponent {
   $nameFilter: WritableSignal<string> = signal<string>('');
   $userFilter: WritableSignal<string> = signal<string>('');
   $openMenuIndex: WritableSignal<number> = signal<number>(-1);
-  $hoveredPlayIndex: WritableSignal<number> = signal<number>(-1);
-  $playPopupPosition: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
   $editingIndex: WritableSignal<number> = signal<number>(-1);
   private _$mutationTick: WritableSignal<number> = signal<number>(0);
-  private _playCloseTimer: ReturnType<typeof setTimeout> | null = null;
   $editingName: WritableSignal<string> = signal<string>('');
   $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
   private _pendingGlowSearch: SavedSearch | null = null;
@@ -107,38 +110,8 @@ export class SavedSearchListComponent {
     // TODO: dispatch pin toggle action to store
   }
 
-  public onPlayEnter(index: number, event: MouseEvent): void {
-    if (this._playCloseTimer !== null) {
-      clearTimeout(this._playCloseTimer);
-      this._playCloseTimer = null;
-    }
-    const target = event.currentTarget as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    this.$playPopupPosition.set({ top: rect.bottom, right: window.innerWidth - rect.right });
-    this.$hoveredPlayIndex.set(index);
-  }
-
-  public onPlayLeave(): void {
-    this._playCloseTimer = setTimeout(() => {
-      this.$hoveredPlayIndex.set(-1);
-      this._playCloseTimer = null;
-    }, 150);
-  }
-
-  public onPopupEnter(): void {
-    if (this._playCloseTimer !== null) {
-      clearTimeout(this._playCloseTimer);
-      this._playCloseTimer = null;
-    }
-  }
-
-  public onPopupLeave(): void {
-    this.$hoveredPlayIndex.set(-1);
-  }
-
-  public onPlaySelect(_viewType: 'list' | 'graph'): void {
+  public onPlaySelect(_viewType: string): void {
     // TODO: navigate to search result with selected view type
-    this.$hoveredPlayIndex.set(-1);
   }
 
   public onToggleMenu(index: number): void {
