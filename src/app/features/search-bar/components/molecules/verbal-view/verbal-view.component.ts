@@ -49,7 +49,7 @@ export class VerbalViewComponent {
 
   public incrementAmount(): void {
     const current = this.$verbalAmount();
-    if (current < MAX_VERBAL_DATE_AMOUNT) {
+    if (this.maxAmount === null || current < this.maxAmount) {
       this.$verbalAmount.set(current + 1);
       this._emitChange();
     }
@@ -59,7 +59,7 @@ export class VerbalViewComponent {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     const parsed: number = parseInt(input.value, 10);
     if (!isNaN(parsed)) {
-      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, Math.min(MAX_VERBAL_DATE_AMOUNT, parsed));
+      const clamped = Math.max(MIN_VERBAL_DATE_AMOUNT, this.maxAmount !== null ? Math.min(this.maxAmount, parsed) : parsed);
       this.$verbalAmount.set(clamped);
       this._emitChange();
     }
