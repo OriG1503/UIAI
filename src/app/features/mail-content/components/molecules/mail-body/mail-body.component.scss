@@ -3,10 +3,6 @@
   flex: 1;
   overflow-y: auto;
   direction: ltr;
-
-  > * {
-    direction: rtl;
-  }
 }
 
 .mail-body {
@@ -15,8 +11,6 @@
   font-size: 0.875rem;
   color: var(--color-dark-navy);
   line-height: 1.6;
-  direction: ltr;
-  text-align: left;
   user-select: text;
   cursor: text;
 

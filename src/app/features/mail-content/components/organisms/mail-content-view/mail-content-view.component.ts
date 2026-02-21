@@ -18,7 +18,10 @@ import { MailContentToolbarComponent } from '../../molecules/mail-content-toolba
 import { MailMetadataComponent } from '../../molecules/mail-metadata/mail-metadata.component';
 import { MailAttachmentsComponent } from '../../molecules/mail-attachments/mail-attachments.component';
 import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component';
+import { MailExtraInfoComponent } from '../../molecules/mail-extra-info/mail-extra-info.component';
 import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-skeleton.component';
+import { ExtraInfoRow } from '../../../types/extra-info-row.type';
+import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
 
 @Component({
   selector: 'app-mail-content-view',
@@ -26,6 +29,7 @@ import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-s
   imports: [
     MailContentToolbarComponent,
     MailMetadataComponent,
+    MailExtraInfoComponent,
     MailAttachmentsComponent,
     MailBodyComponent,
     ContentSkeletonComponent,
@@ -45,6 +49,7 @@ export class MailContentViewComponent {
   $totalHighlights: WritableSignal<number> = signal<number>(0);
 
   readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  readonly extraInfoRows: ExtraInfoRow[] = MOCK_EXTRA_INFO_ROWS;
 
   $hasAttachments: Signal<boolean> = computed<boolean>(() => {
     const mail: Mail | null = this.$mail();
