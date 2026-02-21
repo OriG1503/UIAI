@@ -15,7 +15,7 @@ export class HoverPopupComponent {
   optionSelect: OutputEmitterRef<string> = output<string>();
 
   $isOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $position: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
+  $position: WritableSignal<{ top: number; left: number }> = signal({ top: 0, left: 0 });
   private _closeTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(private _elementRef: ElementRef) {}
@@ -26,7 +26,7 @@ export class HoverPopupComponent {
       this._closeTimer = null;
     }
     const rect: DOMRect = this._elementRef.nativeElement.getBoundingClientRect();
-    this.$position.set({ top: rect.bottom, right: window.innerWidth - rect.right });
+    this.$position.set({ top: rect.bottom, left: rect.left + rect.width / 2 });
     this.$isOpen.set(true);
   }
 
