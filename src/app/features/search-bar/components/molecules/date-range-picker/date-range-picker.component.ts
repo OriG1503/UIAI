@@ -73,7 +73,7 @@ export class DateRangePickerComponent {
     if (this._$lastSelectionMode() === 'verbal') {
       const amount: number = this._$verbalAmount();
       const unit: TimeUnit = this._$verbalUnit();
-      const unitLabel: string = this.timeUnitOptions.find((o: TimeUnitOption) => o.value === unit)?.label ?? '';
+      const unitLabel: string = this.timeUnitOptions.find((option: TimeUnitOption) => option.value === unit)?.label ?? '';
       return `${amount} ${unitLabel}`;
     }
 

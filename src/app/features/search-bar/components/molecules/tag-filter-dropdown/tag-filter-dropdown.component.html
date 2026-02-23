@@ -69,7 +69,7 @@
         </div>
       } @else if ($isLoading()) {
         <div class="skeleton-list">
-          @for (item of skeletonItems; track item) {
+          @for (skeletonItem of skeletonItems; track skeletonItem) {
             <div class="skeleton-item">
               <div class="skeleton-line"></div>
             </div>

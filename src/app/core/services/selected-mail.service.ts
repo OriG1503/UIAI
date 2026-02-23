@@ -23,7 +23,7 @@ export class SelectedMailService {
     if (!mail || list.length === 0) {
       return -1;
     }
-    return list.findIndex((m: Mail) => m.filename === mail.filename);
+    return list.findIndex((listMail: Mail) => listMail.filename === mail.filename);
   });
 
   $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
@@ -51,7 +51,7 @@ export class SelectedMailService {
     const list: Mail[] = this._mailList();
     if (index > 0) {
       const mail: Mail = list[index - 1];
-      this.markMailAsSeen(mail);
+      this.markMailAsRead(mail);
       this._selectedMail.set(mail);
     }
   }
@@ -61,24 +61,24 @@ export class SelectedMailService {
     const list: Mail[] = this._mailList();
     if (index >= 0 && index < list.length - 1) {
       const mail: Mail = list[index + 1];
-      this.markMailAsSeen(mail);
+      this.markMailAsRead(mail);
       this._selectedMail.set(mail);
     }
   }
 
-  public markMailAsSeen(mail: Mail): void {
+  public markMailAsRead(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsSeen(mail.filename);
+      this._graphMailService.markAsRead(mail.filename);
     } else {
-      this._mailService.markAsSeen(mail.filename);
+      this._mailService.markAsRead(mail.filename);
     }
   }
 
-  public markMailAsUnseen(mail: Mail): void {
+  public markMailAsUnread(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsUnseen(mail.filename);
+      this._graphMailService.markAsUnread(mail.filename);
     } else {
-      this._mailService.markAsUnseen(mail.filename);
+      this._mailService.markAsUnread(mail.filename);
     }
   }
 }

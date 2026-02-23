@@ -206,8 +206,8 @@
     height: 0.75rem;
     border: none;
     background-color: var(--color-red);
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 50%;
+    transform: translateY(50%);
     box-shadow: none;
     outline: none;
 

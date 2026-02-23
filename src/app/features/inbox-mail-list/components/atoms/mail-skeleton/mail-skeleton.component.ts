@@ -11,6 +11,6 @@ export class MailSkeletonComponent {
   $count: InputSignal<number> = input<number>(SKELETON_COUNT, { alias: 'count' });
 
   get items(): number[] {
-    return Array.from({ length: this.$count() }, (_: unknown, i: number) => i);
+    return Array.from({ length: this.$count() }, (_: undefined, i: number) => i);
   }
 }

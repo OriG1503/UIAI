@@ -39,7 +39,7 @@ export class GraphViewComponent {
     if (mails.length === 0) {
       return 0;
     }
-    return Math.min(...mails.map((m: Mail) => new Date(m.sent).getTime()));
+    return Math.min(...mails.map((mail: Mail) => new Date(mail.sent).getTime()));
   });
 
   $dateMax: Signal<number> = computed<number>(() => {
@@ -47,7 +47,7 @@ export class GraphViewComponent {
     if (mails.length === 0) {
       return 0;
     }
-    return Math.max(...mails.map((m: Mail) => new Date(m.sent).getTime()));
+    return Math.max(...mails.map((mail: Mail) => new Date(mail.sent).getTime()));
   });
 
   $dateRangeValues: WritableSignal<number[]> = signal<number[]>([0, 0]);
@@ -57,8 +57,8 @@ export class GraphViewComponent {
   private _$dateFilteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
     const mails: Mail[] = this._mockGraphMailService.mails();
     const [min, max]: number[] = this.$dateRangeValues();
-    return mails.filter((m: Mail) => {
-      const t: number = new Date(m.sent).getTime();
+    return mails.filter((mail: Mail) => {
+      const t: number = new Date(mail.sent).getTime();
       return t >= min && t <= max;
     });
   });
@@ -74,8 +74,8 @@ export class GraphViewComponent {
       }
 
       const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
-      recipients.forEach((r: MailUserInfo) => {
-        const email: string = r.mail ?? '';
+      recipients.forEach((recipient: MailUserInfo) => {
+        const email: string = recipient.mail ?? '';
         if (email) {
           counts.set(email, (counts.get(email) ?? 0) + 1);
         }
@@ -97,8 +97,8 @@ export class GraphViewComponent {
         counts.set(fromEmail, (counts.get(fromEmail) ?? 0) + 1);
       }
       const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
-      recipients.forEach((r: MailUserInfo) => {
-        const email: string = r.mail ?? '';
+      recipients.forEach((recipient: MailUserInfo) => {
+        const email: string = recipient.mail ?? '';
         if (email) {
           counts.set(email, (counts.get(email) ?? 0) + 1);
         }

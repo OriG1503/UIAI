@@ -30,7 +30,7 @@ import { MockTagService } from '../../../../../core/services/mock-tag.service';
 })
 export class TagFilterDropdownComponent {
   readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_: unknown, i: number) => i);
+  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_: undefined, i: number) => i);
 
   private _mockTagService: MockTagService = inject(MockTagService);
 
@@ -57,8 +57,8 @@ export class TagFilterDropdownComponent {
     const selected: string[] = this.$selectedValues();
     const options: TagOption[] = this.$options();
     return selected
-      .map((value: string) => options.find((o: TagOption) => o.value === value))
-      .filter((o: TagOption | undefined): o is TagOption => !!o);
+      .map((value: string) => options.find((option: TagOption) => option.value === value))
+      .filter((option: TagOption | undefined): option is TagOption => !!option);
   });
 
   private _$selectedCount: Signal<number> = computed<number>(() => this.$selectedValues().length);
@@ -112,7 +112,7 @@ export class TagFilterDropdownComponent {
   public toggleTag(option: TagOption): void {
     const current: string[] = this.$selectedValues();
     if (current.includes(option.value)) {
-      this.tagsChange.emit(current.filter((v: string) => v !== option.value));
+      this.tagsChange.emit(current.filter((value: string) => value !== option.value));
     } else {
       this.tagsChange.emit([...current, option.value]);
     }

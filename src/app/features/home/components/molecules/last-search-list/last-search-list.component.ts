@@ -18,7 +18,7 @@ import { PopupOption } from '../../../../../shared/types/popup-option.type';
 export class LastSearchListComponent {
   readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
   readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
-  readonly skeletonItems: number[] = Array.from({ length: LAST_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
+  readonly skeletonItems: number[] = Array.from({ length: LAST_SEARCH_SKELETON_COUNT }, (_: undefined, i: number) => i);
   readonly playOptions: PopupOption[] = [
     { value: 'list', label: HOME_LABEL_MAP.listView, icon: ICON_NAMES.LIST },
     { value: 'graph', label: HOME_LABEL_MAP.graphView, icon: ICON_NAMES.CHART_BAR },

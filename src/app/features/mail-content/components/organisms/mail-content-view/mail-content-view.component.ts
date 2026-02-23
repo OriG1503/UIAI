@@ -6,10 +6,12 @@ import {
   signal,
   effect,
   ElementRef,
+  HostListener,
   InputSignal,
   Signal,
   WritableSignal,
 } from '@angular/core';
+import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { Encoding } from '../../../types/encoding.type';
@@ -40,6 +42,33 @@ import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
 export class MailContentViewComponent {
   private _mailContentService: MockMailContentService = inject(MockMailContentService);
   private _elementRef: ElementRef = inject(ElementRef);
+  private _selectedMailService: SelectedMailService = inject(SelectedMailService);
+
+  @HostListener('document:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent): void {
+    if (!this.$mail()) {
+      return;
+    }
+    const target: EventTarget | null = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+      return;
+    }
+    if (event.key === 'ArrowRight') {
+      this.onNextHighlight();
+      event.preventDefault();
+    } else if (event.key === 'ArrowLeft') {
+      this.onPreviousHighlight();
+      event.preventDefault();
+    } else if (!this._elementRef.nativeElement.contains(target)) {
+      if (event.key === 'ArrowDown') {
+        this._selectedMailService.selectNext();
+        event.preventDefault();
+      } else if (event.key === 'ArrowUp') {
+        this._selectedMailService.selectPrevious();
+        event.preventDefault();
+      }
+    }
+  }
 
   $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
   $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });

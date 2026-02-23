@@ -70,6 +70,7 @@
       } @else {
         @for (mail of $filteredMails(); track mail.filename) {
           <app-mail-preview
+            [attr.data-mail-filename]="mail.filename"
             [mail]="mail"
             [isSelectMode]="$isSelectMode()"
             [isSelected]="isMailSelected(mail)"
@@ -88,7 +89,7 @@
   <app-context-menu
     [x]="$contextMenu().x"
     [y]="$contextMenu().y"
-    (markAsUnseenClick)="onMarkAsUnseen()"
+    (markAsUnreadClick)="onMarkAsUnread()"
     (closeMenu)="onCloseContextMenu()"
   />
 }

@@ -30,7 +30,7 @@ export class ContextMenuComponent implements AfterViewInit {
 
   $x: InputSignal<number> = input.required<number>({ alias: 'x' });
   $y: InputSignal<number> = input.required<number>({ alias: 'y' });
-  markAsUnseenClick: OutputEmitterRef<void> = output<void>();
+  markAsUnreadClick: OutputEmitterRef<void> = output<void>();
   closeMenu: OutputEmitterRef<void> = output<void>();
 
   readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
@@ -80,7 +80,7 @@ export class ContextMenuComponent implements AfterViewInit {
     }
   }
 
-  public onMarkAsUnseen(): void {
-    this.markAsUnseenClick.emit();
+  public onMarkAsUnread(): void {
+    this.markAsUnreadClick.emit();
   }
 }

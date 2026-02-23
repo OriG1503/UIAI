@@ -72,15 +72,15 @@
       </button>
       @if ($isEncodingPopupOpen()) {
         <div class="encoding-popup">
-          @for (enc of encodings; track enc) {
+          @for (encoding of encodings; track encoding) {
             <button
               type="button"
               class="encoding-option"
-              [class.selected]="$selectedEncoding() === enc"
-              (click)="onEncodingSelect(enc)"
+              [class.selected]="$selectedEncoding() === encoding"
+              (click)="onEncodingSelect(encoding)"
             >
-              {{ encodingLabels[enc] }}
-              @if ($selectedEncoding() === enc) {
+              {{ encodingLabels[encoding] }}
+              @if ($selectedEncoding() === encoding) {
                 <app-icon
                   [name]="ICON_NAMES.CHECK"
                   size="0.75rem"

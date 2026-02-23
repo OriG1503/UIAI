@@ -52,8 +52,8 @@ export class MailPreviewComponent {
     return mail.attachments?.filename?.length ?? 0;
   });
 
-  $isUnseen: Signal<boolean> = computed<boolean>(() => {
-    return !this.$mail().seen;
+  $isUnread: Signal<boolean> = computed<boolean>(() => {
+    return !this.$mail().isRead;
   });
 
   $formattedDate: Signal<string> = computed<string>(() => {
@@ -129,7 +129,7 @@ export class MailPreviewComponent {
     const visibleText: string = this._$toVisibleText();
     const hiddenChars: string =
       visibleText.length > MAIL_PREVIEW_TO_MAX_LENGTH ? visibleText.substring(MAIL_PREVIEW_TO_MAX_LENGTH) : '';
-    const hiddenText: string = [hiddenChars, hiddenAddresses].filter((s: string) => s.length > 0).join(' ');
+    const hiddenText: string = [hiddenChars, hiddenAddresses].filter((part: string) => part.length > 0).join(' ');
     return this._containsSearchTerm(hiddenText, this.$searchTerms());
   });
 

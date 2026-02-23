@@ -1,6 +1,6 @@
 <div class="last-search-list">
   @if ($isLoading()) {
-    @for (i of skeletonItems; track i) {
+    @for (skeletonItem of skeletonItems; track skeletonItem) {
       <div class="skeleton-card">
         <div class="skeleton-indicator"></div>
         <div class="skeleton-content">
@@ -18,7 +18,7 @@
   } @else {
     @for (search of $lastSearches(); track $index) {
       <div class="last-search-item">
-        <div class="unseen-indicator"></div>
+        <div class="unread-indicator"></div>
 
         <div class="item-content">
           <span class="last-search-type">{{ getSearchTypeLabel(search.searchType) }}</span>

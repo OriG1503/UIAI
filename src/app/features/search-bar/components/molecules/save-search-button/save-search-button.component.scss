@@ -42,8 +42,8 @@
   .popup-container {
     position: absolute;
     top: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%);
+    right: 50%;
+    transform: translateX(50%);
     display: flex;
     align-items: center;
     gap: 0.5rem;

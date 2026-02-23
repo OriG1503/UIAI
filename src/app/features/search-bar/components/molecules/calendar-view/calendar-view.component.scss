@@ -76,7 +76,7 @@ app-calendar-view {
       svg {
         width: 0.55rem;
         height: 0.55rem;
-        transform: scaleX(-1);
+        transform: rotateY(180deg);
         fill: var(--color-dark-navy);
       }
     }

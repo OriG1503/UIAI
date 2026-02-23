@@ -26,7 +26,7 @@
 
   @if ($isLoading()) {
     <div class="skeleton-list">
-      @for (i of skeletonItems; track i) {
+      @for (skeletonItem of skeletonItems; track skeletonItem) {
         <div class="skeleton-card">
           <div class="skeleton-indicator"></div>
           <div class="skeleton-content">
@@ -46,7 +46,7 @@
           class="saved-search-item"
           [class.glowing]="$glowingSearch() === search"
         >
-          <div class="unseen-indicator"></div>
+          <div class="unread-indicator"></div>
 
           <div class="item-content">
             <button

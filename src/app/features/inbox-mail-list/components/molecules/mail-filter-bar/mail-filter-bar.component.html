@@ -16,15 +16,15 @@
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">
-          @for (lang of languages; track lang) {
+          @for (language of languages; track language) {
             <button
               type="button"
               class="language-option"
-              [class.selected]="$selectedLanguage() === lang"
-              (click)="onLanguageSelect(lang)"
+              [class.selected]="$selectedLanguage() === language"
+              (click)="onLanguageSelect(language)"
             >
-              {{ languageLabels[lang] }}
-              @if ($selectedLanguage() === lang) {
+              {{ languageLabels[language] }}
+              @if ($selectedLanguage() === language) {
                 <app-icon
                   [name]="ICON_NAMES.CHECK"
                   size="0.75rem"
@@ -83,28 +83,28 @@
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'unseen'"
+      [class.active]="$activeFilter() === 'unread'"
       [title]="translations.unreadTooltip"
-      (click)="onFilterClick('unseen')"
+      (click)="onFilterClick('unread')"
     >
       <app-icon
         [name]="ICON_NAMES.ENVELOPE"
         size="1rem"
-        [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        [color]="$activeFilter() === 'unread' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
       />
     </button>
 
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'seen'"
+      [class.active]="$activeFilter() === 'read'"
       [title]="translations.readTooltip"
-      (click)="onFilterClick('seen')"
+      (click)="onFilterClick('read')"
     >
       <app-icon
         [name]="ICON_NAMES.EYE"
         size="1rem"
-        [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        [color]="$activeFilter() === 'read' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
       />
     </button>
   </div>

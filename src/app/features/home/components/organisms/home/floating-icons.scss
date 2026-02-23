@@ -20,8 +20,8 @@
   width: 18rem;
   height: 5rem;
   top: 10%;
-  left: -5%;
-  transform: rotate(-35deg);
+  left: 0%;
+  transform: rotate(325deg);
 }
 
 .shape-2 {
@@ -29,7 +29,7 @@
   height: 6rem;
   top: 30%;
   left: 15%;
-  transform: rotate(-35deg);
+  transform: rotate(325deg);
 }
 
 .shape-3 {
@@ -37,15 +37,15 @@
   height: 5rem;
   top: 5%;
   right: 10%;
-  transform: rotate(-35deg);
+  transform: rotate(325deg);
 }
 
 .shape-4 {
   width: 20rem;
   height: 5.5rem;
   top: 45%;
-  right: -3%;
-  transform: rotate(-35deg);
+  right: 0%;
+  transform: rotate(325deg);
 }
 
 .shape-5 {
@@ -53,7 +53,7 @@
   height: 5rem;
   top: 55%;
   right: 20%;
-  transform: rotate(-35deg);
+  transform: rotate(325deg);
 }
 
 .shape-6 {
@@ -61,7 +61,7 @@
   height: 4.5rem;
   top: 65%;
   left: 5%;
-  transform: rotate(-35deg);
+  transform: rotate(325deg);
 }
 
 @keyframes drift {
@@ -69,7 +69,7 @@
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(30px, -15px);
+    transform: translate(30px, 15px);
   }
   100% {
     transform: translate(0, 0);

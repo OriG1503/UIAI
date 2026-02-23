@@ -132,7 +132,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     this._sigma?.kill();
     this._graph = new Graph();
 
-    const maxMailCount: number = Math.max(...Array.from(data.nodes.values()).map((n: GraphNode) => n.mailCount), 1);
+    const maxMailCount: number = Math.max(...Array.from(data.nodes.values()).map((node: GraphNode) => node.mailCount), 1);
 
     data.nodes.forEach((node: GraphNode) => {
       const sizeRatio: number = node.mailCount / maxMailCount;
@@ -300,7 +300,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     const selectedNeighbors: Set<string> = new Set<string>();
     if (selection.type === 'node' && selection.nodeEmail) {
       if (this._graph.hasNode(selection.nodeEmail)) {
-        this._graph.neighbors(selection.nodeEmail).forEach((n: string) => selectedNeighbors.add(n));
+        this._graph.neighbors(selection.nodeEmail).forEach((neighbor: string) => selectedNeighbors.add(neighbor));
       }
     }
 

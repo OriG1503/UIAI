@@ -11,10 +11,10 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
 
 @keyframes shimmer {
   0% {
-    background-position: 100% 0;
+    background-position: 0% 0;
   }
   100% {
-    background-position: -100% 0;
+    background-position: 100% 0;
   }
 }
 
@@ -83,8 +83,8 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
   .popup-container {
     position: absolute;
     top: calc(100% + 0.5rem);
-    left: 50%;
-    transform: translateX(-50%);
+    right: 50%;
+    transform: translateX(50%);
     width: 17rem;
     height: 20rem;
     display: flex;
@@ -218,7 +218,7 @@ $highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
             var(--color-light-gray) 50%,
             var(--color-navy-gray) 100%
           );
-          background-size: 200% 100%;
+          background-size: 400% 100%;
           animation: shimmer 1.5s linear infinite;
           opacity: 0.25;
         }

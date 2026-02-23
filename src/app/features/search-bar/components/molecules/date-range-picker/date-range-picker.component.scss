@@ -38,8 +38,8 @@ app-date-range-picker {
     .popup-container {
       position: absolute;
       top: calc(100% + 0.5rem);
-      left: 50%;
-      transform: translateX(-50%);
+      right: 50%;
+      transform: translateX(50%);
       width: 17rem;
       display: flex;
       flex-direction: column;

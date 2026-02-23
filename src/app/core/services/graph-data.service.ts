@@ -68,13 +68,13 @@ export class GraphDataService {
       if (mail.from.mail === email) {
         return true;
       }
-      if (mail.to.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.to.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
-      if (mail.cc?.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.cc?.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
-      if (mail.bcc?.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.bcc?.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
       return false;
@@ -87,9 +87,9 @@ export class GraphDataService {
         return false;
       }
       const recipients: (string | undefined)[] = [
-        ...mail.to.map((r: { mail?: string }) => r.mail),
-        ...(mail.cc ?? []).map((r: { mail?: string }) => r.mail),
-        ...(mail.bcc ?? []).map((r: { mail?: string }) => r.mail),
+        ...mail.to.map((recipient: { mail?: string }) => recipient.mail),
+        ...(mail.cc ?? []).map((recipient: { mail?: string }) => recipient.mail),
+        ...(mail.bcc ?? []).map((recipient: { mail?: string }) => recipient.mail),
       ];
       return recipients.includes(targetEmail);
     });

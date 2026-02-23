@@ -4,8 +4,10 @@ import {
   computed,
   inject,
   effect,
+  untracked,
   input,
   output,
+  ElementRef,
   InputSignal,
   OutputEmitterRef,
   Signal,
@@ -49,10 +51,30 @@ export class MailListComponent {
   private _mailService: MockMailService = inject(MockMailService);
   private _selectedMailService: SelectedMailService = inject(SelectedMailService);
   private _highlightService: HighlightService = inject(HighlightService);
+  private _elementRef: ElementRef = inject(ElementRef);
 
   constructor() {
     effect(() => {
-      this._selectedMailService.setMailList(this.$filteredMails());
+      // Track only the filter/sort/graph context — not individual mail read-status changes.
+      // Using untracked() prevents a mail being marked as read mid-navigation from
+      // invalidating the navigation list and breaking arrow-key traversal in filtered views.
+      this.$activeFilter();
+      this.$sortDirection();
+      this.$graphSelectionMails();
+      this._selectedMailService.setMailList(untracked(() => this.$filteredMails()));
+    });
+
+    effect(() => {
+      const selectedMail: Mail | null = this._selectedMailService.selectedMail();
+      if (!selectedMail) {
+        return;
+      }
+      const el: HTMLElement | null = this._elementRef.nativeElement.querySelector(
+        `[data-mail-filename="${selectedMail.filename}"]`,
+      );
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     });
 
     this._initMockHighlights();
@@ -144,10 +166,10 @@ export class MailListComponent {
 
     const filtered: Mail[] = (() => {
       switch (filter) {
-        case 'seen':
-          return mails.filter((mail: Mail) => mail.seen);
-        case 'unseen':
-          return mails.filter((mail: Mail) => !mail.seen);
+        case 'read':
+          return mails.filter((mail: Mail) => mail.isRead);
+        case 'unread':
+          return mails.filter((mail: Mail) => !mail.isRead);
         default:
           return mails;
       }
@@ -199,7 +221,7 @@ export class MailListComponent {
     const rows: string[][] = mails.map((mail: Mail) => [
       mail.subject,
       mail.from.username || mail.from.mail || '',
-      mail.to.map((t: { username?: string; mail?: string }) => t.username || t.mail || '').join('; '),
+      mail.to.map((recipient: { username?: string; mail?: string }) => recipient.username || recipient.mail || '').join('; '),
       new Date(mail.sent).toISOString(),
       mail.tag,
     ]);
@@ -221,7 +243,7 @@ export class MailListComponent {
 
   public onMailClick(mail: Mail): void {
     if (this._previouslySelectedMail && this._previouslySelectedMail.filename !== mail.filename) {
-      this._selectedMailService.markMailAsSeen(this._previouslySelectedMail);
+      this._selectedMailService.markMailAsRead(this._previouslySelectedMail);
     }
     this._previouslySelectedMail = mail;
     this._$selectedMailId.set(mail.filename);
@@ -235,8 +257,8 @@ export class MailListComponent {
       const end: number = Math.max(this._lastSelectedIndex, index);
       this._$selectedMails.update((selected: Set<string>) => {
         const newSelected: Set<string> = new Set(selected);
-        mails.slice(start, end + 1).forEach((m: Mail) => {
-          newSelected.add(m.filename);
+        mails.slice(start, end + 1).forEach((mail: Mail) => {
+          newSelected.add(mail.filename);
         });
         return newSelected;
       });
@@ -267,10 +289,10 @@ export class MailListComponent {
     this.$contextMenu.set({ isOpen: false, x: 0, y: 0, mail: null });
   }
 
-  public onMarkAsUnseen(): void {
+  public onMarkAsUnread(): void {
     const mail: Mail | null = this.$contextMenu().mail;
     if (mail) {
-      this._selectedMailService.markMailAsUnseen(mail);
+      this._selectedMailService.markMailAsUnread(mail);
     }
     this.onCloseContextMenu();
   }

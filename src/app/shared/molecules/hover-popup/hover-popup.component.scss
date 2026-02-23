@@ -4,13 +4,12 @@
 
 .trigger-wrapper {
   padding-bottom: 0.5rem;
-  margin-bottom: -0.5rem;
 }
 
 .popup {
   position: fixed;
   display: flex;
-  transform: translateX(-50%);
+  transform: translateX(50%);
   flex-direction: column;
   padding: 0.25rem;
   background-color: var(--color-white);
