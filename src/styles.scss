@@ -1,8 +1,15 @@
 @use 'variables';
 @use 'primeicons/primeicons.css';
 
-/* Assistant font (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400&display=swap');
+/* Assistant font */
+@font-face {
+  font-family: 'Assistant';
+  src:
+    url('/assets/fonts/assistant-regular.woff2') format('woff2'),
+    url('/assets/fonts/assistant-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 
 /* Ploni font */
 @font-face {
