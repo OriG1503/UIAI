@@ -6,7 +6,7 @@ export class HighlightService {
   private _highlights: WritableSignal<Map<string, MailHighlight>> = signal<Map<string, MailHighlight>>(new Map());
   private _searchTerms: WritableSignal<string[]> = signal<string[]>([]);
 
-  $searchTerms: Signal<string[]> = computed<string[]>(() => this._searchTerms());
+  public $searchTerms: Signal<string[]> = computed<string[]>(() => this._searchTerms());
 
   public setSearchTerms(terms: string[]): void {
     this._searchTerms.set(terms);

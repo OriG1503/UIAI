@@ -11,6 +11,7 @@ import {
 import { SearchModeType } from '../../../types/search-mode-type.type';
 import { SEARCH_MODE_LABEL_MAP } from '../../../mapping/search.label-map';
 import { GeminiIconComponent } from '../../../../../shared/atoms/gemini-icon/gemini-icon.component';
+import { ICON_SIZE_SM } from '../../../../../shared/consts/icon-size.consts';
 import {
   EASTER_EGG_ICON_COUNT,
   EASTER_EGG_CENTER_THRESHOLD_PX,
@@ -33,10 +34,11 @@ export class SearchModeSwitchComponent {
   private _elementRef: ElementRef = inject(ElementRef);
   private _isRaining: boolean = false;
 
-  $mode: InputSignal<SearchModeType> = input<SearchModeType>('regular', { alias: 'mode' });
-  modeChange: OutputEmitterRef<SearchModeType> = output<SearchModeType>();
+  public $mode: InputSignal<SearchModeType> = input<SearchModeType>('regular', { alias: 'mode' });
+  public modeChange: OutputEmitterRef<SearchModeType> = output<SearchModeType>();
 
-  readonly labels: typeof SEARCH_MODE_LABEL_MAP = SEARCH_MODE_LABEL_MAP;
+  public readonly labels: typeof SEARCH_MODE_LABEL_MAP = SEARCH_MODE_LABEL_MAP;
+  public readonly ICON_SIZE_SM = ICON_SIZE_SM;
 
   public onModeSelect(mode: SearchModeType): void {
     this.modeChange.emit(mode);

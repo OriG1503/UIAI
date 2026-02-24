@@ -14,5 +14,5 @@ import { Mail } from '../../../shared/types/mail.type';
 export class ListViewComponent {
   private _selectedMailService: SelectedMailService = inject(SelectedMailService);
 
-  readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
+  public readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
 }

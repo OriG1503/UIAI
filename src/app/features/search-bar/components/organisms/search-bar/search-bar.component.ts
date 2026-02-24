@@ -33,17 +33,17 @@ import { TagOption } from '../../../types/tag-option.type';
   styleUrl: './search-bar.component.scss',
 })
 export class SearchBarComponent {
-  $isLeftSectionVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLeftSectionVisible' });
-  $isLogoVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLogoVisible' });
-  $variant: InputSignal<SearchBarVariant> = input<SearchBarVariant>('default', { alias: 'variant' });
+  public $isLeftSectionVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLeftSectionVisible' });
+  public $isLogoVisible: InputSignal<boolean> = input<boolean>(true, { alias: 'isLogoVisible' });
+  public $variant: InputSignal<SearchBarVariant> = input<SearchBarVariant>('default', { alias: 'variant' });
 
-  $selectedTags: WritableSignal<string[]> = signal<string[]>([]);
-  $dateRange: WritableSignal<Date[] | null> = signal<Date[] | null>(null);
-  $searchMode: WritableSignal<SearchModeType> = signal<SearchModeType>('regular');
-  $searchText: WritableSignal<string> = signal<string>('');
-  $isSpecialCharsWarningOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $selectedTags: WritableSignal<string[]> = signal<string[]>([]);
+  public $dateRange: WritableSignal<Date[] | null> = signal<Date[] | null>(null);
+  public $searchMode: WritableSignal<SearchModeType> = signal<SearchModeType>('regular');
+  public $searchText: WritableSignal<string> = signal<string>('');
+  public $isSpecialCharsWarningOpen: WritableSignal<boolean> = signal<boolean>(false);
 
-  readonly tagOptions: TagOption[] = TAG_OPTIONS;
+  public readonly tagOptions: TagOption[] = TAG_OPTIONS;
 
   constructor(private _router: Router) {}
 
@@ -64,8 +64,7 @@ export class SearchBarComponent {
   }
 
   public onAdvancedClick(): void {
-    // TODO: connect to real service / NgRx action
-    console.log('Advanced query clicked');
+    this.$searchMode.set('advanced');
   }
 
   public onRun(viewType: SearchViewType): void {

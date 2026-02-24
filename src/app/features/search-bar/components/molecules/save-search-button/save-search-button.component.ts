@@ -1,4 +1,4 @@
-import { Component, output, OutputEmitterRef, signal, WritableSignal } from '@angular/core';
+import { Component, output, OutputEmitterRef, signal, computed, WritableSignal, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   BUTTON_LABEL_MAP,
@@ -16,16 +16,20 @@ import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
   styleUrl: './save-search-button.component.scss',
 })
 export class SaveSearchButtonComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  save: OutputEmitterRef<string> = output<string>();
+  public save: OutputEmitterRef<string> = output<string>();
 
-  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $searchName: WritableSignal<string> = signal<string>('');
+  public $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $searchName: WritableSignal<string> = signal<string>('');
 
-  readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
-  readonly placeholders: typeof PLACEHOLDER_LABEL_MAP = PLACEHOLDER_LABEL_MAP;
-  readonly common: typeof COMMON_LABEL_MAP = COMMON_LABEL_MAP;
+  public $triggerIconColor: Signal<string> = computed<string>(() =>
+    this.$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)',
+  );
+
+  public readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
+  public readonly placeholders: typeof PLACEHOLDER_LABEL_MAP = PLACEHOLDER_LABEL_MAP;
+  public readonly common: typeof COMMON_LABEL_MAP = COMMON_LABEL_MAP;
 
   public togglePopup(): void {
     this.$isPopupOpen.update((isOpen: boolean) => !isOpen);

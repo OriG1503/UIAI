@@ -11,8 +11,8 @@ import { TAG_SEARCH_DELAY } from '../../features/search-bar/consts/tag-filter.co
   providedIn: 'root',
 })
 export class MockTagService {
-  readonly $isLoading: WritableSignal<boolean> = signal<boolean>(false);
-  readonly $filteredTags: WritableSignal<TagOption[]> = signal<TagOption[]>([]);
+  public readonly $isLoading: WritableSignal<boolean> = signal<boolean>(false);
+  public readonly $filteredTags: WritableSignal<TagOption[]> = signal<TagOption[]>([]);
 
   private _searchTimeout: ReturnType<typeof setTimeout> | null = null;
 

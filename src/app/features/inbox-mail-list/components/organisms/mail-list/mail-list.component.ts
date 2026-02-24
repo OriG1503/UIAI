@@ -46,7 +46,7 @@ import { ContextMenuState } from '../../../types/context-menu-state.type';
   styleUrl: './mail-list.component.scss',
 })
 export class MailListComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
   private _mailService: MockMailService = inject(MockMailService);
   private _selectedMailService: SelectedMailService = inject(SelectedMailService);
@@ -135,31 +135,31 @@ export class MailListComponent {
     });
   }
 
-  $activeFilter: WritableSignal<MailFilter> = signal<MailFilter>('all');
-  $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
-  $isSelectMode: WritableSignal<boolean> = signal<boolean>(false);
+  public $activeFilter: WritableSignal<MailFilter> = signal<MailFilter>('all');
+  public $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
+  public $isSelectMode: WritableSignal<boolean> = signal<boolean>(false);
   private _$selectedMails: WritableSignal<Set<string>> = signal<Set<string>>(new Set());
   private _$selectedMailId: WritableSignal<string | null> = signal<string | null>(null);
-  $contextMenu: WritableSignal<ContextMenuState> = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
+  public $contextMenu: WritableSignal<ContextMenuState> = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   private _lastSelectedIndex: number | null = null;
   private _previouslySelectedMail: Mail | null = null;
 
-  $graphSelectionMails: InputSignal<Mail[] | null> = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
-  $graphSelectionInfo: InputSignal<GraphSelectionInfo | null> = input<GraphSelectionInfo | null>(null, {
+  public $graphSelectionMails: InputSignal<Mail[] | null> = input<Mail[] | null>(null, { alias: 'graphSelectionMails' });
+  public $graphSelectionInfo: InputSignal<GraphSelectionInfo | null> = input<GraphSelectionInfo | null>(null, {
     alias: 'graphSelectionInfo',
   });
-  $showTagFilter: InputSignal<boolean> = input<boolean>(false, { alias: 'showTagFilter' });
-  $isFullscreen: InputSignal<boolean> = input<boolean>(false, { alias: 'isFullscreen' });
-  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
-  closeClick: OutputEmitterRef<void> = output<void>();
-  fullscreenClick: OutputEmitterRef<void> = output<void>();
+  public $showTagFilter: InputSignal<boolean> = input<boolean>(false, { alias: 'showTagFilter' });
+  public $isFullscreen: InputSignal<boolean> = input<boolean>(false, { alias: 'isFullscreen' });
+  public $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+  public closeClick: OutputEmitterRef<void> = output<void>();
+  public fullscreenClick: OutputEmitterRef<void> = output<void>();
 
-  readonly inboxTranslations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  public readonly inboxTranslations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
   private _$allMails: Signal<Mail[]> = computed<Mail[]>(() => this.$graphSelectionMails() ?? this._mailService.mails());
 
-  $filteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
+  public $filteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
     const filter: MailFilter = this.$activeFilter();
     const mails: Mail[] = this._$allMails();
     const sortDirection: SortDirection = this.$sortDirection();
@@ -182,7 +182,7 @@ export class MailListComponent {
     });
   });
 
-  $selectedCount: Signal<number> = computed<number>(() => this._$selectedMails().size);
+  public $selectedCount: Signal<number> = computed<number>(() => this._$selectedMails().size);
 
   public onFilterChange(filter: MailFilter): void {
     if (this.$activeFilter() === filter) {

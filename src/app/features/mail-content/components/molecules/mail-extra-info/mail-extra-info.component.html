@@ -7,7 +7,7 @@
     <span class="accordion-title">{{ $title() }}</span>
     <app-icon
       [name]="$isOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
-      size="0.75rem"
+      [size]="ICON_SIZE_SM"
     />
   </button>
 
@@ -18,7 +18,7 @@
           <div class="info-label">
             <app-icon
               [name]="row.icon"
-              size="0.875rem"
+              [size]="ICON_SIZE_MD"
             />
             <span>{{ row.label }}</span>
           </div>

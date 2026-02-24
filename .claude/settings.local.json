@@ -35,7 +35,11 @@
       "Bash(xargs -I {} bash -c 'echo \"\"=== {} ===\"\" && ls -1 {}')",
       "Bash(npx prettier --write \"src/**/*.{ts,html,scss}\")",
       "Bash(npx prettier:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(sed:*)",
+      "Bash(echo === Remaining OutputEmitterRef without public ===:*)",
+      "Bash(echo === Remaining readonly without public \\(2-space indent\\) ===:*)",
+      "Bash(head:*)"
     ]
   }
 }

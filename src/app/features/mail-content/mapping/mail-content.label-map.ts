@@ -15,3 +15,20 @@ export const HIGHLIGHT_NAV_LABEL_MAP = {
 export const MAIL_EXTRA_INFO_LABEL_MAP = {
   title: 'Additional Info',
 };
+
+export const MAIL_CONTENT_TOOLBAR_LABEL_MAP = {
+  download: 'הורד MAIL',
+  next: 'הבא',
+  previous: 'הקודם',
+};
+
+export const MAIL_ATTACHMENTS_LABEL_MAP = {
+  downloadAll: 'הורד דבוקות',
+};
+
+export const EXTRA_INFO_ROW_LABEL_MAP = {
+  fileCase: 'תיק:',
+  dueDate: 'תאריך יעד:',
+  handler: 'מטפל:',
+  classification: 'סיווג:',
+};

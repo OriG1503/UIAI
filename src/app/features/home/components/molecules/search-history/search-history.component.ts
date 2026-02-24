@@ -14,14 +14,14 @@ import { LastSearchListComponent } from '../last-search-list/last-search-list.co
   styleUrl: './search-history.component.scss',
 })
 export class SearchHistoryComponent {
-  readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
+  public readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
 
-  $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
-  $lastSearches: InputSignal<LastSearch[]> = input.required<LastSearch[]>({ alias: 'lastSearches' });
-  $isSavedSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isSavedSearchLoading' });
-  $isLastSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLastSearchLoading' });
+  public $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+  public $lastSearches: InputSignal<LastSearch[]> = input.required<LastSearch[]>({ alias: 'lastSearches' });
+  public $isSavedSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isSavedSearchLoading' });
+  public $isLastSearchLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLastSearchLoading' });
 
-  $activeTab: WritableSignal<SearchHistoryTab> = signal<SearchHistoryTab>('saved-search');
+  public $activeTab: WritableSignal<SearchHistoryTab> = signal<SearchHistoryTab>('saved-search');
 
   public onTabClick(tab: SearchHistoryTab): void {
     this.$activeTab.set(tab);

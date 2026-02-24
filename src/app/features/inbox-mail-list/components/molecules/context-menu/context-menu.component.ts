@@ -16,6 +16,7 @@ import {
 import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_MD } from '../../../../../shared/consts/icon-size.consts';
 import { MENU_WIDTH, MENU_HEIGHT, VIEWPORT_PADDING } from '../../../consts/context-menu.consts';
 
 @Component({
@@ -28,20 +29,21 @@ import { MENU_WIDTH, MENU_HEIGHT, VIEWPORT_PADDING } from '../../../consts/conte
 export class ContextMenuComponent implements AfterViewInit {
   private _elementRef: ElementRef = inject(ElementRef);
 
-  $x: InputSignal<number> = input.required<number>({ alias: 'x' });
-  $y: InputSignal<number> = input.required<number>({ alias: 'y' });
-  markAsUnreadClick: OutputEmitterRef<void> = output<void>();
-  closeMenu: OutputEmitterRef<void> = output<void>();
+  public $x: InputSignal<number> = input.required<number>({ alias: 'x' });
+  public $y: InputSignal<number> = input.required<number>({ alias: 'y' });
+  public markAsUnreadClick: OutputEmitterRef<void> = output<void>();
+  public closeMenu: OutputEmitterRef<void> = output<void>();
 
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_MD = ICON_SIZE_MD;
+  public readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
 
   private _menuDimensions: WritableSignal<{ width: number; height: number }> = signal<{
     width: number;
     height: number;
   }>({ width: MENU_WIDTH, height: MENU_HEIGHT });
 
-  $adjustedX: Signal<number> = computed<number>(() => {
+  public $adjustedX: Signal<number> = computed<number>(() => {
     const x: number = this.$x();
     const menuWidth: number = this._menuDimensions().width;
     const viewportWidth: number = window.innerWidth;
@@ -52,7 +54,7 @@ export class ContextMenuComponent implements AfterViewInit {
     return x;
   });
 
-  $adjustedY: Signal<number> = computed<number>(() => {
+  public $adjustedY: Signal<number> = computed<number>(() => {
     const y: number = this.$y();
     const menuHeight: number = this._menuDimensions().height;
     const viewportHeight: number = window.innerHeight;

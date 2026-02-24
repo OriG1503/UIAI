@@ -3,6 +3,7 @@ import { SearchViewType } from '../types/search-view-type.type';
 
 export const SEARCH_MODE_LABEL_MAP: Record<SearchModeType, string> = {
   regular: 'חיפוש',
+  advanced: 'מתקדם',
   agent: 'Agent',
 };
 

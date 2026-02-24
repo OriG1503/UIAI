@@ -8,6 +8,8 @@ export const COMMON_LABEL_MAP = {
   remove: 'הסר',
   edit: 'ערוך',
   delete: 'מחק',
+  lightMode: 'מצב בהיר',
+  darkMode: 'מצב כהה',
 };
 
 export const PLACEHOLDER_LABEL_MAP = {

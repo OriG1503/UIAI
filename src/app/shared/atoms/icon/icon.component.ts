@@ -8,7 +8,7 @@ import { IconName } from '../../consts/icon-name.consts';
   styleUrl: './icon.component.scss',
 })
 export class IconComponent {
-  $name: InputSignal<IconName> = input.required<IconName>({ alias: 'name' });
-  $size: InputSignal<string> = input<string>('1rem', { alias: 'size' });
-  $color: InputSignal<string> = input<string>('var(--color-dark-navy)', { alias: 'color' });
+  public $name: InputSignal<IconName> = input.required<IconName>({ alias: 'name' });
+  public $size: InputSignal<string> = input<string>('1rem', { alias: 'size' });
+  public $color: InputSignal<string> = input<string>('var(--color-dark-navy)', { alias: 'color' });
 }

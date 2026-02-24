@@ -4,7 +4,7 @@ const THEME_STORAGE_KEY: string = 'darkMode';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  $isDarkMode: WritableSignal<boolean> = signal<boolean>(false);
+  public $isDarkMode: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor() {
     const stored: string | null = localStorage.getItem(THEME_STORAGE_KEY);

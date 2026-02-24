@@ -11,9 +11,9 @@ import { Mail } from '../../shared/types/mail.type';
 export class MockMailService {
   private _mails: WritableSignal<Mail[]> = signal<Mail[]>(this._generateMockMails());
 
-  readonly mails: Signal<Mail[]> = this._mails.asReadonly();
+  public readonly mails: Signal<Mail[]> = this._mails.asReadonly();
 
-  readonly userEmail: string = 'ori@gmail.com';
+  public readonly userEmail: string = 'ori@gmail.com';
 
   public markAsRead(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>

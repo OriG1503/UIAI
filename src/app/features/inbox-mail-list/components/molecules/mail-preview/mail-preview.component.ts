@@ -2,11 +2,15 @@ import { Component, input, output, OutputEmitterRef, computed, inject, InputSign
 import { Mail } from '../../../../../shared/types/mail.type';
 import { MailUserInfo } from '../../../../../shared/types/mail-user-info.type';
 import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pipe';
+import { FormatDatePipe } from '../../../../../shared/pipes/format-date.pipe';
+import { FormatTimePipe } from '../../../../../shared/pipes/format-time.pipe';
+import { FormatUserInfoPipe } from '../../../../../shared/pipes/format-user-info.pipe';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { MockMailContentService } from '../../../../../core/services/mock-mail-content.service';
 import { HighlightData } from '../../../../../shared/types/highlight-match.type';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_SM, ICON_SIZE_MD } from '../../../../../shared/consts/icon-size.consts';
 import {
   MAIL_PREVIEW_SUBJECT_MAX_LENGTH,
   MAIL_PREVIEW_TO_MAX_COUNT,
@@ -23,62 +27,43 @@ export type ContextMenuEvent = {
 @Component({
   selector: 'app-mail-preview',
   standalone: true,
-  imports: [IconComponent, HighlightTextPipe],
+  imports: [IconComponent, HighlightTextPipe, FormatDatePipe, FormatTimePipe, FormatUserInfoPipe],
   templateUrl: './mail-preview.component.html',
   styleUrl: './mail-preview.component.scss',
 })
 export class MailPreviewComponent {
   private _highlightService: HighlightService = inject(HighlightService);
   private _mailContentService: MockMailContentService = inject(MockMailContentService);
+  private _formatUserInfoPipe: FormatUserInfoPipe = inject(FormatUserInfoPipe);
 
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_SM = ICON_SIZE_SM;
+  public readonly ICON_SIZE_MD = ICON_SIZE_MD;
 
-  $mail: InputSignal<Mail> = input.required<Mail>({ alias: 'mail' });
-  $isSelectMode: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelectMode' });
-  $isSelected: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelected' });
-  $isCurrent: InputSignal<boolean> = input<boolean>(false, { alias: 'isCurrent' });
-  mailClick: OutputEmitterRef<void> = output<void>();
-  selectionChange: OutputEmitterRef<{ shiftKey: boolean }> = output<{ shiftKey: boolean }>();
-  contextMenu: OutputEmitterRef<ContextMenuEvent> = output<ContextMenuEvent>();
+  public $mail: InputSignal<Mail> = input.required<Mail>({ alias: 'mail' });
+  public $isSelectMode: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelectMode' });
+  public $isSelected: InputSignal<boolean> = input<boolean>(false, { alias: 'isSelected' });
+  public $isCurrent: InputSignal<boolean> = input<boolean>(false, { alias: 'isCurrent' });
+  public mailClick: OutputEmitterRef<void> = output<void>();
+  public selectionChange: OutputEmitterRef<{ shiftKey: boolean }> = output<{ shiftKey: boolean }>();
+  public contextMenu: OutputEmitterRef<ContextMenuEvent> = output<ContextMenuEvent>();
 
-  $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
+  public $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
 
-  $isAttachmentBadgeHighlighted: Signal<boolean> = computed<boolean>(() =>
+  public $isAttachmentBadgeHighlighted: Signal<boolean> = computed<boolean>(() =>
     this._highlightService.hasAnyAttachmentHighlight(this.$mail().filename),
   );
 
-  $attachmentCount: Signal<number> = computed<number>(() => {
+  public $attachmentCount: Signal<number> = computed<number>(() => {
     const mail: Mail = this.$mail();
     return mail.attachments?.filename?.length ?? 0;
   });
 
-  $isUnread: Signal<boolean> = computed<boolean>(() => {
+  public $isUnread: Signal<boolean> = computed<boolean>(() => {
     return !this.$mail().isRead;
   });
 
-  $formattedDate: Signal<string> = computed<string>(() => {
-    const mail: Mail = this.$mail();
-    const date: Date = new Date(mail.sent);
-    const day: string = date.getDate().toString().padStart(2, '0');
-    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year: number = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  });
-
-  $formattedTime: Signal<string> = computed<string>(() => {
-    const mail: Mail = this.$mail();
-    const date: Date = new Date(mail.sent);
-    const hours: string = date.getHours().toString().padStart(2, '0');
-    const minutes: string = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-  });
-
-  $senderDisplay: Signal<string> = computed<string>(() => {
-    const from: MailUserInfo = this.$mail().from;
-    return this._formatUserInfo(from);
-  });
-
-  $subjectPreview: Signal<string> = computed<string>(() => {
+  public $subjectPreview: Signal<string> = computed<string>(() => {
     const subject: string = this.$mail().subject;
     if (subject.length <= MAIL_PREVIEW_SUBJECT_MAX_LENGTH) {
       return subject;
@@ -86,11 +71,11 @@ export class MailPreviewComponent {
     return subject.substring(0, MAIL_PREVIEW_SUBJECT_MAX_LENGTH);
   });
 
-  $isSubjectOverflow: Signal<boolean> = computed<boolean>(() => {
+  public $isSubjectOverflow: Signal<boolean> = computed<boolean>(() => {
     return this.$mail().subject.length > MAIL_PREVIEW_SUBJECT_MAX_LENGTH;
   });
 
-  $isSubjectEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
+  public $isSubjectEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
     if (!this.$isSubjectOverflow()) {
       return false;
     }
@@ -99,14 +84,14 @@ export class MailPreviewComponent {
   });
 
   private _$toAllFormatted: Signal<string[]> = computed<string[]>(() => {
-    return this.$mail().to.map((user: MailUserInfo) => this._formatUserInfo(user));
+    return this.$mail().to.map((user: MailUserInfo) => this._formatUserInfoPipe.transform(user));
   });
 
   private _$toVisibleText: Signal<string> = computed<string>(() => {
     return this._$toAllFormatted().slice(0, MAIL_PREVIEW_TO_MAX_COUNT).join(', ');
   });
 
-  $toDisplayText: Signal<string> = computed<string>(() => {
+  public $toDisplayText: Signal<string> = computed<string>(() => {
     const visible: string = this._$toVisibleText();
     if (visible.length <= MAIL_PREVIEW_TO_MAX_LENGTH) {
       return visible;
@@ -114,13 +99,13 @@ export class MailPreviewComponent {
     return visible.substring(0, MAIL_PREVIEW_TO_MAX_LENGTH);
   });
 
-  $isToOverflow: Signal<boolean> = computed<boolean>(() => {
+  public $isToOverflow: Signal<boolean> = computed<boolean>(() => {
     return (
       this.$mail().to.length > MAIL_PREVIEW_TO_MAX_COUNT || this._$toVisibleText().length > MAIL_PREVIEW_TO_MAX_LENGTH
     );
   });
 
-  $isToEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
+  public $isToEllipsisHighlighted: Signal<boolean> = computed<boolean>(() => {
     if (!this.$isToOverflow()) {
       return false;
     }
@@ -133,7 +118,7 @@ export class MailPreviewComponent {
     return this._containsSearchTerm(hiddenText, this.$searchTerms());
   });
 
-  $contentPreview: Signal<string> = computed<string>(() => {
+  public $contentPreview: Signal<string> = computed<string>(() => {
     const mail: Mail = this.$mail();
     const html: string = this._mailContentService.getMailContent(mail.filename);
     const div: HTMLDivElement = document.createElement('div');
@@ -167,16 +152,6 @@ export class MailPreviewComponent {
 
     return fullText.substring(0, MAIL_PREVIEW_CONTENT_MAX_LENGTH);
   });
-
-  private _formatUserInfo(user: MailUserInfo): string {
-    if (user.username) {
-      return user.username;
-    }
-    if (user.mail) {
-      return user.mail;
-    }
-    return user.tag ?? '';
-  }
 
   private _containsSearchTerm(text: string, terms: string[]): boolean {
     if (!text || terms.length === 0) {

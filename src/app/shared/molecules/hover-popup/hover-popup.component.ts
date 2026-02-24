@@ -10,12 +10,12 @@ import { IconComponent } from '../../atoms/icon/icon.component';
   styleUrl: './hover-popup.component.scss',
 })
 export class HoverPopupComponent {
-  $options: InputSignal<PopupOption[]> = input.required<PopupOption[]>({ alias: 'options' });
+  public $options: InputSignal<PopupOption[]> = input.required<PopupOption[]>({ alias: 'options' });
 
-  optionSelect: OutputEmitterRef<string> = output<string>();
+  public optionSelect: OutputEmitterRef<string> = output<string>();
 
-  $isOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $position: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
+  public $isOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $position: WritableSignal<{ top: number; right: number }> = signal({ top: 0, right: 0 });
   private _elementRef: ElementRef = inject(ElementRef);
   private _closeTimer: ReturnType<typeof setTimeout> | null = null;
 

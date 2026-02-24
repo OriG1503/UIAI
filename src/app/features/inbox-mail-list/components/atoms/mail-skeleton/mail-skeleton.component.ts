@@ -8,9 +8,9 @@ import { SKELETON_COUNT } from '../../../consts/mail-skeleton.consts';
   styleUrl: './mail-skeleton.component.scss',
 })
 export class MailSkeletonComponent {
-  $count: InputSignal<number> = input<number>(SKELETON_COUNT, { alias: 'count' });
+  public $count: InputSignal<number> = input<number>(SKELETON_COUNT, { alias: 'count' });
 
-  get items(): number[] {
+  public get items(): number[] {
     return Array.from({ length: this.$count() }, (_: undefined, i: number) => i);
   }
 }

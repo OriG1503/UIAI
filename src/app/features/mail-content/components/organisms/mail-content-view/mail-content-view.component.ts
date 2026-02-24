@@ -70,27 +70,27 @@ export class MailContentViewComponent {
     }
   }
 
-  $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
-  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+  public $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
+  public $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
 
-  $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
-  $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
-  $totalHighlights: WritableSignal<number> = signal<number>(0);
+  public $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
+  public $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
+  public $totalHighlights: WritableSignal<number> = signal<number>(0);
 
-  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
-  readonly extraInfoRows: ExtraInfoRow[] = MOCK_EXTRA_INFO_ROWS;
+  public readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  public readonly extraInfoRows: ExtraInfoRow[] = MOCK_EXTRA_INFO_ROWS;
 
-  $hasAttachments: Signal<boolean> = computed<boolean>(() => {
+  public $hasAttachments: Signal<boolean> = computed<boolean>(() => {
     const mail: Mail | null = this.$mail();
     return mail !== null && mail.attachments?.filename?.length > 0;
   });
 
-  $attachments: Signal<string[]> = computed<string[]>(() => {
+  public $attachments: Signal<string[]> = computed<string[]>(() => {
     const mail: Mail | null = this.$mail();
     return mail?.attachments?.filename ?? [];
   });
 
-  $mailContent: Signal<string> = computed<string>(() => {
+  public $mailContent: Signal<string> = computed<string>(() => {
     const mail: Mail | null = this.$mail();
     if (!mail) {
       return '';
@@ -98,7 +98,7 @@ export class MailContentViewComponent {
     return this._mailContentService.getMailContent(mail.filename);
   });
 
-  $mailFilename: Signal<string> = computed<string>(() => this.$mail()?.filename ?? '');
+  public $mailFilename: Signal<string> = computed<string>(() => this.$mail()?.filename ?? '');
 
   constructor() {
     effect(() => {

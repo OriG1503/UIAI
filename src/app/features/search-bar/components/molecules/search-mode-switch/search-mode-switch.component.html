@@ -6,12 +6,12 @@
     (click)="onModeSelect('agent'); onGeminiClick($event)"
   >
     <span class="agent-label">{{ labels.agent }}</span>
-    <app-gemini-icon size="0.75rem" />
+    <app-gemini-icon [size]="ICON_SIZE_SM" />
   </button>
   <button
     type="button"
     class="switch-btn switch-btn-search"
-    [class.switch-btn-active]="$mode() === 'regular'"
+    [class.switch-btn-active]="$mode() === 'regular' || $mode() === 'advanced'"
     (click)="onModeSelect('regular')"
   >
     {{ labels.regular }}

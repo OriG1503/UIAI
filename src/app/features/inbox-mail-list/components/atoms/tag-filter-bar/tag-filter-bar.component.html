@@ -3,7 +3,10 @@
     class="scroll-btn"
     (click)="onScrollLeft()"
   >
-    &lt;&lt;
+    <app-icon
+      [name]="ICON_NAMES.CHEVRON_LEFT"
+      [size]="ICON_SIZE_XS"
+    />
   </button>
 
   <div
@@ -25,6 +28,9 @@
     class="scroll-btn"
     (click)="onScrollRight()"
   >
-    &gt;&gt;
+    <app-icon
+      [name]="ICON_NAMES.CHEVRON_RIGHT"
+      [size]="ICON_SIZE_XS"
+    />
   </button>
 </div>

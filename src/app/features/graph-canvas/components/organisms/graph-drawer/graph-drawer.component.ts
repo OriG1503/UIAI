@@ -31,13 +31,13 @@ import { SelectedMailService } from '../../../../../core/services/selected-mail.
   styleUrl: './graph-drawer.component.scss',
 })
 export class GraphDrawerComponent {
-  $mails: InputSignal<Mail[]> = input<Mail[]>([], { alias: 'mails' });
-  $isOpen: InputSignal<boolean> = input<boolean>(false, { alias: 'isOpen' });
-  $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
+  public $mails: InputSignal<Mail[]> = input<Mail[]>([], { alias: 'mails' });
+  public $isOpen: InputSignal<boolean> = input<boolean>(false, { alias: 'isOpen' });
+  public $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
 
-  drawerClose: OutputEmitterRef<void> = output<void>();
+  public drawerClose: OutputEmitterRef<void> = output<void>();
 
-  $graphSelectionInfo: Signal<GraphSelectionInfo | null> = computed<GraphSelectionInfo | null>(() => {
+  public $graphSelectionInfo: Signal<GraphSelectionInfo | null> = computed<GraphSelectionInfo | null>(() => {
     const selection: GraphSelection = this.$selection();
     if (selection.type === 'node' && selection.nodeEmail) {
       return { type: 'node', email: selection.nodeEmail };
@@ -51,15 +51,15 @@ export class GraphDrawerComponent {
   private _selectedMailService: SelectedMailService = inject(SelectedMailService);
   private _ngZone: NgZone = inject(NgZone);
 
-  readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
+  public readonly $selectedMail: Signal<Mail | null> = this._selectedMailService.selectedMail;
 
   private _$heightPercent: WritableSignal<number> = signal<number>(DRAWER_HEIGHT_DEFAULT);
-  $isFullscreen: WritableSignal<boolean> = signal<boolean>(false);
+  public $isFullscreen: WritableSignal<boolean> = signal<boolean>(false);
   private _$isDragging: WritableSignal<boolean> = signal<boolean>(false);
 
   private _lastHeightBeforeFullscreen: number = DRAWER_HEIGHT_DEFAULT;
 
-  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
+  public readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
   private _startY: number = 0;
   private _startHeight: number = 0;
@@ -70,7 +70,7 @@ export class GraphDrawerComponent {
 
   @ViewChild('drawerContainer') private _drawerContainer!: ElementRef<HTMLDivElement>;
 
-  $drawerStyle: Signal<{ height: string }> = computed<{ height: string }>(() => {
+  public $drawerStyle: Signal<{ height: string }> = computed<{ height: string }>(() => {
     if (this.$isFullscreen()) {
       return { height: '100%' };
     }

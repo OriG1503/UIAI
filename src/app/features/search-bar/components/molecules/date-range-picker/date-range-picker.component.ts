@@ -5,6 +5,7 @@ import {
   OutputEmitterRef,
   signal,
   computed,
+  inject,
   ElementRef,
   HostListener,
   ViewEncapsulation,
@@ -25,8 +26,10 @@ import {
 import { DEFAULT_VERBAL_AMOUNT, DEFAULT_VERBAL_UNIT } from '../../../consts/date-range.consts';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
 import { CalendarViewComponent } from '../calendar-view/calendar-view.component';
 import { VerbalViewComponent } from '../verbal-view/verbal-view.component';
+import { FormatDatePipe } from '../../../../../shared/pipes/format-date.pipe';
 
 @Component({
   selector: 'app-date-range-picker',
@@ -37,31 +40,34 @@ import { VerbalViewComponent } from '../verbal-view/verbal-view.component';
   encapsulation: ViewEncapsulation.None,
 })
 export class DateRangePickerComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  $dateRange: InputSignal<Date[] | null> = input<Date[] | null>(null, { alias: 'dateRange' });
-  dateRangeChange: OutputEmitterRef<Date[] | null> = output<Date[] | null>();
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_XS = ICON_SIZE_XS;
+  public $dateRange: InputSignal<Date[] | null> = input<Date[] | null>(null, { alias: 'dateRange' });
+  public dateRangeChange: OutputEmitterRef<Date[] | null> = output<Date[] | null>();
 
-  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $selectedMode: WritableSignal<DateRangeMode> = signal<DateRangeMode>('calendar');
-  $selectedOption: WritableSignal<DateFilterOption> = signal<DateFilterOption>('option1');
+  public $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $selectedMode: WritableSignal<DateRangeMode> = signal<DateRangeMode>('calendar');
+  public $selectedOption: WritableSignal<DateFilterOption> = signal<DateFilterOption>('option1');
   private _$lastSelectionMode: WritableSignal<DateRangeMode> = signal<DateRangeMode>('calendar');
   private _$verbalAmount: WritableSignal<number> = signal<number>(DEFAULT_VERBAL_AMOUNT);
   private _$verbalUnit: WritableSignal<TimeUnit> = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
 
-  readonly timeUnitOptions: TimeUnitOption[] = [
+  public readonly timeUnitOptions: TimeUnitOption[] = [
     { value: 'days', label: TIME_UNIT_LABEL_MAP.days },
     { value: 'weeks', label: TIME_UNIT_LABEL_MAP.weeks },
     { value: 'months', label: TIME_UNIT_LABEL_MAP.months },
     { value: 'years', label: TIME_UNIT_LABEL_MAP.years },
   ];
 
-  readonly modeLabels: typeof DATE_RANGE_MODE_LABEL_MAP = DATE_RANGE_MODE_LABEL_MAP;
-  readonly optionLabels: typeof DATE_FILTER_OPTION_LABEL_MAP = DATE_FILTER_OPTION_LABEL_MAP;
-  readonly translations: typeof DATE_RANGE_LABEL_MAP = DATE_RANGE_LABEL_MAP;
+  public readonly modeLabels: typeof DATE_RANGE_MODE_LABEL_MAP = DATE_RANGE_MODE_LABEL_MAP;
+  public readonly optionLabels: typeof DATE_FILTER_OPTION_LABEL_MAP = DATE_FILTER_OPTION_LABEL_MAP;
+  public readonly translations: typeof DATE_RANGE_LABEL_MAP = DATE_RANGE_LABEL_MAP;
+
+  private _formatDatePipe: FormatDatePipe = inject(FormatDatePipe);
 
   constructor(private _elementRef: ElementRef) {}
 
-  $buttonLabel: Signal<string> = computed<string>(() => {
+  public $buttonLabel: Signal<string> = computed<string>(() => {
     const isOpen: boolean = this.$isPopupOpen();
     const dateRange: Date[] | null = this.$dateRange();
     const hasDates: boolean = !!dateRange && dateRange.length === 2 && !!dateRange[0] && !!dateRange[1];
@@ -73,24 +79,26 @@ export class DateRangePickerComponent {
     if (this._$lastSelectionMode() === 'verbal') {
       const amount: number = this._$verbalAmount();
       const unit: TimeUnit = this._$verbalUnit();
-      const unitLabel: string = this.timeUnitOptions.find((option: TimeUnitOption) => option.value === unit)?.label ?? '';
+      const unitLabel: string =
+        this.timeUnitOptions.find((option: TimeUnitOption) => option.value === unit)?.label ?? '';
       return `${amount} ${unitLabel}`;
     }
 
-    return `${this._formatDate(dateRange![0]!)} - ${this._formatDate(dateRange![1]!)}`;
+    return `${this._formatDatePipe.transform(dateRange![0]!)} - ${this._formatDatePipe.transform(dateRange![1]!)}`;
   });
 
-  $isActive: Signal<boolean> = computed<boolean>(() => {
+  public $isActive: Signal<boolean> = computed<boolean>(() => {
     const dateRange: Date[] | null = this.$dateRange();
     return !this.$isPopupOpen() && !!dateRange && dateRange.length === 2 && !!dateRange[0] && !!dateRange[1];
   });
 
-  private _formatDate(date: Date): string {
-    const day: string = date.getDate().toString().padStart(2, '0');
-    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year: string = (date.getFullYear() % 100).toString().padStart(2, '0');
-    return `${day}/${month}/${year}`;
-  }
+  public $calendarIconColor: Signal<string> = computed<string>(() =>
+    this.$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)',
+  );
+
+  public $chevronIconColor: Signal<string> = computed<string>(() =>
+    this.$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)',
+  );
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: Event): void {

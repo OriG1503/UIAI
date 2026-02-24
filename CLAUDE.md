@@ -40,9 +40,9 @@ src/app/
 │   ├── atoms/      # Global basic UI elements (e.g., Icon, ThemeToggle, GeminiIcon)
 │   ├── molecules/  # Global combinations of atoms (e.g., HoverPopup)
 │   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch, SortDirection)
-│   ├── consts/     # Cross-feature constants (e.g., icon-name.consts.ts with all PrimeIcon names)
+│   ├── consts/     # Cross-feature constants (icon-name.consts.ts, icon-size.consts.ts)
 │   ├── mapping/    # Cross-feature translations (common.label-map.ts, inbox.label-map.ts)
-│   └── pipes/      # Cross-feature pipes (HighlightTextPipe)
+│   └── pipes/      # Cross-feature pipes (HighlightTextPipe, FormatDatePipe, FormatTimePipe, FormatUserInfoPipe)
 ```
 
 ## Atomic Design (Component Architecture)
@@ -74,6 +74,9 @@ src/app/
 - **Every component must have 3 separate files**: `.ts`, `.html`, `.scss` (even if empty)
 - **No inline templates/styles**: Always use `templateUrl` and `styleUrl` pointing to external files
 - **Multiple SCSS files**: A component may declare `styleUrl` as an array for compositional styling (e.g., `[component.scss, floating-icons.scss]`)
+- **Pipe injection via `inject()`**: Pipes used both programmatically via `inject()` AND in templates should have `@Injectable({ providedIn: 'root' })` alongside `@Pipe()`. This prevents `NullInjectorError` when the Angular linter removes the pipe from `imports[]` (because it sees "not used within the template"). Without `@Injectable`, the pipe can only be injected while it's in `imports[]`.
+- **Icon size constants**: Use named constants from `shared/consts/icon-size.consts.ts` for `<app-icon [size]="...">`. Available: `ICON_SIZE_XS = '0.7rem'`, `ICON_SIZE_SM = '0.75rem'`, `ICON_SIZE_MD = '0.875rem'`, `ICON_SIZE_LG = '1rem'`. Only use inline literals for rare one-off sizes.
+- **Exhaustive `Record<UnionType, string>` maps**: When a label map is typed as `Record<SomeUnion, string>`, every value of the union must appear as a key. Adding a new value to the union type requires updating the map too.
 
 ## SCSS Rules
 - **Mirror HTML hierarchy**: SCSS nesting must match the HTML structure exactly
@@ -94,6 +97,7 @@ src/app/
 - **Label map typing**: Type as `typeof LABEL_MAP` (not `Record<string, string>`) when accessed in templates via dot-notation — this preserves autocomplete and type safety. Use `Record<UnionType, string>` only when the map is keyed by a discriminated union type for programmatic lookup.
 
 ## Code Style
+- **Explicit access modifiers**: Every class member must have `public`, `private`, or `protected` — no implicit visibility
 - **No** `let`, `for`, `while` - use `forEach`, `map`, `filter`, etc.
 - **Always use braces `{}` for `if` statements** - never use shorthand single-line `if` without braces (e.g., `if (x) return;`). Always wrap the body in `{}`
 - Clickable elements must use `<button>` tag (not labels, divs, spans)
@@ -140,11 +144,19 @@ Child routes are defined in `core/routes/search.routes.ts`.
 - `MockMailService` - Mail data operations (CRUD, starring, read/unread status)
 - `MockMailContentService` - Email body content retrieval
 - `MockTagService` - Tag CRUD operations
-- `SelectedMailService` - Shared state for currently selected mail and navigation. Dispatches `markAsSeen` to the correct service based on filename prefix: filenames starting with `'graph-mail-'` route to `MockGraphMailService`, all others to `MockMailService`
+- `SelectedMailService` - Shared state for currently selected mail and navigation. Dispatches `markMailAsRead`/`markMailAsUnread` to the correct service based on filename prefix: filenames starting with `'graph-mail-'` route to `MockGraphMailService`, all others to `MockMailService`
 - `HighlightService` - Search term highlighting: per-mail highlight state, `highlightText()` and `highlightBodyContent()` for safe HTML marking
 - `MockGraphMailService` - Generates ~1000+ mock mails with 40 users for graph visualization
 - `GraphDataService` - Builds graph from `Mail[]`: nodes (users), edges (mail connections). Provides `getMailsForNode()` and `getMailsForEdge()`
 - `ThemeService` - Dark mode toggle with localStorage persistence
+
+## Shared Pipes (in `shared/pipes/`)
+- `HighlightTextPipe` — marks search terms in text as `<mark>` HTML
+- `FormatDatePipe` — `Date | number | null` → `'DD/MM/YY'` string
+- `FormatTimePipe` — `Date | number | null` → `'HH:mm'` string
+- `FormatUserInfoPipe` — `MailUserInfo | null` → display name (priority: `username` → `mail` → `tag`)
+
+All four have both `@Injectable({ providedIn: 'root' })` and `@Pipe({ standalone: true })`. The `@Injectable` ensures they can be resolved via `inject()` in any component, even if the linter removes them from `imports[]` (because they're not used directly in the template).
 
 ## Store Structure (in `core/`)
 The real application uses NgRx with the following structure, but this mock app does not implement the store - it uses services with signals instead.
@@ -236,7 +248,7 @@ type Mail = {
   mailbox_name: string;
   body_paths?: string[];
   html_path?: string[];
-  seen?: boolean;
+  isRead?: boolean;
 };
 
 type MailUserInfo = {

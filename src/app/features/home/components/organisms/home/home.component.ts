@@ -13,14 +13,14 @@ import { MOCK_LAST_SEARCHES } from '../../../consts/last-search.consts';
   standalone: true,
   imports: [SearchBarComponent, ThemeToggleComponent, AlertButtonComponent, SearchHistoryComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss', './floating-icons.scss'],
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
   // TODO: replace with store selectors when connecting to server
-  $savedSearches: WritableSignal<SavedSearch[]> = signal<SavedSearch[]>(MOCK_SAVED_SEARCHES);
-  $lastSearches: WritableSignal<LastSearch[]> = signal<LastSearch[]>(MOCK_LAST_SEARCHES);
-  $isSavedSearchLoading: WritableSignal<boolean> = signal<boolean>(false);
-  $isLastSearchLoading: WritableSignal<boolean> = signal<boolean>(false);
+  public $savedSearches: WritableSignal<SavedSearch[]> = signal<SavedSearch[]>(MOCK_SAVED_SEARCHES);
+  public $lastSearches: WritableSignal<LastSearch[]> = signal<LastSearch[]>(MOCK_LAST_SEARCHES);
+  public $isSavedSearchLoading: WritableSignal<boolean> = signal<boolean>(false);
+  public $isLastSearchLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   public onOpenIssue(): void {
     // TODO: connect to real service / NgRx action

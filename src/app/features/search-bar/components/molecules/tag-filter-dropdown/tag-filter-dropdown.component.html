@@ -10,8 +10,8 @@
     <span class="tag-btn-icon">
       <app-icon
         [name]="$isPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
-        size="0.7rem"
-        [color]="$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+        [size]="ICON_SIZE_XS"
+        [color]="$triggerIconColor()"
       />
     </span>
   </button>
@@ -53,7 +53,7 @@
             >
               <app-icon
                 [name]="ICON_NAMES.TRASH"
-                size="0.7rem"
+                [size]="ICON_SIZE_XS"
                 color="var(--color-red)"
               />
             </button>
@@ -68,13 +68,7 @@
           <span class="empty-state-text">{{ translations.searchToStart }}</span>
         </div>
       } @else if ($isLoading()) {
-        <div class="skeleton-list">
-          @for (skeletonItem of skeletonItems; track skeletonItem) {
-            <div class="skeleton-item">
-              <div class="skeleton-line"></div>
-            </div>
-          }
-        </div>
+        <app-tag-filter-skeleton />
       } @else {
         <div
           class="results-list"

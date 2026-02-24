@@ -21,4 +21,7 @@ export const INBOX_LABEL_MAP = {
   unreadTooltip: 'לא נקרא',
   readTooltip: 'נקרא',
   translateTooltip: 'תרגם',
+  fullscreen: 'מסך מלא',
+  exitFullscreen: 'יציאה ממסך מלא',
+  close: 'סגור',
 };

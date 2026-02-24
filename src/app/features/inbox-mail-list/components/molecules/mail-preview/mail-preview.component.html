@@ -16,7 +16,7 @@
       @if ($isSelected()) {
         <app-icon
           [name]="ICON_NAMES.CHECK"
-          size="0.75rem"
+          [size]="ICON_SIZE_SM"
           color="var(--color-white)"
         />
       }
@@ -45,7 +45,7 @@
         >
           <app-icon
             [name]="ICON_NAMES.PAPERCLIP"
-            size="0.875rem"
+            [size]="ICON_SIZE_MD"
           />
           <span class="attachment-count">{{ $attachmentCount() }}</span>
         </div>
@@ -56,10 +56,10 @@
       <div
         class="mail-from"
         dir="auto"
-        [innerHTML]="$senderDisplay() | highlightText: $searchTerms()"
+        [innerHTML]="($mail().from | formatUserInfo) | highlightText: $searchTerms()"
       ></div>
-      <span class="mail-date">{{ $formattedDate() }}</span>
-      <span class="mail-time">{{ $formattedTime() }}</span>
+      <span class="mail-date">{{ $mail().sent | formatDate }}</span>
+      <span class="mail-time">{{ $mail().sent | formatTime }}</span>
     </div>
 
     <div class="mail-to">

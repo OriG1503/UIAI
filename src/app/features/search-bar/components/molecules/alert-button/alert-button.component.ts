@@ -12,14 +12,14 @@ import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
   encapsulation: ViewEncapsulation.None,
 })
 export class AlertButtonComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  openIssue: OutputEmitterRef<void> = output<void>();
-  openRequest: OutputEmitterRef<void> = output<void>();
+  public openIssue: OutputEmitterRef<void> = output<void>();
+  public openRequest: OutputEmitterRef<void> = output<void>();
 
-  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
 
-  readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
+  public readonly buttonLabels: typeof BUTTON_LABEL_MAP = BUTTON_LABEL_MAP;
 
   private _closeTimeout: ReturnType<typeof setTimeout> | null = null;
 

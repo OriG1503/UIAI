@@ -1,6 +1,6 @@
 <button
   class="theme-toggle"
-  [title]="themeService.$isDarkMode() ? 'מצב בהיר' : 'מצב כהה'"
+  [title]="themeService.$isDarkMode() ? translations.lightMode : translations.darkMode"
   (click)="themeService.toggle()"
 >
   <app-icon [name]="themeService.$isDarkMode() ? ICON_NAMES.SUN : ICON_NAMES.MOON" />

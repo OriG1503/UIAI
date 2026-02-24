@@ -12,7 +12,7 @@ import { MailUserInfo } from '../../shared/types/mail-user-info.type';
 export class MockGraphMailService {
   private _mails: WritableSignal<Mail[]> = signal<Mail[]>(this._generateMockMails());
 
-  readonly mails: Signal<Mail[]> = this._mails.asReadonly();
+  public readonly mails: Signal<Mail[]> = this._mails.asReadonly();
 
   public markAsRead(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>

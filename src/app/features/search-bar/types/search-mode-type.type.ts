@@ -1,1 +1,1 @@
-export type SearchModeType = 'regular' | 'agent';
+export type SearchModeType = 'regular' | 'advanced' | 'agent';

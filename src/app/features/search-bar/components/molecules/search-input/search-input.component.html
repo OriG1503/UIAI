@@ -7,12 +7,14 @@
     [placeholder]="translations.freeSearch"
     class="search-input"
   />
-  <button
-    type="button"
-    class="advanced-btn"
-    (click)="onAdvancedClick()"
-    [title]="translations.advancedQuery"
-  >
-    <app-icon [name]="ICON_NAMES.SLIDERS_H" />
-  </button>
+  @if ($searchMode() !== 'agent') {
+    <button
+      type="button"
+      class="advanced-btn"
+      (click)="onAdvancedClick()"
+      [title]="translations.advancedQuery"
+    >
+      <app-icon [name]="ICON_NAMES.SLIDERS_H" />
+    </button>
+  }
 </div>

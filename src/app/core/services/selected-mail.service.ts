@@ -12,12 +12,12 @@ export class SelectedMailService {
   private _selectedMail: WritableSignal<Mail | null> = signal<Mail | null>(null);
   private _mailList: WritableSignal<Mail[]> = signal<Mail[]>([]);
 
-  readonly selectedMail: Signal<Mail | null> = this._selectedMail.asReadonly();
-  readonly mailList: Signal<Mail[]> = this._mailList.asReadonly();
+  public readonly selectedMail: Signal<Mail | null> = this._selectedMail.asReadonly();
+  public readonly mailList: Signal<Mail[]> = this._mailList.asReadonly();
 
-  $hasSelectedMail: Signal<boolean> = computed<boolean>(() => this._selectedMail() !== null);
+  public $hasSelectedMail: Signal<boolean> = computed<boolean>(() => this._selectedMail() !== null);
 
-  $selectedIndex: Signal<number> = computed<number>(() => {
+  public $selectedIndex: Signal<number> = computed<number>(() => {
     const mail: Mail | null = this._selectedMail();
     const list: Mail[] = this._mailList();
     if (!mail || list.length === 0) {
@@ -26,9 +26,9 @@ export class SelectedMailService {
     return list.findIndex((listMail: Mail) => listMail.filename === mail.filename);
   });
 
-  $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
+  public $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
 
-  $hasNext: Signal<boolean> = computed<boolean>(() => {
+  public $hasNext: Signal<boolean> = computed<boolean>(() => {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     return index >= 0 && index < list.length - 1;
