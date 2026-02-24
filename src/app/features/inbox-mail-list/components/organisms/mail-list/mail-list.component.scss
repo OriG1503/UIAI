@@ -94,7 +94,7 @@
       padding: 0.5rem;
       background-color: var(--color-white-soft);
 
-      > * {
+      .scroll-item {
         direction: rtl;
         flex-shrink: 0;
       }

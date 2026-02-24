@@ -1,5 +1,3 @@
-@use 'sass:math';
-
 :host {
   display: block;
   height: 100%;
@@ -9,33 +7,6 @@ $section-count: 4;
 $stagger: 0.15s;
 $highlight-duration: 0.4s;
 $total-cycle: $section-count * $stagger + $highlight-duration + 0.8s;
-
-$highlight-peak: math.percentage(math.div($highlight-duration * 0.5, $total-cycle));
-$highlight-end: math.percentage(math.div($highlight-duration, $total-cycle));
-
-@keyframes shimmer {
-  0% {
-    background-position: 0% 0;
-  }
-  100% {
-    background-position: 100% 0;
-  }
-}
-
-@keyframes highlight {
-  0% {
-    opacity: 1;
-  }
-  #{$highlight-peak} {
-    opacity: 0.6;
-  }
-  #{$highlight-end} {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 .content-skeleton {
   display: flex;

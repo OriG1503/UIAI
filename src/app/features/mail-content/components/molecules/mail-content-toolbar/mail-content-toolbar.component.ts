@@ -67,7 +67,7 @@ export class MailContentToolbarComponent {
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
     const encodingWrapper: HTMLElement | null = this._elementRef.nativeElement.querySelector('.encoding-wrapper');
-    if (encodingWrapper && !encodingWrapper.contains(event.target as Node)) {
+    if (encodingWrapper && !encodingWrapper.contains(event.target as HTMLElement)) {
       this.$isEncodingPopupOpen.set(false);
     }
   }

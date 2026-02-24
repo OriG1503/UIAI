@@ -3,10 +3,10 @@
     type="button"
     class="switch-btn switch-btn-agent"
     [class.switch-btn-active]="$mode() === 'agent'"
-    (click)="onModeSelect('agent'); onGeminiClick($event)"
+    (click)="onModeSelect('agent'); geminiRain.onGeminiClick($event)"
   >
     <span class="agent-label">{{ labels.agent }}</span>
-    <app-gemini-icon [size]="ICON_SIZE_SM" />
+    <app-gemini-rain #geminiRain />
   </button>
   <button
     type="button"

@@ -45,7 +45,7 @@
       min-width: 0;
       direction: ltr;
 
-      > * {
+      .scroll-child {
         direction: rtl;
       }
     }
@@ -58,7 +58,7 @@
       border-left: 1px solid var(--color-light-gray);
       direction: ltr;
 
-      > * {
+      .scroll-child {
         direction: rtl;
       }
     }

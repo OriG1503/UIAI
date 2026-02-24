@@ -81,11 +81,8 @@
     padding-right: 0.75rem;
     direction: ltr;
 
-    > * {
-      direction: rtl;
-    }
-
     .saved-search-item {
+      direction: rtl;
       display: flex;
       background-color: var(--color-white);
       border-radius: 0.5rem;

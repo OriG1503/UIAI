@@ -193,7 +193,7 @@ export class SavedSearchListComponent {
 
   public onDelete(search: SavedSearch): void {
     const index: number = this.$savedSearches().indexOf(search);
-    if (index !== -1) {
+    if (index >= 0) {
       this.$savedSearches().splice(index, 1);
     }
     this.$openMenuIndex.set(-1);
@@ -202,7 +202,7 @@ export class SavedSearchListComponent {
   private cancelEdit(): void {
     if (this._pendingGlowSearch) {
       const index: number = this.$savedSearches().indexOf(this._pendingGlowSearch);
-      if (index !== -1) {
+      if (index >= 0) {
         this.$savedSearches().splice(index, 1);
       }
       this._pendingGlowSearch = null;

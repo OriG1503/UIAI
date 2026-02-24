@@ -120,10 +120,6 @@
       overflow-y: auto;
       direction: ltr;
 
-      > * {
-        direction: rtl;
-      }
-
       .selected-tag {
         display: flex;
         align-items: center;
@@ -186,11 +182,8 @@
       padding: 0.25rem 0;
       direction: ltr;
 
-      > * {
-        direction: rtl;
-      }
-
       .result-item {
+        direction: rtl;
         width: 100%;
         padding: 0.4rem 0.5rem;
         border: none;
@@ -222,6 +215,7 @@
       }
 
       .no-results {
+        direction: rtl;
         display: flex;
         align-items: center;
         justify-content: center;

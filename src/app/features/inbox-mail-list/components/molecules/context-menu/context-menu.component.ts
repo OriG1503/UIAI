@@ -17,7 +17,7 @@ import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
 import { ICON_SIZE_MD } from '../../../../../shared/consts/icon-size.consts';
-import { MENU_WIDTH, MENU_HEIGHT, VIEWPORT_PADDING } from '../../../consts/context-menu.consts';
+import { MENU_WIDTH, MENU_HEIGHT } from '../../../consts/context-menu.consts';
 
 @Component({
   selector: 'app-context-menu',
@@ -43,13 +43,22 @@ export class ContextMenuComponent implements AfterViewInit {
     height: number;
   }>({ width: MENU_WIDTH, height: MENU_HEIGHT });
 
+  private get _viewportPadding(): number {
+    return (
+      parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--context-menu-viewport-padding'),
+      ) || 8
+    );
+  }
+
   public $adjustedX: Signal<number> = computed<number>(() => {
     const x: number = this.$x();
     const menuWidth: number = this._menuDimensions().width;
     const viewportWidth: number = window.innerWidth;
+    const padding: number = this._viewportPadding;
 
-    if (x + menuWidth + VIEWPORT_PADDING > viewportWidth) {
-      return viewportWidth - menuWidth - VIEWPORT_PADDING;
+    if (x + menuWidth + padding > viewportWidth) {
+      return viewportWidth - menuWidth - padding;
     }
     return x;
   });
@@ -58,9 +67,10 @@ export class ContextMenuComponent implements AfterViewInit {
     const y: number = this.$y();
     const menuHeight: number = this._menuDimensions().height;
     const viewportHeight: number = window.innerHeight;
+    const padding: number = this._viewportPadding;
 
-    if (y + menuHeight + VIEWPORT_PADDING > viewportHeight) {
-      return viewportHeight - menuHeight - VIEWPORT_PADDING;
+    if (y + menuHeight + padding > viewportHeight) {
+      return viewportHeight - menuHeight - padding;
     }
     return y;
   });

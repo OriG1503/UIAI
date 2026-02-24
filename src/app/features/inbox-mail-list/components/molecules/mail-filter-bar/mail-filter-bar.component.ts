@@ -72,7 +72,7 @@ export class MailFilterBarComponent {
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: MouseEvent): void {
     const translateWrapper: HTMLElement | null = this._elementRef.nativeElement.querySelector('.translate-wrapper');
-    if (translateWrapper && !translateWrapper.contains(event.target as Node)) {
+    if (translateWrapper && !translateWrapper.contains(event.target as HTMLElement)) {
       this.$isLanguagePopupOpen.set(false);
     }
   }

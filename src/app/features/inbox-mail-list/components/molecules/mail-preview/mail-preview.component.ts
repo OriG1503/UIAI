@@ -138,13 +138,13 @@ export class MailPreviewComponent {
       const lowerText: string = fullText.toLowerCase();
       const matchIndex: number = allTerms.reduce((earliest: number, term: string) => {
         const idx: number = lowerText.indexOf(term.toLowerCase());
-        if (idx === -1) {
+        if (idx < 0) {
           return earliest;
         }
-        return earliest === -1 ? idx : Math.min(earliest, idx);
+        return earliest < 0 ? idx : Math.min(earliest, idx);
       }, -1);
 
-      if (matchIndex !== -1) {
+      if (matchIndex >= 0) {
         const start: number = Math.max(0, matchIndex - Math.floor(MAIL_PREVIEW_CONTENT_MAX_LENGTH / 4));
         return (start > 0 ? '...' : '') + fullText.substring(start, start + MAIL_PREVIEW_CONTENT_MAX_LENGTH);
       }

@@ -150,7 +150,7 @@
   }
 </div>
 
-@if ($editingIndex() !== -1) {
+@if ($editingIndex() >= 0) {
   <div
     class="edit-overlay"
     (click)="onOverlayClick()"
