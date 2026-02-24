@@ -11,7 +11,7 @@ Angular 19 client app using mock data instead of a real server. Hebrew (RTL) UI 
 - npm 10.9.2
 - PrimeNG 19 with **Aura** preset theme (dark mode via `.dark-mode` class selector, managed by `ThemeService` with localStorage persistence)
 - SCSS for styling
-- Sigma.js v3 + Graphology for graph visualization (ForceAtlas2 layout, `@sigma/node-border` for bordered nodes)
+- Sigma.js v3 + Graphology for graph visualization (ForceAtlas2 layout, `@sigma/node-border` for bordered nodes, `@sigma/edge-curve` for curved edges)
 
 ## Commands
 ```bash
@@ -37,7 +37,8 @@ src/app/
 │       ├── consts/         # Feature-specific constants
 │       └── mapping/        # Feature-specific translation maps (*.label-map.ts)
 ├── shared/         # Only truly cross-feature items (used by 2+ features)
-│   ├── atoms/      # Global basic UI elements (e.g., Icon, ThemeToggle)
+│   ├── atoms/      # Global basic UI elements (e.g., Icon, ThemeToggle, GeminiIcon)
+│   ├── molecules/  # Global combinations of atoms (e.g., HoverPopup)
 │   ├── types/      # Cross-feature types (Mail, MailUserInfo, HighlightMatch, SortDirection)
 │   ├── consts/     # Cross-feature constants (e.g., icon-name.consts.ts with all PrimeIcon names)
 │   ├── mapping/    # Cross-feature translations (common.label-map.ts, inbox.label-map.ts)
