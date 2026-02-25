@@ -17,7 +17,7 @@ app-date-range-picker {
       background-color: var(--color-white);
       color: var(--color-dark-navy);
       font-family: var(--font-family);
-      font-size: 0.875rem;
+      font-size: var(--font-size-sm);
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s ease;
@@ -66,7 +66,7 @@ app-date-range-picker {
           background-color: transparent;
           color: var(--color-dark-navy);
           font-family: var(--font-family);
-          font-size: 0.75rem;
+          font-size: var(--font-size-xs);
           cursor: pointer;
           transition: all 0.2s ease;
           white-space: nowrap;
@@ -122,7 +122,7 @@ app-date-range-picker {
           }
 
           .radio-label {
-            font-size: 0.7rem;
+            font-size: var(--font-size-xxs);
             color: var(--color-dark-navy);
             font-family: var(--font-family);
           }

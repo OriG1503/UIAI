@@ -62,8 +62,6 @@ export class TagFilterDropdownComponent {
       .filter((option: TagOption | undefined): option is TagOption => !!option);
   });
 
-  private _$selectedCount: Signal<number> = computed<number>(() => this.$selectedValues().length);
-
   public $hasSelection: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0);
 
   public $buttonLabel: Signal<string> = computed<string>(() => {
@@ -82,14 +80,6 @@ export class TagFilterDropdownComponent {
   public $triggerIconColor: Signal<string> = computed<string>(() =>
     this.$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)',
   );
-
-  private _$counterLabel: Signal<string> = computed<string>(() => {
-    const count: number = this.$selectedValues().length;
-    if (count === 1) {
-      return `${count} ${this.translations.countSelectedSingular}`;
-    }
-    return `${count} ${this.translations.countSelectedPlural}`;
-  });
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: Event): void {

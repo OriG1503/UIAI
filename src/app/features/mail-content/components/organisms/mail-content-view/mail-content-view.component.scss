@@ -23,7 +23,7 @@
   box-shadow: var(--box-shadow-panel);
 
   span {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     color: var(--color-navy-gray);
   }
 }

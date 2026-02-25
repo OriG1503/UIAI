@@ -10,7 +10,7 @@
   background-color: var(--color-red);
   color: var(--color-white);
   font-family: var(--font-family);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.2s ease;

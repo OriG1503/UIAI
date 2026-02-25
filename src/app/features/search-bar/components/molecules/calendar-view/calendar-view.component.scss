@@ -27,7 +27,7 @@ app-calendar-view {
       border-radius: 1.25rem;
 
       .date-display-value {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
         color: var(--color-dark-navy);
         font-family: var(--font-family);
         font-weight: 500;
@@ -104,7 +104,7 @@ app-calendar-view {
   }
 
   .p-datepicker-calendar {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     border-collapse: collapse;
 
     th,
@@ -125,7 +125,7 @@ app-calendar-view {
     overflow: hidden;
 
     &::first-letter {
-      font-size: 0.7rem;
+      font-size: var(--font-size-xxs);
     }
   }
 
@@ -136,7 +136,7 @@ app-calendar-view {
   .p-datepicker-day {
     width: 2rem;
     height: 2rem;
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
     color: var(--color-dark-navy);
     border: none;
 
@@ -180,7 +180,7 @@ app-calendar-view {
 
   .p-datepicker-month,
   .p-datepicker-year {
-    font-size: 0.75rem;
+    font-size: var(--font-size-xs);
     font-family: var(--font-family);
     color: var(--color-dark-navy);
     padding: 0.4rem;

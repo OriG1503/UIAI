@@ -31,7 +31,5 @@ export const TAG_FILTER_LABEL_MAP = {
   searchPlaceholder: 'Search',
   oneTagSelected: 'תגית אחת נבחרה',
   tagsSelected: 'תגיות נבחרו',
-  countSelectedSingular: 'נבחר',
-  countSelectedPlural: 'נבחרו',
   noResults: 'אין תוצאות',
 };

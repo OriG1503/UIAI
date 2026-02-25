@@ -38,21 +38,21 @@
           gap: 0.375rem;
 
           .override-header-label {
-            font-size: 0.75rem;
+            font-size: var(--font-size-xs);
             font-weight: 600;
             color: var(--color-navy-gray);
           }
         }
 
         .override-header-email {
-          font-size: 0.875rem;
+          font-size: var(--font-size-sm);
           font-weight: 500;
           color: var(--color-dark-navy);
         }
       }
 
       .override-header-count {
-        font-size: 0.875rem;
+        font-size: var(--font-size-sm);
         font-weight: 500;
         color: var(--color-navy-gray);
       }

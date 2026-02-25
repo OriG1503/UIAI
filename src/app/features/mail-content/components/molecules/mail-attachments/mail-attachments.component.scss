@@ -30,7 +30,7 @@
     }
 
     .attachment-count {
-      font-size: 0.75rem;
+      font-size: var(--font-size-xs);
       color: var(--color-dark-navy);
       font-family: var(--font-family);
     }
@@ -91,7 +91,7 @@
 
           &.highlighted {
             background-color: var(--color-yellow);
-            color: #03153a;
+            color: var(--color-dark-navy);
           }
         }
       }

@@ -8,7 +8,7 @@
 .mail-body {
   padding: 1rem;
   font-family: var(--font-family);
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   color: var(--color-dark-navy);
   line-height: 1.6;
   user-select: text;
@@ -30,11 +30,11 @@
     }
 
     h2 {
-      font-size: 1.125rem;
+      font-size: var(--font-size-lg);
     }
 
     h3 {
-      font-size: 1rem;
+      font-size: var(--font-size-md);
     }
 
     ul,

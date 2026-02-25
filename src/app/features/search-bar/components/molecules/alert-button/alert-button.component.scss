@@ -64,7 +64,7 @@ app-alert-button {
           background-color: transparent;
           color: var(--color-dark-navy);
           font-family: var(--font-family);
-          font-size: 0.875rem;
+          font-size: var(--font-size-sm);
           cursor: pointer;
           text-align: start;
           transition: all 0.2s ease;

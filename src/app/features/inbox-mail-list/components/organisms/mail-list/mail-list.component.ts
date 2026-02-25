@@ -142,7 +142,7 @@ export class MailListComponent {
   public $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
   public $isSelectMode: WritableSignal<boolean> = signal<boolean>(false);
   private _$selectedMails: WritableSignal<Set<string>> = signal<Set<string>>(new Set());
-  private _$selectedMailId: WritableSignal<string | null> = signal<string | null>(null);
+
   public $contextMenu: WritableSignal<ContextMenuState> = signal<ContextMenuState>({ isOpen: false, x: 0, y: 0, mail: null });
 
   private _lastSelectedIndex: number | null = null;
@@ -249,7 +249,6 @@ export class MailListComponent {
       this._selectedMailService.markMailAsRead(this._previouslySelectedMail);
     }
     this._previouslySelectedMail = mail;
-    this._$selectedMailId.set(mail.filename);
     this._selectedMailService.setSelectedMail(mail);
   }
 

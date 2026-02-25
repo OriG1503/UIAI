@@ -25,7 +25,7 @@ app-verbal-view {
           border: none;
           text-align: center;
           font-family: var(--font-family);
-          font-size: 0.875rem;
+          font-size: var(--font-size-sm);
           color: var(--color-dark-navy);
           appearance: textfield;
 
@@ -91,7 +91,7 @@ app-verbal-view {
     .p-select-label {
       padding: 0 0.5rem;
       line-height: 2rem;
-      font-size: 0.875rem;
+      font-size: var(--font-size-sm);
     }
 
     &.p-select-open {

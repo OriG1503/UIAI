@@ -23,7 +23,7 @@
 
     .accordion-title {
       font-family: var(--font-family);
-      font-size: 0.875rem;
+      font-size: var(--font-size-sm);
       font-weight: 600;
       color: var(--color-dark-navy);
     }
@@ -45,13 +45,13 @@
         align-items: center;
         gap: 0.25rem;
         min-width: 5.5rem;
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
         color: var(--color-dark-navy);
         flex-shrink: 0;
       }
 
       .info-value {
-        font-size: 0.875rem;
+        font-size: var(--font-size-sm);
         color: var(--color-dark-navy);
       }
     }
