@@ -27,7 +27,7 @@ app-verbal-view {
           font-family: var(--font-family);
           font-size: 0.875rem;
           color: var(--color-dark-navy);
-          -moz-appearance: textfield;
+          appearance: textfield;
 
           &::-webkit-outer-spin-button,
           &::-webkit-inner-spin-button {
