@@ -1,0 +1,13 @@
+<div class="unauthorized">
+  <h1 class="title">Unauthorized</h1>
+  <div class="actions">
+    <app-alert-button
+      (openIssue)="onOpenIssue()"
+      (openRequest)="onOpenRequest()"
+    />
+    <a
+      class="home-btn"
+      routerLink="/"
+    >{{ labels.backToHome }}</a>
+  </div>
+</div>
