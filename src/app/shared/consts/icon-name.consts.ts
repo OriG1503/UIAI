@@ -28,6 +28,7 @@ export const ICON_NAMES = {
   PENCIL: 'pencil',
   PLAY: 'play',
   PLUS: 'plus',
+  RESTORE: 'restore',
   SAVE: 'save',
   SEARCH: 'search',
   SLIDERS_H: 'sliders-h',

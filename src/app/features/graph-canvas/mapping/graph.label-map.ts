@@ -16,4 +16,5 @@ export const GRAPH_LABEL_MAP = {
   zoomOut: 'הקטן',
   recenter: 'מרכז',
   loadingGraph: 'טוען גרף...',
+  restoreFilters: 'שחזר פילטרים',
 };

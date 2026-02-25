@@ -18,7 +18,7 @@ import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { GRAPH_LABEL_MAP } from '../../../../graph-canvas/mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
-import { ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
+import { ICON_SIZE_SM, ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
 import { FormatDatePipe } from '../../../../../shared/pipes/format-date.pipe';
 import { FormatTimePipe } from '../../../../../shared/pipes/format-time.pipe';
 
@@ -32,6 +32,7 @@ import { FormatTimePipe } from '../../../../../shared/pipes/format-time.pipe';
 })
 export class GraphFiltersPanelComponent {
   public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_SM = ICON_SIZE_SM;
   public readonly ICON_SIZE_XS = ICON_SIZE_XS;
 
   public $nodes: InputSignal<GraphNode[]> = input<GraphNode[]>([], { alias: 'nodes' });
@@ -48,6 +49,7 @@ export class GraphFiltersPanelComponent {
   public nodeHoverLeave: OutputEmitterRef<void> = output<void>();
   public dateRangeChange: OutputEmitterRef<number[]> = output<number[]>();
   public mailCountRangeChange: OutputEmitterRef<number[]> = output<number[]>();
+  public restoreFilters: OutputEmitterRef<void> = output<void>();
 
   public $searchText: WritableSignal<string> = signal<string>('');
   public $sortMode: WritableSignal<NodeSortMode> = signal<NodeSortMode>('mails');
@@ -111,6 +113,10 @@ export class GraphFiltersPanelComponent {
 
   public onMailCountRangeChange(values: number[]): void {
     this.mailCountRangeChange.emit(values);
+  }
+
+  public onRestoreFilters(): void {
+    this.restoreFilters.emit();
   }
 
   public onSortModeChange(mode: NodeSortMode): void {

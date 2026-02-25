@@ -212,6 +212,11 @@ export class GraphViewComponent {
     this.$mailCountRangeValues.set([newMin, newMax]);
   }
 
+  public onRestoreFilters(): void {
+    this.$dateRangeValues.set([this.$dateMin(), this.$dateMax()]);
+    this.$mailCountRangeValues.set([1, this.$mailCountMax()]);
+  }
+
   public onDrawerClose(): void {
     this.$isDrawerOpen.set(false);
     this.$selection.set({ type: 'none' });

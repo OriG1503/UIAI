@@ -1,7 +1,20 @@
 <div class="graph-filters-panel">
   <div class="filter-bubble">
     <div class="filter-group">
-      <span class="filter-label">{{ translations.dateFilterLabel }}</span>
+      <div class="filter-label-row">
+        <button
+          type="button"
+          class="restore-btn"
+          [title]="translations.restoreFilters"
+          (click)="onRestoreFilters()"
+        >
+          <app-icon
+            [name]="ICON_NAMES.RESTORE"
+            [size]="ICON_SIZE_SM"
+          />
+        </button>
+        <span class="filter-label">{{ translations.dateFilterLabel }}</span>
+      </div>
       <div class="filter-range-values">
         <div class="filter-range-min">
           <span class="filter-range-date">{{ $dateRangeValues()[0] | formatDate }}</span>
