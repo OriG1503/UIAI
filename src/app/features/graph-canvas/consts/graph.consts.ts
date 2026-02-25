@@ -6,11 +6,11 @@ export const EDGE_SIZE_MIN: number = 1;
 export const EDGE_SIZE_MAX: number = 6;
 
 export const NODE_COLOR_DEFAULT: string = '#03153a';
-export const NODE_COLOR_DEFAULT_DARK: string = '#bfc4cd';
+export const NODE_COLOR_DEFAULT_DARK: string = '#65799e';
 export const NODE_COLOR_DIMMED_DARK: string = '#5756568a';
 export const NODE_GAP_COLOR_DARK: string = '#2a2a2a';
 
-export const EDGE_COLOR_DEFAULT_DARK: string = '#bfc4cd';
+export const EDGE_COLOR_DEFAULT_DARK: string = '#65799e';
 export const EDGE_COLOR_DIMMED_DARK: string = '#5756568a';
 
 export const LABEL_COLOR_DEFAULT_DARK: string = '#f9fafc';
