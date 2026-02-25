@@ -55,12 +55,15 @@ export class MailListComponent {
 
   constructor() {
     effect(() => {
-      // Track only the filter/sort/graph context — not individual mail read-status changes.
-      // Using untracked() prevents a mail being marked as read mid-navigation from
-      // invalidating the navigation list and breaking arrow-key traversal in filtered views.
+      // Track filter/sort and graph selection identity — NOT the mails array itself.
+      // Tracking $graphSelectionInfo (which node/edge is selected) instead of $graphSelectionMails
+      // ensures this effect does not re-run when a mail is marked as read mid-navigation.
+      // If $graphSelectionMails were tracked, marking a mail as read would update the input array,
+      // trigger setMailList with a shorter unread-filtered list, and set $selectedIndex to -1,
+      // making further arrow-key navigation impossible.
       this.$activeFilter();
       this.$sortDirection();
-      this.$graphSelectionMails();
+      this.$graphSelectionInfo();
       this._selectedMailService.setMailList(untracked(() => this.$filteredMails()));
     });
 

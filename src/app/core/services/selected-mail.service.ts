@@ -50,9 +50,8 @@ export class SelectedMailService {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     if (index > 0) {
-      const mail: Mail = list[index - 1];
-      this.markMailAsRead(mail);
-      this._selectedMail.set(mail);
+      this.markMailAsRead(list[index]);
+      this._selectedMail.set(list[index - 1]);
     }
   }
 
@@ -60,9 +59,8 @@ export class SelectedMailService {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     if (index >= 0 && index < list.length - 1) {
-      const mail: Mail = list[index + 1];
-      this.markMailAsRead(mail);
-      this._selectedMail.set(mail);
+      this.markMailAsRead(list[index]);
+      this._selectedMail.set(list[index + 1]);
     }
   }
 
