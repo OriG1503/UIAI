@@ -52,9 +52,15 @@ export class MailContentToolbarComponent {
     this.$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)',
   );
 
-  public $encodingIconColor: Signal<string> = computed<string>(() =>
-    this.$isEncodingPopupOpen() || this.$selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)',
-  );
+  public $encodingIconColor: Signal<string> = computed<string>(() => {
+    if (this.$isEncodingPopupOpen()) {
+      return 'var(--color-white)';
+    }
+    if (this.$selectedEncoding() !== 'none') {
+      return 'var(--color-blue)';
+    }
+    return 'var(--color-dark-navy)';
+  });
 
   public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
   public readonly ICON_SIZE_SM = ICON_SIZE_SM;

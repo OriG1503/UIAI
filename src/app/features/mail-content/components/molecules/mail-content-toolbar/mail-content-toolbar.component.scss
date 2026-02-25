@@ -93,8 +93,8 @@
         }
 
         &.active {
-          background-color: var(--color-blue);
-          color: var(--color-white);
+          background-color: rgba(63, 112, 227, 0.15);
+          color: var(--color-blue);
           border-color: var(--color-blue);
         }
       }
