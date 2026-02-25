@@ -1,5 +1,6 @@
 export const ICON_NAMES = {
   ARROWS_ALT: 'arrows-alt',
+  BRACKETS_CURLY: 'brackets-curly',
   CALENDAR: 'calendar',
   CHART_BAR: 'chart-bar',
   CHECK: 'check',

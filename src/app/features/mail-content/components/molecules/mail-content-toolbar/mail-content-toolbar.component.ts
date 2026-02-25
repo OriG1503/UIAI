@@ -35,6 +35,7 @@ export class MailContentToolbarComponent {
 
   public encodingChange: OutputEmitterRef<Encoding> = output<Encoding>();
   public downloadClick: OutputEmitterRef<void> = output<void>();
+  public extraInfoClick: OutputEmitterRef<void> = output<void>();
   public previousClick: OutputEmitterRef<void> = output<void>();
   public nextClick: OutputEmitterRef<void> = output<void>();
 
@@ -83,6 +84,10 @@ export class MailContentToolbarComponent {
 
   public onDownloadClick(): void {
     this.downloadClick.emit();
+  }
+
+  public onExtraInfoClick(): void {
+    this.extraInfoClick.emit();
   }
 
   public onPreviousClick(): void {

@@ -3,6 +3,18 @@
     <button
       type="button"
       class="icon-btn"
+      [title]="toolbarTranslations.extraInfo"
+      (click)="onExtraInfoClick()"
+    >
+      <app-icon
+        [name]="ICON_NAMES.BRACKETS_CURLY"
+        [size]="ICON_SIZE_MD"
+      />
+    </button>
+    <span class="separator">|</span>
+    <button
+      type="button"
+      class="icon-btn"
       [title]="toolbarTranslations.download"
       (click)="onDownloadClick()"
     >

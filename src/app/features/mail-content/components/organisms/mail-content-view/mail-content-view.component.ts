@@ -20,10 +20,8 @@ import { MailContentToolbarComponent } from '../../molecules/mail-content-toolba
 import { MailMetadataComponent } from '../../molecules/mail-metadata/mail-metadata.component';
 import { MailAttachmentsComponent } from '../../molecules/mail-attachments/mail-attachments.component';
 import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component';
-import { MailExtraInfoComponent } from '../../molecules/mail-extra-info/mail-extra-info.component';
+import { MailExtraInfoModalComponent } from '../../molecules/mail-extra-info-modal/mail-extra-info-modal.component';
 import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-skeleton.component';
-import { ExtraInfoRow } from '../../../types/extra-info-row.type';
-import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
 
 @Component({
   selector: 'app-mail-content-view',
@@ -31,7 +29,7 @@ import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
   imports: [
     MailContentToolbarComponent,
     MailMetadataComponent,
-    MailExtraInfoComponent,
+    MailExtraInfoModalComponent,
     MailAttachmentsComponent,
     MailBodyComponent,
     ContentSkeletonComponent,
@@ -46,6 +44,11 @@ export class MailContentViewComponent {
 
   @HostListener('document:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.$isExtraInfoModalOpen()) {
+      this.$isExtraInfoModalOpen.set(false);
+      event.preventDefault();
+      return;
+    }
     if (!this.$mail()) {
       return;
     }
@@ -76,9 +79,9 @@ export class MailContentViewComponent {
   public $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
   public $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
   public $totalHighlights: WritableSignal<number> = signal<number>(0);
+  public $isExtraInfoModalOpen: WritableSignal<boolean> = signal<boolean>(false);
 
   public readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
-  public readonly extraInfoRows: ExtraInfoRow[] = MOCK_EXTRA_INFO_ROWS;
 
   public $hasAttachments: Signal<boolean> = computed<boolean>(() => {
     const mail: Mail | null = this.$mail();
@@ -125,6 +128,14 @@ export class MailContentViewComponent {
       // TODO: connect to real service / NgRx action
       console.log('Downloading mail:', mail.subject);
     }
+  }
+
+  public onExtraInfoOpen(): void {
+    this.$isExtraInfoModalOpen.set(true);
+  }
+
+  public onExtraInfoClose(): void {
+    this.$isExtraInfoModalOpen.set(false);
   }
 
   public onDownloadAllAttachments(): void {

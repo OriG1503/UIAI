@@ -13,22 +13,17 @@ export const HIGHLIGHT_NAV_LABEL_MAP = {
 };
 
 export const MAIL_EXTRA_INFO_LABEL_MAP = {
-  title: 'Additional Info',
+  mockContent:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
 };
 
 export const MAIL_CONTENT_TOOLBAR_LABEL_MAP = {
   download: 'הורד MAIL',
+  extraInfo: 'מידע נוסף',
   next: 'הבא',
   previous: 'הקודם',
 };
 
 export const MAIL_ATTACHMENTS_LABEL_MAP = {
   downloadAll: 'הורד דבוקות',
-};
-
-export const EXTRA_INFO_ROW_LABEL_MAP = {
-  fileCase: 'תיק:',
-  dueDate: 'תאריך יעד:',
-  handler: 'מטפל:',
-  classification: 'סיווג:',
 };

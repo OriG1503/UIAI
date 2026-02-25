@@ -8,13 +8,12 @@
       [totalHighlights]="$totalHighlights()"
       (encodingChange)="onEncodingChange($event)"
       (downloadClick)="onDownloadMail()"
+      (extraInfoClick)="onExtraInfoOpen()"
       (previousClick)="onPreviousHighlight()"
       (nextClick)="onNextHighlight()"
     />
 
     <app-mail-metadata [mail]="$mail()!" />
-
-    <app-mail-extra-info [rows]="extraInfoRows" />
 
     @if ($hasAttachments()) {
       <app-mail-attachments
@@ -34,4 +33,8 @@
   <div class="no-mail-selected">
     <span>{{ translations.noMailSelected }}</span>
   </div>
+}
+
+@if ($isExtraInfoModalOpen()) {
+  <app-mail-extra-info-modal (closeClick)="onExtraInfoClose()" />
 }

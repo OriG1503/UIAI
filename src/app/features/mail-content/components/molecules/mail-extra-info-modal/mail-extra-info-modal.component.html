@@ -1,0 +1,21 @@
+<div
+  class="overlay"
+  (click)="onOverlayClick()"
+>
+  <div
+    class="modal"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      type="button"
+      class="close-btn"
+      (click)="onOverlayClick()"
+    >
+      <app-icon
+        [name]="ICON_NAMES.TIMES"
+        [size]="ICON_SIZE_MD"
+      />
+    </button>
+    <p class="content">{{ translations.mockContent }}</p>
+  </div>
+</div>
