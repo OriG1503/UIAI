@@ -1,7 +1,7 @@
 // TODO: Replace with real MailService that fetches from the NestJS HTTP server.
 // Contract: must expose `mails: Signal<Mail[]>`, `userEmail: string`,
-//           `markAsSeen(filename: string): void`, `markAsUnseen(filename: string): void`
-// API: GET /mails, PATCH /mails/:filename/seen, PATCH /mails/:filename/unseen
+//           `markAsRead(filename: string): void`, `markAsUnread(filename: string): void`
+// API: GET /mails, PATCH /mails/:filename/read, PATCH /mails/:filename/unread
 import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
 
@@ -11,19 +11,19 @@ import { Mail } from '../../shared/types/mail.type';
 export class MockMailService {
   private _mails: WritableSignal<Mail[]> = signal<Mail[]>(this._generateMockMails());
 
-  readonly mails: Signal<Mail[]> = this._mails.asReadonly();
+  public readonly mails: Signal<Mail[]> = this._mails.asReadonly();
 
-  readonly userEmail: string = 'ori@gmail.com';
+  public readonly userEmail: string = 'ori@gmail.com';
 
-  public markAsSeen(mailFilename: string): void {
+  public markAsRead(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>
-      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, seen: true } : mail)),
+      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, isRead: true } : mail)),
     );
   }
 
-  public markAsUnseen(mailFilename: string): void {
+  public markAsUnread(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>
-      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail)),
+      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, isRead: false } : mail)),
     );
   }
 
@@ -41,7 +41,7 @@ export class MockMailService {
         cc: [{ username: 'Sarah Levi', mail: 'sarah@company.com' }],
         sent: new Date('2024-01-15T09:30:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'personal',
@@ -52,7 +52,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-15T08:15:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'work',
@@ -70,7 +70,7 @@ export class MockMailService {
         bcc: [{ username: 'CEO', mail: 'ceo@company.com' }],
         sent: new Date('2024-01-14T16:45:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'newsletter',
@@ -81,7 +81,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-14T06:00:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'work',
@@ -100,7 +100,7 @@ export class MockMailService {
         cc: [{ username: 'Tech Lead', mail: 'techlead@company.com' }],
         sent: new Date('2024-01-13T14:20:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'personal',
@@ -111,7 +111,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-13T11:30:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'work',
@@ -124,7 +124,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-12T17:00:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'work',
@@ -136,7 +136,7 @@ export class MockMailService {
         cc: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-12T10:00:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'work',
@@ -156,7 +156,7 @@ export class MockMailService {
         ],
         sent: new Date('2024-01-16T07:40:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'personal',
@@ -167,7 +167,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-16T06:10:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'newsletter',
@@ -178,7 +178,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-15T22:00:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'work',
@@ -189,7 +189,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-15T18:30:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'personal',
@@ -202,7 +202,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-15T13:05:00'),
         mailbox_name: 'inbox',
-        seen: false,
+        isRead: false,
       },
       {
         tag: 'work',
@@ -221,7 +221,7 @@ export class MockMailService {
         cc: [{ username: 'Product Manager', mail: 'pm@company.com' }],
         sent: new Date('2024-01-14T19:10:00'),
         mailbox_name: 'inbox',
-        seen: true,
+        isRead: true,
       },
       {
         tag: 'spam',
@@ -232,7 +232,7 @@ export class MockMailService {
         to: [{ mail: 'ori@gmail.com' }],
         sent: new Date('2024-01-14T03:25:00'),
         mailbox_name: 'spam',
-        seen: false,
+        isRead: false,
       },
     ];
 

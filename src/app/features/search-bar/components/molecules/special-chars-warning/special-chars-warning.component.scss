@@ -24,13 +24,13 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 
   .warning-header {
-    font-size: 1.125rem;
+    font-size: var(--font-size-lg);
     font-weight: 700;
     color: var(--color-dark-navy);
   }
 
   .warning-message {
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     color: var(--color-dark-navy);
     text-align: center;
     line-height: 1.6;
@@ -43,7 +43,7 @@
     border: none;
     border-radius: var(--border-radius);
     font-family: var(--font-family);
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     font-weight: 500;
     cursor: pointer;
     transition: opacity 0.2s ease;

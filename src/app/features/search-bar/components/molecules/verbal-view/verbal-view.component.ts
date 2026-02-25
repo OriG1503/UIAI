@@ -25,22 +25,22 @@ import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
   encapsulation: ViewEncapsulation.None,
 })
 export class VerbalViewComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
 
-  verbalChange: OutputEmitterRef<VerbalChange> = output<VerbalChange>();
+  public verbalChange: OutputEmitterRef<VerbalChange> = output<VerbalChange>();
 
-  $verbalAmount: WritableSignal<number> = signal<number>(DEFAULT_VERBAL_AMOUNT);
-  $verbalUnit: WritableSignal<TimeUnit> = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
+  public $verbalAmount: WritableSignal<number> = signal<number>(DEFAULT_VERBAL_AMOUNT);
+  public $verbalUnit: WritableSignal<TimeUnit> = signal<TimeUnit>(DEFAULT_VERBAL_UNIT);
 
-  readonly timeUnitOptions: TimeUnitOption[] = [
+  public readonly timeUnitOptions: TimeUnitOption[] = [
     { value: 'days', label: TIME_UNIT_LABEL_MAP.days },
     { value: 'weeks', label: TIME_UNIT_LABEL_MAP.weeks },
     { value: 'months', label: TIME_UNIT_LABEL_MAP.months },
     { value: 'years', label: TIME_UNIT_LABEL_MAP.years },
   ];
 
-  readonly translations = DATE_RANGE_LABEL_MAP;
-  readonly maxAmount: number | null = MAX_VERBAL_DATE_AMOUNT;
+  public readonly translations = DATE_RANGE_LABEL_MAP;
+  public readonly maxAmount: number | null = MAX_VERBAL_DATE_AMOUNT;
 
   public decrementAmount(): void {
     const current: number = this.$verbalAmount();

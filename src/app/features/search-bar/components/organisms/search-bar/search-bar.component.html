@@ -42,6 +42,7 @@
     <div class="control-group control-search">
       <app-search-input
         [value]="$searchText()"
+        [searchMode]="$searchMode()"
         (valueChange)="onSearchTextChange($event)"
         (advancedClick)="onAdvancedClick()"
       />

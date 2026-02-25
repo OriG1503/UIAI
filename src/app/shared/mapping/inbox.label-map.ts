@@ -4,7 +4,7 @@ export const INBOX_LABEL_MAP = {
   attachments: 'קבצים מצורפים',
   export: 'ייצוא',
   translate: 'תרגום',
-  markAsUnseen: 'סמן כלא נקרא',
+  markAsUnread: 'סמן כלא נקרא',
   encoding: 'קידוד',
   download: 'הורדה',
   downloadAll: 'הורד הכל',
@@ -21,4 +21,7 @@ export const INBOX_LABEL_MAP = {
   unreadTooltip: 'לא נקרא',
   readTooltip: 'נקרא',
   translateTooltip: 'תרגם',
+  fullscreen: 'מסך מלא',
+  exitFullscreen: 'יציאה ממסך מלא',
+  close: 'סגור',
 };

@@ -13,5 +13,5 @@ export type Mail = {
   mailbox_name: string;
   body_paths?: string[];
   html_path?: string[];
-  seen?: boolean;
+  isRead?: boolean;
 };

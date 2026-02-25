@@ -14,16 +14,16 @@ export class GraphDataService {
   private _worker: Worker | null = null;
   private _isGraphBuilt: boolean = false;
 
-  readonly $graphData: WritableSignal<GraphData> = signal<GraphData>({
+  public readonly $graphData: WritableSignal<GraphData> = signal<GraphData>({
     nodes: new Map(),
     edges: [],
     minEdgeCount: 0,
     maxEdgeCount: 0,
   });
-  readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> = signal<
+  public readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> = signal<
     Record<string, { x: number; y: number }>
   >({});
-  readonly $isLoading: WritableSignal<boolean> = signal<boolean>(true);
+  public readonly $isLoading: WritableSignal<boolean> = signal<boolean>(true);
 
   constructor() {
     if (typeof Worker !== 'undefined') {
@@ -44,8 +44,7 @@ export class GraphDataService {
         });
       };
 
-      this._worker.onerror = (error: ErrorEvent): void => {
-        console.error('Graph worker error:', error);
+      this._worker.onerror = (_error: ErrorEvent): void => {
         this._ngZone.run((): void => {
           this.$isLoading.set(false);
         });
@@ -68,13 +67,13 @@ export class GraphDataService {
       if (mail.from.mail === email) {
         return true;
       }
-      if (mail.to.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.to.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
-      if (mail.cc?.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.cc?.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
-      if (mail.bcc?.some((r: { mail?: string }) => r.mail === email)) {
+      if (mail.bcc?.some((recipient: { mail?: string }) => recipient.mail === email)) {
         return true;
       }
       return false;
@@ -87,9 +86,9 @@ export class GraphDataService {
         return false;
       }
       const recipients: (string | undefined)[] = [
-        ...mail.to.map((r: { mail?: string }) => r.mail),
-        ...(mail.cc ?? []).map((r: { mail?: string }) => r.mail),
-        ...(mail.bcc ?? []).map((r: { mail?: string }) => r.mail),
+        ...mail.to.map((recipient: { mail?: string }) => recipient.mail),
+        ...(mail.cc ?? []).map((recipient: { mail?: string }) => recipient.mail),
+        ...(mail.bcc ?? []).map((recipient: { mail?: string }) => recipient.mail),
       ];
       return recipients.includes(targetEmail);
     });

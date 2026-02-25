@@ -18,8 +18,8 @@
     background-color: var(--color-option-hover);
   }
 
-  &.unseen {
-    .unseen-indicator {
+  &.unread {
+    .unread-indicator {
       background-color: var(--color-red);
     }
 
@@ -36,7 +36,7 @@
     background-color: var(--color-surface-selected);
   }
 
-  .unseen-indicator {
+  .unread-indicator {
     width: 5px;
     min-height: 100%;
     background-color: transparent;
@@ -130,7 +130,7 @@
       .mail-from {
         flex: 1;
         min-width: 0;
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
         color: var(--color-blue);
         white-space: nowrap;
         overflow: hidden;
@@ -139,7 +139,7 @@
 
       .mail-date,
       .mail-time {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
         color: var(--color-dark-navy);
         white-space: nowrap;
         flex-shrink: 0;
@@ -150,7 +150,7 @@
       display: flex;
       align-items: center;
       gap: 0.25rem;
-      font-size: 0.75rem;
+      font-size: var(--font-size-xs);
       color: var(--color-blue);
       white-space: nowrap;
 
@@ -166,7 +166,7 @@
     }
 
     .mail-body-preview {
-      font-size: 0.75rem;
+      font-size: var(--font-size-xs);
       color: var(--color-dark-navy);
       white-space: nowrap;
       overflow: hidden;

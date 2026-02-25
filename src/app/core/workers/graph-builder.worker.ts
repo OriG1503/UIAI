@@ -64,7 +64,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
   });
 
   const edges: GraphEdge[] = Array.from(edgeMap.values());
-  const edgeCounts: number[] = edges.map((e: GraphEdge) => e.mailCount);
+  const edgeCounts: number[] = edges.map((edge: GraphEdge) => edge.mailCount);
   const minEdgeCount: number = edgeCounts.length > 0 ? Math.min(...edgeCounts) : 0;
   const maxEdgeCount: number = edgeCounts.length > 0 ? Math.max(...edgeCounts) : 0;
 
@@ -80,7 +80,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
   });
 
   const graph: Graph = new Graph();
-  const maxMailCount: number = Math.max(...Array.from(nodes.values()).map((n: GraphNode) => n.mailCount), 1);
+  const maxMailCount: number = Math.max(...Array.from(nodes.values()).map((node: GraphNode) => node.mailCount), 1);
 
   nodes.forEach((node: GraphNode) => {
     const sizeRatio: number = node.mailCount / maxMailCount;
@@ -138,6 +138,7 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
   });
 
   const positions: Record<string, { x: number; y: number }> = {};
+  // TODO: define proper GraphNodeAttributes type for Graphology forEachNode callback
   graph.forEachNode((node: string, attrs: Record<string, unknown>) => {
     positions[node] = { x: attrs['x'] as number, y: attrs['y'] as number };
   });

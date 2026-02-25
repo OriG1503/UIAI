@@ -4,7 +4,9 @@ import { HighlightTextPipe } from '../../../../../shared/pipes/highlight-text.pi
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { HighlightService } from '../../../../../core/services/highlight.service';
 import { ICON_NAMES, IconName } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_LG } from '../../../../../shared/consts/icon-size.consts';
 import { ATTACHMENT_NAME_MAX_LENGTH, EXTENSION_COLORS, EXTENSION_ICONS } from '../../../consts/mail-attachments.consts';
+import { MAIL_ATTACHMENTS_LABEL_MAP } from '../../../mapping/mail-content.label-map';
 
 @Component({
   selector: 'app-mail-attachments',
@@ -16,16 +18,18 @@ import { ATTACHMENT_NAME_MAX_LENGTH, EXTENSION_COLORS, EXTENSION_ICONS } from '.
 export class MailAttachmentsComponent {
   private _highlightService: HighlightService = inject(HighlightService);
 
-  $attachments: InputSignal<string[]> = input.required<string[]>({ alias: 'attachments' });
-  $mailFilename: InputSignal<string> = input<string>('', { alias: 'mailFilename' });
-  downloadAllClick: OutputEmitterRef<void> = output<void>();
-  downloadAttachmentClick: OutputEmitterRef<string> = output<string>();
+  public $attachments: InputSignal<string[]> = input.required<string[]>({ alias: 'attachments' });
+  public $mailFilename: InputSignal<string> = input<string>('', { alias: 'mailFilename' });
+  public downloadAllClick: OutputEmitterRef<void> = output<void>();
+  public downloadAttachmentClick: OutputEmitterRef<string> = output<string>();
 
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_LG = ICON_SIZE_LG;
+  public readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+  public readonly attachmentTranslations: typeof MAIL_ATTACHMENTS_LABEL_MAP = MAIL_ATTACHMENTS_LABEL_MAP;
 
-  $attachmentCount: Signal<number> = computed<number>(() => this.$attachments().length);
-  $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
+  public $attachmentCount: Signal<number> = computed<number>(() => this.$attachments().length);
+  public $searchTerms: Signal<string[]> = computed<string[]>(() => this._highlightService.$searchTerms());
 
   public isAttachmentContentHighlighted(attachmentName: string): boolean {
     return this._highlightService.isAttachmentContentHighlighted(this.$mailFilename(), attachmentName);

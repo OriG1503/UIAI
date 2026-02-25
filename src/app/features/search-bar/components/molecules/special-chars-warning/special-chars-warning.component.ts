@@ -8,9 +8,9 @@ import { SEARCH_WARNING_LABEL_MAP } from '../../../mapping/search.label-map';
   styleUrl: './special-chars-warning.component.scss',
 })
 export class SpecialCharsWarningComponent {
-  readonly translations: typeof SEARCH_WARNING_LABEL_MAP = SEARCH_WARNING_LABEL_MAP;
+  public readonly translations: typeof SEARCH_WARNING_LABEL_MAP = SEARCH_WARNING_LABEL_MAP;
 
-  confirm: OutputEmitterRef<void> = output<void>();
+  public confirm: OutputEmitterRef<void> = output<void>();
 
   public onConfirm(): void {
     this.confirm.emit();

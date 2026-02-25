@@ -6,8 +6,8 @@
       [innerHTML]="$mail().subject | highlightText: $searchTerms()"
     ></h2>
     <div class="datetime">
-      <span class="date">{{ $formattedDate() }}</span>
-      <span class="time">{{ $formattedTime() }}</span>
+      <span class="date">{{ $mail().sent | formatDate }}</span>
+      <span class="time">{{ $mail().sent | formatTime }}</span>
     </div>
   </div>
 
@@ -16,14 +16,14 @@
       <div class="recipient-label">
         <app-icon
           [name]="ICON_NAMES.USER"
-          size="0.875rem"
+          [size]="ICON_SIZE_MD"
         />
         <span>From:</span>
       </div>
       <span
         class="recipient-value"
         dir="auto"
-        [innerHTML]="$fromDisplay() | highlightText: $searchTerms()"
+        [innerHTML]="($mail().from | formatUserInfo) | highlightText: $searchTerms()"
       ></span>
     </div>
 
@@ -31,7 +31,7 @@
       <div class="recipient-label">
         <app-icon
           [name]="ICON_NAMES.USERS"
-          size="0.875rem"
+          [size]="ICON_SIZE_MD"
         />
         <span>To:</span>
       </div>
@@ -47,7 +47,7 @@
         <div class="recipient-label">
           <app-icon
             [name]="ICON_NAMES.COPY"
-            size="0.875rem"
+            [size]="ICON_SIZE_MD"
           />
           <span>CC:</span>
         </div>
@@ -64,7 +64,7 @@
         <div class="recipient-label">
           <app-icon
             [name]="ICON_NAMES.EYE_SLASH"
-            size="0.875rem"
+            [size]="ICON_SIZE_MD"
           />
           <span>BCC:</span>
         </div>

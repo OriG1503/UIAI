@@ -10,24 +10,24 @@
       >
         <app-icon
           [name]="ICON_NAMES.GLOBE"
-          size="1rem"
-          [color]="$isLanguagePopupOpen() ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+          [size]="ICON_SIZE_LG"
+          [color]="$languageIconColor()"
         />
       </button>
       @if ($isLanguagePopupOpen()) {
         <div class="language-popup">
-          @for (lang of languages; track lang) {
+          @for (language of languages; track language) {
             <button
               type="button"
               class="language-option"
-              [class.selected]="$selectedLanguage() === lang"
-              (click)="onLanguageSelect(lang)"
+              [class.selected]="$selectedLanguage() === language"
+              (click)="onLanguageSelect(language)"
             >
-              {{ languageLabels[lang] }}
-              @if ($selectedLanguage() === lang) {
+              {{ languageLabels[language] }}
+              @if ($selectedLanguage() === language) {
                 <app-icon
                   [name]="ICON_NAMES.CHECK"
-                  size="0.75rem"
+                  [size]="ICON_SIZE_SM"
                   color="var(--color-blue)"
                 />
               }
@@ -46,8 +46,8 @@
     >
       <app-icon
         [name]="ICON_NAMES.FILE_EXCEL"
-        size="1rem"
-        [color]="$isSelectMode() ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        [size]="ICON_SIZE_LG"
+        [color]="$selectModeIconColor()"
       />
     </button>
     @if ($isSelectMode()) {
@@ -76,35 +76,35 @@
     >
       <app-icon
         [name]="$sortDirection() === 'desc' ? ICON_NAMES.SORT_AMOUNT_DOWN : ICON_NAMES.SORT_AMOUNT_UP"
-        size="1rem"
+        [size]="ICON_SIZE_LG"
       />
     </button>
 
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'unseen'"
+      [class.active]="$activeFilter() === 'unread'"
       [title]="translations.unreadTooltip"
-      (click)="onFilterClick('unseen')"
+      (click)="onFilterClick('unread')"
     >
       <app-icon
         [name]="ICON_NAMES.ENVELOPE"
-        size="1rem"
-        [color]="$activeFilter() === 'unseen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        [size]="ICON_SIZE_LG"
+        [color]="$unreadFilterIconColor()"
       />
     </button>
 
     <button
       type="button"
       class="icon-btn"
-      [class.active]="$activeFilter() === 'seen'"
+      [class.active]="$activeFilter() === 'read'"
       [title]="translations.readTooltip"
-      (click)="onFilterClick('seen')"
+      (click)="onFilterClick('read')"
     >
       <app-icon
         [name]="ICON_NAMES.EYE"
-        size="1rem"
-        [color]="$activeFilter() === 'seen' ? 'var(--color-blue)' : 'var(--color-dark-navy)'"
+        [size]="ICON_SIZE_LG"
+        [color]="$readFilterIconColor()"
       />
     </button>
   </div>

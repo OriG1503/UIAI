@@ -3,6 +3,7 @@ import { SearchViewType } from '../types/search-view-type.type';
 
 export const SEARCH_MODE_LABEL_MAP: Record<SearchModeType, string> = {
   regular: 'חיפוש',
+  advanced: 'מתקדם',
   agent: 'Agent',
 };
 
@@ -30,7 +31,5 @@ export const TAG_FILTER_LABEL_MAP = {
   searchPlaceholder: 'Search',
   oneTagSelected: 'תגית אחת נבחרה',
   tagsSelected: 'תגיות נבחרו',
-  countSelectedSingular: 'נבחר',
-  countSelectedPlural: 'נבחרו',
   noResults: 'אין תוצאות',
 };

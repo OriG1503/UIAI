@@ -13,13 +13,13 @@ import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
   styleUrl: './run-button.component.scss',
 })
 export class RunButtonComponent {
-  readonly translations: typeof SEARCH_LABEL_MAP = SEARCH_LABEL_MAP;
-  readonly popupOptions: PopupOption[] = [
+  public readonly translations: typeof SEARCH_LABEL_MAP = SEARCH_LABEL_MAP;
+  public readonly popupOptions: PopupOption[] = [
     { value: 'list', label: SEARCH_VIEW_LABEL_MAP.list, icon: ICON_NAMES.LIST },
     { value: 'graph', label: SEARCH_VIEW_LABEL_MAP.graph, icon: ICON_NAMES.CHART_BAR },
   ];
 
-  run: OutputEmitterRef<SearchViewType> = output<SearchViewType>();
+  public run: OutputEmitterRef<SearchViewType> = output<SearchViewType>();
 
   public onViewSelect(value: string): void {
     this.run.emit(value as SearchViewType);

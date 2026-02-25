@@ -7,5 +7,5 @@ import { Component, input, InputSignal } from '@angular/core';
   styleUrl: './gemini-icon.component.scss',
 })
 export class GeminiIconComponent {
-  $size: InputSignal<string> = input<string>('0.75rem', { alias: 'size' });
+  public $size: InputSignal<string> = input<string>('0.75rem', { alias: 'size' });
 }

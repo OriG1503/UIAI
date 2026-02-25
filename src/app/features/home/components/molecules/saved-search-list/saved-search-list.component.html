@@ -25,20 +25,7 @@
   </div>
 
   @if ($isLoading()) {
-    <div class="skeleton-list">
-      @for (i of skeletonItems; track i) {
-        <div class="skeleton-card">
-          <div class="skeleton-indicator"></div>
-          <div class="skeleton-content">
-            <div class="skeleton-line skeleton-pin"></div>
-            <div class="skeleton-line skeleton-name"></div>
-            <div class="skeleton-line skeleton-username"></div>
-            <div class="skeleton-line skeleton-date"></div>
-            <div class="skeleton-line skeleton-action"></div>
-          </div>
-        </div>
-      }
-    </div>
+    <app-saved-search-skeleton />
   } @else {
     <div class="list">
       @for (search of $filteredSavedSearches(); track search.name; let i = $index) {
@@ -46,7 +33,7 @@
           class="saved-search-item"
           [class.glowing]="$glowingSearch() === search"
         >
-          <div class="unseen-indicator"></div>
+          <div class="unread-indicator"></div>
 
           <div class="item-content">
             <button
@@ -56,8 +43,8 @@
             >
               <app-icon
                 [name]="ICON_NAMES.THUMBTACK"
-                size="0.75rem"
-                [color]="search.isPinned ? 'var(--color-red)' : 'var(--color-dark-navy)'"
+                [size]="ICON_SIZE_SM"
+                [color]="pinIconColor(search)"
               />
             </button>
 
@@ -99,7 +86,7 @@
             <span
               class="saved-search-date"
               dir="ltr"
-              >{{ formatDate(search.date) }}</span
+              >{{ search.date | formatDate }}</span
             >
 
             <div class="item-actions">
@@ -117,7 +104,7 @@
                   >
                     <app-icon
                       [name]="ICON_NAMES.PLAY"
-                      size="0.7rem"
+                      [size]="ICON_SIZE_XS"
                     />
                   </button>
                 </app-hover-popup>
@@ -132,8 +119,8 @@
                 >
                   <app-icon
                     [name]="ICON_NAMES.ELLIPSIS_V"
-                    size="0.7rem"
-                    [color]="$openMenuIndex() === i ? 'var(--color-white)' : 'var(--color-dark-navy)'"
+                    [size]="ICON_SIZE_XS"
+                    [color]="menuIconColor(i)"
                   />
                 </button>
 
@@ -163,7 +150,7 @@
   }
 </div>
 
-@if ($editingIndex() !== -1) {
+@if ($editingIndex() >= 0) {
   <div
     class="edit-overlay"
     (click)="onOverlayClick()"

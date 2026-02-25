@@ -22,18 +22,24 @@ import { GraphSelection } from '../../../types/graph-selection.type';
 import { GRAPH_LABEL_MAP } from '../../../mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_LG } from '../../../../../shared/consts/icon-size.consts';
+import { ThemeService } from '../../../../../core/services/theme.service';
 import {
   NODE_SIZE_MIN,
   NODE_SIZE_MAX,
   EDGE_SIZE_MIN,
   EDGE_SIZE_MAX,
   NODE_COLOR_DEFAULT,
+  NODE_COLOR_DEFAULT_DARK,
   NODE_COLOR_SELECTED,
   NODE_COLOR_DIMMED,
+  NODE_COLOR_DIMMED_DARK,
   NODE_COLOR_HOVER,
   EDGE_COLOR_DEFAULT,
+  EDGE_COLOR_DEFAULT_DARK,
   EDGE_COLOR_SELECTED,
   EDGE_COLOR_DIMMED,
+  EDGE_COLOR_DIMMED_DARK,
   EDGE_COLOR_HOVER,
   LABEL_COLOR,
   LABEL_RENDERED_SIZE_THRESHOLD,
@@ -52,24 +58,26 @@ import { GraphEdge } from '../../../types/graph-edge.type';
   styleUrl: './graph-canvas.component.scss',
 })
 export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_LG = ICON_SIZE_LG;
 
   @ViewChild('sigmaContainer', { static: true }) private _containerRef!: ElementRef<HTMLDivElement>;
 
-  $graphData: InputSignal<GraphData | null> = input<GraphData | null>(null, { alias: 'graphData' });
-  $positions: InputSignal<Record<string, { x: number; y: number }>> = input<Record<string, { x: number; y: number }>>(
+  public $graphData: InputSignal<GraphData | null> = input<GraphData | null>(null, { alias: 'graphData' });
+  public $positions: InputSignal<Record<string, { x: number; y: number }>> = input<Record<string, { x: number; y: number }>>(
     {},
     { alias: 'positions' },
   );
-  $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
-  $visibleNodes: InputSignal<Set<string>> = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
-  $hoveredNode: InputSignal<string | null> = input<string | null>(null, { alias: 'hoveredNode' });
+  public $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
+  public $visibleNodes: InputSignal<Set<string>> = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
+  public $hoveredNode: InputSignal<string | null> = input<string | null>(null, { alias: 'hoveredNode' });
 
-  nodeClick: OutputEmitterRef<string> = output<string>();
-  edgeClick: OutputEmitterRef<{ source: string; target: string }> = output<{ source: string; target: string }>();
-  stageClick: OutputEmitterRef<void> = output<void>();
+  public nodeClick: OutputEmitterRef<string> = output<string>();
+  public edgeClick: OutputEmitterRef<{ source: string; target: string }> = output<{ source: string; target: string }>();
+  public stageClick: OutputEmitterRef<void> = output<void>();
 
   private _ngZone: NgZone = inject(NgZone);
+  private _themeService: ThemeService = inject(ThemeService);
   private _graph: Graph | null = null;
   private _sigma: Sigma | null = null;
   private _isInitialized: boolean = false;
@@ -78,7 +86,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
   private _hoveredNode: string | null = null;
   private _hoveredEdge: string | null = null;
 
-  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
+  public readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
   constructor() {
     effect(() => {
@@ -110,6 +118,14 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         this._clearHoverState();
       }
     });
+
+    effect(() => {
+      this._themeService.$isDarkMode();
+      if (!this._isInitialized || !this._sigma || !this._graph) {
+        return;
+      }
+      this._updateGraphColors();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -132,7 +148,9 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     this._sigma?.kill();
     this._graph = new Graph();
 
-    const maxMailCount: number = Math.max(...Array.from(data.nodes.values()).map((n: GraphNode) => n.mailCount), 1);
+    const nodeDefault: string = this._getNodeDefaultColor();
+    const edgeDefault: string = this._getEdgeDefaultColor();
+    const maxMailCount: number = Math.max(...Array.from(data.nodes.values()).map((node: GraphNode) => node.mailCount), 1);
 
     data.nodes.forEach((node: GraphNode) => {
       const sizeRatio: number = node.mailCount / maxMailCount;
@@ -141,8 +159,8 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       this._graph!.addNode(node.email, {
         label: node.email,
         size,
-        color: NODE_COLOR_DEFAULT,
-        borderColor: NODE_COLOR_DEFAULT,
+        color: nodeDefault,
+        borderColor: nodeDefault,
         type: 'bordered',
         x: pos?.x ?? Math.random() * 100,
         y: pos?.y ?? Math.random() * 100,
@@ -164,7 +182,7 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         const isBidirectional: boolean = edgeKeys.has(reverseKey);
         this._graph!.addDirectedEdge(edge.sourceEmail, edge.targetEmail, {
           size,
-          color: EDGE_COLOR_DEFAULT,
+          color: edgeDefault,
           mailCount: edge.mailCount,
           label: String(edge.mailCount),
           type: isBidirectional ? 'curvedArrow' : 'arrow',
@@ -182,8 +200,8 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       this._sigma = new Sigma(this._graph!, this._containerRef.nativeElement, {
         renderEdgeLabels: false,
         enableEdgeEvents: true,
-        defaultNodeColor: NODE_COLOR_DEFAULT,
-        defaultEdgeColor: EDGE_COLOR_DEFAULT,
+        defaultNodeColor: nodeDefault,
+        defaultEdgeColor: edgeDefault,
         defaultNodeType: 'bordered',
         defaultEdgeType: 'arrow',
         nodeProgramClasses: {
@@ -300,13 +318,18 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     const selectedNeighbors: Set<string> = new Set<string>();
     if (selection.type === 'node' && selection.nodeEmail) {
       if (this._graph.hasNode(selection.nodeEmail)) {
-        this._graph.neighbors(selection.nodeEmail).forEach((n: string) => selectedNeighbors.add(n));
+        this._graph.neighbors(selection.nodeEmail).forEach((neighbor: string) => selectedNeighbors.add(neighbor));
       }
     }
 
+    const nodeDefault: string = this._getNodeDefaultColor();
+    const nodeDimmed: string = this._getNodeDimmedColor();
+    const edgeDefault: string = this._getEdgeDefaultColor();
+    const edgeDimmed: string = this._getEdgeDimmedColor();
+
     this._graph.updateEachNodeAttributes((node, attr) => {
       if (selection.type === 'none') {
-        return { ...attr, color: NODE_COLOR_DEFAULT, borderColor: NODE_COLOR_DEFAULT };
+        return { ...attr, color: nodeDefault, borderColor: nodeDefault };
       }
 
       if (selection.type === 'node') {
@@ -314,17 +337,17 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
           return { ...attr, color: NODE_COLOR_SELECTED, borderColor: NODE_COLOR_SELECTED };
         }
         if (selectedNeighbors.has(node)) {
-          return { ...attr, color: NODE_COLOR_DEFAULT, borderColor: NODE_COLOR_SELECTED };
+          return { ...attr, color: nodeDefault, borderColor: NODE_COLOR_SELECTED };
         }
-        return { ...attr, color: NODE_COLOR_DIMMED, borderColor: NODE_COLOR_DIMMED };
+        return { ...attr, color: nodeDimmed, borderColor: nodeDimmed };
       }
 
       if (selection.type === 'edge') {
         const isEndpoint: boolean = node === selection.edgeSourceEmail || node === selection.edgeTargetEmail;
         if (isEndpoint) {
-          return { ...attr, color: NODE_COLOR_DEFAULT, borderColor: NODE_COLOR_SELECTED };
+          return { ...attr, color: nodeDefault, borderColor: NODE_COLOR_SELECTED };
         }
-        return { ...attr, color: NODE_COLOR_DIMMED, borderColor: NODE_COLOR_DIMMED };
+        return { ...attr, color: nodeDimmed, borderColor: nodeDimmed };
       }
 
       return attr;
@@ -332,17 +355,17 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
 
     this._graph.updateEachEdgeAttributes((_edge, attr, source, target) => {
       if (selection.type === 'none') {
-        return { ...attr, color: EDGE_COLOR_DEFAULT };
+        return { ...attr, color: edgeDefault };
       }
 
       if (selection.type === 'node') {
         const isConnected: boolean = source === selection.nodeEmail || target === selection.nodeEmail;
-        return { ...attr, color: isConnected ? EDGE_COLOR_SELECTED : EDGE_COLOR_DIMMED };
+        return { ...attr, color: isConnected ? EDGE_COLOR_SELECTED : edgeDimmed };
       }
 
       if (selection.type === 'edge') {
         const isSelected: boolean = source === selection.edgeSourceEmail && target === selection.edgeTargetEmail;
-        return { ...attr, color: isSelected ? EDGE_COLOR_SELECTED : EDGE_COLOR_DIMMED };
+        return { ...attr, color: isSelected ? EDGE_COLOR_SELECTED : edgeDimmed };
       }
 
       return attr;
@@ -401,16 +424,19 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
+    const nodeDefault: string = this._getNodeDefaultColor();
+    const edgeDefault: string = this._getEdgeDefaultColor();
+
     this._graph.updateEachNodeAttributes((node, attr) => {
       if (node === hoveredNode) {
         return { ...attr, color: NODE_COLOR_HOVER, borderColor: NODE_COLOR_HOVER };
       }
-      return { ...attr, color: NODE_COLOR_DEFAULT, borderColor: NODE_COLOR_DEFAULT };
+      return { ...attr, color: nodeDefault, borderColor: nodeDefault };
     });
 
     this._graph.updateEachEdgeAttributes((_edge, attr, source, target) => {
       const isConnected: boolean = source === hoveredNode || target === hoveredNode;
-      return { ...attr, color: isConnected ? EDGE_COLOR_HOVER : EDGE_COLOR_DEFAULT };
+      return { ...attr, color: isConnected ? EDGE_COLOR_HOVER : edgeDefault };
     });
 
     this._sigma.refresh();
@@ -454,6 +480,29 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     const selection: GraphSelection = this.$selection();
     const visibleNodes: Set<string> = this.$visibleNodes();
     this._applyVisualState(selection, visibleNodes);
+  }
+
+  private _updateGraphColors(): void {
+    const selection: GraphSelection = untracked(() => this.$selection());
+    const visibleNodes: Set<string> = untracked(() => this.$visibleNodes());
+    this._applyVisualState(selection, visibleNodes);
+    this._sigma?.refresh();
+  }
+
+  private _getNodeDefaultColor(): string {
+    return this._themeService.$isDarkMode() ? NODE_COLOR_DEFAULT_DARK : NODE_COLOR_DEFAULT;
+  }
+
+  private _getNodeDimmedColor(): string {
+    return this._themeService.$isDarkMode() ? NODE_COLOR_DIMMED_DARK : NODE_COLOR_DIMMED;
+  }
+
+  private _getEdgeDefaultColor(): string {
+    return this._themeService.$isDarkMode() ? EDGE_COLOR_DEFAULT_DARK : EDGE_COLOR_DEFAULT;
+  }
+
+  private _getEdgeDimmedColor(): string {
+    return this._themeService.$isDarkMode() ? EDGE_COLOR_DIMMED_DARK : EDGE_COLOR_DIMMED;
   }
 
   public onZoomIn(): void {

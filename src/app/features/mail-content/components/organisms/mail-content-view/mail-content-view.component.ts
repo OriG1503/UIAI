@@ -6,10 +6,12 @@ import {
   signal,
   effect,
   ElementRef,
+  HostListener,
   InputSignal,
   Signal,
   WritableSignal,
 } from '@angular/core';
+import { SelectedMailService } from '../../../../../core/services/selected-mail.service';
 import { Mail } from '../../../../../shared/types/mail.type';
 import { INBOX_LABEL_MAP } from '../../../../../shared/mapping/inbox.label-map';
 import { Encoding } from '../../../types/encoding.type';
@@ -18,10 +20,8 @@ import { MailContentToolbarComponent } from '../../molecules/mail-content-toolba
 import { MailMetadataComponent } from '../../molecules/mail-metadata/mail-metadata.component';
 import { MailAttachmentsComponent } from '../../molecules/mail-attachments/mail-attachments.component';
 import { MailBodyComponent } from '../../molecules/mail-body/mail-body.component';
-import { MailExtraInfoComponent } from '../../molecules/mail-extra-info/mail-extra-info.component';
+import { MailExtraInfoModalComponent } from '../../molecules/mail-extra-info-modal/mail-extra-info-modal.component';
 import { ContentSkeletonComponent } from '../../atoms/content-skeleton/content-skeleton.component';
-import { ExtraInfoRow } from '../../../types/extra-info-row.type';
-import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
 
 @Component({
   selector: 'app-mail-content-view',
@@ -29,7 +29,7 @@ import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
   imports: [
     MailContentToolbarComponent,
     MailMetadataComponent,
-    MailExtraInfoComponent,
+    MailExtraInfoModalComponent,
     MailAttachmentsComponent,
     MailBodyComponent,
     ContentSkeletonComponent,
@@ -40,28 +40,60 @@ import { MOCK_EXTRA_INFO_ROWS } from '../../../consts/mock-extra-info.consts';
 export class MailContentViewComponent {
   private _mailContentService: MockMailContentService = inject(MockMailContentService);
   private _elementRef: ElementRef = inject(ElementRef);
+  private _selectedMailService: SelectedMailService = inject(SelectedMailService);
 
-  $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
-  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+  @HostListener('document:keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.$isExtraInfoModalOpen()) {
+      this.$isExtraInfoModalOpen.set(false);
+      event.preventDefault();
+      return;
+    }
+    if (!this.$mail()) {
+      return;
+    }
+    const target: EventTarget | null = event.target;
+    if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+      return;
+    }
+    if (event.key === 'ArrowRight') {
+      this.onNextHighlight();
+      event.preventDefault();
+    } else if (event.key === 'ArrowLeft') {
+      this.onPreviousHighlight();
+      event.preventDefault();
+    } else if (!this._elementRef.nativeElement.contains(target)) {
+      if (event.key === 'ArrowDown') {
+        this._selectedMailService.selectNext();
+        event.preventDefault();
+      } else if (event.key === 'ArrowUp') {
+        this._selectedMailService.selectPrevious();
+        event.preventDefault();
+      }
+    }
+  }
 
-  $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
-  $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
-  $totalHighlights: WritableSignal<number> = signal<number>(0);
+  public $mail: InputSignal<Mail | null> = input<Mail | null>(null, { alias: 'mail' });
+  public $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
 
-  readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
-  readonly extraInfoRows: ExtraInfoRow[] = MOCK_EXTRA_INFO_ROWS;
+  public $selectedEncoding: WritableSignal<Encoding> = signal<Encoding>('none');
+  public $currentHighlightIndex: WritableSignal<number> = signal<number>(0);
+  public $totalHighlights: WritableSignal<number> = signal<number>(0);
+  public $isExtraInfoModalOpen: WritableSignal<boolean> = signal<boolean>(false);
 
-  $hasAttachments: Signal<boolean> = computed<boolean>(() => {
+  public readonly translations: typeof INBOX_LABEL_MAP = INBOX_LABEL_MAP;
+
+  public $hasAttachments: Signal<boolean> = computed<boolean>(() => {
     const mail: Mail | null = this.$mail();
     return mail !== null && mail.attachments?.filename?.length > 0;
   });
 
-  $attachments: Signal<string[]> = computed<string[]>(() => {
+  public $attachments: Signal<string[]> = computed<string[]>(() => {
     const mail: Mail | null = this.$mail();
     return mail?.attachments?.filename ?? [];
   });
 
-  $mailContent: Signal<string> = computed<string>(() => {
+  public $mailContent: Signal<string> = computed<string>(() => {
     const mail: Mail | null = this.$mail();
     if (!mail) {
       return '';
@@ -69,7 +101,7 @@ export class MailContentViewComponent {
     return this._mailContentService.getMailContent(mail.filename);
   });
 
-  $mailFilename: Signal<string> = computed<string>(() => this.$mail()?.filename ?? '');
+  public $mailFilename: Signal<string> = computed<string>(() => this.$mail()?.filename ?? '');
 
   constructor() {
     effect(() => {
@@ -96,6 +128,14 @@ export class MailContentViewComponent {
       // TODO: connect to real service / NgRx action
       console.log('Downloading mail:', mail.subject);
     }
+  }
+
+  public onExtraInfoOpen(): void {
+    this.$isExtraInfoModalOpen.set(true);
+  }
+
+  public onExtraInfoClose(): void {
+    this.$isExtraInfoModalOpen.set(false);
   }
 
   public onDownloadAllAttachments(): void {

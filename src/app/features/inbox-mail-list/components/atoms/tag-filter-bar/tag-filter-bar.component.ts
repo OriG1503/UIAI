@@ -1,17 +1,23 @@
 import { Component, ElementRef, ViewChild, signal, WritableSignal } from '@angular/core';
 import { TAG_SCROLL_AMOUNT } from '../../../consts/tag-filter-bar.consts';
+import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
+import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
 
 @Component({
   selector: 'app-tag-filter-bar',
   standalone: true,
-  imports: [],
+  imports: [IconComponent],
   templateUrl: './tag-filter-bar.component.html',
   styleUrl: './tag-filter-bar.component.scss',
 })
 export class TagFilterBarComponent {
   @ViewChild('scrollContainer') private _scrollContainer!: ElementRef<HTMLDivElement>;
 
-  readonly tags: string[] = [
+  public readonly ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_XS = ICON_SIZE_XS;
+
+  public readonly tags: string[] = [
     'Projects',
     'Reports',
     'Meetings',

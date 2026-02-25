@@ -18,40 +18,54 @@ import { SortDirection } from '../../../../../shared/types/sort-direction.type';
 import { GRAPH_LABEL_MAP } from '../../../../graph-canvas/mapping/graph.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_SM, ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
+import { FormatDatePipe } from '../../../../../shared/pipes/format-date.pipe';
+import { FormatTimePipe } from '../../../../../shared/pipes/format-time.pipe';
 
 @Component({
   selector: 'app-graph-filters-panel',
   standalone: true,
-  imports: [FormsModule, Slider, IconComponent],
+  imports: [FormsModule, Slider, IconComponent, FormatDatePipe, FormatTimePipe],
   templateUrl: './graph-filters-panel.component.html',
   styleUrl: './graph-filters-panel.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
 export class GraphFiltersPanelComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_SM = ICON_SIZE_SM;
+  public readonly ICON_SIZE_XS = ICON_SIZE_XS;
 
-  $nodes: InputSignal<GraphNode[]> = input<GraphNode[]>([], { alias: 'nodes' });
-  $selectedEmail: InputSignal<string | null> = input<string | null>(null, { alias: 'selectedEmail' });
-  $dateMin: InputSignal<number> = input<number>(0, { alias: 'dateMin' });
-  $dateMax: InputSignal<number> = input<number>(0, { alias: 'dateMax' });
-  $dateRangeValues: InputSignal<number[]> = input<number[]>([0, 0], { alias: 'dateRangeValues' });
-  $mailCountMin: InputSignal<number> = input<number>(1, { alias: 'mailCountMin' });
-  $mailCountMax: InputSignal<number> = input<number>(1, { alias: 'mailCountMax' });
-  $mailCountRangeValues: InputSignal<number[]> = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
+  public $nodes: InputSignal<GraphNode[]> = input<GraphNode[]>([], { alias: 'nodes' });
+  public $selectedEmail: InputSignal<string | null> = input<string | null>(null, { alias: 'selectedEmail' });
+  public $dateMin: InputSignal<number> = input<number>(0, { alias: 'dateMin' });
+  public $dateMax: InputSignal<number> = input<number>(0, { alias: 'dateMax' });
+  public $dateRangeValues: InputSignal<number[]> = input<number[]>([0, 0], { alias: 'dateRangeValues' });
+  public $mailCountMin: InputSignal<number> = input<number>(1, { alias: 'mailCountMin' });
+  public $mailCountMax: InputSignal<number> = input<number>(1, { alias: 'mailCountMax' });
+  public $mailCountRangeValues: InputSignal<number[]> = input<number[]>([1, 1], { alias: 'mailCountRangeValues' });
 
-  nodeClick: OutputEmitterRef<string> = output<string>();
-  nodeHover: OutputEmitterRef<string> = output<string>();
-  nodeHoverLeave: OutputEmitterRef<void> = output<void>();
-  dateRangeChange: OutputEmitterRef<number[]> = output<number[]>();
-  mailCountRangeChange: OutputEmitterRef<number[]> = output<number[]>();
+  public nodeClick: OutputEmitterRef<string> = output<string>();
+  public nodeHover: OutputEmitterRef<string> = output<string>();
+  public nodeHoverLeave: OutputEmitterRef<void> = output<void>();
+  public dateRangeChange: OutputEmitterRef<number[]> = output<number[]>();
+  public mailCountRangeChange: OutputEmitterRef<number[]> = output<number[]>();
+  public restoreFilters: OutputEmitterRef<void> = output<void>();
 
-  $searchText: WritableSignal<string> = signal<string>('');
-  $sortMode: WritableSignal<NodeSortMode> = signal<NodeSortMode>('mails');
-  $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
+  public $searchText: WritableSignal<string> = signal<string>('');
+  public $sortMode: WritableSignal<NodeSortMode> = signal<NodeSortMode>('mails');
+  public $sortDirection: WritableSignal<SortDirection> = signal<SortDirection>('desc');
 
-  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
+  public readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
-  $dateStep: Signal<number> = computed<number>(() => {
+  public $degreeSortIconColor: Signal<string> = computed<string>(() =>
+    this.$sortMode() === 'degree' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)',
+  );
+
+  public $mailsSortIconColor: Signal<string> = computed<string>(() =>
+    this.$sortMode() === 'mails' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)',
+  );
+
+  public $dateStep: Signal<number> = computed<number>(() => {
     const range: number = this.$dateMax() - this.$dateMin();
     if (range <= 0) {
       return 1;
@@ -59,7 +73,7 @@ export class GraphFiltersPanelComponent {
     return Math.max(1, Math.floor(range / 200));
   });
 
-  $filteredNodes: Signal<GraphNode[]> = computed<GraphNode[]>(() => {
+  public $filteredNodes: Signal<GraphNode[]> = computed<GraphNode[]>(() => {
     const search: string = this.$searchText().toLowerCase();
     const nodes: GraphNode[] = this.$nodes();
     const sortMode: NodeSortMode = this.$sortMode();
@@ -101,6 +115,10 @@ export class GraphFiltersPanelComponent {
     this.mailCountRangeChange.emit(values);
   }
 
+  public onRestoreFilters(): void {
+    this.restoreFilters.emit();
+  }
+
   public onSortModeChange(mode: NodeSortMode): void {
     if (this.$sortMode() === mode) {
       this.$sortDirection.set(this.$sortDirection() === 'desc' ? 'asc' : 'desc');
@@ -110,18 +128,4 @@ export class GraphFiltersPanelComponent {
     }
   }
 
-  public formatDate(timestamp: number): string {
-    const date: Date = new Date(timestamp);
-    const day: string = String(date.getDate()).padStart(2, '0');
-    const month: string = String(date.getMonth() + 1).padStart(2, '0');
-    const year: string = String(date.getFullYear()).slice(-2);
-    return `${day}/${month}/${year}`;
-  }
-
-  public formatTime(timestamp: number): string {
-    const date: Date = new Date(timestamp);
-    const hours: string = String(date.getHours()).padStart(2, '0');
-    const minutes: string = String(date.getMinutes()).padStart(2, '0');
-    return `${hours}:${minutes}`;
-  }
 }

@@ -14,10 +14,14 @@
 
     <div class="drawer-content">
       <div class="drawer-mail-content">
-        <app-mail-content-view [mail]="$selectedMail()" />
+        <app-mail-content-view
+          class="scroll-child"
+          [mail]="$selectedMail()"
+        />
       </div>
       <div class="drawer-mail-list">
         <app-mail-list
+          class="scroll-child"
           [graphSelectionMails]="$mails()"
           [graphSelectionInfo]="$graphSelectionInfo()"
           [showTagFilter]="$graphSelectionInfo()?.type === 'node'"

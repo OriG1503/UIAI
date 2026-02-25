@@ -24,41 +24,41 @@ export class GraphViewComponent {
   private _mockGraphMailService: MockGraphMailService = inject(MockGraphMailService);
   private _selectedMailService: SelectedMailService = inject(SelectedMailService);
 
-  readonly $graphData: WritableSignal<GraphData> = this._graphDataService.$graphData;
-  readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> =
+  public readonly $graphData: WritableSignal<GraphData> = this._graphDataService.$graphData;
+  public readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> =
     this._graphDataService.$graphPositions;
-  readonly $isLoading: WritableSignal<boolean> = this._graphDataService.$isLoading;
-  readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
+  public readonly $isLoading: WritableSignal<boolean> = this._graphDataService.$isLoading;
+  public readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
-  $selection: WritableSignal<GraphSelection> = signal<GraphSelection>({ type: 'none' });
-  $isDrawerOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $hoveredNodeEmail: WritableSignal<string | null> = signal<string | null>(null);
+  public $selection: WritableSignal<GraphSelection> = signal<GraphSelection>({ type: 'none' });
+  public $isDrawerOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $hoveredNodeEmail: WritableSignal<string | null> = signal<string | null>(null);
 
-  $dateMin: Signal<number> = computed<number>(() => {
+  public $dateMin: Signal<number> = computed<number>(() => {
     const mails: Mail[] = this._mockGraphMailService.mails();
     if (mails.length === 0) {
       return 0;
     }
-    return Math.min(...mails.map((m: Mail) => new Date(m.sent).getTime()));
+    return Math.min(...mails.map((mail: Mail) => new Date(mail.sent).getTime()));
   });
 
-  $dateMax: Signal<number> = computed<number>(() => {
+  public $dateMax: Signal<number> = computed<number>(() => {
     const mails: Mail[] = this._mockGraphMailService.mails();
     if (mails.length === 0) {
       return 0;
     }
-    return Math.max(...mails.map((m: Mail) => new Date(m.sent).getTime()));
+    return Math.max(...mails.map((mail: Mail) => new Date(mail.sent).getTime()));
   });
 
-  $dateRangeValues: WritableSignal<number[]> = signal<number[]>([0, 0]);
+  public $dateRangeValues: WritableSignal<number[]> = signal<number[]>([0, 0]);
 
-  $mailCountRangeValues: WritableSignal<number[]> = signal<number[]>([1, 1]);
+  public $mailCountRangeValues: WritableSignal<number[]> = signal<number[]>([1, 1]);
 
   private _$dateFilteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
     const mails: Mail[] = this._mockGraphMailService.mails();
     const [min, max]: number[] = this.$dateRangeValues();
-    return mails.filter((m: Mail) => {
-      const t: number = new Date(m.sent).getTime();
+    return mails.filter((mail: Mail) => {
+      const t: number = new Date(mail.sent).getTime();
       return t >= min && t <= max;
     });
   });
@@ -74,8 +74,8 @@ export class GraphViewComponent {
       }
 
       const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
-      recipients.forEach((r: MailUserInfo) => {
-        const email: string = r.mail ?? '';
+      recipients.forEach((recipient: MailUserInfo) => {
+        const email: string = recipient.mail ?? '';
         if (email) {
           counts.set(email, (counts.get(email) ?? 0) + 1);
         }
@@ -85,7 +85,7 @@ export class GraphViewComponent {
     return counts;
   });
 
-  $mailCountMax: Signal<number> = computed<number>(() => {
+  public $mailCountMax: Signal<number> = computed<number>(() => {
     const mails: Mail[] = this._mockGraphMailService.mails();
     if (mails.length === 0) {
       return 1;
@@ -97,8 +97,8 @@ export class GraphViewComponent {
         counts.set(fromEmail, (counts.get(fromEmail) ?? 0) + 1);
       }
       const recipients: MailUserInfo[] = [...mail.to, ...(mail.cc ?? []), ...(mail.bcc ?? [])];
-      recipients.forEach((r: MailUserInfo) => {
-        const email: string = r.mail ?? '';
+      recipients.forEach((recipient: MailUserInfo) => {
+        const email: string = recipient.mail ?? '';
         if (email) {
           counts.set(email, (counts.get(email) ?? 0) + 1);
         }
@@ -107,7 +107,7 @@ export class GraphViewComponent {
     return Math.max(...Array.from(counts.values()));
   });
 
-  $visibleNodeEmails: Signal<Set<string>> = computed<Set<string>>(() => {
+  public $visibleNodeEmails: Signal<Set<string>> = computed<Set<string>>(() => {
     const counts: Map<string, number> = this._$filteredNodeCounts();
     const [min, max]: number[] = this.$mailCountRangeValues();
     const visible: Set<string> = new Set<string>();
@@ -121,7 +121,7 @@ export class GraphViewComponent {
     return visible;
   });
 
-  $nodeList: Signal<GraphNode[]> = computed<GraphNode[]>(() => {
+  public $nodeList: Signal<GraphNode[]> = computed<GraphNode[]>(() => {
     const allNodes: Map<string, GraphNode> = this.$graphData().nodes;
     const counts: Map<string, number> = this._$filteredNodeCounts();
     const [min, max]: number[] = this.$mailCountRangeValues();
@@ -137,7 +137,7 @@ export class GraphViewComponent {
       }));
   });
 
-  $selectedNodeEmail: Signal<string | null> = computed<string | null>(() => {
+  public $selectedNodeEmail: Signal<string | null> = computed<string | null>(() => {
     const sel: GraphSelection = this.$selection();
     if (sel.type === 'node') {
       return sel.nodeEmail ?? null;
@@ -145,7 +145,7 @@ export class GraphViewComponent {
     return null;
   });
 
-  $filteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
+  public $filteredMails: Signal<Mail[]> = computed<Mail[]>(() => {
     const sel: GraphSelection = this.$selection();
     if (sel.type === 'node' && sel.nodeEmail) {
       return this._graphDataService.getMailsForNode(sel.nodeEmail);
@@ -195,33 +195,26 @@ export class GraphViewComponent {
   }
 
   public onDateRangeChange(values: number[]): void {
-    const [newMin, newMax]: number[] = values;
+    const newMin: number = Math.max(this.$dateMin(), Math.min(values[0], values[1]));
+    const newMax: number = Math.min(this.$dateMax(), Math.max(values[0], values[1]));
     if (newMin >= newMax) {
-      const [prevMin]: number[] = this.$dateRangeValues();
-      const range: number = this.$dateMax() - this.$dateMin();
-      const step: number = range <= 0 ? 1 : Math.max(1, Math.floor(range / 200));
-      if (newMin !== prevMin) {
-        this.$dateRangeValues.set([newMax - step, newMax]);
-      } else {
-        this.$dateRangeValues.set([newMin, newMin + step]);
-      }
       return;
     }
-    this.$dateRangeValues.set(values);
+    this.$dateRangeValues.set([newMin, newMax]);
   }
 
   public onMailCountRangeChange(values: number[]): void {
-    const [newMin, newMax]: number[] = values;
+    const newMin: number = Math.max(1, Math.min(values[0], values[1]));
+    const newMax: number = Math.min(this.$mailCountMax(), Math.max(values[0], values[1]));
     if (newMin >= newMax) {
-      const [prevMin]: number[] = this.$mailCountRangeValues();
-      if (newMin !== prevMin) {
-        this.$mailCountRangeValues.set([newMax - 1, newMax]);
-      } else {
-        this.$mailCountRangeValues.set([newMin, newMin + 1]);
-      }
       return;
     }
-    this.$mailCountRangeValues.set(values);
+    this.$mailCountRangeValues.set([newMin, newMax]);
+  }
+
+  public onRestoreFilters(): void {
+    this.$dateRangeValues.set([this.$dateMin(), this.$dateMax()]);
+    this.$mailCountRangeValues.set([1, this.$mailCountMax()]);
   }
 
   public onDrawerClose(): void {

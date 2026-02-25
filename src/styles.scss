@@ -1,7 +1,15 @@
+@use 'variables';
 @use 'primeicons/primeicons.css';
 
-/* Assistant font (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400&display=swap');
+/* Assistant font */
+@font-face {
+  font-family: 'Assistant';
+  src:
+    url('/assets/fonts/assistant-regular.woff2') format('woff2'),
+    url('/assets/fonts/assistant-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 
 /* Ploni font */
 @font-face {
@@ -53,6 +61,11 @@
   --box-shadow-panel: 0 4px 20px rgba(0, 0, 0, 0.14);
   --border-radius: 1.5rem;
   --input-height: 1.875rem;
+  --font-size-xxs: 0.7rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
 }
 
 html.dark-mode {
@@ -72,6 +85,10 @@ html.dark-mode {
   --color-surface-selected: rgba(255, 255, 255, 0.16);
   --color-badge-bg: rgba(255, 255, 255, 0.18);
   --box-shadow-panel: 0 0 0 1px rgba(255, 255, 255, 0.07), 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  mark.search-highlight {
+    color: #03153a;
+  }
 }
 
 html,
@@ -89,7 +106,7 @@ body {
 
 mark.search-highlight {
   background-color: var(--color-yellow);
-  color: #03153a;
+  color: var(--color-dark-navy);
   border-radius: 0.125rem;
   display: inline;
 }

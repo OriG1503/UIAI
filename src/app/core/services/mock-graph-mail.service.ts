@@ -1,6 +1,6 @@
 // TODO: Replace with real GraphMailService that fetches from the NestJS HTTP server.
 // Contract: must expose `mails: Signal<Mail[]>`,
-//           `markAsSeen(filename: string): void`, `markAsUnseen(filename: string): void`
+//           `markAsRead(filename: string): void`, `markAsUnread(filename: string): void`
 // API: GET /graph/mails (returns the full mail dataset used for graph visualization)
 import { Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { Mail } from '../../shared/types/mail.type';
@@ -12,17 +12,17 @@ import { MailUserInfo } from '../../shared/types/mail-user-info.type';
 export class MockGraphMailService {
   private _mails: WritableSignal<Mail[]> = signal<Mail[]>(this._generateMockMails());
 
-  readonly mails: Signal<Mail[]> = this._mails.asReadonly();
+  public readonly mails: Signal<Mail[]> = this._mails.asReadonly();
 
-  public markAsSeen(mailFilename: string): void {
+  public markAsRead(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>
-      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, seen: true } : mail)),
+      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, isRead: true } : mail)),
     );
   }
 
-  public markAsUnseen(mailFilename: string): void {
+  public markAsUnread(mailFilename: string): void {
     this._mails.update((mails: Mail[]) =>
-      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, seen: false } : mail)),
+      mails.map((mail: Mail) => (mail.filename === mailFilename ? { ...mail, isRead: false } : mail)),
     );
   }
 
@@ -132,7 +132,7 @@ export class MockGraphMailService {
         bcc,
         sent: mailDate,
         mailbox_name: 'inbox',
-        seen: index % 2 === 0,
+        isRead: index % 2 === 0,
       });
     };
 
@@ -151,43 +151,44 @@ export class MockGraphMailService {
 
     // Hub-to-midTier connections (moderate: ~10-15 mails each)
     hubs.forEach((hub: MailUserInfo) => {
-      midTier.forEach((mid: MailUserInfo, midIdx: number) => {
-        const count: number = 10 + (midIdx % 6);
+      midTier.forEach((midUser: MailUserInfo, midUserIndex: number) => {
+        const count: number = 10 + (midUserIndex % 6);
         Array.from({ length: count }).forEach(() => {
           const ccRecipients: MailUserInfo[] | undefined =
-            midIdx % 3 === 0 ? [hubs[(midIdx + 1) % hubs.length]] : undefined;
-          addMail(hub, [mid], ccRecipients, undefined, mailIndex++);
+            midUserIndex % 3 === 0 ? [hubs[(midUserIndex + 1) % hubs.length]] : undefined;
+          addMail(hub, [midUser], ccRecipients, undefined, mailIndex++);
         });
       });
     });
 
     // MidTier-to-midTier connections (moderate: ~5 mails between some pairs)
-    midTier.forEach((mid: MailUserInfo, i: number) => {
-      midTier.forEach((otherMid: MailUserInfo, j: number) => {
-        if (i < j && (i + j) % 2 === 0) {
+    midTier.forEach((midUser: MailUserInfo, midUserIndex: number) => {
+      midTier.forEach((otherMidUser: MailUserInfo, outerIndex: number) => {
+        if (midUserIndex < outerIndex && (midUserIndex + outerIndex) % 2 === 0) {
           Array.from({ length: 5 }).forEach(() => {
-            addMail(mid, [otherMid], undefined, undefined, mailIndex++);
+            addMail(midUser, [otherMidUser], undefined, undefined, mailIndex++);
           });
         }
       });
     });
 
     // Hub/midTier-to-peripheral connections (sparse: 3-8 mails)
-    peripheral.forEach((per: MailUserInfo, perIdx: number) => {
-      const sender: MailUserInfo = perIdx % 2 === 0 ? hubs[perIdx % hubs.length] : midTier[perIdx % midTier.length];
-      const count: number = 3 + (perIdx % 6);
+    peripheral.forEach((peripheralUser: MailUserInfo, peripheralIndex: number) => {
+      const sender: MailUserInfo =
+        peripheralIndex % 2 === 0 ? hubs[peripheralIndex % hubs.length] : midTier[peripheralIndex % midTier.length];
+      const count: number = 3 + (peripheralIndex % 6);
       Array.from({ length: count }).forEach(() => {
-        addMail(sender, [per], undefined, undefined, mailIndex++);
+        addMail(sender, [peripheralUser], undefined, undefined, mailIndex++);
       });
-      if (perIdx % 2 === 0) {
+      if (peripheralIndex % 2 === 0) {
         Array.from({ length: 2 }).forEach(() => {
-          addMail(per, [sender], undefined, undefined, mailIndex++);
+          addMail(peripheralUser, [sender], undefined, undefined, mailIndex++);
         });
       }
     });
 
     // Multi-recipient mails for variety
-    Array.from({ length: 30 }).forEach((_: unknown, i: number) => {
+    Array.from<undefined>({ length: 30 }).forEach((_: undefined, i: number) => {
       const from: MailUserInfo = hubs[i % hubs.length];
       const toRecipients: MailUserInfo[] = [midTier[i % midTier.length], midTier[(i + 3) % midTier.length]];
       const ccRecipients: MailUserInfo[] = [peripheral[i % peripheral.length], midTier[(i + 5) % midTier.length]];
@@ -195,7 +196,7 @@ export class MockGraphMailService {
     });
 
     // Additional hub broadcast mails
-    Array.from({ length: 20 }).forEach((_: unknown, i: number) => {
+    Array.from<undefined>({ length: 20 }).forEach((_: undefined, i: number) => {
       const from: MailUserInfo = hubs[i % hubs.length];
       const toRecipients: MailUserInfo[] = [midTier[(i * 2) % midTier.length], midTier[(i * 2 + 1) % midTier.length]];
       const ccRecipients: MailUserInfo[] = [hubs[(i + 1) % hubs.length], hubs[(i + 2) % hubs.length]];

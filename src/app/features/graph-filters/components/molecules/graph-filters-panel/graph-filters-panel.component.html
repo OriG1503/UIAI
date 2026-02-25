@@ -1,15 +1,28 @@
 <div class="graph-filters-panel">
   <div class="filter-bubble">
     <div class="filter-group">
-      <span class="filter-label">{{ translations.dateFilterLabel }}</span>
+      <div class="filter-label-row">
+        <button
+          type="button"
+          class="restore-btn"
+          [title]="translations.restoreFilters"
+          (click)="onRestoreFilters()"
+        >
+          <app-icon
+            [name]="ICON_NAMES.RESTORE"
+            [size]="ICON_SIZE_SM"
+          />
+        </button>
+        <span class="filter-label">{{ translations.dateFilterLabel }}</span>
+      </div>
       <div class="filter-range-values">
         <div class="filter-range-min">
-          <span class="filter-range-date">{{ formatDate($dateRangeValues()[0]) }}</span>
-          <span class="filter-range-time">{{ formatTime($dateRangeValues()[0]) }}</span>
+          <span class="filter-range-date">{{ $dateRangeValues()[0] | formatDate }}</span>
+          <span class="filter-range-time">{{ $dateRangeValues()[0] | formatTime }}</span>
         </div>
         <div class="filter-range-max">
-          <span class="filter-range-date">{{ formatDate($dateRangeValues()[1]) }}</span>
-          <span class="filter-range-time">{{ formatTime($dateRangeValues()[1]) }}</span>
+          <span class="filter-range-date">{{ $dateRangeValues()[1] | formatDate }}</span>
+          <span class="filter-range-time">{{ $dateRangeValues()[1] | formatTime }}</span>
         </div>
       </div>
       <p-slider
@@ -63,8 +76,8 @@
               ? ICON_NAMES.SORT_AMOUNT_UP
               : ICON_NAMES.SORT_AMOUNT_DOWN
           "
-          size="0.7rem"
-          [color]="$sortMode() === 'degree' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
+          [size]="ICON_SIZE_XS"
+          [color]="$degreeSortIconColor()"
         />
         {{ translations.sortByDegree }}
         <span
@@ -85,8 +98,8 @@
               ? ICON_NAMES.SORT_AMOUNT_UP
               : ICON_NAMES.SORT_AMOUNT_DOWN
           "
-          size="0.7rem"
-          [color]="$sortMode() === 'mails' ? 'var(--color-dark-navy)' : 'var(--color-navy-gray)'"
+          [size]="ICON_SIZE_XS"
+          [color]="$mailsSortIconColor()"
         />
         {{ translations.sortByMails }}
         <span

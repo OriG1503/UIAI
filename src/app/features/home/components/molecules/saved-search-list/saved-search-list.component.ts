@@ -3,42 +3,45 @@ import { FormsModule } from '@angular/forms';
 import { SavedSearch } from '../../../types/saved-search.type';
 import { HOME_LABEL_MAP } from '../../../mapping/home.label-map';
 import { CURRENT_USERNAME, MAX_SAVED_SEARCH_NAME_LENGTH } from '../../../consts/saved-search.consts';
-import { SAVED_SEARCH_SKELETON_COUNT } from '../../../consts/search-history-skeleton.consts';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
+import { ICON_SIZE_XS, ICON_SIZE_SM } from '../../../../../shared/consts/icon-size.consts';
 import { HoverPopupComponent } from '../../../../../shared/molecules/hover-popup/hover-popup.component';
 import { PopupOption } from '../../../../../shared/types/popup-option.type';
+import { FormatDatePipe } from '../../../../../shared/pipes/format-date.pipe';
+import { SavedSearchSkeletonComponent } from '../saved-search-skeleton/saved-search-skeleton.component';
 
 @Component({
   selector: 'app-saved-search-list',
   standalone: true,
-  imports: [FormsModule, IconComponent, HoverPopupComponent],
+  imports: [FormsModule, IconComponent, HoverPopupComponent, FormatDatePipe, SavedSearchSkeletonComponent],
   templateUrl: './saved-search-list.component.html',
   styleUrl: './saved-search-list.component.scss',
 })
 export class SavedSearchListComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
-  readonly MAX_NAME_LENGTH: number = MAX_SAVED_SEARCH_NAME_LENGTH;
-  readonly skeletonItems: number[] = Array.from({ length: SAVED_SEARCH_SKELETON_COUNT }, (_: unknown, i: number) => i);
-  readonly playOptions: PopupOption[] = [
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_XS = ICON_SIZE_XS;
+  public readonly ICON_SIZE_SM = ICON_SIZE_SM;
+  public readonly labels: typeof HOME_LABEL_MAP = HOME_LABEL_MAP;
+  public readonly MAX_NAME_LENGTH: number = MAX_SAVED_SEARCH_NAME_LENGTH;
+  public readonly playOptions: PopupOption[] = [
     { value: 'list', label: HOME_LABEL_MAP.listView, icon: ICON_NAMES.LIST },
     { value: 'graph', label: HOME_LABEL_MAP.graphView, icon: ICON_NAMES.CHART_BAR },
   ];
 
-  $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
-  $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
+  public $savedSearches: InputSignal<SavedSearch[]> = input.required<SavedSearch[]>({ alias: 'savedSearches' });
+  public $isLoading: InputSignal<boolean> = input<boolean>(false, { alias: 'isLoading' });
 
-  $nameFilter: WritableSignal<string> = signal<string>('');
-  $userFilter: WritableSignal<string> = signal<string>('');
-  $openMenuIndex: WritableSignal<number> = signal<number>(-1);
-  $editingIndex: WritableSignal<number> = signal<number>(-1);
+  public $nameFilter: WritableSignal<string> = signal<string>('');
+  public $userFilter: WritableSignal<string> = signal<string>('');
+  public $openMenuIndex: WritableSignal<number> = signal<number>(-1);
+  public $editingIndex: WritableSignal<number> = signal<number>(-1);
   private _$mutationTick: WritableSignal<number> = signal<number>(0);
-  $editingName: WritableSignal<string> = signal<string>('');
-  $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
+  public $editingName: WritableSignal<string> = signal<string>('');
+  public $glowingSearch: WritableSignal<SavedSearch | null> = signal<SavedSearch | null>(null);
   private _pendingGlowSearch: SavedSearch | null = null;
 
-  $hasFilters: Signal<boolean> = computed<boolean>(
+  public $hasFilters: Signal<boolean> = computed<boolean>(
     () => this.$nameFilter().trim() !== '' || this.$userFilter().trim() !== '',
   );
 
@@ -46,7 +49,7 @@ export class SavedSearchListComponent {
     this.$savedSearches().some((search: SavedSearch) => search.username === CURRENT_USERNAME),
   );
 
-  $filteredSavedSearches: Signal<SavedSearch[]> = computed<SavedSearch[]>(() => {
+  public $filteredSavedSearches: Signal<SavedSearch[]> = computed<SavedSearch[]>(() => {
     this._$mutationTick();
     const nameFilter: string = this.$nameFilter().trim().toLowerCase();
     const userFilter: string = this.$userFilter().trim().toLowerCase();
@@ -89,6 +92,14 @@ export class SavedSearchListComponent {
 
   public isOwnSearch(search: SavedSearch): boolean {
     return search.username === CURRENT_USERNAME;
+  }
+
+  public pinIconColor(search: SavedSearch): string {
+    return search.isPinned ? 'var(--color-red)' : 'var(--color-dark-navy)';
+  }
+
+  public menuIconColor(index: number): string {
+    return this.$openMenuIndex() === index ? 'var(--color-white)' : 'var(--color-dark-navy)';
   }
 
   public onNameFilterChange(value: string): void {
@@ -182,23 +193,16 @@ export class SavedSearchListComponent {
 
   public onDelete(search: SavedSearch): void {
     const index: number = this.$savedSearches().indexOf(search);
-    if (index !== -1) {
+    if (index >= 0) {
       this.$savedSearches().splice(index, 1);
     }
     this.$openMenuIndex.set(-1);
   }
 
-  public formatDate(date: Date): string {
-    const day: string = date.getDate().toString().padStart(2, '0');
-    const month: string = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year: string = date.getFullYear().toString().slice(2);
-    return `${day}/${month}/${year}`;
-  }
-
   private cancelEdit(): void {
     if (this._pendingGlowSearch) {
       const index: number = this.$savedSearches().indexOf(this._pendingGlowSearch);
-      if (index !== -1) {
+      if (index >= 0) {
         this.$savedSearches().splice(index, 1);
       }
       this._pendingGlowSearch = null;

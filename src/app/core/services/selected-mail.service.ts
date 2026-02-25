@@ -12,23 +12,23 @@ export class SelectedMailService {
   private _selectedMail: WritableSignal<Mail | null> = signal<Mail | null>(null);
   private _mailList: WritableSignal<Mail[]> = signal<Mail[]>([]);
 
-  readonly selectedMail: Signal<Mail | null> = this._selectedMail.asReadonly();
-  readonly mailList: Signal<Mail[]> = this._mailList.asReadonly();
+  public readonly selectedMail: Signal<Mail | null> = this._selectedMail.asReadonly();
+  public readonly mailList: Signal<Mail[]> = this._mailList.asReadonly();
 
-  $hasSelectedMail: Signal<boolean> = computed<boolean>(() => this._selectedMail() !== null);
+  public $hasSelectedMail: Signal<boolean> = computed<boolean>(() => this._selectedMail() !== null);
 
-  $selectedIndex: Signal<number> = computed<number>(() => {
+  public $selectedIndex: Signal<number> = computed<number>(() => {
     const mail: Mail | null = this._selectedMail();
     const list: Mail[] = this._mailList();
     if (!mail || list.length === 0) {
       return -1;
     }
-    return list.findIndex((m: Mail) => m.filename === mail.filename);
+    return list.findIndex((listMail: Mail) => listMail.filename === mail.filename);
   });
 
-  $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
+  public $hasPrevious: Signal<boolean> = computed<boolean>(() => this.$selectedIndex() > 0);
 
-  $hasNext: Signal<boolean> = computed<boolean>(() => {
+  public $hasNext: Signal<boolean> = computed<boolean>(() => {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     return index >= 0 && index < list.length - 1;
@@ -50,9 +50,8 @@ export class SelectedMailService {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     if (index > 0) {
-      const mail: Mail = list[index - 1];
-      this.markMailAsSeen(mail);
-      this._selectedMail.set(mail);
+      this.markMailAsRead(list[index]);
+      this._selectedMail.set(list[index - 1]);
     }
   }
 
@@ -60,25 +59,24 @@ export class SelectedMailService {
     const index: number = this.$selectedIndex();
     const list: Mail[] = this._mailList();
     if (index >= 0 && index < list.length - 1) {
-      const mail: Mail = list[index + 1];
-      this.markMailAsSeen(mail);
-      this._selectedMail.set(mail);
+      this.markMailAsRead(list[index]);
+      this._selectedMail.set(list[index + 1]);
     }
   }
 
-  public markMailAsSeen(mail: Mail): void {
+  public markMailAsRead(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsSeen(mail.filename);
+      this._graphMailService.markAsRead(mail.filename);
     } else {
-      this._mailService.markAsSeen(mail.filename);
+      this._mailService.markAsRead(mail.filename);
     }
   }
 
-  public markMailAsUnseen(mail: Mail): void {
+  public markMailAsUnread(mail: Mail): void {
     if (mail.filename.startsWith('graph-mail-')) {
-      this._graphMailService.markAsUnseen(mail.filename);
+      this._graphMailService.markAsUnread(mail.filename);
     } else {
-      this._mailService.markAsUnseen(mail.filename);
+      this._mailService.markAsUnread(mail.filename);
     }
   }
 }

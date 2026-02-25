@@ -25,7 +25,7 @@
         <div class="override-header-actions">
           <button
             class="override-action-btn"
-            [title]="$isFullscreen() ? 'יציאה ממסך מלא' : 'מסך מלא'"
+            [title]="$isFullscreen() ? inboxTranslations.exitFullscreen : inboxTranslations.fullscreen"
             (click)="fullscreenClick.emit()"
           >
             <app-icon
@@ -35,7 +35,7 @@
           </button>
           <button
             class="override-action-btn"
-            title="סגור"
+            [title]="inboxTranslations.close"
             (click)="closeClick.emit()"
           >
             <app-icon
@@ -66,10 +66,12 @@
 
     <div class="mail-list-scroll">
       @if ($isLoading()) {
-        <app-mail-skeleton />
+        <app-mail-skeleton class="scroll-item" />
       } @else {
         @for (mail of $filteredMails(); track mail.filename) {
           <app-mail-preview
+            class="scroll-item"
+            [attr.data-mail-filename]="mail.filename"
             [mail]="mail"
             [isSelectMode]="$isSelectMode()"
             [isSelected]="isMailSelected(mail)"
@@ -88,7 +90,7 @@
   <app-context-menu
     [x]="$contextMenu().x"
     [y]="$contextMenu().y"
-    (markAsUnseenClick)="onMarkAsUnseen()"
+    (markAsUnreadClick)="onMarkAsUnread()"
     (closeMenu)="onCloseContextMenu()"
   />
 }

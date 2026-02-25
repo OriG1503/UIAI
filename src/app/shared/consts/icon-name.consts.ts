@@ -1,5 +1,6 @@
 export const ICON_NAMES = {
   ARROWS_ALT: 'arrows-alt',
+  BRACKETS_CURLY: 'brackets-curly',
   CALENDAR: 'calendar',
   CHART_BAR: 'chart-bar',
   CHECK: 'check',
@@ -27,6 +28,7 @@ export const ICON_NAMES = {
   PENCIL: 'pencil',
   PLAY: 'play',
   PLUS: 'plus',
+  RESTORE: 'restore',
   SAVE: 'save',
   SEARCH: 'search',
   SLIDERS_H: 'sliders-h',

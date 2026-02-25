@@ -1,7 +1,7 @@
-@for (i of items; track i) {
+@for (skeletonItem of items; track skeletonItem) {
   <div
     class="skeleton-card"
-    [style.animation-delay]="i * 0.1 + 's'"
+    [style.animation-delay]="skeletonItem * 0.1 + 's'"
   >
     <div class="skeleton-indicator"></div>
     <div class="skeleton-content">

@@ -14,8 +14,8 @@ export class MailBodyComponent {
   private _sanitizer: DomSanitizer = inject(DomSanitizer);
   private _highlightService: HighlightService = inject(HighlightService);
 
-  $content: InputSignal<string> = input.required<string>({ alias: 'content' });
-  $mailFilename: InputSignal<string> = input<string>('', { alias: 'mailFilename' });
+  public $content: InputSignal<string> = input.required<string>({ alias: 'content' });
+  public $mailFilename: InputSignal<string> = input<string>('', { alias: 'mailFilename' });
 
   private _$highlightedContent: Signal<string> = computed<string>(() => {
     const content: string = this.$content();
@@ -29,7 +29,7 @@ export class MailBodyComponent {
     return this._highlightService.highlightBodyContent(content, highlightData.bodyWords);
   });
 
-  $safeContent: Signal<SafeHtml> = computed<SafeHtml>(() =>
+  public $safeContent: Signal<SafeHtml> = computed<SafeHtml>(() =>
     this._sanitizer.bypassSecurityTrustHtml(this._$highlightedContent()),
   );
 }

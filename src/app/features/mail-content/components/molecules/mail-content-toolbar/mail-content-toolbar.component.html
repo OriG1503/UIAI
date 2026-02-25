@@ -3,12 +3,24 @@
     <button
       type="button"
       class="icon-btn"
-      title="הורד MAIL"
+      [title]="toolbarTranslations.extraInfo"
+      (click)="onExtraInfoClick()"
+    >
+      <app-icon
+        [name]="ICON_NAMES.BRACKETS_CURLY"
+        [size]="ICON_SIZE_MD"
+      />
+    </button>
+    <span class="separator">|</span>
+    <button
+      type="button"
+      class="icon-btn"
+      [title]="toolbarTranslations.download"
       (click)="onDownloadClick()"
     >
       <app-icon
         [name]="ICON_NAMES.DOWNLOAD"
-        size="0.875rem"
+        [size]="ICON_SIZE_MD"
       />
     </button>
     @if ($totalHighlights() > 0) {
@@ -18,27 +30,27 @@
           <button
             type="button"
             class="nav-btn"
-            title="הבא"
+            [title]="toolbarTranslations.next"
             [disabled]="!$hasNext()"
             (click)="onNextClick()"
           >
             <app-icon
               [name]="ICON_NAMES.CHEVRON_LEFT"
-              size="0.875rem"
-              [color]="$hasNext() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'"
+              [size]="ICON_SIZE_MD"
+              [color]="$nextIconColor()"
             />
           </button>
           <button
             type="button"
             class="nav-btn"
-            title="הקודם"
+            [title]="toolbarTranslations.previous"
             [disabled]="!$hasPrevious()"
             (click)="onPreviousClick()"
           >
             <app-icon
               [name]="ICON_NAMES.CHEVRON_RIGHT"
-              size="0.875rem"
-              [color]="$hasPrevious() ? 'var(--color-dark-navy)' : 'var(--color-light-gray)'"
+              [size]="ICON_SIZE_MD"
+              [color]="$prevIconColor()"
             />
           </button>
         </div>
@@ -65,25 +77,23 @@
         <app-icon
           [name]="$isEncodingPopupOpen() ? ICON_NAMES.CHEVRON_UP : ICON_NAMES.CHEVRON_DOWN"
           size="0.625rem"
-          [color]="
-            $isEncodingPopupOpen() || $selectedEncoding() !== 'none' ? 'var(--color-white)' : 'var(--color-dark-navy)'
-          "
+          [color]="$encodingIconColor()"
         />
       </button>
       @if ($isEncodingPopupOpen()) {
         <div class="encoding-popup">
-          @for (enc of encodings; track enc) {
+          @for (encoding of encodings; track encoding) {
             <button
               type="button"
               class="encoding-option"
-              [class.selected]="$selectedEncoding() === enc"
-              (click)="onEncodingSelect(enc)"
+              [class.selected]="$selectedEncoding() === encoding"
+              (click)="onEncodingSelect(encoding)"
             >
-              {{ encodingLabels[enc] }}
-              @if ($selectedEncoding() === enc) {
+              {{ encodingLabels[encoding] }}
+              @if ($selectedEncoding() === encoding) {
                 <app-icon
                   [name]="ICON_NAMES.CHECK"
-                  size="0.75rem"
+                  [size]="ICON_SIZE_SM"
                   color="var(--color-blue)"
                 />
               }

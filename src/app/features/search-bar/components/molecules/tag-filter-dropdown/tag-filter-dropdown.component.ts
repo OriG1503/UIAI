@@ -18,54 +18,53 @@ import { TagOption } from '../../../types/tag-option.type';
 import { TAG_FILTER_LABEL_MAP } from '../../../mapping/search.label-map';
 import { IconComponent } from '../../../../../shared/atoms/icon/icon.component';
 import { ICON_NAMES } from '../../../../../shared/consts/icon-name.consts';
-import { TAG_SKELETON_COUNT } from '../../../consts/tag-filter.consts';
+import { ICON_SIZE_XS } from '../../../../../shared/consts/icon-size.consts';
 import { MockTagService } from '../../../../../core/services/mock-tag.service';
+import { TagFilterSkeletonComponent } from '../tag-filter-skeleton/tag-filter-skeleton.component';
 
 @Component({
   selector: 'app-tag-filter-dropdown',
   standalone: true,
-  imports: [FormsModule, IconComponent],
+  imports: [FormsModule, IconComponent, TagFilterSkeletonComponent],
   templateUrl: './tag-filter-dropdown.component.html',
   styleUrl: './tag-filter-dropdown.component.scss',
 })
 export class TagFilterDropdownComponent {
-  readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
-  readonly skeletonItems: number[] = Array.from({ length: TAG_SKELETON_COUNT }, (_: unknown, i: number) => i);
+  public readonly ICON_NAMES: typeof ICON_NAMES = ICON_NAMES;
+  public readonly ICON_SIZE_XS = ICON_SIZE_XS;
 
   private _mockTagService: MockTagService = inject(MockTagService);
 
-  $options: InputSignal<TagOption[]> = input<TagOption[]>([], { alias: 'options' });
-  $selectedValues: InputSignal<string[]> = input<string[]>([], { alias: 'selectedValues' });
+  public $options: InputSignal<TagOption[]> = input<TagOption[]>([], { alias: 'options' });
+  public $selectedValues: InputSignal<string[]> = input<string[]>([], { alias: 'selectedValues' });
 
-  tagsChange: OutputEmitterRef<string[]> = output<string[]>();
+  public tagsChange: OutputEmitterRef<string[]> = output<string[]>();
 
   @ViewChild('resultsList') private _resultsList?: ElementRef<HTMLDivElement>;
   @ViewChild('searchInput') private _searchInput?: ElementRef<HTMLInputElement>;
 
-  $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
-  $searchText: WritableSignal<string> = signal<string>('');
-  $highlightedIndex: WritableSignal<number> = signal<number>(-1);
+  public $isPopupOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public $searchText: WritableSignal<string> = signal<string>('');
+  public $highlightedIndex: WritableSignal<number> = signal<number>(-1);
 
-  readonly $isLoading: WritableSignal<boolean> = this._mockTagService.$isLoading;
-  readonly $filteredOptions: WritableSignal<TagOption[]> = this._mockTagService.$filteredTags;
+  public readonly $isLoading: WritableSignal<boolean> = this._mockTagService.$isLoading;
+  public readonly $filteredOptions: WritableSignal<TagOption[]> = this._mockTagService.$filteredTags;
 
-  readonly translations: typeof TAG_FILTER_LABEL_MAP = TAG_FILTER_LABEL_MAP;
+  public readonly translations: typeof TAG_FILTER_LABEL_MAP = TAG_FILTER_LABEL_MAP;
 
   constructor(private _elementRef: ElementRef) {}
 
-  $selectedTagOptions: Signal<TagOption[]> = computed<TagOption[]>(() => {
+  public $selectedTagOptions: Signal<TagOption[]> = computed<TagOption[]>(() => {
     const selected: string[] = this.$selectedValues();
     const options: TagOption[] = this.$options();
     return selected
-      .map((value: string) => options.find((o: TagOption) => o.value === value))
-      .filter((o: TagOption | undefined): o is TagOption => !!o);
+      .map((value: string) => options.find((option: TagOption) => option.value === value))
+      .filter((option: TagOption | undefined): option is TagOption => !!option);
   });
 
-  private _$selectedCount: Signal<number> = computed<number>(() => this.$selectedValues().length);
+  public $hasSelection: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0);
 
-  $hasSelection: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0);
-
-  $buttonLabel: Signal<string> = computed<string>(() => {
+  public $buttonLabel: Signal<string> = computed<string>(() => {
     const count: number = this.$selectedValues().length;
     if (count === 0 && !this.$isPopupOpen()) {
       return this.translations.defaultLabel;
@@ -76,15 +75,11 @@ export class TagFilterDropdownComponent {
     return `${count} ${this.translations.tagsSelected}`;
   });
 
-  $isActive: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0 && !this.$isPopupOpen());
+  public $isActive: Signal<boolean> = computed<boolean>(() => this.$selectedValues().length > 0 && !this.$isPopupOpen());
 
-  private _$counterLabel: Signal<string> = computed<string>(() => {
-    const count: number = this.$selectedValues().length;
-    if (count === 1) {
-      return `${count} ${this.translations.countSelectedSingular}`;
-    }
-    return `${count} ${this.translations.countSelectedPlural}`;
-  });
+  public $triggerIconColor: Signal<string> = computed<string>(() =>
+    this.$isPopupOpen() ? 'var(--color-white)' : 'var(--color-dark-navy)',
+  );
 
   @HostListener('document:click', ['$event'])
   public onDocumentClick(event: Event): void {
@@ -112,7 +107,7 @@ export class TagFilterDropdownComponent {
   public toggleTag(option: TagOption): void {
     const current: string[] = this.$selectedValues();
     if (current.includes(option.value)) {
-      this.tagsChange.emit(current.filter((v: string) => v !== option.value));
+      this.tagsChange.emit(current.filter((value: string) => value !== option.value));
     } else {
       this.tagsChange.emit([...current, option.value]);
     }

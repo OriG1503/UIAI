@@ -2,13 +2,13 @@
   <button
     type="button"
     class="download-all-btn"
-    title="הורד דבוקות"
+    [title]="attachmentTranslations.downloadAll"
     (click)="onDownloadAllClick()"
   >
     <span class="attachment-count">({{ $attachmentCount() }})</span>
     <app-icon
       [name]="ICON_NAMES.DOWNLOAD"
-      size="1rem"
+      [size]="ICON_SIZE_LG"
     />
   </button>
 
@@ -23,7 +23,7 @@
       >
         <app-icon
           [name]="getExtensionIcon(attachment)"
-          size="1rem"
+          [size]="ICON_SIZE_LG"
           [color]="getExtensionColor(attachment)"
           class="file-icon"
         />
@@ -44,7 +44,7 @@
         <div class="download-overlay">
           <app-icon
             [name]="ICON_NAMES.DOWNLOAD"
-            size="1rem"
+            [size]="ICON_SIZE_LG"
             color="#ffffff"
           />
         </div>
