@@ -105,36 +105,42 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
 
   const OVERLAP_PADDING: number = 4;
   const OVERLAP_PASSES: number = 20;
-  const nodeEntries: string[] = Array.from(nodes.keys());
 
-  Array.from({ length: OVERLAP_PASSES }).forEach(() => {
-    nodeEntries.forEach((nodeA: string, i: number) => {
-      const ax: number = graph.getNodeAttribute(nodeA, 'x') as number;
-      const ay: number = graph.getNodeAttribute(nodeA, 'y') as number;
-      const aSize: number = graph.getNodeAttribute(nodeA, 'size') as number;
+  type CachedNode = { key: string; x: number; y: number; size: number };
+  const cachedNodes: CachedNode[] = Array.from(nodes.keys()).map(
+    (key: string): CachedNode => ({
+      key,
+      x: graph.getNodeAttribute(key, 'x') as number,
+      y: graph.getNodeAttribute(key, 'y') as number,
+      size: graph.getNodeAttribute(key, 'size') as number,
+    }),
+  );
 
-      nodeEntries.slice(i + 1).forEach((nodeB: string) => {
-        const bx: number = graph.getNodeAttribute(nodeB, 'x') as number;
-        const by: number = graph.getNodeAttribute(nodeB, 'y') as number;
-        const bSize: number = graph.getNodeAttribute(nodeB, 'size') as number;
-
-        const dx: number = bx - ax;
-        const dy: number = by - ay;
+  Array.from({ length: OVERLAP_PASSES }).forEach((): void => {
+    cachedNodes.forEach((nodeA: CachedNode, i: number): void => {
+      cachedNodes.slice(i + 1).forEach((nodeB: CachedNode): void => {
+        const dx: number = nodeB.x - nodeA.x;
+        const dy: number = nodeB.y - nodeA.y;
         const dist: number = Math.sqrt(dx * dx + dy * dy);
-        const minDist: number = (aSize + bSize) * OVERLAP_PADDING;
+        const minDist: number = (nodeA.size + nodeB.size) * OVERLAP_PADDING;
 
         if (dist < minDist && dist > 0) {
           const overlap: number = (minDist - dist) / 2;
           const ux: number = dx / dist;
           const uy: number = dy / dist;
 
-          graph.setNodeAttribute(nodeA, 'x', ax - ux * overlap);
-          graph.setNodeAttribute(nodeA, 'y', ay - uy * overlap);
-          graph.setNodeAttribute(nodeB, 'x', bx + ux * overlap);
-          graph.setNodeAttribute(nodeB, 'y', by + uy * overlap);
+          nodeA.x -= ux * overlap;
+          nodeA.y -= uy * overlap;
+          nodeB.x += ux * overlap;
+          nodeB.y += uy * overlap;
         }
       });
     });
+  });
+
+  cachedNodes.forEach((node: CachedNode): void => {
+    graph.setNodeAttribute(node.key, 'x', node.x);
+    graph.setNodeAttribute(node.key, 'y', node.y);
   });
 
   const positions: Record<string, { x: number; y: number }> = {};
