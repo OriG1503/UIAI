@@ -11,6 +11,7 @@ import { GraphCanvasComponent } from '../../../features/graph-canvas/components/
 import { GraphDrawerComponent } from '../../../features/graph-canvas/components/organisms/graph-drawer/graph-drawer.component';
 import { GraphFiltersPanelComponent } from '../../../features/graph-filters/components/molecules/graph-filters-panel/graph-filters-panel.component';
 import { GRAPH_LABEL_MAP } from '../../../features/graph-canvas/mapping/graph.label-map';
+import { GRAPH_DEFAULT_MIN_MAIL_RATIO } from '../../../features/graph-canvas/consts/graph.consts';
 
 @Component({
   selector: 'app-graph-view',
@@ -162,7 +163,8 @@ export class GraphViewComponent {
     this.$dateRangeValues.set([dateMin, dateMax]);
 
     const mailCountMax: number = this.$mailCountMax();
-    this.$mailCountRangeValues.set([1, mailCountMax]);
+    const defaultMin: number = Math.max(2, Math.ceil(mailCountMax * GRAPH_DEFAULT_MIN_MAIL_RATIO));
+    this.$mailCountRangeValues.set([defaultMin, mailCountMax]);
   }
 
   public onNodeClick(email: string): void {

@@ -36,7 +36,9 @@ export const LABEL_FONT_FAMILY: string = 'Assistant';
 export const LABEL_FONT_SIZE: number = 12;
 export const LABEL_STROKE_WIDTH: number = 3;
 export const LABEL_STROKE_COLOR: string = '#d9d9d9';
-export const LABEL_RENDERED_SIZE_THRESHOLD: number = 0;
+export const LABEL_RENDERED_SIZE_THRESHOLD: number = 5;
+export const LABEL_GRID_CELL_SIZE: number = 100;
+export const LABEL_DENSITY: number = 1;
 export const LABEL_CLICK_RADIUS: number = 30;
 export const EDGE_LABEL_ZOOM_THRESHOLD: number = 1.5;
 
@@ -47,7 +49,7 @@ export const DRAWER_HEIGHT_MIN: number = 20;
 export const DRAWER_HEIGHT_MAX: number = 90;
 export const DRAWER_HEIGHT_DEFAULT: number = 40;
 
-export const FORCEATLAS2_ITERATIONS: number = 400;
+export const FORCEATLAS2_ITERATIONS: number = 150;
 export const FORCEATLAS2_SETTINGS: {
   gravity: number;
   scalingRatio: number;
@@ -64,8 +66,10 @@ export const FORCEATLAS2_SETTINGS: {
   slowDown: 5,
   barnesHutOptimize: true,
   barnesHutTheta: 0.5,
-  adjustSizes: true,
+  adjustSizes: false,
   linLongMode: false,
   strongGravityMode: false,
   outboundAttractionDistribution: true,
 };
+
+export const GRAPH_DEFAULT_MIN_MAIL_RATIO: number = 0.1;
