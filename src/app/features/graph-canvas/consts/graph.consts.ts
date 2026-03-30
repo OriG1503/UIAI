@@ -66,7 +66,7 @@ export const FORCEATLAS2_SETTINGS: {
   slowDown: 5,
   barnesHutOptimize: true,
   barnesHutTheta: 0.5,
-  adjustSizes: false,
+  adjustSizes: true,
   linLongMode: false,
   strongGravityMode: false,
   outboundAttractionDistribution: true,

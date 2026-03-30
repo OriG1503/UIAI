@@ -103,6 +103,40 @@ addEventListener('message', ({ data }: MessageEvent<WorkerMail[]>): void => {
     settings: FORCEATLAS2_SETTINGS,
   });
 
+  const OVERLAP_PADDING: number = 4;
+  const OVERLAP_PASSES: number = 20;
+  const nodeEntries: string[] = Array.from(nodes.keys());
+
+  Array.from({ length: OVERLAP_PASSES }).forEach(() => {
+    nodeEntries.forEach((nodeA: string, i: number) => {
+      const ax: number = graph.getNodeAttribute(nodeA, 'x') as number;
+      const ay: number = graph.getNodeAttribute(nodeA, 'y') as number;
+      const aSize: number = graph.getNodeAttribute(nodeA, 'size') as number;
+
+      nodeEntries.slice(i + 1).forEach((nodeB: string) => {
+        const bx: number = graph.getNodeAttribute(nodeB, 'x') as number;
+        const by: number = graph.getNodeAttribute(nodeB, 'y') as number;
+        const bSize: number = graph.getNodeAttribute(nodeB, 'size') as number;
+
+        const dx: number = bx - ax;
+        const dy: number = by - ay;
+        const dist: number = Math.sqrt(dx * dx + dy * dy);
+        const minDist: number = (aSize + bSize) * OVERLAP_PADDING;
+
+        if (dist < minDist && dist > 0) {
+          const overlap: number = (minDist - dist) / 2;
+          const ux: number = dx / dist;
+          const uy: number = dy / dist;
+
+          graph.setNodeAttribute(nodeA, 'x', ax - ux * overlap);
+          graph.setNodeAttribute(nodeA, 'y', ay - uy * overlap);
+          graph.setNodeAttribute(nodeB, 'x', bx + ux * overlap);
+          graph.setNodeAttribute(nodeB, 'y', by + uy * overlap);
+        }
+      });
+    });
+  });
+
   const positions: Record<string, { x: number; y: number }> = {};
   // TODO: define proper GraphNodeAttributes type for Graphology forEachNode callback
   graph.forEachNode((node: string, attrs: Record<string, unknown>) => {
