@@ -11,7 +11,7 @@ import { GraphCanvasComponent } from '../../../features/graph-canvas/components/
 import { GraphDrawerComponent } from '../../../features/graph-canvas/components/organisms/graph-drawer/graph-drawer.component';
 import { GraphFiltersPanelComponent } from '../../../features/graph-filters/components/molecules/graph-filters-panel/graph-filters-panel.component';
 import { GRAPH_LABEL_MAP } from '../../../features/graph-canvas/mapping/graph.label-map';
-import { GRAPH_DEFAULT_MIN_MAIL_RATIO } from '../../../features/graph-canvas/consts/graph.consts';
+import { GRAPH_FIRST_LOAD_MIN_MAIL_COUNT } from '../../../features/graph-canvas/consts/graph.consts';
 
 @Component({
   selector: 'app-graph-view',
@@ -163,8 +163,7 @@ export class GraphViewComponent {
     this.$dateRangeValues.set([dateMin, dateMax]);
 
     const mailCountMax: number = this.$mailCountMax();
-    const defaultMin: number = Math.max(2, Math.ceil(mailCountMax * GRAPH_DEFAULT_MIN_MAIL_RATIO));
-    this.$mailCountRangeValues.set([defaultMin, mailCountMax]);
+    this.$mailCountRangeValues.set([GRAPH_FIRST_LOAD_MIN_MAIL_COUNT, mailCountMax]);
   }
 
   public onNodeClick(email: string): void {
@@ -216,7 +215,7 @@ export class GraphViewComponent {
 
   public onRestoreFilters(): void {
     this.$dateRangeValues.set([this.$dateMin(), this.$dateMax()]);
-    this.$mailCountRangeValues.set([1, this.$mailCountMax()]);
+    this.$mailCountRangeValues.set([GRAPH_FIRST_LOAD_MIN_MAIL_COUNT, this.$mailCountMax()]);
   }
 
   public onDrawerClose(): void {
