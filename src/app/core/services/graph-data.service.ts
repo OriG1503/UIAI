@@ -25,8 +25,9 @@ export class GraphDataService {
   public readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> = signal<
     Record<string, { x: number; y: number }>
   >({});
+  public readonly $mergeGraphData: WritableSignal<{ data: GraphData; positions: Record<string, { x: number; y: number }> } | null> =
+    signal<{ data: GraphData; positions: Record<string, { x: number; y: number }> } | null>(null);
   public readonly $isLoading: WritableSignal<boolean> = signal<boolean>(true);
-  public readonly $isFullLoadDone: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor() {
     if (typeof Worker !== 'undefined') {
@@ -54,20 +55,15 @@ export class GraphDataService {
 
       this._fullLoadWorker.onmessage = ({ data }: MessageEvent<GraphWorkerResult>): void => {
         this._ngZone.run((): void => {
-          this.$graphData.set({
-            nodes: new Map(data.nodes),
-            edges: data.edges,
-            minEdgeCount: data.minEdgeCount,
-            maxEdgeCount: data.maxEdgeCount,
+          this.$mergeGraphData.set({
+            data: {
+              nodes: new Map(data.nodes),
+              edges: data.edges,
+              minEdgeCount: data.minEdgeCount,
+              maxEdgeCount: data.maxEdgeCount,
+            },
+            positions: data.positions,
           });
-          this.$graphPositions.set(data.positions);
-          this.$isFullLoadDone.set(true);
-        });
-      };
-
-      this._fullLoadWorker.onerror = (): void => {
-        this._ngZone.run((): void => {
-          this.$isFullLoadDone.set(true);
         });
       };
     }
@@ -80,7 +76,6 @@ export class GraphDataService {
 
     if (!this._firstLoadWorker || !this._fullLoadWorker || allMails.length === 0) {
       this.$isLoading.set(false);
-      this.$isFullLoadDone.set(true);
       return;
     }
 

@@ -68,6 +68,10 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
     {},
     { alias: 'positions' },
   );
+  public $mergeData: InputSignal<{ data: GraphData; positions: Record<string, { x: number; y: number }> } | null> = input<{
+    data: GraphData;
+    positions: Record<string, { x: number; y: number }>;
+  } | null>(null, { alias: 'mergeData' });
   public $selection: InputSignal<GraphSelection> = input<GraphSelection>({ type: 'none' }, { alias: 'selection' });
   public $visibleNodes: InputSignal<Set<string>> = input<Set<string>>(new Set(), { alias: 'visibleNodes' });
   public $hoveredNode: InputSignal<string | null> = input<string | null>(null, { alias: 'hoveredNode' });
@@ -96,6 +100,14 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
         return;
       }
       this._buildGraph(data, positions);
+    });
+
+    effect(() => {
+      const merge: { data: GraphData; positions: Record<string, { x: number; y: number }> } | null = this.$mergeData();
+      if (!this._isInitialized || !merge) {
+        return;
+      }
+      this._mergeGraphData(merge.data, merge.positions);
     });
 
     effect(() => {
@@ -308,6 +320,70 @@ export class GraphCanvasComponent implements AfterViewInit, OnDestroy {
       const visibleNodes: Set<string> = untracked(() => this.$visibleNodes());
       this._applyVisualState(selection, visibleNodes);
     });
+  }
+
+  private _mergeGraphData(data: GraphData, positions: Record<string, { x: number; y: number }>): void {
+    if (!this._graph || !this._sigma) {
+      return;
+    }
+
+    const nodeDefault: string = this._getNodeDefaultColor();
+    const edgeDefault: string = this._getEdgeDefaultColor();
+    const maxMailCount: number = Math.max(...Array.from(data.nodes.values()).map((node: GraphNode) => node.mailCount), 1);
+    const maxEdgeCount: number = data.maxEdgeCount || 1;
+
+    data.nodes.forEach((node: GraphNode) => {
+      if (this._graph!.hasNode(node.email)) {
+        return;
+      }
+      const sizeRatio: number = node.mailCount / maxMailCount;
+      const size: number = NODE_SIZE_MIN + sizeRatio * (NODE_SIZE_MAX - NODE_SIZE_MIN);
+      const pos: { x: number; y: number } | undefined = positions[node.email];
+      this._graph!.addNode(node.email, {
+        label: node.email,
+        size,
+        color: nodeDefault,
+        borderColor: nodeDefault,
+        type: 'bordered',
+        x: pos?.x ?? Math.random() * 100,
+        y: pos?.y ?? Math.random() * 100,
+        mailCount: node.mailCount,
+      });
+    });
+
+    data.edges.forEach((edge: GraphEdge) => {
+      if (!this._graph!.hasNode(edge.sourceEmail) || !this._graph!.hasNode(edge.targetEmail)) {
+        return;
+      }
+      if (this._graph!.hasDirectedEdge(edge.sourceEmail, edge.targetEmail)) {
+        return;
+      }
+      const sizeRatio: number = edge.mailCount / maxEdgeCount;
+      const size: number = EDGE_SIZE_MIN + sizeRatio * (EDGE_SIZE_MAX - EDGE_SIZE_MIN);
+      const isBidirectional: boolean = this._graph!.hasDirectedEdge(edge.targetEmail, edge.sourceEmail);
+      this._graph!.addDirectedEdge(edge.sourceEmail, edge.targetEmail, {
+        size,
+        color: edgeDefault,
+        mailCount: edge.mailCount,
+        label: String(edge.mailCount),
+        type: isBidirectional ? 'curvedArrow' : 'arrow',
+      });
+    });
+
+    this._graph.updateEachEdgeAttributes((_edge, attr, source, target) => {
+      const isBidirectional: boolean = this._graph!.hasDirectedEdge(target, source);
+      return { ...attr, type: isBidirectional ? 'curvedArrow' : 'arrow' };
+    });
+
+    indexParallelEdgesIndex(this._graph, {
+      edgeIndexAttribute: 'parallelIndex',
+      edgeMinIndexAttribute: 'parallelMinIndex',
+      edgeMaxIndexAttribute: 'parallelMaxIndex',
+    });
+
+    const selection: GraphSelection = untracked(() => this.$selection());
+    const visibleNodes: Set<string> = untracked(() => this.$visibleNodes());
+    this._applyVisualState(selection, visibleNodes);
   }
 
   private _applyVisualState(selection: GraphSelection, visibleNodes: Set<string>): void {

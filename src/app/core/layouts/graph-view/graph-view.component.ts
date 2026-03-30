@@ -28,6 +28,8 @@ export class GraphViewComponent {
   public readonly $graphData: WritableSignal<GraphData> = this._graphDataService.$graphData;
   public readonly $graphPositions: WritableSignal<Record<string, { x: number; y: number }>> =
     this._graphDataService.$graphPositions;
+  public readonly $mergeGraphData: WritableSignal<{ data: GraphData; positions: Record<string, { x: number; y: number }> } | null> =
+    this._graphDataService.$mergeGraphData;
   public readonly $isLoading: WritableSignal<boolean> = this._graphDataService.$isLoading;
   public readonly translations: typeof GRAPH_LABEL_MAP = GRAPH_LABEL_MAP;
 
